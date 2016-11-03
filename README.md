@@ -1,3 +1,5 @@
-# Competitive Analysis for the 2017 FIRST Season
+# 1540 Ω Suite
 
-## Team 1540 - The Flaming Chickens
+Competitive analysis framework for 2017 season—includes pit and stand scouting apps, coach's app, and analysis engine.
+
+🏁
