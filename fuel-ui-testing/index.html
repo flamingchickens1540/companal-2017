@@ -12,6 +12,8 @@
     <body>
         <h1 style="font-family: robotoBlackItalic;" align="center">Fuel UI Test</h1>
 
+        <p style="left: 0; width: 75%;">The big red button to the right is the shooting button. While the robot shoots, the scout holds the button down. When they stop, the scout releases the button. The input row appears, and the scout enters estimated balls per second, where the balls were loaded from, and shooting accuracy. They then click "Post" to send it to the table. Now we're ready for another cycle.</p>
+
         <button type="button" id="fuel-button">
             <!--<i class="fa fa-futbol-o fa-4x" id="ball-icon" style="zoom: 200%;"></i>-->
             <div id="animated-element"></div>
@@ -22,6 +24,7 @@
         <p id="status" style="display: none;"></p>
         <span id="current-duration"></span>
         <div id="input-row">
+            <label>Balls/Second:</label>
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-danger">
                     <input type="radio" name="bps" id="lt1" autocomplete="off">< 1
@@ -33,6 +36,7 @@
                     <input type="radio" name="bps" id="gt2" autocomplete="off">> 2
                 </label>
             </div>
+            <label>Loaded From:</label>
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-primary">
                     <input type="radio" name="loaded" id="floor" autocomplete="off">Floor
@@ -44,6 +48,7 @@
                     <input type="radio" name="loaded" id="humanplayer" autocomplete="off">Human Player
                 </label>
             </div>
+            <label>Shot Accuracy:</label>
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-danger">
                     <input type="radio" name="accuracy" id="lt70" autocomplete="off">< 70%
@@ -58,8 +63,8 @@
             <button type="button" class="btn btn-info" id="post-cycle" onclick="postCycle()">Post</button>
         </div>
 
-        
-
+        <br>
+        <h3 style="font-family: robotoBlack">My Cycles</h3>
         <table class="table table-condensed" style="width: 50%;">
             <thead>
                 <tr>
