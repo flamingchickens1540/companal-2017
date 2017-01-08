@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fuel Scouting UI Testing</title>
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/font-awesome.css" rel="stylesheet">
+        <link href="css/fa-animation.css" rel="stylesheet">
+        <link href="roboto/stylesheet.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1 style="font-family: robotoBlackItalic;" align="center">Fuel UI Test</h1>
+
+        <button type="button" id="fuel-button">
+            <!--<i class="fa fa-futbol-o fa-4x" id="ball-icon" style="zoom: 200%;"></i>-->
+            <div id="animated-element"></div>
+        </button>
+        
+        <br>
+
+        <p id="status" style="display: none;"></p>
+        <span id="current-duration"></span>
+        <div id="input-row">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-danger">
+                    <input type="radio" name="bps" id="lt1" autocomplete="off">< 1
+                </label>
+                <label class="btn btn-warning">
+                    <input type="radio" name="bps" id="1t2" autocomplete="off">1-2
+                </label>
+                <label class="btn btn-success">
+                    <input type="radio" name="bps" id="gt2" autocomplete="off">> 2
+                </label>
+            </div>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type="radio" name="loaded" id="floor" autocomplete="off">Floor
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="loaded" id="hopper" autocomplete="off">Hopper
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="loaded" id="humanplayer" autocomplete="off">Human Player
+                </label>
+            </div>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-danger">
+                    <input type="radio" name="accuracy" id="lt70" autocomplete="off">< 70%
+                </label>
+                <label class="btn btn-warning">
+                    <input type="radio" name="accuracy" id="70t90" autocomplete="off">70%-90%
+                </label>
+                <label class="btn btn-success">
+                    <input type="radio" name="accuracy" id="gt90" autocomplete="off">> 90%
+                </label>
+            </div>
+            <button type="button" class="btn btn-info" id="post-cycle" onclick="postCycle()">Post</button>
+        </div>
+
+        
+
+        <table class="table table-condensed" style="width: 50%;">
+            <thead>
+                <tr>
+                    <th>Duration</th>
+                    <th>BPS</th>
+                    <th>Loaded From</th>
+                    <th>Accuracy</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+
+        <script>window.$ = window.jQuery = require('jquery');</script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
