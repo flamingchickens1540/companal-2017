@@ -1,0 +1,13 @@
+{
+  "name": "1540-2017-coachs-app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "jquery": "^3.1.1"
+  }
+}
