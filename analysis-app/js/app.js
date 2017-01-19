@@ -6,9 +6,9 @@ var allTeams = ["1540", "1000", "1001"]
 
 for (var index in allTeams) {
 	var team = allTeams[index]
-	$("#team-1-selector").append(`<option value="${team}">${team}</option>`)
-	$("#team-2-selector").append(`<option value="${team}">${team}</option>`)
-	$("#team-3-selector").append(`<option value="${team}">${team}</option>`)
+	for (var i = 1; i <= 6; i++) { //1-6 is the number of robot selectors in the nav
+		$(`#team-${i}-selector`).append(`<option value="${team}">${team}</option>`)
+	}
 }
 
 
@@ -16,14 +16,20 @@ var currentTab = "#tab-home";
 $(".tab").click(function() {
 	$(this).addClass("active")
 	$(currentTab).removeClass("active")
+	$("#page-"+currentTab.substr(5)).hide()
 	currentTab = "#"+$(this).attr('id')
+	$("#page-"+currentTab.substr(5)).show()
 	if (currentTab.substr(0, 9) === "#tab-team") {
 		loadTeamTab(currentTab.substr(9))
 	}
+
 })
 
 //init tabs
 $.get("tabs/home.html", function(data) {
+	$("#pages").append(data)
+})
+$.get("tabs/match-schedule.html", function(data) {
 	$("#pages").append(data)
 })
 
@@ -38,9 +44,9 @@ function loadTeamTab(teamTabNumber) { //should be '1' '2' or '3'
 }
 
 function postAlert(text) {
-	$("#alert-parent").html(`<div class="alert alert-danger alert-dismissible" role="alert">
+	$("#alert-parent").html(`<div class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <strong>Error!</strong> ${text}
+    <strong>Notice:</strong> ${text}
 </div>`)
 	setTimeout(function() {
 		$("#alert-parent").html('')
