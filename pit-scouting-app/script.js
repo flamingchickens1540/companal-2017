@@ -1,7 +1,3 @@
-//function create(n,num) {
-	//var act = {name:n,number:num};
-	//accounts.push(act);
-//}
 var accounts = {"55":"Dylan",
 				"66":"Fin",
 				"15":"Tristan",
