@@ -1,0 +1,62 @@
+Our flashdrives will be called "1540", formatted FAT-32 with an MBR partition map.
+
+On a Mac, this will mount with a folder at /Volumes/1540
+On Windows, this will mount to some random flashdrive location. We will set our windows tablets so that these map to K:\
+
+The flashdrives may have other information on them, so only mess with what you're supposed to.
+
+/Volumes/1540/:
+	companal/:
+		stand-scouting/: #(Tristan's app)
+			manifest.json
+			m4-r1-1540.json
+			m1-b2-9999.json
+			...
+		pit-scouting/: #(Dylan's app)
+			manifest.json
+			1540.json
+			9999.json
+			...
+		output/: #(Fin's app)
+			pit-scouting/:
+				#copied from above, should have all files
+				manifest.json  #make this properly - (Fin you have to remake it to sum all of theirs)
+				...
+			stand-scouting/:
+				#copied from above, should have all files
+				manifest.json  #make this properly - (Fin you have to remake it to sum all of theirs)
+				...
+			alexander/:
+				#this will have the files from Alexander's stuff, talk to him
+				manifest.json
+			tournament/:
+				teams.json
+				matchSchedule.json
+
+
+
+stand-scouting/: # from above
+	manifest.json
+[
+	"m4-r1-1540.json",
+	"m1-b2-9999.json",
+	...
+]
+
+pit-scouting/: # from above
+	manifest.json
+[
+	"1540.json",
+	"9999.json",
+	...
+]
+
+teams.json
+[
+	"1540", "9999", ...
+]
+
+matchSchedule.json
+{
+	"1": ["1540", "9999", "0003", "0004", "0005", "0006"], "2": ["red1", "red2", "red3", "blu1", "blu2", "blu3"]
+}
