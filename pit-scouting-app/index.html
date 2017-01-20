@@ -3,6 +3,7 @@
   	<meta charset="utf-8">
   	<link href="Bootstrap/css/bootstrap.css" rel="stylesheet">
   	<script>window.$ = window.jQuery = require('jquery');</script>
+  	<script src="Bootstrap/js/bootstrap.js"></script>
     <script type='text/javascript' src='script.js'></script>
     <title>Pit Scouting</title>
 	<style>
@@ -44,20 +45,76 @@
 			margin:0 auto;
 			display:block;
 		}
-		#signout {
+		.signout {
 			position:absolute;
 			right:20px;
 			top:20px;
+		}
+		.title {
+			font-size:15px;
 		}
 	</style>
   </head>
   <body>
   	<div style="opacity:0.0" id="scouting" class="center box">
-  		<kbd style="font-size:15px" id="title">Your Name</kbd>
+  		<kbd style="font-size:30px" id="teamdisplay"></kbd>
   		<br />
-  		<input type="button" id="signout" class="btn-primary" value="Sign Out"/>
-  		<textarea cols="45" rows="6" class="center" placeholder="A place to put any other notes."></textarea>
+  		<textarea id="extratext" cols="45" rows="6" placeholder="A place to put any other notes."></textarea>
+  		<br />
+  		<input type="button" class="btn-danger" id="submit" value="Submit" />
   	</div>
+  	<div style="top:400px;opacity:0.0" id="teamsel" class="center box">
+  		<kbd class="title">Your Name</kbd>
+  		<br />
+  		<br />
+  		<input type="text" class="center" placeholder="Team Number" id="teaminput"/>
+  		<br />
+  		<br />
+  		<input type="button" class="btn-warning" value="New Data Collection" id="teamsubmit" />
+  		<input type="button" class="signout" class="btn-primary" value="Sign Out"/>
+  	</div>
+  	<div id="dir" style="top:400px;opacity:0.0" class="center box">
+ 	 	<br />
+ 	 	<table style="background:white;margin:0" class="table table-bordered table-hover">
+ 	 		<thead>
+   				<tr>
+        			<th>Name</th>
+        			<th>Number</th>
+      			</tr>
+    		</thead>
+    		<tbody>
+    			<tr>
+        			<td>Dylan</td>
+    				<td>55</td>
+    			</tr>
+      			<tr>
+        			<td>Tristan</td>
+        			<td>15</td>
+      			</tr>
+      			<tr>
+        			<td>Ryan</td>
+        			<td>40</td>
+      			</tr>
+      			<tr>
+        			<td>Fin</td>
+        			<td>66</td>
+     			</tr>
+     			<tr>
+        			<td>Alexander</td>
+        			<td>96</td>
+     			</tr>
+        			<td>Dale</td>
+        			<td>76</td>
+     			</tr>
+     			<tr>
+        			<td>Anonymous Scout</td>
+        			<td>00</td>
+     			</tr>
+    		</tbody>
+ 	 	</table>
+ 	 	<br />
+ 	 	<input class="btn-warning" type="button" id="backdir" value="Back"/>
+ 	</div>
   	<div id="top" class="center box">
   		<img src="chicken.png" style="right:15px" class="chicken"/>
 	  	<img src="chicken.png" style="left:15px" class="chicken horizonflip"/>
@@ -65,9 +122,10 @@
 	  	<br />
 	  	<br />
   		<img src="fire.png" style="left:40px" class="small horizonflip"/>
-	  	<input class="center" id="lognum" type="text" placeholder="Login Number"/>
+	  	<input class="center" onkeypress='return event.charCode >= 48 && event.charCode <= 57' id="lognum" type="text" maxlength="2" placeholder="Login Number"/>
 	  	<img src="fire.png" style="right:40px" class="small"/>
 	  	<br />
+	  	<strong style="font-size:10px;text-decoration:underline" id="forgetid">Forgot My Number</strong>
 	  	<br />
 	  	<br />
 	  	<input id="logbutton" type="button" class="btn-danger" style="bottom:15px;position:relative" value="Login">
@@ -82,6 +140,14 @@
   		<span> </span>
   		<input type="button" id="no" class="btn-danger" value="No"/>
   	</div>
-  	<img src="banner.jpg" style="bottom:0;position:absolute" id="banner"/>
+  	<div hidden=true style="position:absolute" class="alert alert-warning alert-dismissable" id="noid">
+	  <a href="#" class="close" id="close" aria-label="close">&times;</a>
+	  <strong>There is no account with the given id number.</strong>
+	</div>
+	<div hidden=true style="position:absolute" class="alert alert-warning alert-dismissable" id="secondscout">
+	  <a href="#" class="close" id="close" aria-label="close">&times;</a>
+	  <strong>Log in your second pit scout.</strong>
+	</div>
+<!--   	<img src="banner.jpg" style="bottom:0;position:absolute" id="banner"/> -->
   </body>
 </html>
