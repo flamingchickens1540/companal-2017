@@ -1,0 +1,87 @@
+<html lang="en">
+  <head>
+  	<meta charset="utf-8">
+  	<link href="Bootstrap/css/bootstrap.css" rel="stylesheet">
+  	<script>window.$ = window.jQuery = require('jquery');</script>
+    <script type='text/javascript' src='script.js'></script>
+    <title>Pit Scouting</title>
+	<style>
+		body {
+			background-color:#5883c9;
+		}
+		.center {
+			text-align:center;
+		}
+		.chicken {
+			position:absolute;
+			width:120px;
+			top:20px;
+		}
+		.horizonflip {
+			-moz-transform: scaleX(-1);
+    	    -o-transform: scaleX(-1);
+    	    -webkit-transform: scaleX(-1);
+    	    transform: scaleX(-1);
+    	    filter: FlipH;
+    	    -ms-filter: "FlipH";
+		}
+		#banner {
+  			max-width: 100%;
+  			height: auto;
+  			width: auto\9;
+		}
+		.small {
+			position:relative;
+			width:55px;
+		}
+		.box {
+			border:solid 2px navy;
+ 			position:absolute;
+			width:100%;
+			background-color:#4477c9;
+		}
+		#logbutton {
+			margin:0 auto;
+			display:block;
+		}
+		#signout {
+			position:absolute;
+			right:20px;
+			top:20px;
+		}
+	</style>
+  </head>
+  <body>
+  	<div style="opacity:0.0" id="scouting" class="center box">
+  		<kbd style="font-size:15px" id="title">Your Name</kbd>
+  		<br />
+  		<input type="button" id="signout" class="btn-primary" value="Sign Out"/>
+  		<textarea cols="45" rows="6" class="center" placeholder="A place to put any other notes."></textarea>
+  	</div>
+  	<div id="top" class="center box">
+  		<img src="chicken.png" style="right:15px" class="chicken"/>
+	  	<img src="chicken.png" style="left:15px" class="chicken horizonflip"/>
+	  	<span style="font-size:30px">Pit Scouting</span>
+	  	<br />
+	  	<br />
+  		<img src="fire.png" style="left:40px" class="small horizonflip"/>
+	  	<input class="center" id="lognum" type="text" placeholder="Login Number"/>
+	  	<img src="fire.png" style="right:40px" class="small"/>
+	  	<br />
+	  	<br />
+	  	<br />
+	  	<input id="logbutton" type="button" class="btn-danger" style="bottom:15px;position:relative" value="Login">
+  	</div>
+  	<div style="top:400px;opacity:0.0" id="check" class="center box">
+  		<kbd style="font-size:20px">Are you:</kbd>
+  		<br />
+  		<span class="bg-primary" style="font-size:60px" id="yourname">Default Name</span>
+  		<br />
+  		<br />
+  		<input type="button" id="yes" class="btn-success" value="Yes"/>
+  		<span> </span>
+  		<input type="button" id="no" class="btn-danger" value="No"/>
+  	</div>
+  	<img src="banner.jpg" style="bottom:0;position:absolute" id="banner"/>
+  </body>
+</html>
