@@ -4,20 +4,9 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
-    "appdirectory": "^0.1.0",
-    "bootstrap": "^4.0.0-alpha.2",
-    "browserify": "^13.1.1",
     "dialogs": "^1.1.17",
     "electron-safe-ipc": "^0.6.1",
-    "fs": "0.0.1-security",
-    "fs-extra": "^1.0.0",
     "jquery": "^3.1.1",
-    "jquery-browserify": "^1.8.1",
-    "path": "^0.12.7",
-    "pretty-bytes": "^2.0.1",
-    "socket.io": "^1.7.1",
-    "uniq": "^1.0.1",
-    "util": "^0.10.3",
     "webcamjs": "^1.0.16"
   },
   "devDependencies": {
