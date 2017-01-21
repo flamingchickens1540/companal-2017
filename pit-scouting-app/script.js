@@ -22,21 +22,21 @@ function createTable() {
 		$("#tbody").append("<tr><td>"+accounts[keys[x]]+"</td><td>"+keys[x]+"</td></tr>");
 	}
 }
-function camera() {
-	var enabled = false;
-	var WebCamera = require("webcamjs");
-	document.getElementById("start").addEventListener('click',function(){
-  		if (!enabled) { // Start the camera !
-    		enabled = true;
-    		WebCamera.attach('#camdemo');
-    		console.log("The camera has been started");
-   		} else { // Disable the camera !
-    		enabled = false;
-    		WebCamera.reset();
-    		console.log("The camera has been disabled");
-    	}
-	},false);
-}
+// function camera() {
+// 	var enabled = false;
+// 	var WebCamera = require("webcamjs");
+// 	document.getElementById("start").addEventListener('click',function(){
+//   		if (!enabled) { // Start the camera !
+//     		enabled = true;
+//     		WebCamera.attach('#camdemo');
+//     		console.log("The camera has been started");
+//    		} else { // Disable the camera !
+//     		enabled = false;
+//     		WebCamera.reset();
+//     		console.log("The camera has been disabled");
+//     	}
+// 	},false);
+// }
 
 
 var accounts = {"01":"Ben",
@@ -82,7 +82,7 @@ var logged = false;
 var act = "none";
 var secact = "none";
 var team = "none";
-camera();
+//camera();
 
 
 $(document).ready(function(){
