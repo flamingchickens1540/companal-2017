@@ -1,5 +1,6 @@
-var app = require('app');
-var BrowserWindow = require('browser-window');
+var electron = require('electron')
+var app = electron.app;
+var BrowserWindow = BrowserWindow = electron.BrowserWindow;
 var ipc = require("electron").ipcMain;
 var fs = require('fs');
 

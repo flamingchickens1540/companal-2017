@@ -10,10 +10,10 @@
     "webcamjs": "^1.0.16"
   },
   "devDependencies": {
-    "electron-prebuilt": "^0.35.2"
+    "electron": "^1.4.14"
   },
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron ."
   },
   "author": "",
   "license": "ISC"
