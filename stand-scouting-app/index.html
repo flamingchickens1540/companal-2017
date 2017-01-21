@@ -1,1 +1,122 @@
-
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/fa-animation.css" rel="stylesheet">
+    <link href="Montserrat/stylesheet.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>if (window.module) module = window.module;</script> -->
+    <title>Stand Scouting App</title>
+  </head>
+  <body>
+    <div id="no-login" class="alert alert-danger alert-dismissable fade in" style="margin: 0;">
+      <a href="#" class="close" aria-label="close">&times;</a>
+      <strong>Warning!</strong> There is no one with this login number.
+    </div>
+    <div id="success-alert" class="alert alert-success alert-dismissable fade in" style="margin: 0;">
+      <a href="#" class="close" aria-label="close">&times;</a>
+      <strong>Success!</strong> The file has been saved!
+    </div>
+    <div class="jumbotron">
+      <img class="chicken" src="imgs/logo.png"/>
+      <h1 class="jumbotron-big-title">Stand Scouting App</h1>
+      <div class="login-info">
+        <div class="login-info-replace">
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- Login -->
+    <div id="the-whole-login" class="container">
+      <form class="login">
+        <div class="input-group">
+          <input type="text" maxlength="2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="login-number" class="form-control" placeholder="Ex: 21">
+          <div class="input-group-btn">
+            <button id="login-button" class="btn btn-success" type="button">
+              <i class="fa fa-sign-in"></i>&nbsp;Sign In
+            </button>
+          </div>
+        </div>
+      </form>
+      <br>
+      <a href="id.html" style="text-decoration: none;">
+        <button id="forgot-id" class="btn btn-warning" type="button">Forgot my ID</button>
+      </a>
+      <br>
+      <div class="name-div">
+        <h1 class="name" style="text-align: center;"></h1>
+      </div>
+      <br>
+      <button id="cont-btn" type="button" class="btn btn-success">Continue!</button>
+    </div>
+    <!-- Betting -->
+    <div class="betting">
+      <h3 style="text-align: center;">
+        Bet if&nbsp;
+        <button type="button" id="bet-red-win-intro" class="btn btn-danger">Red</button>
+        &nbsp;or&nbsp;
+        <button type="button" id="bet-blue-win-intro" class="btn btn-default">Blue</button>
+        &nbsp;will win.
+      </h3>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+          <button type="button" id="bet-red-win" class="btn btn-danger">Red</button>
+        </div>
+        <div class="col-sm-3">
+          <button type="button" id="bet-blue-win" class="btn btn-default">Blue</button>
+        </div>
+        <div class="col-sm-3"></div>
+      </div>
+    </div>
+    <!-- Post-Login -->
+    <div id="post-login" class="container">
+      <button id="auto-back" type="button" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <kbd>PLACEHOLDER (AUTONOMOUS)</kbd>
+      <button id="auto-next" type="button" class="btn btn-warning">
+        Next&nbsp;<i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+    <!-- Tele-Op -->
+    <div id="teleop" class="container">
+      <button id="teleop-back" type="button" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <kbd>PLACEHOLDER (TELE-OP)</kbd>
+      <button id="teleop-next" type="button" class="btn btn-warning">
+        Next&nbsp;<i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+    <!-- Textarea -->
+    <div id="last-textarea" class="container">
+      <br>
+      <textarea class="comments" rows="8" cols="80" placeholder="Comments"></textarea>
+      <br>
+      <button id="textarea-back" type="button" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <button id="save-file" type="button" class="btn btn-success">
+        <i class="fa fa-floppy-o"></i>&nbsp;Save
+      </button>
+      <button id="sign-out" type="button" class="btn btn-danger">
+        <i class="fa fa-sign-out"></i>&nbsp;Sign Out
+      </button>
+    </div>
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
