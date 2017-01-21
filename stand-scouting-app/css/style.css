@@ -1,0 +1,41 @@
+body{
+	font-family: 'Montserrat';
+}
+.jumbotron{
+	text-align: center;
+	position: relative;
+}
+.login{
+	width: 30%;
+	display: block;
+	margin: auto;
+}
+.login-info{
+	text-align: center;
+}
+#cont-btn{
+	display: block;
+	margin: auto;
+}
+#post-login, #teleop{
+	text-align: center;
+}
+#forgot-id{
+	display: block;
+	margin: auto;
+}
+#bet-blue-win, #bet-blue-win-intro{
+	background: #4286f4 !important;
+	color: white;
+}
+#bet-blue-win, #bet-red-win{
+	padding: 100px;
+	border-radius: 10%;
+	font-size: 36pt;
+}
+#bet-blue-win:hover, #bet-blue-win-intro:hover{
+	background: #336ac4 !important;
+}
+#last-textarea{
+	text-align: center;
+}
