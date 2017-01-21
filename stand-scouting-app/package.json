@@ -12,6 +12,7 @@
     "electron": "^1.4.14"
   },
   "dependencies": {
-    "getmac": "^1.2.1"
+    "getmac": "^1.2.1",
+    "jquery": "^3.1.1"
   }
 }
