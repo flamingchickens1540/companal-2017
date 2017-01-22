@@ -1,3 +1,4 @@
+window.$ = window.jQuery = require('jquery');
 // General
 $(document).ready(function(){
 	$('.login-info').hide();
@@ -81,7 +82,7 @@ var accounts = {
 	"55": "Dylan Smith",
 	"66": "Fin Hoyer",
 	"40": "Ryan Selden",
-	"18": "Liam Wang"
+	"18": "Liam Wang",
 	"51": "Lauren Mei Calora",
 	"96": "Alexander Mackworth",
 	"98": 'Adolfo "Wukong" Apolloni'
