@@ -81,9 +81,18 @@ var accounts = {
 	"55": "Dylan Smith",
 	"66": "Fin Hoyer",
 	"40": "Ryan Selden",
+	"18": "Liam Wang"
+	"51": "Lauren Mei Calora",
 	"96": "Alexander Mackworth",
 	"98": 'Adolfo "Wukong" Apolloni'
 };
+function createTable() {
+    var keys = Object.keys(accounts);
+    for (x in keys) {
+        $("tbody").append("<tr><td>"+accounts[keys[x]]+"</td><td>"+keys[x]+"</td></tr>");
+    }
+}
+createTable();
 var loggedIn = false;
 var act = "none";
 $('#login-button').click(function(){
@@ -100,7 +109,7 @@ $('#login-button').click(function(){
 		$('.jumbotron-big-title').replaceWith('<h2 class="jumbotron-big-title">Stand Scouting App</h2>')
 		$('.login-info').delay(250).fadeIn(500);
 		$('.login-info-replace').replaceWith("<h3>" + num + " | " + accounts[act] + "</h3>");
-		createFile("data/" + accounts[act] + ".json", num + " | " + accounts[act]);
+		createFile(__dirname + "data/" + accounts[act] + ".json", num + " | " + accounts[act]);
 		// TODO: add other stuff to json file name. ALSO remember to replace all other appendFiles!!!
 	}	else if (!accounts.hasOwnProperty(num)) {
 		$('#no-login').show();
@@ -119,10 +128,10 @@ $('#bet-blue-win, #bet-red-win').click(function(){
 	$('#post-login').delay(500).fadeIn(500);
 });
 $('#bet-red-win').click(function(){
-	appendFile("data/" + accounts[act] + ".json", "\nRed");
+	appendFile(__dirname + "data/" + accounts[act] + ".json", "\nRed");
 });
 $('#bet-blue-win').click(function(){
-	appendFile("data/" + accounts[act] + ".json", "\nBlue");
+	appendFile(__dirname + "data/" + accounts[act] + ".json", "\nBlue");
 });
 // Post-Login
 $('#auto-next').click(function(){
@@ -152,7 +161,7 @@ $('#sign-out').click(function(){
 });
 $('#save-file').click(function(){
 	document.write('<h2 style="font-family: Montserrat;">Hello, World!</h2>');
-	appendFile("data/" + accounts[act] + ".json", "\n" + $('.comments').val());
+	appendFile(__dirname + "data/" + accounts[act] + ".json", "\n" + $('.comments').val());
 });
 // NOTE: account[act] for #save-file
 // getmac
