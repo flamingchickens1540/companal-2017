@@ -9,14 +9,6 @@ function createFile(one,two) {
 	});
 }
 
-function appendFile(one,two) {
-	fs.appendFile(one,two, function(err) {
-		if (err) {
-			return console.log(err);
-		}
-	});
-}
-
 function createTable() {
 	var keys = Object.keys(accounts);
 	for (x in keys) {
@@ -65,9 +57,36 @@ var accounts = {"01":"Ben",
 				"00":"Anonymous Scout"
 				};
 var json = {
-	accountNums: act+", "+secact,
-	accountNames: accounts[act]+", "+accounts[secact],
-	otherInfo: ""
+	teamNumber: "0000",
+	scoutIds: [00,00],
+	drivetrain: {
+		drivetrainShifts:true,
+		drivetrainType:"mecanum",
+		motorType:"775pro",
+		motorCount:17,
+		wheelType:"omni"
+	},
+	defense: {
+		willDefend: true, //is the team willing to defend?
+		hasDefended: false, //has it been their strategy to defend?
+	},
+	shooting: {
+		hasHigh: false,
+		hasLow: false,
+		ballCapacity: 50,
+		floorLoading: true,
+		humanLoading: false,
+		efficiency: 95, //estimate, %
+		hopperLoading: false
+	},
+	gears: {
+		canDeposit: true,
+		humanLoading: false,
+		floorLoading: true
+	},
+	canClimb: true,
+	weight: 100, //pounds
+	notes: ""
 }
 var logged = false;
 var act = "none";
@@ -115,8 +134,6 @@ $(document).ready(function(){
 		$("#top").animate({top:'-300px',opacity:'0.0'},1600);
 		$("#check").animate({opacity:'0.0',top:'-300px'},1600);
 		$("#teamsel").animate({opacity:'1.0',top:'0'},1600);
-		json["accountNums"]=act+", "+secact;
-		json["accountNames"]=accounts[act]+", "+accounts[secact];
 		if (secact=="-") {
 			$(".title").text(accounts[act]);
 		} else {
@@ -143,14 +160,12 @@ $(document).ready(function(){
 	});
 	$("#submit").click(function(){
 		var val = $("#extratext").val();
+		json["teamNumber"]=team;
+		json["scoutIds"]=[act,secact];
 		json["otherInfo"]=val;
 		var str = "pit_data/"+team+".json";
 		var spotify = JSON.stringify(json);
-		if (!fs.existsSync(str)) {
-	 		createFile(str,spotify);
-	 	} else {
-	 		appendFile(str,"\n"+spotify);
-	 	}
+	 	createFile(str,spotify);
 	 	$("#extratext").val("");
 	 	$("#scouting").animate({opacity:'0.0',top:'600px'},1600);
 	});
