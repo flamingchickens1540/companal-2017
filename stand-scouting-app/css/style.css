@@ -12,6 +12,7 @@ body{
 }
 .login-info{
 	text-align: center;
+
 }
 #cont-btn{
 	display: block;
@@ -34,8 +35,11 @@ body{
 	font-size: 36pt;
 }
 #bet-blue-win:hover, #bet-blue-win-intro:hover{
-	background: #336ac4 !important;
+	background: #356fce !important;
 }
 #last-textarea{
 	text-align: center;
+}
+#success{
+	color: white;
 }

@@ -20,11 +20,7 @@
       <a href="#" class="close" aria-label="close">&times;</a>
       <strong>Warning!</strong> There is no one with this login number.
     </div>
-    <div id="success-alert" class="alert alert-success alert-dismissable fade in" style="margin: 0;">
-      <a href="#" class="close" aria-label="close">&times;</a>
-      <strong>Success!</strong> The file has been saved!
-    </div>
-    <div class="jumbotron">
+    <div class="jumbotron" style="height: 348px;">
       <img class="chicken" src="imgs/logo.png"/>
       <h1 class="jumbotron-big-title">Stand Scouting App</h1>
       <div class="login-info">
@@ -35,7 +31,6 @@
         </div>
       </div>
     </div>
-    <!--  -->
     <!-- Login -->
     <div id="the-whole-login" class="container">
       <form class="login">
@@ -81,7 +76,7 @@
         <div class="col-sm-3"></div>
       </div>
     </div>
-    <!-- Post-Login -->
+    <!-- Post-Login/Auto -->
     <div id="post-login" class="container">
       <button id="auto-back" type="button" class="btn btn-warning">
         <i class="fa fa-chevron-left"></i>&nbsp;Back
@@ -109,12 +104,29 @@
       <button id="textarea-back" type="button" class="btn btn-warning">
         <i class="fa fa-chevron-left"></i>&nbsp;Back
       </button>
-      <button id="save-file" type="button" class="btn btn-success">
-        <i class="fa fa-floppy-o"></i>&nbsp;Save
-      </button>
-      <button id="sign-out" type="button" class="btn btn-danger">
-        <i class="fa fa-sign-out"></i>&nbsp;Sign Out
-      </button>
+      <a data-toggle="modal" data-target="#success">
+        <button id="save-file" type="button" class="btn btn-success">
+          <i class="fa fa-floppy-o"></i>&nbsp;Save
+        </button>
+      </a>
+    </div>
+    <!-- Success -->
+    <div id="success" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content" style="background: #00C851 !important;">
+          <div class="modal-header">
+            <h4 class="modal-title">Success</h4>
+          </div>
+          <div class="modal-body">
+            <p>The file has been saved!</p>
+          </div>
+          <div class="modal-footer">
+            <button id="sign-out" type="button" data-dismiss="modal" class="btn btn-danger">
+              <i class="fa fa-sign-out"></i>&nbsp;Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="js/bootstrap.js"></script>

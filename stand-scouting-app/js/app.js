@@ -7,7 +7,7 @@ $(document).ready(function(){
 	$('#cont-btn').hide();
 	$('.betting').hide();
 	$('#post-login').hide();
-	$('#success-alert').hide();
+	$('#success').hide();
 	$('#last-textarea').hide();
 	$('#teleop').hide();
 });
@@ -77,20 +77,14 @@ function appendFile(fileName, text) {
 // 	});
 // });
 // Login
+// Login
 var accounts = {
-	"15": "Tristan Peng",
-	"55": "Dylan Smith",
-	"66": "Fin Hoyer",
-	"40": "Ryan Selden",
-	"18": "Liam Wang",
-	"51": "Lauren Mei Calora",
-	"96": "Alexander Mackworth",
-	"98": 'Adolfo "Wukong" Apolloni'
+	"15": "Tristan Peng"
 };
 function createTable() {
     var keys = Object.keys(accounts);
     for (x in keys) {
-        $("tbody").append("<tr><td>"+accounts[keys[x]]+"</td><td>"+keys[x]+"</td></tr>");
+        $("tbody").append("<tr><td>" + keys[x] + "</td><td>" + accounts[keys[x]] + "</td></tr>");
     }
 }
 createTable();
@@ -104,14 +98,17 @@ $('#login-button').click(function(){
 		$('.name').text("Welcome, " + accounts[act] + "!");
 		$('.name-div').fadeIn(250);
 		$('#cont-btn').delay(250).fadeIn(250);
-		$('.jumbotron').animate({top: "-50px"});
 		$('.chicken').animate({height: "100px"});
 		$('.jumbotron').animate({height: "250px"});
-		$('.jumbotron-big-title').replaceWith('<h2 class="jumbotron-big-title">Stand Scouting App</h2>')
+		$('.jumbotron-big-title').replaceWith('<h2 class="jumbotron-big-title">Stand Scouting App</h2>');
 		$('.login-info').delay(250).fadeIn(500);
-		$('.login-info-replace').replaceWith("<h3>" + num + " | " + accounts[act] + "</h3>");
-		createFile(__dirname + "data/" + accounts[act] + ".json", num + " | " + accounts[act]);
-		// TODO: add other stuff to json file name. ALSO remember to replace all other appendFiles!!!
+		$('.login-info-replace').replaceWith('<h3 class="login-info-replace">' + num + " | " + accounts[act] + "</h3>");
+		var json = {
+			accountName: accounts[act],
+			accountNum: num
+		};
+		var stringify = JSON.stringify(json);
+		createFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
 	}	else if (!accounts.hasOwnProperty(num)) {
 		$('#no-login').show();
 	}
@@ -129,10 +126,14 @@ $('#bet-blue-win, #bet-red-win').click(function(){
 	$('#post-login').delay(500).fadeIn(500);
 });
 $('#bet-red-win').click(function(){
-	appendFile(__dirname + "data/" + accounts[act] + ".json", "\nRed");
+	var jsonRed = {color: "Red"};
+	var stringify = JSON.stringify(jsonRed);
+	appendFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
 });
 $('#bet-blue-win').click(function(){
-	appendFile(__dirname + "data/" + accounts[act] + ".json", "\nBlue");
+	var jsonBLue = {color: "Blue"};
+	var stringify = JSON.stringify(jsonBlue);
+	appendFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
 });
 // Post-Login
 $('#auto-next').click(function(){
@@ -158,11 +159,21 @@ $('#textarea-back').click(function(){
 	$('#teleop').delay(500).fadeIn(500);
 });
 $('#sign-out').click(function(){
-	window.location.reload();
+	$('#the-whole-login').fadeIn(500);
+	$('input[name=login-number]').val("");
+	$('.login-info-replace').replaceWith('<div class="login-info-replace"><br><br><br></div>');
+	$('.name').text("");
+	$('.name-div').hide();
+	$('#cont-btn').hide();
+	$('.chicken').animate({height: "143px"});
+	$('.jumbotron').animate({height: "348px"});
+	$('.jumbotron-big-title').replaceWith('<h1 class="jumbotron-big-title">Stand Scouting App</h1>');
 });
 $('#save-file').click(function(){
-	document.write('<h2 style="font-family: Montserrat;">Hello, World!</h2>');
-	appendFile(__dirname + "data/" + accounts[act] + ".json", "\n" + $('.comments').val());
+	$('#last-textarea').fadeOut(500);
+	var jsonText = {Comments: $('.comments').val()};
+	var stringify = JSON.stringify(jsonText);
+	appendFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
 });
 // NOTE: account[act] for #save-file
 // getmac
