@@ -1,5 +1,7 @@
+var fs = require('fs');
+var WebCamera = require("webcamjs");
+
 function createFile(one,two) {
-	var fs = require('fs');
 	fs.writeFile(one, two, function(err) {
     	if (err) {
         	return console.log(err);
@@ -8,7 +10,6 @@ function createFile(one,two) {
 }
 
 function appendFile(one,two) {
-	var fs = require('fs');
 	fs.appendFile(one,two, function(err) {
 		if (err) {
 			return console.log(err);
@@ -22,21 +23,6 @@ function createTable() {
 		$("#tbody").append("<tr><td>"+accounts[keys[x]]+"</td><td>"+keys[x]+"</td></tr>");
 	}
 }
-// function camera() {
-// 	var enabled = false;
-// 	var WebCamera = require("webcamjs");
-// 	document.getElementById("start").addEventListener('click',function(){
-//   		if (!enabled) { // Start the camera !
-//     		enabled = true;
-//     		WebCamera.attach('#camdemo');
-//     		console.log("The camera has been started");
-//    		} else { // Disable the camera !
-//     		enabled = false;
-//     		WebCamera.reset();
-//     		console.log("The camera has been disabled");
-//     	}
-// 	},false);
-// }
 
 
 var accounts = {"01":"Ben",
@@ -58,7 +44,7 @@ var accounts = {"01":"Ben",
 				"44":"Alexander Y",
 				"48":"Kobi",
 				"49":"Claire",
-				"51":"Lauren Mei",
+				"51":"Lauren Mwi",
 				"55":"Dylan",
 				"59":"Tyler",
 				"60":"Natalie",
@@ -76,14 +62,17 @@ var accounts = {"01":"Ben",
 				"96":"Alexander M",
 				"98":"Adolfo",
 				"99":"Liam B",
-				"00":"Anonymous Scout" 
+				"00":"Anonymous Scout"
 				};
+var json = {
+	accountNums: act+", "+secact,
+	accountNames: accounts[act]+", "+accounts[secact],
+	otherInfo: ""
+}
 var logged = false;
 var act = "none";
 var secact = "none";
 var team = "none";
-//camera();
-
 
 $(document).ready(function(){
 	createTable();
@@ -123,9 +112,11 @@ $(document).ready(function(){
 		$("#secondscout").hide();
 	});
 	$("#yes").click(function(){
-		$("#top").animate({top:'-200px',opacity:'0.0'},1600);
-		$("#check").animate({opacity:'0.0',top:'-200px'},1600);
+		$("#top").animate({top:'-300px',opacity:'0.0'},1600);
+		$("#check").animate({opacity:'0.0',top:'-300px'},1600);
 		$("#teamsel").animate({opacity:'1.0',top:'0'},1600);
+		json["accountNums"]=act+", "+secact;
+		json["accountNames"]=accounts[act]+", "+accounts[secact];
 		if (secact=="-") {
 			$(".title").text(accounts[act]);
 		} else {
@@ -140,22 +131,25 @@ $(document).ready(function(){
 	});
 	$(".signout").click(function(){
 		$("#lognum").val("");
+		$("#lognumb").val("");
 		$("#logname").val("");
 		$("#teamsel").animate({opacity:'0.0',top:'600px'},1600);
 		$("#scouting").animate({opacity:'0.0',top:'600px'},1600);
 		$("#top").animate({opacity:'1.0',top:'0'},1600);
+		$("#camerabox").animate({opacity:'0.0',top:'600'},1600);
 		act="none";
 		secact="none";
 		logged=false;
 	});
 	$("#submit").click(function(){
-		var fs = require('fs');
 		var val = $("#extratext").val();
+		json["otherInfo"]=val;
 		var str = "pit_data/"+team+".json";
+		var spotify = JSON.stringify(json);
 		if (!fs.existsSync(str)) {
-	 		createFile(str,act+"|"+secact+"|"+val);
+	 		createFile(str,spotify);
 	 	} else {
-	 		appendFile(str,"\n"+act+"|"+secact+"|"+val);
+	 		appendFile(str,"\n"+spotify);
 	 	}
 	 	$("#extratext").val("");
 	 	$("#scouting").animate({opacity:'0.0',top:'600px'},1600);
@@ -169,10 +163,10 @@ $(document).ready(function(){
 	$("#forgetid").click(function(){
 		$("#dir").animate({opacity:'1.0',top:'0'},1600);
 		$("#check").animate({opacity:'0.0',top:'600px'},1600);
-		$("#top").animate({opacity:'0.0',top:'-200px'},1600);
+		$("#top").animate({opacity:'0.0',top:'-300px'},1600);
 	});
 	$("#backdir").click(function(){
 		$("#top").animate({opacity:'1.0',top:'0'},1600);
-		$("#dir").animate({opacity:'0.0',top:'-450px'},1600);
+		$("#dir").animate({opacity:'0.0',top:'600px'},1600);
 	});
 });

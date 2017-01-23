@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "dialog": "^0.2.0",
     "dialogs": "^1.1.17",
     "electron-safe-ipc": "^0.6.1",
     "jquery": "^3.1.1",

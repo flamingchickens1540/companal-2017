@@ -1,5 +1,5 @@
 from gmail import Gmail
-import time
+import time, os
 
 def run():
     g = Gmail()
@@ -7,16 +7,29 @@ def run():
     emails = g.inbox().mail(unread=True)
     for email in emails:
         email.fetch()
-        print email.subject
         subject = email.subject
         for attachment in email.attachments:
             try:
                 subject = int(email.subject)
             except:
                 break
+            subject = str(subject)
+            if subject[-4:]=="jpeg":
+                subject=subject[:-4]+"jpg"
+            exists = True
+            num = 1
+            while exists:
+                if os.path.isfile("../../../Dropbox/1540_Photos/"+"0"+str(num)+"-"+str(subject)+".jpg"):
+                    num+=1
+                else:
+                    exists = False
+            if num<10:
+                num="0"+str(num)
+            else:
+                num=str(num)
             print 'Saving attachment: '+attachment.name
             print 'Size: ' +str(attachment.size) + 'KB'
-            attachment.save('attachments/'+str(subject))
+            attachment.save('../../../Dropbox/1540_Photos/'+num+"-"+str(subject)+".jpg")
         email.read()
     g.logout()
 while True:
