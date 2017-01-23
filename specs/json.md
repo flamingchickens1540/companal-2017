@@ -57,8 +57,9 @@ So basically, once you construct an object in your code, then you can convert it
 	}
 	var jsonText = JSON.stringify(myObj)
 
-//then you can save jsonText into a file
-//then you can take that file, and get the object back
+Then you can save jsonText into a file
+
+Then you can take that file, and get the object back
 
 	var jsonText = ... (load the file contents)
 	var myObj = JSON.parse(jsonText)
