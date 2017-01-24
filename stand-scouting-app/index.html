@@ -44,15 +44,35 @@
         </div>
       </form>
       <br>
-      <a href="id.html" style="text-decoration: none;">
-        <button id="forgot-id" class="btn btn-warning" type="button">Forgot my ID</button>
-      </a>
+      <div style="text-align: center;">
+        <button id="forgot-id-button" class="btn btn-warning" type="button">Forgot my ID</button>
+      </div>
       <br>
       <div class="name-div">
         <h1 class="name" style="text-align: center;"></h1>
       </div>
       <br>
       <button id="cont-btn" type="button" class="btn btn-success">Continue!</button>
+    </div>
+    <!-- Forgot ID -->
+    <div id="forgot-id" class="container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <br>
+      <button type="button" id="forgot-id-back" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <br>
+      <br>
+      <br>
+      <br>
     </div>
     <!-- Betting -->
     <div class="betting">
@@ -78,13 +98,45 @@
     </div>
     <!-- Post-Login/Auto -->
     <div id="post-login" class="container">
-      <button id="auto-back" type="button" class="btn btn-warning">
+      <!-- <button id="auto-back" type="button" class="btn btn-warning">
         <i class="fa fa-chevron-left"></i>&nbsp;Back
-      </button>
-      <kbd>PLACEHOLDER (AUTONOMOUS)</kbd>
+      </button> -->
       <button id="auto-next" type="button" class="btn btn-warning">
         Next&nbsp;<i class="fa fa-chevron-right"></i>
       </button>
+      <br>
+      <h2 style="text-align: center;">Autonomous</h2>
+      <hr>
+      <hr>
+      <h3 style="text-align: center;">Crossed Line</h3>
+      <div class="btn-group" data-toggle="buttons">
+        <label id="auto-cross" class="btn btn-info">
+          <input type="radio" name="auto-radio" autocomplete="off">Crossed
+        </label>
+        <label id="auto-no-cross" class="btn btn-info">
+          <input type="radio" name="auto-radio" autocomplete="off">Not Crossed
+        </label>
+      </div>
+      <hr>
+      <h3 style="text-align: center;">Gear Placed</h3>
+      <div class="btn-group" data-toggle="buttons">
+        <label id="auto-gear" class="btn btn-info">
+          <input type="radio" name="auto-radio" autocomplete="off">Placed
+        </label>
+        <label id="auto-no-gear" class="btn btn-info">
+          <input type="radio" name="auto-radio" autocomplete="off">Not Placed
+        </label>
+      </div>
+      <hr>
+      <h3 style="text-align: center;">Balls Shot</h3>
+      <div class="btn-group" data-toggle="buttons">
+        <label id="auto-shoot" class="btn btn-info">
+          <input type="radio" name="auto-radio" autocomplete="off">Shot Balls
+        </label>
+        <label id="auto-no-shoot" class="btn btn-info">
+          <input type="radio" name="auto-radio" autocomplete="off">Did Not Shoot Balls
+        </label>
+      </div>
     </div>
     <!-- Tele-Op -->
     <div id="teleop" class="container">
@@ -121,12 +173,19 @@
             <p>The file has been saved!</p>
           </div>
           <div class="modal-footer">
-            <button id="sign-out" type="button" data-dismiss="modal" class="btn btn-danger">
+            <button id="sign-out" type="button" data-dismiss="modal" onclick="add_match(1)" class="btn btn-danger">
               <i class="fa fa-sign-out"></i>&nbsp;Sign Out
             </button>
           </div>
         </div>
       </div>
+    </div>
+    <!-- Match Number -->
+    <br>
+    <hr>
+    <div class="match-number" style="text-align: center;">
+      <h4 class="match-number-title">Match Number: </h4>
+      <input id="match-number-number" value="1">
     </div>
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="js/bootstrap.js"></script>

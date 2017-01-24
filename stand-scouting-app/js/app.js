@@ -4,6 +4,7 @@ $(document).ready(function(){
 	$('.login-info').hide();
 	$('.name-div').hide();
 	$('#no-login').hide();
+	$("#forgot-id").hide();
 	$('#cont-btn').hide();
 	$('.betting').hide();
 	$('#post-login').hide();
@@ -103,14 +104,8 @@ $('#login-button').click(function(){
 		$('.jumbotron-big-title').replaceWith('<h2 class="jumbotron-big-title">Stand Scouting App</h2>');
 		$('.login-info').delay(250).fadeIn(500);
 		$('.login-info-replace').replaceWith('<h3 class="login-info-replace">' + num + " | " + accounts[act] + "</h3>");
-		var json = {
-			accountName: accounts[act],
-			accountNum: num
-		};
-		var stringify = JSON.stringify(json);
-		createFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
-	}	else if (!accounts.hasOwnProperty(num)) {
-		$('#no-login').show();
+	} else if (!accounts.hasOwnProperty(num)) {
+			$('#no-login').show();
 	}
 });
 $('.close').click(function(){
@@ -120,20 +115,26 @@ $('#cont-btn').click(function(){
 	$('#the-whole-login').fadeOut(500);
 	$('.betting').delay(500).fadeIn(500);
 });
+// Forgot ID
+$('#forgot-id-button').click(function(){
+	$("#the-whole-login").fadeOut(500);
+	$('#forgot-id').delay(500).fadeIn(500);
+});
+$('#forgot-id-back').click(function(){
+	$('#forgot-id').fadeOut(500);
+	$('#the-whole-login').delay(500).fadeIn(500);
+});
 // Betting
+var jsonBet;
 $('#bet-blue-win, #bet-red-win').click(function(){
 	$('.betting').fadeOut(500);
 	$('#post-login').delay(500).fadeIn(500);
 });
 $('#bet-red-win').click(function(){
-	var jsonRed = {color: "Red"};
-	var stringify = JSON.stringify(jsonRed);
-	appendFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
+	jsonBet = "Red";
 });
 $('#bet-blue-win').click(function(){
-	var jsonBLue = {color: "Blue"};
-	var stringify = JSON.stringify(jsonBlue);
-	appendFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
+	jsonBet = "Blue";
 });
 // Post-Login
 $('#auto-next').click(function(){
@@ -145,6 +146,18 @@ $('#auto-next').click(function(){
 // 	$('.betting').delay(500).fadeIn(500);
 // });
 // Tele-Op
+var autoCross = false;
+$('#auto-cross').click(function(){
+	autoCross = true;
+});
+var autoGear = false;
+$('#auto-gear').click(function(){
+	autoGear = true;
+});
+var autoShoot = false;
+$('#auto-shoot').click(function(){
+	autoShoot = true;
+});
 $('#teleop-next').click(function(){
 	$('#teleop').fadeOut(500);
 	$('#last-textarea').delay(500).fadeIn(500);
@@ -163,6 +176,7 @@ $('#sign-out').click(function(){
 	$('input[name=login-number]').val("");
 	$('.login-info-replace').replaceWith('<div class="login-info-replace"><br><br><br></div>');
 	$('.name').text("");
+	$('.comments').text("");
 	$('.name-div').hide();
 	$('#cont-btn').hide();
 	$('.chicken').animate({height: "143px"});
@@ -171,11 +185,26 @@ $('#sign-out').click(function(){
 });
 $('#save-file').click(function(){
 	$('#last-textarea').fadeOut(500);
-	var jsonText = {Comments: $('.comments').val()};
-	var stringify = JSON.stringify(jsonText);
+	var json = {
+		scoutId: $('input[name=login-number]').val(),
+		bettingPick: jsonBet,
+		auto: {
+			crossedLine: autoCross,
+			depositedGear: autoGear,
+			shotCycle: autoShoot
+		},
+		notes: $('.comments').val()
+	};
+	var stringify = JSON.stringify(json);
 	appendFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
 });
-// NOTE: account[act] for #save-file
+// TODO: make radios deselectable
+function add_match(val) {
+    var qty = document.getElementById('match-number-number').value;
+    var new_qty = parseInt(qty,10) + val;
+    document.getElementById('match-number-number').value = new_qty;
+    return new_qty;
+}
 // getmac
 require('getmac').getMac(function(err,macAddress){
     if (err)  throw err
