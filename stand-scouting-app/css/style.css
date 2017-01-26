@@ -49,3 +49,9 @@ body{
 #success{
 	color: white;
 }
+#teleop-gear{
+	text-align: center;
+	background: transparent;
+	border: transparent;
+	font-size: 18pt;
+}

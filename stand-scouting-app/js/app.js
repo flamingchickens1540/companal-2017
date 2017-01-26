@@ -12,8 +12,8 @@ $(document).ready(function(){
 	$('#last-textarea').hide();
 	$('#teleop').hide();
 });
-// Save File
-function createFile(fileName, text) {
+// FS
+function createFile(fileName, text){
 	var fs = require('fs');
 	fs.writeFile(fileName, text, function(err) {
     	if (err) {
@@ -21,7 +21,7 @@ function createFile(fileName, text) {
 		}
 	});
 }
-function appendFile(fileName, text) {
+function appendFile(fileName, text){
 	var fs = require('fs');
 	fs.appendFile(fileName, text, function(err) {
 		if (err) {
@@ -29,6 +29,25 @@ function appendFile(fileName, text) {
 		}
 	});
 }
+function readFile(fileName){
+	var fs = require('fs');
+	fs.readFile(fileName, function (err, data){
+  	if (err) {
+    	return console.error(err);
+   	};
+	 $('#match-number-number').val(data.toString());
+	 console.log(data.toString());
+	});
+}
+function deleteFile(fileName){
+	var fs = require("fs");
+	fs.unlink(fileName, function(err) {
+  	if (err) {
+    	return console.error(err);
+  	}
+	});
+}
+readFile("matchNum.txt");
 // $('#save-file').click(function(){
 // 	$('#save-alert').show();
 // 	var fs = require("fs");
@@ -146,18 +165,6 @@ $('#auto-next').click(function(){
 // 	$('.betting').delay(500).fadeIn(500);
 // });
 // Tele-Op
-var autoCross = false;
-$('#auto-cross').click(function(){
-	autoCross = true;
-});
-var autoGear = false;
-$('#auto-gear').click(function(){
-	autoGear = true;
-});
-var autoShoot = false;
-$('#auto-shoot').click(function(){
-	autoShoot = true;
-});
 $('#teleop-next').click(function(){
 	$('#teleop').fadeOut(500);
 	$('#last-textarea').delay(500).fadeIn(500);
@@ -166,25 +173,62 @@ $('#teleop-back').click(function(){
 	$('#teleop').fadeOut(500);
 	$('#post-login').delay(500).fadeIn(500);
 });
+function teleopgearnum(val) {
+    var qty = document.getElementById('teleop-gear').value;
+    var new_qty = parseInt(qty,10) + val;
+    if (new_qty < 0){
+        new_qty = 0;
+    }
+    document.getElementById('teleop-gear').value = new_qty;
+    return new_qty;
+}
 // Last Textarea
 $('#textarea-back').click(function(){
 	$('#last-textarea').fadeOut(500);
 	$('#teleop').delay(500).fadeIn(500);
 });
+// $('#continue').click(function(){
+// 	$('.betting').fadeIn(500);
+// 	$('.comments').val("");
+// 	$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');
+// });
 $('#sign-out').click(function(){
-	$('#the-whole-login').fadeIn(500);
-	$('input[name=login-number]').val("");
-	$('.login-info-replace').replaceWith('<div class="login-info-replace"><br><br><br></div>');
-	$('.name').text("");
-	$('.comments').text("");
-	$('.name-div').hide();
-	$('#cont-btn').hide();
-	$('.chicken').animate({height: "143px"});
-	$('.jumbotron').animate({height: "348px"});
-	$('.jumbotron-big-title').replaceWith('<h1 class="jumbotron-big-title">Stand Scouting App</h1>');
+	window.location.reload();
+	// $('#the-whole-login').fadeIn(500);
+	// $('input[name=login-number]').val("");
+	// $('.login-info-replace').replaceWith('<div class="login-info-replace"><br><br><br></div>');
+	// $('.name').text("");
+	// $('.comments').val("");
+	// $('.name-div').hide();
+	// $('#cont-btn').hide();
+	// $('.chicken').animate({height: "143px"});
+	// $('.jumbotron').animate({height: "348px"});
+	// $('.jumbotron-big-title').replaceWith('<h1 class="jumbotron-big-title">Stand Scouting App</h1>');
+	// $("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');
 });
 $('#save-file').click(function(){
 	$('#last-textarea').fadeOut(500);
+	var autoCross = $('input[name="auto-radio-cross"]:checked').val();
+	// autoCross = JSON.parse(autoCross);
+	if (autoCross == "true"){
+		autoCross = true;
+	} else if (autoCross == "false") {
+		autoCross = false;
+	}
+	var autoGear = $('input[name="auto-radio-gear"]:checked').val();
+	// autoGear = JSON.parse(autoGear);
+	if (autoGear == "true"){
+		autoGear = true;
+	} else if (autoGear == "false") {
+		autoGear = false;
+	}
+	var autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
+	// autoShoot = JSON.parse(autoShoot);
+	if (autoShoot == "true"){
+		autoShoot = true;
+	} else if (autoShoot == "false") {
+		autoShoot = false;
+	}
 	var json = {
 		scoutId: $('input[name=login-number]').val(),
 		bettingPick: jsonBet,
@@ -196,9 +240,10 @@ $('#save-file').click(function(){
 		notes: $('.comments').val()
 	};
 	var stringify = JSON.stringify(json);
-	appendFile(__dirname + "/data/" + accounts[act] + ".json", stringify);
+	createFile(__dirname + "/data/" + "m" + $("#match-number-number").val() + "-" + accounts[act] + ".json", stringify);
+	deleteFile('matchNum.txt');
+	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
 });
-// TODO: make radios deselectable
 function add_match(val) {
     var qty = document.getElementById('match-number-number').value;
     var new_qty = parseInt(qty,10) + val;
@@ -209,4 +254,4 @@ function add_match(val) {
 require('getmac').getMac(function(err,macAddress){
     if (err)  throw err
     console.log(macAddress)
-})
+});

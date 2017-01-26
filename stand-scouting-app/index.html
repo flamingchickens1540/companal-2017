@@ -108,45 +108,102 @@
       <h2 style="text-align: center;">Autonomous</h2>
       <hr>
       <hr>
-      <h3 style="text-align: center;">Crossed Line</h3>
-      <div class="btn-group" data-toggle="buttons">
-        <label id="auto-cross" class="btn btn-info">
-          <input type="radio" name="auto-radio" autocomplete="off">Crossed
-        </label>
-        <label id="auto-no-cross" class="btn btn-info">
-          <input type="radio" name="auto-radio" autocomplete="off">Not Crossed
-        </label>
-      </div>
-      <hr>
-      <h3 style="text-align: center;">Gear Placed</h3>
-      <div class="btn-group" data-toggle="buttons">
-        <label id="auto-gear" class="btn btn-info">
-          <input type="radio" name="auto-radio" autocomplete="off">Placed
-        </label>
-        <label id="auto-no-gear" class="btn btn-info">
-          <input type="radio" name="auto-radio" autocomplete="off">Not Placed
-        </label>
-      </div>
-      <hr>
-      <h3 style="text-align: center;">Balls Shot</h3>
-      <div class="btn-group" data-toggle="buttons">
-        <label id="auto-shoot" class="btn btn-info">
-          <input type="radio" name="auto-radio" autocomplete="off">Shot Balls
-        </label>
-        <label id="auto-no-shoot" class="btn btn-info">
-          <input type="radio" name="auto-radio" autocomplete="off">Did Not Shoot Balls
-        </label>
-      </div>
+      <form id="auto-form">
+        <h3 style="text-align: center;">Crossed Line</h3>
+        <div class="btn-group" data-toggle="buttons">
+          <span id="auto-cross" class="btn btn-info">
+            <input type="radio" name="auto-radio-cross" value="true" autocomplete="off">Crossed
+          </span>
+          <span id="auto-no-cross" class="btn btn-info">
+            <input type="radio" name="auto-radio-cross" value="false" autocomplete="off">Not Crossed
+          </span>
+        </div>
+        <hr>
+        <h3 style="text-align: center;">Gear Placed</h3>
+        <div class="btn-group" data-toggle="buttons">
+          <span id="auto-gear" class="btn btn-info">
+            <input type="radio" name="auto-radio-gear" value="true" autocomplete="off">Placed
+          </span>
+          <span id="auto-no-gear" class="btn btn-info">
+            <input type="radio" name="auto-radio-gear" value="false" autocomplete="off">Not Placed
+          </span>
+        </div>
+        <hr>
+        <h3 style="text-align: center;">Balls Shot</h3>
+        <div class="btn-group" data-toggle="buttons">
+          <span id="auto-shoot" class="btn btn-info">
+            <input type="radio" name="auto-radio-shoot" value="true" autocomplete="off">Shot Balls
+          </span>
+          <span id="auto-no-shoot" class="btn btn-info">
+            <input type="radio" name="auto-radio-shoot" value="false" autocomplete="off">Did Not Shoot Balls
+          </span>
+        </div>
+      </form>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
     </div>
     <!-- Tele-Op -->
     <div id="teleop" class="container">
       <button id="teleop-back" type="button" class="btn btn-warning">
         <i class="fa fa-chevron-left"></i>&nbsp;Back
       </button>
-      <kbd>PLACEHOLDER (TELE-OP)</kbd>
       <button id="teleop-next" type="button" class="btn btn-warning">
         Next&nbsp;<i class="fa fa-chevron-right"></i>
       </button>
+      <br>
+      <h2 style="text-align: center;">Tele-Op</h2>
+      <hr>
+      <hr>
+      <div class="row">
+        <div class="col-sm-4">
+
+        </div>
+      </div>
+      <form id="auto-form">
+        <!-- <h3 style="text-align: center;">Crossed Line</h3>
+        <div class="btn-group" data-toggle="buttons">
+          <span id="auto-cross" class="btn btn-info">
+            <input type="radio" name="auto-radio" autocomplete="off">Crossed
+          </span>
+          <span id="auto-no-cross" class="btn btn-info">
+            <input type="radio" name="auto-radio" autocomplete="off">Not Crossed
+          </span>
+        </div>
+        <hr> -->
+        <h3 style="text-align: center;">Gears Deposited</h3>
+        <input id="teleop-gear" value="0">
+        <br>
+        <button type="button" id="teleop-down" class="btn btn-danger" onclick="teleopgearnum(-1)">-1</button>
+        <button type="button" id="teleop-up" class="btn btn-success" onclick="teleopgearnum(1)">+1</button>
+        <hr>
+        <h3 style="text-align: center;">Balls Shot</h3>
+        <div class="btn-group" data-toggle="buttons">
+          <span id="auto-shoot" class="btn btn-info">
+            <input type="radio" name="auto-radio" autocomplete="off">Shot Balls
+          </span>
+          <span id="auto-no-shoot" class="btn btn-info">
+            <input type="radio" name="auto-radio" autocomplete="off">Did Not Shoot Balls
+          </span>
+        </div>
+      </form>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
     </div>
     <!-- Textarea -->
     <div id="last-textarea" class="container">
@@ -173,6 +230,9 @@
             <p>The file has been saved!</p>
           </div>
           <div class="modal-footer">
+            <!-- <button id="continue" type="button" data-dismiss="modal" onclick="add_match(1)" class="btn btn-default">
+              <i class="fa fa-repeat"></i>&nbsp;Continue
+            </button> -->
             <button id="sign-out" type="button" data-dismiss="modal" onclick="add_match(1)" class="btn btn-danger">
               <i class="fa fa-sign-out"></i>&nbsp;Sign Out
             </button>
@@ -181,12 +241,13 @@
       </div>
     </div>
     <!-- Match Number -->
-    <br>
-    <hr>
-    <div class="match-number" style="text-align: center;">
-      <h4 class="match-number-title">Match Number: </h4>
-      <input id="match-number-number" value="1">
-    </div>
+    <nav class="navbar navbar-fixed-bottom">
+      <hr>
+      <div class="match-number" style="text-align: center;">
+        <h4 class="match-number-title">Match Number: </h4>
+        <input id="match-number-number" value="1">
+      </div>
+    </nav>
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="js/bootstrap.js"></script>
     <script src="js/app.js"></script>
