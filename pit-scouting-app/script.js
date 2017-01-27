@@ -9,6 +9,14 @@ function createFile(one,two) {
 	});
 }
 
+function appendFile(one,two) {
+	fs.appendFile(one,two, function(err) {
+		if (err) {
+			return console.log(err);
+		}
+	});
+}
+
 function createTable() {
 	var keys = Object.keys(accounts);
 	for (x in keys) {
@@ -88,10 +96,17 @@ var json = {
 	weight: 100, //pounds
 	notes: ""
 }
+var def = json;
 var logged = false;
 var act = "none";
 var secact = "none";
 var team = "none";
+var round = 1;
+var gearHuman = false;
+var gearFloor = false;
+var ballFloor = false;
+var ballHuman = false;
+var ballHopper = false;
 
 $(document).ready(function(){
 	createTable();
@@ -130,6 +145,56 @@ $(document).ready(function(){
 		$("#noid").hide();
 		$("#secondscout").hide();
 	});
+	$("#next").click(function(){
+		round+=1;
+		if (round==2) {
+			$("#roundtwo").show();
+			$("#roundone").hide();
+		} else if (round==3) {
+			$("#roundthree").show();
+			$("#roundtwo").hide();
+		} else if (round==4) {
+			$("#roundfour").show();
+			$("#roundthree").hide();
+		} else if (round==5) {
+			$("#roundfive").show();
+			$("#roundfour").hide();
+		} else if (round==6) {
+			$("#roundsix").show();
+			$("#roundfive").hide();
+		} else if (round==7) {
+			$("#roundsix").hide();
+			$("#roundseven").show();
+		}
+		if (round>7) {
+			round=7;
+		} 
+	});
+	$("#previous").click(function(){
+		round-=1;
+		if (round==1) {
+			$("#roundtwo").hide();
+			$("#roundone").show();
+		} else if (round==2) {
+			$("#roundtwo").show();
+			$("#roundthree").hide();
+		} else if (round==3) {
+			$("#roundthree").show();
+			$("#roundfour").hide();
+		} else if (round==4) {
+			$("#roundfour").show();
+			$("#roundfive").hide();
+		} else if (round==5) {
+			$("#roundfive").show();
+			$("#roundsix").hide();
+		} else if (round==6) {
+			$("#roundseven").hide();
+			$("#roundsix").show();
+		}
+		if (round<1) {
+			round=1;
+		}
+	});
 	$("#yes").click(function(){
 		$("#top").animate({top:'-300px',opacity:'0.0'},1600);
 		$("#check").animate({opacity:'0.0',top:'-300px'},1600);
@@ -141,7 +206,7 @@ $(document).ready(function(){
 		}
 	});
 	$("#no").click(function(){
-		$("#check").animate({top:'400px',opacity:'0.0'},1600);
+		$("#check").animate({top:'700px',opacity:'0.0'},1600);
 		logged=false;
 		act="none";
 		secact="none";
@@ -150,38 +215,109 @@ $(document).ready(function(){
 		$("#lognum").val("");
 		$("#lognumb").val("");
 		$("#logname").val("");
-		$("#teamsel").animate({opacity:'0.0',top:'600px'},1600);
-		$("#scouting").animate({opacity:'0.0',top:'600px'},1600);
+		$("#teamsel").animate({opacity:'0.0',top:'700px'},1600);
+		$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
 		$("#top").animate({opacity:'1.0',top:'0'},1600);
-		$("#camerabox").animate({opacity:'0.0',top:'600'},1600);
+		$("#camerabox").animate({opacity:'0.0',top:'700px'},1600);
 		act="none";
 		secact="none";
 		logged=false;
 	});
+	$("#gearfloor").click(function(){
+		gearFloor = !gearFloor;
+	});
+	$("#gearhuman").click(function(){
+		gearHuman = !gearHuman;
+	});
+	$("#ballsfloor").click(function(){
+		ballFloor = !ballFloor;
+	});
+	$("#ballshopper").click(function(){
+		ballHopper = !ballHopper;
+	});
+	$("#ballshuman").click(function(){
+		ballHuman = !ballHuman;
+	});
+	$("#otherdrive").click(function(){
+		$("#driveoptions").show();
+	});
+	$("#otherwheel").click(function(){
+		$("#wheeloptions").show();
+	});
+	$("#othermotor").click(function(){
+		$("#motoroptions").show();
+	});
 	$("#submit").click(function(){
-		var val = $("#extratext").val();
+		$("#driveoptions").hide();
+	 	$("#motoroptions").hide();
+	 	$("#wheeloptions").hide();
 		json["teamNumber"]=team;
 		json["scoutIds"]=[act,secact];
-		json["otherInfo"]=val;
+		json["notes"]=$("#extratext").val();
+		json["drivetrain"]["drivetrainShifts"]=$("input[name='drivetrainShifts']:checked").val();
+		if ($("input[name='drivetrainType']:checked").val()!="other") {
+			json["drivetrain"]["drivetrainType"]=$("input[name='drivetrainType']:checked").val();
+		} else {
+			json["drivetrain"]["drivetrainType"]=$("#driveoptions").val();
+		}
+		if ($("input[name='motorType']:checked").val()!="other") {
+			json["drivetrain"]["motorType"]=$("input[name='motorType']:checked").val();
+		} else {
+			console.log($("#motoroptions").val());
+			json["drivetrain"]["motorType"]=$("#motoroptions").val();
+		}
+		json["drivetrain"]["motorCount"]=$("#motorcount").val();
+		if ($("input[name='wheelType']:checked").val()!="other") {
+			json["drivetrain"]["wheelType"]=$("input[name='wheelType']:checked").val();
+		} else {
+			json["drivetrain"]["wheelType"]=$("#wheeloptions").val();
+		}
+		json["canClimb"]=$("input[name='canClimb']:checked").val();
+		json["defense"]["willDefend"]=$("input[name='willDefend']:checked").val();
+		json["defense"]["hasDefended"]=$("input[name='hasDefended']:checked").val();
+		json["weight"]=$("#roboweight").val();
+		json["shooting"]["hasHigh"]=$("input[name='hasHigh']:checked").val();
+		json["shooting"]["hasLow"]=$("input[name='hasLow']:checked").val();
+		json["shooting"]["ballCapacity"]=$("input[name='ballCapacity']:checked").val();
+		json["shooting"]["floorLoading"]=ballFloor;
+		json["shooting"]["humanLoading"]=ballHuman;
+		json["shooting"]["hopperLoading"]=ballHopper;
+		json["shooting"]["efficiency"]=$("input[name='ballCapacity']:checked").val();
+		json["gears"]["canDeposit"]=$("input[name='gears']:checked").val();
+		json["gears"]["floorLoading"]=gearFloor;
+		json["gears"]["humanLoading"]=gearHuman;
 		var str = "pit_data/"+team+".json";
 		var spotify = JSON.stringify(json);
 	 	createFile(str,spotify);
+	 	var array = JSON.parse(fs.readFileSync("manifest.json"));
+	 	array.push(team+".json");
+	 	var stringed = JSON.stringify(array);
+	 	createFile("manifest.json",stringed);
 	 	$("#extratext").val("");
-	 	$("#scouting").animate({opacity:'0.0',top:'600px'},1600);
+	 	$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
+	 	json=def;
+	 	round=1;
 	});
 	$("#teamsubmit").click(function(){
 		team = $("#teaminput").val();
 		$("#scouting").animate({opacity:'1.0',top:'125'},1600);
 		$("#teamdisplay").text(team);
 		$("#teaminput").val("");
+		$("#roundone").show();
+		$("#roundtwo").hide();
+		$("#roundthree").hide();
+		$("#roundfour").hide();
+		$("#roundfive").hide();
+		$("#roundsix").hide();
+		$("#roundseven").hide();
 	});
 	$("#forgetid").click(function(){
 		$("#dir").animate({opacity:'1.0',top:'0'},1600);
-		$("#check").animate({opacity:'0.0',top:'600px'},1600);
+		$("#check").animate({opacity:'0.0',top:'700px'},1600);
 		$("#top").animate({opacity:'0.0',top:'-300px'},1600);
 	});
 	$("#backdir").click(function(){
 		$("#top").animate({opacity:'1.0',top:'0'},1600);
-		$("#dir").animate({opacity:'0.0',top:'600px'},1600);
+		$("#dir").animate({opacity:'0.0',top:'700px'},1600);
 	});
 });

@@ -26,7 +26,7 @@ function addImage(name) {
 var images = []
 var teams = [955,997,1510,1540,2471,3711,4048,4488]
 
-fs.readdir("../../Dropbox/1540_Photos/", (err, files) => {
+fs.readdir("../../../Dropbox/1540_Photos/", (err, files) => {
 	files.forEach(file => {
 		images.push(file);
 	});
@@ -47,7 +47,7 @@ $(document).ready(function(){
 	for (x in images) {
 		var newimg = document.createElement("img");
  	 	newimg.className="removal";
- 	 	newimg.setAttribute("src","../../Dropbox/1540_Photos/"+images[x]);
+ 	 	newimg.setAttribute("src","../../../Dropbox/1540_Photos/"+images[x]);
 		newimg.setAttribute("width","300px");
 		newimg.setAttribute("id",images[x]);
 		var it = images[x].slice(3,-4);

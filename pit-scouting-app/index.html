@@ -53,18 +53,246 @@
 		.title {
 			font-size:15px;
 		}
+		.cooltext {
+			color:white;
+		}
 	</style>
   </head>
   <body>
-  	<div style="opacity:0.0" id="scouting" class="center box">
-  		<kbd style="font-size:30px" id="teamdisplay"></kbd>
-  		<br />
-  		<textarea id="extratext" cols="45" rows="6" placeholder="A place to put any other notes."></textarea>
-  		<br />
-  		<input type="button" class="btn-danger" id="submit" value="Submit" />
-  		<br>
-  	</div>
-  	<div style="top:400px;opacity:0.0" id="teamsel" class="center box">
+  	<div style="top:700px;opacity:0.0" id="scouting" class="center box">
+		<kbd style="font-size:30px" id="teamdisplay"></kbd>
+		<br />
+		<br />
+		<div id="roundone">
+	  		<strong class="cooltext">Does the drive train shift?</strong>
+	  		<br />
+	  		<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning active">
+	    			<input name="drivetrainShifts" value="true" type="radio" autocomplete="off" checked> yes
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="drivetrainShifts" value="false" type="radio" autocomplete="off"> no
+	  			</label>
+			</div>
+			<br />
+			<br />
+			<strong class="cooltext">What type of drive train do you use?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning">
+	    			<input name="drivetrainType" value="4wheel" type="radio" autocomplete="off"> 4wheel
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="drivetrainType" value="6wheel" type="radio" autocomplete="off"> 6wheel
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="drivetrainType" value="8wheel" type="radio" autocomplete="off"> 8wheel
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="drivetrainType" value="swerve" type="radio" autocomplete="off"> swerve
+	  			</label>
+	  			<label class="btn btn-warning active">
+	    			<input name="drivetrainType" value="mecanum_drive" type="radio" autocomplete="off"> mecanum_drive
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="drivetrainType" value="hdrive_slidedrive" type="radio" autocomplete="off"> hdrive_slidedrive
+	  			</label>
+	  			<label id="otherdrive" class="btn btn-warning">
+	    			<input name="drivetrainType" value="other" type="radio" autocomplete="off"> other
+	  			</label>
+			</div>
+			<br />
+			<input hidden=true type="text" id="driveoptions" style="color:white;background-color:#F89406"/>
+			<br />
+			<strong class="cooltext">What type of motor do you use?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning">
+	    			<input name="motorType" value="cim" type="radio" autocomplete="off"> cim
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="motorType" value="minicim" type="radio" autocomplete="off"> minicim
+	  			</label>
+	  			<label class="btn btn-warning active">
+	    			<input name="motorType" value="775pro" type="radio" autocomplete="off"> 775pro
+	  			</label>
+	  			<label id="othermotor" class="btn btn-warning">
+	    			<input name="motorType" value="other" type="radio" autocomplete="off"> other
+	  			</label>
+			</div>
+			<br />
+			<input hidden=true type="text" id="motoroptions" style="color:white;background-color:#F89406"/>
+		</div>
+		<div hidden=true id="roundtwo">
+	  		<strong class="cooltext">How many motors does your robot have?</strong>
+	  		<br />
+	  		<input id="motorcount" type="text" style="color:white;background-color:#F89406"/>
+			<br />
+			<br />
+			<strong class="cooltext">What type of wheel do you use?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning">
+	    			<input name="wheelType" value="mechanum" type="radio" autocomplete="off"> mechanum
+	  			</label>
+	  			<label class="btn btn-warning active">
+	    			<input name="wheelType" value="omni" type="radio" autocomplete="off"> omni
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="wheelType" value="colson" type="radio" autocomplete="off"> colson
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="wheelType" value="pneumatic" type="radio" autocomplete="off"> pneumatic
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="wheelType" value="wtread" type="radio" autocomplete="off"> wtread
+	  			</label>
+	  			<label id="otherwheel" class="btn btn-warning">
+	    			<input name="wheelType" value="other" type="radio" autocomplete="off"> other
+	  			</label>
+			</div>
+			<br />
+			<input hidden=true type="text" id="wheeloptions" style="color:white;background-color:#F89406"/>
+			<br />
+			<strong class="cooltext">Can your robot climb?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning active">
+	    			<input name="canClimb" value="true" type="radio" autocomplete="off"> yes
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="canClimb" value="false" type="radio" autocomplete="off"> no
+	  			</label>
+			</div>
+			<br />
+		</div>
+		<div hidden=true id="roundthree">
+	  		<strong class="cooltext">Is your team willing to defend?</strong>
+	  		<br />
+	  		<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning active">
+	    			<input name="willDefend" value="true" type="radio" autocomplete="off"> yes
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="defend" value="false" type="radio" autocomplete="off"> no
+	  			</label>
+			</div>
+			<br />
+			<br />
+			<strong class="cooltext">Has your team defended before?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning">
+	    			<input name="hasDefended" value="true" type="radio" autocomplete="off"> yes
+	  			</label>
+	  			<label class="btn btn-warning" active>
+	    			<input name="hasDefended" value="false" type="radio" autocomplete="off"> no
+	  			</label>
+			</div>
+			<br />
+			<br />
+			<strong class="cooltext">What is your robot's weight in pounds?</strong>
+			<br />
+			<input id="roboweight" type="text" style="color:white;background-color:#F89406"/>
+			<br />
+		</div>
+		<div hidden=true id="roundfour">
+	  		<strong class="cooltext">Can your robot shoot in the high goal?</strong>
+	  		<br />
+	  		<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning active">
+	    			<input name="hasHigh" value="true" type="radio" autocomplete="off"> yes
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="hasHigh" value="false" type="radio" autocomplete="off"> no
+	  			</label>
+			</div>
+			<br />
+			<br />
+			<strong class="cooltext">Can your robot shoot in the low goal?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning" active>
+	    			<input name="hasLow" value="true" type="radio" autocomplete="off"> yes
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="hasLow" value="false" type="radio" autocomplete="off"> no
+	  			</label>
+			</div>
+			<br />
+			<br />
+			<strong class="cooltext">How many balls can your robot hold?</strong>
+			<br />
+			<input id="ballCapacity" type="text" style="color:white;background-color:#F89406"/>
+			<br />
+		</div>
+		<div hidden=true id="roundfive">
+	  		<strong class="cooltext">What is your robot's estimated shooting efficiency?</strong>
+	  		<br />
+	  		<input id="accuracy" type="text" style="color:white;background-color:#F89406"/>
+			<br />
+			<br />
+			<strong class="cooltext">What can your robot load balls from (check all that apply)?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label id="ballsfloor" class="btn btn-warning">
+	    			<input type="checkbox" autocomplete="off"> floor
+	  			</label>
+	  			<label id="ballshuman" class="btn btn-warning">
+	    			<input type="checkbox" autocomplete="off"> human
+	  			</label>
+	  			<label id="ballshopper" class="btn btn-warning">
+	    			<input type="checkbox" autocomplete="off"> hopper
+	  			</label>
+			</div>
+			<br />
+		</div>
+		<div hidden=true id="roundsix">
+	  		<strong class="cooltext">Can your robot deposit gears?</strong>
+	  		<br />
+	  		<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning" active>
+	    			<input name="gears" value="true" type="radio" autocomplete="off"> yes
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="gears" value="false" type="radio" autocomplete="off"> no
+	  			</label>
+			</div>
+			<br />
+			<br />
+			<strong class="cooltext">Where can your robot load gears from (check all that apply)?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label id="gearfloor" class="btn btn-warning">
+	    			<input type="checkbox" autocomplete="off"> floor
+	  			</label>
+	  			<label id="gearhuman" class="btn btn-warning">
+	    			<input type="checkbox" autocomplete="off"> human
+	  			</label>
+			</div>
+			<br />
+		</div>
+		<div hidden=true id="roundseven">
+			<br />
+			<br />
+			<br />
+			<br />
+			<input type="button" class="btn-warning" id="submit" value="Submit" />
+			<br />
+			<br />
+			<br />
+			<br />
+		</div>
+		<br />
+		<input id="previous" type="button" class="btn-danger" value="previous"/>
+		<input id="next" type="button" class="btn-success" value="next"/>
+		<br />
+		<br />
+		<textarea id="extratext" cols="45" rows="6" placeholder="A place to put any other notes."></textarea>
+		<br />
+		<br />
+	</div>
+  	<div style="top:700px;opacity:0.0" id="teamsel" class="center box">
   		<kbd class="title">Your Name</kbd>
   		<br />
   		<br />
@@ -74,7 +302,7 @@
   		<input type="button" class="btn-warning" value="New Data Collection" id="teamsubmit" />
   		<input type="button" class="signout" class="btn-primary" value="Sign Out"/>
   	</div>
-  	<div id="dir" style="top:600px;opacity:0.0" class="center box">
+  	<div id="dir" style="top:700px;opacity:0.0" class="center box">
  	 	<input class="btn-warning" type="button" id="backdir" value="Back"/>
  	 	<br />
  	 	<table style="background:white;margin:0" class="table table-bordered table-hover">
@@ -113,7 +341,7 @@
 	  	<input style="position:absolute;top:200;left:5;font-size:10px;color:black" type="button" id="forgetid" class="btn-primary" value="Press Here" /> 
 	  	<input id="logbutton" type="button" class="btn-danger" style="bottom:15px;position:relative" value="Login">
   	</div>
-  	<div style="top:400px;opacity:0.0" id="check" class="center box">
+  	<div style="top:700px;opacity:0.0" id="check" class="center box">
   		<kbd style="font-size:20px">Are you:</kbd>
   		<br />
   		<span class="bg-primary" style="font-size:60px" id="yourname">Default Name</span>
