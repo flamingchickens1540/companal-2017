@@ -35,7 +35,7 @@
     <div id="the-whole-login" class="container">
       <form class="login">
         <div class="input-group">
-          <input type="text" maxlength="2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="login-number" class="form-control" placeholder="Ex: 21">
+          <input type="text" maxlength="2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="login-number" id="login-input-number" class="form-control" placeholder="Ex: 21">
           <div class="input-group-btn">
             <button id="login-button" class="btn btn-success" type="button">
               <i class="fa fa-sign-in"></i>&nbsp;Sign In
@@ -107,48 +107,41 @@
       <br>
       <h2 style="text-align: center;">Autonomous</h2>
       <hr>
-      <hr>
-      <form id="auto-form">
-        <h3 style="text-align: center;">Crossed Line</h3>
-        <div class="btn-group" data-toggle="buttons">
-          <span id="auto-cross" class="btn btn-info">
-            <input type="radio" name="auto-radio-cross" value="true" autocomplete="off">Crossed
-          </span>
-          <span id="auto-no-cross" class="btn btn-info">
-            <input type="radio" name="auto-radio-cross" value="false" autocomplete="off">Not Crossed
-          </span>
+      <div class="row">
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Crossed Line</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="auto-cross" class="btn btn-success">
+              <input type="radio" name="auto-radio-cross" value="true" autocomplete="off">Crossed
+            </span>
+            <span id="auto-no-cross" class="btn btn-danger">
+              <input type="radio" name="auto-radio-cross" value="false" autocomplete="off">Not Crossed
+            </span>
+          </div>
         </div>
-        <hr>
-        <h3 style="text-align: center;">Gear Placed</h3>
-        <div class="btn-group" data-toggle="buttons">
-          <span id="auto-gear" class="btn btn-info">
-            <input type="radio" name="auto-radio-gear" value="true" autocomplete="off">Placed
-          </span>
-          <span id="auto-no-gear" class="btn btn-info">
-            <input type="radio" name="auto-radio-gear" value="false" autocomplete="off">Not Placed
-          </span>
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Gear Placed</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="auto-gear" class="btn btn-success">
+              <input type="radio" name="auto-radio-gear" value="true" autocomplete="off">Placed
+            </span>
+            <span id="auto-no-gear" class="btn btn-danger">
+              <input type="radio" name="auto-radio-gear" value="false" autocomplete="off">Not Placed
+            </span>
+          </div>
         </div>
-        <hr>
-        <h3 style="text-align: center;">Balls Shot</h3>
-        <div class="btn-group" data-toggle="buttons">
-          <span id="auto-shoot" class="btn btn-info">
-            <input type="radio" name="auto-radio-shoot" value="true" autocomplete="off">Shot Balls
-          </span>
-          <span id="auto-no-shoot" class="btn btn-info">
-            <input type="radio" name="auto-radio-shoot" value="false" autocomplete="off">Did Not Shoot Balls
-          </span>
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Balls Shot</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="auto-shoot" class="btn btn-success">
+              <input type="radio" name="auto-radio-shoot" value="true" autocomplete="off">Shot Balls
+            </span>
+            <span id="auto-no-shoot" class="btn btn-danger">
+              <input type="radio" name="auto-radio-shoot" value="false" autocomplete="off">Did Not Shoot Balls
+            </span>
+          </div>
         </div>
-      </form>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
+      </div>
     </div>
     <!-- Tele-Op -->
     <div id="teleop" class="container">
@@ -161,49 +154,49 @@
       <br>
       <h2 style="text-align: center;">Tele-Op</h2>
       <hr>
-      <hr>
       <div class="row">
         <div class="col-sm-4">
-
+          <h3 style="text-align: center;">Fuel</h3>
+          <br>
+          <h4>Fuel Carried This Cycle</h4>
+          <div id="teleop-fuel" class="btn-group" data-toggle="buttons">
+            <span id="teleop-fuelcycle-lt10" class="btn btn-danger">
+              <input type="radio" name="teleop-radio-fuel" value="<10" autocomplete="off">&lt;10
+            </span>
+            <span id="teleop-fuelcycle-1025" class="btn btn-warning">
+              <input type="radio" name="teleop-radio-fuel" value="10-25" autocomplete="off">10-25
+            </span>
+            <span id="teleop-fuelcycle-2540" class="btn btn-primary">
+              <input type="radio" name="teleop-radio-fuel" value="25-40" autocomplete="off">25-40
+            </span>
+            <span id="teleop-fuelcycle-gt40" class="btn btn-success">
+              <input type="radio" name="teleop-radio-fuel" value=">40" autocomplete="off">&gt;40
+            </span>
+          </div>
+          <br>
+          <br>
+          <button id="teleop-fuel-submit" type="button" class="btn btn-success">Submit This Cycle</button>
+        </div>
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Gears Deposited</h3>
+          <input id="teleop-gear" value="0">
+          <br>
+          <br>
+          <button type="button" id="teleop-down" class="btn btn-danger" onclick="teleopgearnum(-1)">-1</button>
+          <button type="button" id="teleop-up" class="btn btn-success" onclick="teleopgearnum(1)">+1</button>
+        </div>
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Climbed Rope</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="teleop-climb" class="btn btn-success">
+              <input type="radio" name="teleop-radio-climb" value="true" autocomplete="off">Climbed
+            </span>
+            <span id="teleop-no-climb" class="btn btn-danger">
+              <input type="radio" name="teleop-radio-climb" value="false" autocomplete="off">Did Not Climb
+            </span>
+          </div>
         </div>
       </div>
-      <form id="auto-form">
-        <!-- <h3 style="text-align: center;">Crossed Line</h3>
-        <div class="btn-group" data-toggle="buttons">
-          <span id="auto-cross" class="btn btn-info">
-            <input type="radio" name="auto-radio" autocomplete="off">Crossed
-          </span>
-          <span id="auto-no-cross" class="btn btn-info">
-            <input type="radio" name="auto-radio" autocomplete="off">Not Crossed
-          </span>
-        </div>
-        <hr> -->
-        <h3 style="text-align: center;">Gears Deposited</h3>
-        <input id="teleop-gear" value="0">
-        <br>
-        <button type="button" id="teleop-down" class="btn btn-danger" onclick="teleopgearnum(-1)">-1</button>
-        <button type="button" id="teleop-up" class="btn btn-success" onclick="teleopgearnum(1)">+1</button>
-        <hr>
-        <h3 style="text-align: center;">Balls Shot</h3>
-        <div class="btn-group" data-toggle="buttons">
-          <span id="auto-shoot" class="btn btn-info">
-            <input type="radio" name="auto-radio" autocomplete="off">Shot Balls
-          </span>
-          <span id="auto-no-shoot" class="btn btn-info">
-            <input type="radio" name="auto-radio" autocomplete="off">Did Not Shoot Balls
-          </span>
-        </div>
-      </form>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
     </div>
     <!-- Textarea -->
     <div id="last-textarea" class="container">
@@ -219,6 +212,66 @@
         </button>
       </a>
     </div>
+    <!-- Other Fuel Stuff -->
+    <div id="fuel-end" class="row">
+      <button id="fuel-back" type="button" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <button id="fuel-next" type="button" class="btn btn-warning">
+        Next&nbsp;<i class="fa fa-chevron-right"></i>
+      </button>
+      <br>
+      <h3 style="text-align: center;">Fuel</h3>
+      <hr>
+      <div class="col-sm-4">
+        <h4>Accuracy of Shooter</h4>
+        <div class="btn-group" data-toggle="buttons">
+          <span id="teleop-fuelaccuracy-lt50" class="btn btn-danger">
+            <input type="radio" name="fuel-end-accuracy" value="<50" autocomplete="off">&lt;50
+          </span>
+          <span id="teleop-fuelaccuracy-5070" class="btn btn-warning">
+            <input type="radio" name="fuel-end-accuracy" value="50-70" autocomplete="off">50-70
+          </span>
+          <span id="teleop-fuelaccuracy-7090" class="btn btn-primary">
+            <input type="radio" name="fuel-end-accuracy" value="70-90" autocomplete="off">70-90
+          </span>
+          <span id="teleop-fuelaccuracy-gt90" class="btn btn-success">
+            <input type="radio" name="fuel-end-accuracy" value=">90" autocomplete="off">&gt;90
+          </span>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <h4>Rate (Balls/Second)</h4>
+        <div class="btn-group" data-toggle="buttons">
+          <span id="teleop-fuelrate-lt1" class="btn btn-danger">
+            <input type="radio" name="fuel-end-rate" value="<1" autocomplete="off">&lt;1
+          </span>
+          <span id="teleop-fuelrate-13" class="btn btn-warning">
+            <input type="radio" name="fuel-end-rate" value="1-3" autocomplete="off">1-3
+          </span>
+          <span id="teleop-fuelrate-35" class="btn btn-primary">
+            <input type="radio" name="fuel-end-rate" value="3-5" autocomplete="off">3-5
+          </span>
+          <span id="teleop-fuelrate-gt5" class="btn btn-success">
+            <input type="radio" name="fuel-end-rate" value=">5" autocomplete="off">&gt;5
+          </span>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <h4>Loaded From</h4>
+        <div class="btn-group" data-toggle="buttons">
+          <span id="teleop-fuelload-hopper" class="btn btn-info">
+            <input type="checkbox" name="fuel-end-load" value="hopper" autocomplete="off">Hopper
+          </span>
+          <span id="teleop-fuelload-human" class="btn btn-info">
+            <input type="checkbox" name="fuel-end-load" value="human" autocomplete="off">Human
+          </span>
+          <span id="teleop-fuelload-floor" class="btn btn-info">
+            <input type="checkbox" name="fuel-end-load" value="floor" autocomplete="off">Floor
+          </span>
+        </div>
+      </div>
+    </div>
     <!-- Success -->
     <div id="success" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -233,7 +286,7 @@
             <!-- <button id="continue" type="button" data-dismiss="modal" onclick="add_match(1)" class="btn btn-default">
               <i class="fa fa-repeat"></i>&nbsp;Continue
             </button> -->
-            <button id="sign-out" type="button" data-dismiss="modal" onclick="add_match(1)" class="btn btn-danger">
+            <button id="sign-out" type="button" data-dismiss="modal" class="btn btn-danger">
               <i class="fa fa-sign-out"></i>&nbsp;Sign Out
             </button>
           </div>

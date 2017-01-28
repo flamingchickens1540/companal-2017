@@ -39,6 +39,8 @@ body{
 	padding: 100px;
 	border-radius: 10%;
 	font-size: 36pt;
+	display: block;
+	margin: auto;
 }
 #bet-blue-win:hover, #bet-blue-win-intro:hover{
 	background: #356fce !important;
@@ -54,4 +56,7 @@ body{
 	background: transparent;
 	border: transparent;
 	font-size: 18pt;
+}
+#fuel-end{
+	text-align: center;
 }

@@ -11,6 +11,7 @@ $(document).ready(function(){
 	$('#success').hide();
 	$('#last-textarea').hide();
 	$('#teleop').hide();
+	$('#fuel-end').hide();
 });
 // FS
 function createFile(fileName, text){
@@ -36,7 +37,6 @@ function readFile(fileName){
     	return console.error(err);
    	};
 	 $('#match-number-number').val(data.toString());
-	 console.log(data.toString());
 	});
 }
 function deleteFile(fileName){
@@ -123,8 +123,10 @@ $('#login-button').click(function(){
 		$('.jumbotron-big-title').replaceWith('<h2 class="jumbotron-big-title">Stand Scouting App</h2>');
 		$('.login-info').delay(250).fadeIn(500);
 		$('.login-info-replace').replaceWith('<h3 class="login-info-replace">' + num + " | " + accounts[act] + "</h3>");
+		$('#login-input-number').css("border", "3px solid #5cb85c");
 	} else if (!accounts.hasOwnProperty(num)) {
 			$('#no-login').show();
+			$('#login-input-number').css("border", "3px solid #d9534f");
 	}
 });
 $('.close').click(function(){
@@ -167,11 +169,15 @@ $('#auto-next').click(function(){
 // Tele-Op
 $('#teleop-next').click(function(){
 	$('#teleop').fadeOut(500);
-	$('#last-textarea').delay(500).fadeIn(500);
+	$('#fuel-end').delay(500).fadeIn(500);
 });
 $('#teleop-back').click(function(){
 	$('#teleop').fadeOut(500);
 	$('#post-login').delay(500).fadeIn(500);
+});
+var teleopFuel = [];
+$('#teleop-fuel-submit').click(function(){
+	teleopFuel.push($('input[name="teleop-radio-fuel"]:checked').val());
 });
 function teleopgearnum(val) {
     var qty = document.getElementById('teleop-gear').value;
@@ -182,10 +188,19 @@ function teleopgearnum(val) {
     document.getElementById('teleop-gear').value = new_qty;
     return new_qty;
 }
+// Fuel End
+$('#fuel-back').click(function(){
+	$('#fuel-end').fadeOut(500);
+	$('#teleop').delay(500).fadeIn(500);
+});
+$('#fuel-next').click(function(){
+	$('#fuel-end').fadeOut(500);
+	$('#last-textarea').delay(500).fadeIn(500);
+});
 // Last Textarea
 $('#textarea-back').click(function(){
 	$('#last-textarea').fadeOut(500);
-	$('#teleop').delay(500).fadeIn(500);
+	$('#fuel-end').delay(500).fadeIn(500);
 });
 // $('#continue').click(function(){
 // 	$('.betting').fadeIn(500);
@@ -208,27 +223,47 @@ $('#sign-out').click(function(){
 });
 $('#save-file').click(function(){
 	$('#last-textarea').fadeOut(500);
-	var autoCross = $('input[name="auto-radio-cross"]:checked').val();
+	// Autonomous
+	var autoCross = false;
+	autoCross = $('input[name="auto-radio-cross"]:checked').val();
 	// autoCross = JSON.parse(autoCross);
 	if (autoCross == "true"){
 		autoCross = true;
 	} else if (autoCross == "false") {
 		autoCross = false;
 	}
-	var autoGear = $('input[name="auto-radio-gear"]:checked').val();
+	var autoCross = false;
+	autoGear = $('input[name="auto-radio-gear"]:checked').val();
 	// autoGear = JSON.parse(autoGear);
 	if (autoGear == "true"){
 		autoGear = true;
 	} else if (autoGear == "false") {
 		autoGear = false;
 	}
-	var autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
+	var autoShoot = false;
+	autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
 	// autoShoot = JSON.parse(autoShoot);
 	if (autoShoot == "true"){
 		autoShoot = true;
 	} else if (autoShoot == "false") {
 		autoShoot = false;
 	}
+	// Tele-Op
+	var teleopGear = parseInt($('#teleop-gear').val());
+	var teleopClimb = $('input[name="teleop-radio-climb"]:checked').val();
+	if (teleopClimb == "true"){
+		teleopClimb = true;
+	} else if (teleopClimb == "false") {
+		teleopClimb = false;
+	}
+	// Fuel End
+	var fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
+	var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
+	var fuelEndLoad = [];
+	fuelEndLoad.push($('input[name="fuel-end-load"]:checked').val());
+	var test = $('input[name="fuel-end-load"]:checked').val()
+	console.log(test);
+	// File
 	var json = {
 		scoutId: $('input[name=login-number]').val(),
 		bettingPick: jsonBet,
@@ -237,6 +272,16 @@ $('#save-file').click(function(){
 			depositedGear: autoGear,
 			shotCycle: autoShoot
 		},
+		teleop: {
+			balls: {
+				cycles:  teleopFuel,
+				accuracy: fuelEndAccuracy,
+				shotRate: fuelEndRate,
+				loadingZones: fuelEndLoad
+			},
+			gearsDeposited: teleopGear,
+			climbed: teleopClimb
+		},
 		notes: $('.comments').val()
 	};
 	var stringify = JSON.stringify(json);
@@ -244,12 +289,12 @@ $('#save-file').click(function(){
 	deleteFile('matchNum.txt');
 	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
 });
-function add_match(val) {
-    var qty = document.getElementById('match-number-number').value;
-    var new_qty = parseInt(qty,10) + val;
-    document.getElementById('match-number-number').value = new_qty;
-    return new_qty;
-}
+// function add_match(val) {
+//     var qty = document.getElementById('match-number-number').value;
+//     var new_qty = parseInt(qty,10) + val;
+//     document.getElementById('match-number-number').value = new_qty;
+//     return new_qty;
+// }
 // getmac
 require('getmac').getMac(function(err,macAddress){
     if (err)  throw err
