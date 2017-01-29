@@ -44,7 +44,7 @@ var accounts = {"01":"Ben",
 				"44":"Alexander Y",
 				"48":"Kobi",
 				"49":"Claire",
-				"51":"Lauren Mwi",
+				"51":"Lauren Mei",
 				"55":"Dylan",
 				"59":"Tyler",
 				"60":"Natalie",
@@ -110,6 +110,7 @@ var ballHopper = false;
 
 $(document).ready(function(){
 	createTable();
+	$("body").css("overflow", "hidden");
 	$("#logbutton").click(function(){
 		var num = $("#lognum").val();
 		var numb = $("#lognumb").val();
@@ -123,7 +124,7 @@ $(document).ready(function(){
 			} else {
 				$("#yourname").text(accounts[num]+" and "+accounts[numb]);
 			}
-			$("#check").animate({opacity:'1.0',top:'235'},1600);
+			$("#check").animate({opacity:'1.0',top:'260'},1600);
 		} else {
 			var chosen;
 			if (!accounts.hasOwnProperty(num)) {
@@ -138,6 +139,10 @@ $(document).ready(function(){
 			}
 			$("#noid").show(chosen);
 			$("#alertid").text(chosen);
+			$("#check").animate({top:'700px',opacity:'0.0'},1600);
+			logged=false;
+			act="none";
+			secact="none";
 		}
 		$("#logname").val("");
 	});
@@ -294,13 +299,17 @@ $(document).ready(function(){
 	 	var stringed = JSON.stringify(array);
 	 	createFile("manifest.json",stringed);
 	 	$("#extratext").val("");
+	 	$("#motoroptions").val("");
+	 	$("#wheeloptions").val("");
+	 	$("#driveoptions").val("");
+	 	gearHuman = false;gearFloor = false;ballFloor = false;ballHuman = false;ballHopper = false;
 	 	$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
 	 	json=def;
 	 	round=1;
 	});
 	$("#teamsubmit").click(function(){
 		team = $("#teaminput").val();
-		$("#scouting").animate({opacity:'1.0',top:'125'},1600);
+		$("#scouting").animate({opacity:'1.0',top:'120'},1600);
 		$("#teamdisplay").text(team);
 		$("#teaminput").val("");
 		$("#roundone").show();
@@ -312,12 +321,15 @@ $(document).ready(function(){
 		$("#roundseven").hide();
 	});
 	$("#forgetid").click(function(){
+		$("body").css("overflow", "auto");
 		$("#dir").animate({opacity:'1.0',top:'0'},1600);
 		$("#check").animate({opacity:'0.0',top:'700px'},1600);
 		$("#top").animate({opacity:'0.0',top:'-300px'},1600);
 	});
-	$("#backdir").click(function(){
-		$("#top").animate({opacity:'1.0',top:'0'},1600);
+	$(".backdir").click(function(){
+		window.scrollTo(0, 0);
+		$("body").css("overflow", "hidden");
 		$("#dir").animate({opacity:'0.0',top:'700px'},1600);
+		$("#top").animate({opacity:'1.0',top:'0'},1600);
 	});
 });

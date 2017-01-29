@@ -5,7 +5,7 @@ var ipc = require("electron").ipcMain;
 var fs = require('fs');
 
 app.on('ready', function () {
-	var mainWindow = new BrowserWindow({width:800,height:600})
+	var mainWindow = new BrowserWindow({width:1000,height:800})
 	mainWindow.loadURL('file://' + __dirname + '/index.html');
 	ipc.on('read-file', function () {
 		var contents = fs.readFileSync('./package.json', 'utf8');
