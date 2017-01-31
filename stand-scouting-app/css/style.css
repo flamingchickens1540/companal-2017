@@ -12,7 +12,17 @@ body{
 }
 .login-info{
 	text-align: center;
-
+}
+.pie-nav{
+	text-align: center;
+}
+.grades{
+	text-align: center;
+}
+#pie-shooting, #pie-gearing, #pie-defense, #pie-climbing, #pie-futzing{
+	display: block;
+	margin: auto;
+	width: 100px;
 }
 #match-number-number{
 	background: transparent;

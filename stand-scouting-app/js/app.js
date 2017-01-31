@@ -12,6 +12,8 @@ $(document).ready(function(){
 	$('#last-textarea').hide();
 	$('#teleop').hide();
 	$('#fuel-end').hide();
+	$('.pie').hide();
+	$('.grades').hide();
 });
 // FS
 function createFile(fileName, text){
@@ -195,6 +197,24 @@ $('#fuel-back').click(function(){
 });
 $('#fuel-next').click(function(){
 	$('#fuel-end').fadeOut(500);
+	$('.pie').delay(500).fadeIn(500);
+});
+// Pie
+$('#pie-back').click(function(){
+	$('.pie').fadeOut(500);
+	$('#fuel-end').delay(500).fadeIn(500);
+});
+$('#pie-next').click(function(){
+	$('.pie').fadeOut(500);
+	$('.grades').delay(500).fadeIn(500);
+});
+// Grades
+$('#grades-back').click(function(){
+	$('.grades').fadeOut(500);
+	$('.pie').delay(500).fadeIn(500);
+});
+$('#grades-next').click(function(){
+	$('.grades').fadeOut(500);
 	$('#last-textarea').delay(500).fadeIn(500);
 });
 // Last Textarea
@@ -261,8 +281,12 @@ $('#save-file').click(function(){
 	var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
 	var fuelEndLoad = [];
 	fuelEndLoad.push($('input[name="fuel-end-load"]:checked').val());
-	var test = $('input[name="fuel-end-load"]:checked').val()
-	console.log(test);
+	// Grades
+	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
+	var gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
+	var gradesGearing = parseInt($('input[name="grades-gearing"]:checked').val());
+	var gradesDefense = parseInt($('input[name="grades-defense"]:checked').val());
+	var gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
 	// File
 	var json = {
 		scoutId: $('input[name=login-number]').val(),
@@ -282,7 +306,23 @@ $('#save-file').click(function(){
 			gearsDeposited: teleopGear,
 			climbed: teleopClimb
 		},
-		notes: $('.comments').val()
+		notes: $('.comments').val(),
+		strategy: {
+			pieChart: {
+				shooting: parseInt($("#pie-shooting").val()),
+				gearing: parseInt($("#pie-gearing").val()),
+				defense: parseInt($("#pie-defense").val()),
+				climbing: parseInt($("#pie-climbing").val()),
+				futzing: parseInt($("#pie-futzing").val())
+			},
+			grades: {
+				overall: gradesOverall,
+				shooting: gradesShooting,
+				gearing: gradesGearing,
+				defense: gradesDefense,
+				climbing: gradesClimbing
+			}
+		}
 	};
 	var stringify = JSON.stringify(json);
 	createFile(__dirname + "/data/" + "m" + $("#match-number-number").val() + "-" + accounts[act] + ".json", stringify);
@@ -300,3 +340,5 @@ require('getmac').getMac(function(err,macAddress){
     if (err)  throw err
     console.log(macAddress)
 });
+
+var chartjs = require('chart.js');

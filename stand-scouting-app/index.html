@@ -13,6 +13,7 @@
       <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>if (window.module) module = window.module;</script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <title>Stand Scouting App</title>
   </head>
   <body>
@@ -198,20 +199,6 @@
         </div>
       </div>
     </div>
-    <!-- Textarea -->
-    <div id="last-textarea" class="container">
-      <br>
-      <textarea class="comments" rows="8" cols="80" placeholder="Comments"></textarea>
-      <br>
-      <button id="textarea-back" type="button" class="btn btn-warning">
-        <i class="fa fa-chevron-left"></i>&nbsp;Back
-      </button>
-      <a data-toggle="modal" data-target="#success">
-        <button id="save-file" type="button" class="btn btn-success">
-          <i class="fa fa-floppy-o"></i>&nbsp;Save
-        </button>
-      </a>
-    </div>
     <!-- Other Fuel Stuff -->
     <div id="fuel-end" class="row">
       <button id="fuel-back" type="button" class="btn btn-warning">
@@ -272,6 +259,213 @@
         </div>
       </div>
     </div>
+    <!-- Pie Chart -->
+    <div class="pie">
+      <div class="pie-nav">
+        <button id="pie-back" type="button" class="btn btn-warning">
+          <i class="fa fa-chevron-left"></i>&nbsp;Back
+        </button>
+        <button id="pie-next" type="button" class="btn btn-warning">
+          Next&nbsp;<i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+      <h2 style="text-align: center;">Strategy</h2>
+      <hr>
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2">
+          <h3 style="text-align: center;">Shooting</h3>
+          <br>
+          <input type="number" id="pie-shooting" placeholder="Ex: 20" min="0" max="100">
+        </div>
+        <div class="col-sm-2">
+          <h3 style="text-align: center;">Gearing</h3>
+          <br>
+          <input type="number" id="pie-gearing" placeholder="Ex: 20" min="0" max="100">
+        </div>
+        <div class="col-sm-2">
+          <h3 style="text-align: center;">Defense</h3>
+          <br>
+          <input type="number" id="pie-defense" placeholder="Ex: 20" min="0" max="100">
+        </div>
+        <div class="col-sm-2">
+          <h3 style="text-align: center;">Climbing</h3>
+          <br>
+          <input type="number" id="pie-climbing" placeholder="Ex: 20" min="0" max="100">
+        </div>
+        <div class="col-sm-2">
+          <h3 style="text-align: center;">Futzing</h3>
+          <br>
+          <input type="number" id="pie-futzing" placeholder="Ex: 20" min="0" max="100">
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-12" style="text-align: center;">
+          <br>
+          <br>
+          <button type="button" id="pie-submit" class="btn btn-success">See Pie Chart</button>
+          <br>
+          <br>
+        </div>
+      </div>
+      <canvas id="myChart" style="height: 100px; width: 100px;"></canvas>
+      <script type="text/javascript">
+        window.$ = window.jQuery = require('jquery');
+        $('#pie-submit').click(function(){
+          if(parseInt($("#pie-shooting").val()) + parseInt($("#pie-gearing").val()) + parseInt($("#pie-defense").val()) + parseInt($("#pie-climbing").val()) + parseInt($("#pie-futzing").val()) == 100){
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                labels: ["Shooting", "Gearing", "Defense", "Climbing", "Futzing"],
+                datasets: [{
+                  backgroundColor: [
+                    "#2ecc71",
+                    "#3498db",
+                    "#95a5a6",
+                    "#9b59b6",
+                    "#f1c40f"
+                  ],
+                  data: [parseInt($("#pie-shooting").val()), parseInt($("#pie-gearing").val()), parseInt($("#pie-defense").val()), parseInt($("#pie-climbing").val()), parseInt($("#pie-futzing").val())]
+                }]
+              }
+            });
+          } else{
+              alert("NOT EQUAL TO 100!!!")
+          }
+        });
+      </script>
+    </div>
+    <!-- Grades -->
+    <div class="grades">
+      <div class="grades-nav">
+        <button id="grades-back" type="button" class="btn btn-warning">
+          <i class="fa fa-chevron-left"></i>&nbsp;Back
+        </button>
+        <button id="grades-next" type="button" class="btn btn-warning">
+          Next&nbsp;<i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+      <h2 style="text-align: center;">Grades</h2>
+      <hr>
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2">
+          <h3>Overall</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-overall-1" class="btn btn-danger">
+              <input type="radio" name="grades-overall" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-overall-2" class="btn btn-warning">
+              <input type="radio" name="grades-overall" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-overall-3" class="btn btn-primary">
+              <input type="radio" name="grades-overall" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-overall-4" class="btn btn-info">
+              <input type="radio" name="grades-overall" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-overall-5" class="btn btn-success">
+              <input type="radio" name="grades-overall" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <h3>Shooting</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-shooting-1" class="btn btn-danger">
+              <input type="radio" name="grades-shooting" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-shooting-2" class="btn btn-warning">
+              <input type="radio" name="grades-shooting" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-shooting-3" class="btn btn-primary">
+              <input type="radio" name="grades-shooting" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-shooting-4" class="btn btn-info">
+              <input type="radio" name="grades-shooting" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-shooting-5" class="btn btn-success">
+              <input type="radio" name="grades-shooting" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <h3>Gearing</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-gearing-1" class="btn btn-danger">
+              <input type="radio" name="grades-gearing" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-gearing-2" class="btn btn-warning">
+              <input type="radio" name="grades-gearing" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-gearing-3" class="btn btn-primary">
+              <input type="radio" name="grades-gearing" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-gearing-4" class="btn btn-info">
+              <input type="radio" name="grades-gearing" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-gearing-5" class="btn btn-success">
+              <input type="radio" name="grades-gearing" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <h3>Defense</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-defense-1" class="btn btn-danger">
+              <input type="radio" name="grades-defense" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-defense-2" class="btn btn-warning">
+              <input type="radio" name="grades-defense" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-defense-3" class="btn btn-primary">
+              <input type="radio" name="grades-defense" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-defense-4" class="btn btn-info">
+              <input type="radio" name="grades-defense" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-defense-5" class="btn btn-success">
+              <input type="radio" name="grades-defense" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <h3>Climbing</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-climbing-1" class="btn btn-danger">
+              <input type="radio" name="grades-climbing" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-climbing-2" class="btn btn-warning">
+              <input type="radio" name="grades-climbing" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-climbing-3" class="btn btn-primary">
+              <input type="radio" name="grades-climbing" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-climbing-4" class="btn btn-info">
+              <input type="radio" name="grades-climbing" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-climbing-5" class="btn btn-success">
+              <input type="radio" name="grades-climbing" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+    </div>
+    <!-- Textarea -->
+    <div id="last-textarea" class="container">
+      <br>
+      <textarea class="comments" rows="8" cols="80" placeholder="Comments"></textarea>
+      <br>
+      <button id="textarea-back" type="button" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <a data-toggle="modal" data-target="#success">
+        <button id="save-file" type="button" class="btn btn-success">
+          <i class="fa fa-floppy-o"></i>&nbsp;Save
+        </button>
+      </a>
+    </div>
     <!-- Success -->
     <div id="success" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -301,6 +495,7 @@
         <input id="match-number-number" value="1">
       </div>
     </nav>
+    <script>var chartjs = require('chart.js');</script>
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="js/bootstrap.js"></script>
     <script src="js/app.js"></script>
