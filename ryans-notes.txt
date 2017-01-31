@@ -1,0 +1,22 @@
+To Chillun:
+
+I have some notes/todoes for you based on what you've got now:
+
+Dylan:
+	Bootstrap note - I ***love*** the redesign that makes it more bootstrappy. A+. 
+	Few quick things:
+	1. Can you make your text boxes bootstrap compliant? This means adding the proper class: <input class="form-control" ...>
+	2. Can you make all of the radio buttons not selected by default, and make them go back and fill them in if they try to 
+		submit without filling everything out? They should be able to switch pages without filling in each button, but if you 
+		start them off with default options, they will neglect to do some of them.
+	3. Font - the new font is great, can you apply it across the app? Some of the question titles have a different font.
+	4. Notes box - "form-control"
+
+Tristan:
+	1. On the strategy page, can you make those text boxes bootstrappy? You did it for the other ones, "form-control"
+	2. Make sure that they fill out everything. I was able to submit when the radio buttons on the grading page
+		weren't all filled out.
+	3. Notes box - "form-control"
+	4. Fuel page - "Accuracy of Shooter" label should include "(%)" for clarification
+	5. Tele-Op page - where do the fuel cycles go? That submitter looks great, but there should be some way where they 
+		can see the cycles saving and being kept track of up when they click submit. Ask me if you want ideas.
