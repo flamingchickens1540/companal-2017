@@ -247,15 +247,15 @@
       <div class="col-sm-4">
         <h4>Loaded From</h4>
         <div class="btn-group" data-toggle="buttons">
-          <span id="teleop-fuelload-hopper" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load" value="hopper" autocomplete="off">Hopper
-          </span>
-          <span id="teleop-fuelload-human" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load" value="human" autocomplete="off">Human
-          </span>
-          <span id="teleop-fuelload-floor" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load" value="floor" autocomplete="off">Floor
-          </span>
+          <label id="teleop-fuelload-hopper" class="btn btn-info">
+            <input type="checkbox" name="fuel-end-load-ho" value="hopper" autocomplete="off">Hopper
+          </label>
+          <label id="teleop-fuelload-human" class="btn btn-info">
+            <input type="checkbox" name="fuel-end-load-hu" value="human" autocomplete="off">Human
+          </label>
+          <label id="teleop-fuelload-floor" class="btn btn-info">
+            <input type="checkbox" name="fuel-end-load-fl" value="floor" autocomplete="off">Floor
+          </label>
         </div>
       </div>
     </div>
@@ -269,54 +269,81 @@
           Next&nbsp;<i class="fa fa-chevron-right"></i>
         </button>
       </div>
-      <h2 style="text-align: center;">Strategy</h2>
-      <hr>
-      <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-2">
-          <h3 style="text-align: center;">Shooting</h3>
-          <br>
-          <input type="number" id="pie-shooting" placeholder="Ex: 20" min="0" max="100">
-        </div>
-        <div class="col-sm-2">
-          <h3 style="text-align: center;">Gearing</h3>
-          <br>
-          <input type="number" id="pie-gearing" placeholder="Ex: 20" min="0" max="100">
-        </div>
-        <div class="col-sm-2">
-          <h3 style="text-align: center;">Defense</h3>
-          <br>
-          <input type="number" id="pie-defense" placeholder="Ex: 20" min="0" max="100">
-        </div>
-        <div class="col-sm-2">
-          <h3 style="text-align: center;">Climbing</h3>
-          <br>
-          <input type="number" id="pie-climbing" placeholder="Ex: 20" min="0" max="100">
-        </div>
-        <div class="col-sm-2">
-          <h3 style="text-align: center;">Futzing</h3>
-          <br>
-          <input type="number" id="pie-futzing" placeholder="Ex: 20" min="0" max="100">
-        </div>
-        <div class="col-sm-1"></div>
-        <div class="col-sm-12" style="text-align: center;">
-          <br>
-          <br>
-          <button type="button" id="pie-submit" class="btn btn-success">See Pie Chart</button>
-          <br>
-          <br>
+      <br>
+      <div class="pie-hide-button">
+        <button id="pie-show-editor" type="button" class="btn btn-warning">Show Pie Editor</button>
+      </div>
+      <div class="pie-hide">
+        <h2 style="text-align: center;">Strategy</h2>
+        <hr>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #2ecc71;">Shooting</h3>
+            <br>
+            <input type="number" id="pie-shooting" style="color: #2ecc71; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100">
+          </div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #3498db;">Gearing</h3>
+            <br>
+            <input type="number" id="pie-gearing" style="color: #3498db; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100">
+          </div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #95a5a6;">Defense</h3>
+            <br>
+            <input type="number" id="pie-defense" style="color: #95a5a6; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100">
+          </div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #9b59b6;">Climbing</h3>
+            <br>
+            <input type="number" id="pie-climbing" style="color: #9b59b6; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100">
+          </div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #f1c40f;">Futzing</h3>
+            <br>
+            <input type="number" id="pie-futzing" style="color: #f1c40f; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100">
+          </div>
+          <div class="col-sm-1"></div>
+          <div class="col-sm-12" style="text-align: center;">
+            <br>
+            <br>
+            <button type="button" id="pie-submit" class="btn btn-success">See Pie Chart</button>
+            <br>
+            <br>
+          </div>
         </div>
       </div>
-      <canvas id="myChart" style="height: 100px; width: 100px;"></canvas>
+      <div id="pie-label" class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2">
+          <h3 style="color: #2ecc71;">Shooting</h3>
+        </div>
+        <div class="col-sm-2">
+          <h3 style="color: #3498db;">Gearing</h3>
+        </div>
+        <div class="col-sm-2">
+          <h3 style="color: #95a5a6;">Defense</h3>
+        </div>
+        <div class="col-sm-2">
+          <h3 style="color: #9b59b6;">Climbing</h3>
+        </div>
+        <div class="col-sm-2">
+          <h3 style="color: #f1c40f;">Futzing</h3>
+        </div>
+      </div>
+      <canvas id="myChart"></canvas>
       <script type="text/javascript">
         window.$ = window.jQuery = require('jquery');
         $('#pie-submit').click(function(){
           if(parseInt($("#pie-shooting").val()) + parseInt($("#pie-gearing").val()) + parseInt($("#pie-defense").val()) + parseInt($("#pie-climbing").val()) + parseInt($("#pie-futzing").val()) == 100){
+            $('.pie-hide').fadeOut(500);
+            $('.pie-hide-button').delay(500).fadeIn(500);
+            $('#pie-label').fadeIn(500);
+            $('#myChart').fadeIn(500);
             var ctx = document.getElementById("myChart").getContext('2d');
             var myChart = new Chart(ctx, {
-              type: 'doughnut',
+              type: 'pie',
               data: {
-                labels: ["Shooting", "Gearing", "Defense", "Climbing", "Futzing"],
                 datasets: [{
                   backgroundColor: [
                     "#2ecc71",
@@ -330,7 +357,7 @@
               }
             });
           } else{
-              alert("NOT EQUAL TO 100!!!")
+              alert("NOT EQUAL TO 100!!!");
           }
         });
       </script>

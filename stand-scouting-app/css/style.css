@@ -19,6 +19,9 @@ body{
 .grades{
 	text-align: center;
 }
+.pie-hide-button{
+	text-align: center;
+}
 #pie-shooting, #pie-gearing, #pie-defense, #pie-climbing, #pie-futzing{
 	display: block;
 	margin: auto;
@@ -68,5 +71,14 @@ body{
 	font-size: 18pt;
 }
 #fuel-end{
+	text-align: center;
+}
+#myChart{
+	height: 400px !important;
+	width: 400px !important;
+	display: block;
+	margin: auto;
+}
+#pie-label{
 	text-align: center;
 }

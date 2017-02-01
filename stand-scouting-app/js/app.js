@@ -101,7 +101,8 @@ readFile("matchNum.txt");
 // Login
 // Login
 var accounts = {
-	"15": "Tristan Peng"
+	"15": "Tristan Peng",
+	"02": "Mom"
 };
 function createTable() {
     var keys = Object.keys(accounts);
@@ -199,7 +200,22 @@ $('#fuel-next').click(function(){
 	$('#fuel-end').fadeOut(500);
 	$('.pie').delay(500).fadeIn(500);
 });
+var fuelEndHopper = false;
+var fuelEndHuman = false;
+var fuelEndFloor = false;
+$('#teleop-fuelload-hopper').click(function(){
+	fuelEndHopper = !fuelEndHopper;
+});
+$('#teleop-fuelload-human').click(function(){
+	fuelEndHuman = !fuelEndHuman;
+});
+$('#teleop-fuelload-floor').click(function(){
+	fuelEndFloor = !fuelEndFloor;
+});
 // Pie
+$('.pie-hide-button').hide();
+$('#myChart').hide();
+$('#pie-label').hide();
 $('#pie-back').click(function(){
 	$('.pie').fadeOut(500);
 	$('#fuel-end').delay(500).fadeIn(500);
@@ -207,6 +223,12 @@ $('#pie-back').click(function(){
 $('#pie-next').click(function(){
 	$('.pie').fadeOut(500);
 	$('.grades').delay(500).fadeIn(500);
+});
+$('#pie-show-editor').click(function(){
+	$('.pie-hide-button').fadeOut(500);
+	$('#pie-label').fadeOut(500);
+	$('#myChart').fadeOut(500);
+	$('.pie-hide').delay(500).fadeIn(500);
 });
 // Grades
 $('#grades-back').click(function(){
@@ -280,7 +302,15 @@ $('#save-file').click(function(){
 	var fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
 	var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
 	var fuelEndLoad = [];
-	fuelEndLoad.push($('input[name="fuel-end-load"]:checked').val());
+	if (fuelEndHopper == true){
+		fuelEndLoad.push("hopper");
+	}
+	if (fuelEndHuman == true){
+		fuelEndLoad.push("human");
+	}
+	if (fuelEndFloor == true){
+		fuelEndLoad.push("floor");
+	}
 	// Grades
 	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
 	var gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
@@ -326,6 +356,7 @@ $('#save-file').click(function(){
 	};
 	var stringify = JSON.stringify(json);
 	createFile(__dirname + "/data/" + "m" + $("#match-number-number").val() + "-" + accounts[act] + ".json", stringify);
+	console.log(stringify);
 	deleteFile('matchNum.txt');
 	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
 });
