@@ -148,7 +148,7 @@ $(document).ready(function(){
 	});
 	$(".close").click(function(){
 		$("#noid").hide();
-		$("#secondscout").hide();
+		$("#notall").hide();
 	});
 	$("#next").click(function(){
 		round+=1;
@@ -246,66 +246,70 @@ $(document).ready(function(){
 	$("#otherdrive").click(function(){
 		$("#driveoptions").show();
 	});
-	$("#otherwheel").click(function(){
+	$("#otherwheel").click(function() {
 		$("#wheeloptions").show();
 	});
-	$("#othermotor").click(function(){
+	$("#othermotor").click(function() {
 		$("#motoroptions").show();
 	});
-	$("#submit").click(function(){
-		$("#driveoptions").hide();
-	 	$("#motoroptions").hide();
-	 	$("#wheeloptions").hide();
-		json["teamNumber"]=team;
-		json["scoutIds"]=[act,secact];
-		json["notes"]=$("#extratext").val();
-		json["drivetrain"]["drivetrainShifts"]=$("input[name='drivetrainShifts']:checked").val();
-		if ($("input[name='drivetrainType']:checked").val()!="other") {
-			json["drivetrain"]["drivetrainType"]=$("input[name='drivetrainType']:checked").val();
-		} else {
-			json["drivetrain"]["drivetrainType"]=$("#driveoptions").val();
-		}
-		if ($("input[name='motorType']:checked").val()!="other") {
-			json["drivetrain"]["motorType"]=$("input[name='motorType']:checked").val();
-		} else {
-			console.log($("#motoroptions").val());
-			json["drivetrain"]["motorType"]=$("#motoroptions").val();
-		}
-		json["drivetrain"]["motorCount"]=$("#motorcount").val();
-		if ($("input[name='wheelType']:checked").val()!="other") {
-			json["drivetrain"]["wheelType"]=$("input[name='wheelType']:checked").val();
-		} else {
-			json["drivetrain"]["wheelType"]=$("#wheeloptions").val();
-		}
-		json["canClimb"]=$("input[name='canClimb']:checked").val();
-		json["defense"]["willDefend"]=$("input[name='willDefend']:checked").val();
-		json["defense"]["hasDefended"]=$("input[name='hasDefended']:checked").val();
-		json["weight"]=$("#roboweight").val();
-		json["shooting"]["hasHigh"]=$("input[name='hasHigh']:checked").val();
-		json["shooting"]["hasLow"]=$("input[name='hasLow']:checked").val();
-		json["shooting"]["ballCapacity"]=$("input[name='ballCapacity']:checked").val();
-		json["shooting"]["floorLoading"]=ballFloor;
-		json["shooting"]["humanLoading"]=ballHuman;
-		json["shooting"]["hopperLoading"]=ballHopper;
-		json["shooting"]["efficiency"]=$("input[name='ballCapacity']:checked").val();
-		json["gears"]["canDeposit"]=$("input[name='gears']:checked").val();
-		json["gears"]["floorLoading"]=gearFloor;
-		json["gears"]["humanLoading"]=gearHuman;
-		var str = "pit_data/"+team+".json";
-		var spotify = JSON.stringify(json);
-	 	createFile(str,spotify);
-	 	var array = JSON.parse(fs.readFileSync("manifest.json"));
-	 	array.push(team+".json");
-	 	var stringed = JSON.stringify(array);
-	 	createFile("manifest.json",stringed);
-	 	$("#extratext").val("");
-	 	$("#motoroptions").val("");
-	 	$("#wheeloptions").val("");
-	 	$("#driveoptions").val("");
-	 	gearHuman = false;gearFloor = false;ballFloor = false;ballHuman = false;ballHopper = false;
-	 	$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
-	 	json=def;
-	 	round=1;
+	$("#submit").click(function() {
+		if (!($("input[name='drivetrainShifts']:checked").val()==undefined || $("input[name='motorType']:checked").val()==undefined || $("input[name='wheelType']:checked").val()==undefined || $("#motorcount").val()=="" || $("input[name='canClimb']:checked").val()==undefined || $("#ballCapacity").val()=="" || $("input[name='hasHigh']:checked").val()==undefined || $("input[name='hasLow']:checked").val()==undefined || $("input[name='hasDefended']:checked").val()==undefined || $("input[name='willDefend']:checked").val()==undefined || $("#roboweight").val()=="" || $("input[name='gears']:checked").val()==undefined || $("#accuracy").val()=="")) {
+			$("#driveoptions").hide();
+	 		$("#motoroptions").hide();
+	 		$("#wheeloptions").hide();
+			json["teamNumber"]=team;
+			json["scoutIds"]=[act,secact];
+			json["notes"]=$("#extratext").val();
+			json["drivetrain"]["drivetrainShifts"]=$("input[name='drivetrainShifts']:checked").val();
+			if ($("input[name='drivetrainType']:checked").val()!="other") {
+				json["drivetrain"]["drivetrainType"]=$("input[name='drivetrainType']:checked").val();
+			} else {
+				json["drivetrain"]["drivetrainType"]=$("#driveoptions").val();
+			}
+			if ($("input[name='motorType']:checked").val()!="other") {
+				json["drivetrain"]["motorType"]=$("input[name='motorType']:checked").val();
+			} else {
+				console.log($("#motoroptions").val());
+				json["drivetrain"]["motorType"]=$("#motoroptions").val();
+			}
+			json["drivetrain"]["motorCount"]=$("#motorcount").val();
+			if ($("input[name='wheelType']:checked").val()!="other") {
+				json["drivetrain"]["wheelType"]=$("input[name='wheelType']:checked").val();
+			} else {
+				json["drivetrain"]["wheelType"]=$("#wheeloptions").val();
+			}
+			json["canClimb"]=$("input[name='canClimb']:checked").val();
+			json["defense"]["willDefend"]=$("input[name='willDefend']:checked").val();
+			json["defense"]["hasDefended"]=$("input[name='hasDefended']:checked").val();
+			json["weight"]=$("#roboweight").val();
+			json["shooting"]["hasHigh"]=$("input[name='hasHigh']:checked").val();
+			json["shooting"]["hasLow"]=$("input[name='hasLow']:checked").val();
+			json["shooting"]["ballCapacity"]=$("#ballCapacity").val();
+			json["shooting"]["floorLoading"]=ballFloor;
+			json["shooting"]["humanLoading"]=ballHuman;
+			json["shooting"]["hopperLoading"]=ballHopper;
+			json["shooting"]["efficiency"]=$("#accuracy").val();
+			json["gears"]["canDeposit"]=$("input[name='gears']:checked").val();
+			json["gears"]["floorLoading"]=gearFloor;
+			json["gears"]["humanLoading"]=gearHuman;
+			var str = "pit_data/"+team+".json";
+			var spotify = JSON.stringify(json);
+		 	createFile(str,spotify);
+		 	var array = JSON.parse(fs.readFileSync("manifest.json"));
+		 	array.push(team+".json");
+		 	var stringed = JSON.stringify(array);
+		 	createFile("manifest.json",stringed);
+		 	$("#extratext").val("");
+		 	$("#motoroptions").val("");
+		 	$("#wheeloptions").val("");
+		 	$("#driveoptions").val("");
+		 	gearHuman = false;gearFloor = false;ballFloor = false;ballHuman = false;ballHopper = false;
+		 	$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
+		 	json=def;
+		 	round=1;
+		 } else {
+		 	$("#notall").show();
+		 }
 	});
 	$("#teamsubmit").click(function(){
 		team = $("#teaminput").val();

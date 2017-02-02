@@ -24,11 +24,6 @@
     	    filter: FlipH;
     	    -ms-filter: "FlipH";
 		}
-		#banner {
-  			max-width: 100%;
-  			height: auto;
-  			width: auto\9;
-		}
 		.small {
 			position:relative;
 			width:55px;
@@ -53,34 +48,24 @@
 		}
 		.cooltext {
 			color:rgb(40,40,40);
-			font-family:"Impress";
+/* 			font-family:"Impress"; */
 			font-size:20px;
 		}
 		input {
 			font-family:"Varela Round";
 		}
-		/* 
-#forgetid {
- 			background: #0aaf99 !important; 
-			color: white !important;
-			background: gray !important;
- 			border: 2px solid white;
-			font-family: "Impress";
-			padding: 5;
-			font-size: 10px !important ;
+		.btn-warning.active {
+			background: #b76105 !important;
 		}
-		#forgetid:hover {
- 			color: white !important;
-			background: rgb(55,58,58) !important;
- 			border: 2px solid white;
-			font-family: "Impress";
-			font-size: 10px !important ;
-		}
- */
 		.maintext {
-			border: 1px solid black;
+/* 			border: 1px solid black; */
 			position: relative;
 			top:5px;
+			margin-left:auto;
+			margin-right:auto;
+			width:160px;
+			text-align:center;
+			height:25px;
 		}
 		span {
 			font-family:'Varela Round';
@@ -96,8 +81,8 @@
 	  		<strong class="cooltext">Does the drive train shift?</strong>
 	  		<br />
 	  		<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning active">
-	    			<input name="drivetrainShifts" value="true" type="radio" autocomplete="off" checked> yes
+	  			<label class="btn btn-warning">
+	    			<input name="drivetrainShifts" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
 	  			<label class="btn btn-warning">
 	    			<input name="drivetrainShifts" value="false" type="radio" autocomplete="off"> no
@@ -120,7 +105,7 @@
 	  			<label class="btn btn-warning">
 	    			<input name="drivetrainType" value="swerve" type="radio" autocomplete="off"> swerve
 	  			</label>
-	  			<label class="btn btn-warning active">
+	  			<label class="btn btn-warning">
 	    			<input name="drivetrainType" value="mecanum_drive" type="radio" autocomplete="off"> mecanum_drive
 	  			</label>
 	  			<label class="btn btn-warning">
@@ -142,7 +127,7 @@
 	  			<label class="btn btn-warning">
 	    			<input name="motorType" value="minicim" type="radio" autocomplete="off"> minicim
 	  			</label>
-	  			<label class="btn btn-warning active">
+	  			<label class="btn btn-warning">
 	    			<input name="motorType" value="775pro" type="radio" autocomplete="off"> 775pro
 	  			</label>
 	  			<label id="othermotor" class="btn btn-warning">
@@ -164,7 +149,7 @@
 	  			<label class="btn btn-warning">
 	    			<input name="wheelType" value="mechanum" type="radio" autocomplete="off"> mechanum
 	  			</label>
-	  			<label class="btn btn-warning active">
+	  			<label class="btn btn-warning">
 	    			<input name="wheelType" value="omni" type="radio" autocomplete="off"> omni
 	  			</label>
 	  			<label class="btn btn-warning">
@@ -186,7 +171,7 @@
 			<strong class="cooltext">Can your robot climb?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning active">
+	  			<label class="btn btn-warning">
 	    			<input name="canClimb" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
 	  			<label class="btn btn-warning">
@@ -204,7 +189,7 @@
 	  		<strong class="cooltext">Is your team willing to defend?</strong>
 	  		<br />
 	  		<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning active">
+	  			<label class="btn btn-warning">
 	    			<input name="willDefend" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
 	  			<label class="btn btn-warning">
@@ -216,7 +201,7 @@
 			<strong class="cooltext">Has your team defended before?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning active">
+	  			<label class="btn btn-warning">
 	    			<input name="hasDefended" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
 	  			<label class="btn btn-warning">
@@ -229,7 +214,7 @@
 	  		<strong class="cooltext">Can your robot shoot in the high goal?</strong>
 	  		<br />
 	  		<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning active">
+	  			<label class="btn btn-warning">
 	    			<input name="hasHigh" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
 	  			<label class="btn btn-warning">
@@ -241,7 +226,7 @@
 			<strong class="cooltext">Can your robot shoot in the low goal?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning active">
+	  			<label class="btn btn-warning">
 	    			<input name="hasLow" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
 	  			<label class="btn btn-warning">
@@ -280,7 +265,7 @@
 	  		<strong class="cooltext">Can your robot deposit gears?</strong>
 	  		<br />
 	  		<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning" active>
+	  			<label class="btn btn-warning">
 	    			<input name="gears" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
 	  			<label class="btn btn-warning">
@@ -317,7 +302,7 @@
 		<input id="next" type="button" class="btn btn-success" value="next"/>
 		<br />
 		<br />
-		<textarea id="extratext" cols="45" rows="6" placeholder="A place to put any other notes."></textarea>
+		<textarea class="form-control" id="extratext" cols="45" rows="6" placeholder="A place to put any other notes."></textarea>
 		<br />
 		<br />
 	</div>
@@ -325,8 +310,7 @@
   		<kbd class="title">Your Name</kbd>
   		<br />
   		<br />
-  		<input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="maintext center" placeholder="Team Number" id="teaminput"/>
-  		<br />
+  		<input class="form-control maintext" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="maintext center" placeholder="Team Number" id="teaminput"/>
   		<br />
   		<input type="button" class="btn btn-warning" value="New Data Collection" id="teamsubmit" />
   		<input type="button" class="signout btn btn-primary" value="Sign Out"/>
@@ -353,11 +337,9 @@
 		<span style="font-size:40px">Pit Scouting</span>
 		<br />
 		<br />
-		<input class="center maintext" onkeypress='return event.charCode >= 48 && event.charCode <= 57' id="lognum" type="text" maxlength="2" placeholder="Login Number"/>
+		<input class="form-control center maintext" onkeypress='return event.charCode >= 48 && event.charCode <= 57' id="lognum" type="text" maxlength="2" placeholder="Login Number"/>
 		<br />
-		<br />
-		<input class="center maintext" onkeypress='return event.charCode >= 48 && event.charCode <= 57' id="lognumb" type="text" maxlength="2" placeholder="Login Number"/>
-		<br />
+		<input class="form-control center maintext" onkeypress='return event.charCode >= 48 && event.charCode <= 57' id="lognumb" type="text" maxlength="2" placeholder="Login Number"/>
 		<br />
 		<span id="forgetid" style="text-decoration:underline">Forgot your id number?</span>
 		<br />
@@ -385,12 +367,9 @@
 	  <strong id="alertid">id</strong>
 	  <strong>.<strong>
 	</div>
-<!-- 
-	<div hidden=true style="position:absolute" class="alert alert-warning alert-dismissable" id="secondscout">
-	  <a href="#" class="close" id="close" aria-label="close">&times;</a>
-	  <strong>Log in your second pit scout.</strong>
+	<div hidden=true style="position:absolute" class="alert alert-warning alert-dismissable" id="notall">
+	  <a href="#" class="close" id="closena" aria-label="close">&times;</a>
+	  <strong>You have not answered all the questions yet!</strong>
 	</div>
- -->
-<!--   	<img src="banner.jpg" style="bottom:0;position:absolute" id="banner"/> -->
   </body>
 </html>
