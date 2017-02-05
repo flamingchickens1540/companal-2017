@@ -1,4 +1,7 @@
 window.$ = window.jQuery = require('jquery');
+// var sliderjs = require('bootstrap-slider');
+var noUiSlider = require('nouislider');
+var chartjs = require('chart.js');
 // General
 $(document).ready(function(){
 	$('.login-info').hide();
@@ -101,8 +104,7 @@ readFile("matchNum.txt");
 // Login
 // Login
 var accounts = {
-	"15": "Tristan Peng",
-	"02": "Mom"
+	"15": "Tristan Peng"
 };
 function createTable() {
     var keys = Object.keys(accounts);
@@ -230,6 +232,32 @@ $('#pie-show-editor').click(function(){
 	$('#myChart').fadeOut(500);
 	$('.pie-hide').delay(500).fadeIn(500);
 });
+// $("#pie-shooting").slider({});
+// $("#pie-gearing").slider({});
+// $("#pie-defense").slider({});
+// $("#pie-climbing").slider({});
+// $("#pie-futzing").slider({});
+var slider = document.getElementById('slider-color');
+noUiSlider.create(slider, {
+	start: [20, 40, 60, 80],
+	behavior: 'tap',
+	connect: [true, true, true, true, true],
+	range: {
+		'min': [0],
+		'max': [100]
+	}
+});
+var connect = slider.querySelectorAll('.noUi-connect');
+var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
+for(var i = 0; i < connect.length; i++){
+    connect[i].classList.add(classes[i]);
+}
+var sliderArray = slider.noUiSlider.get();
+var sliderShoot = parseFloat(sliderArray[0]).toFixed(2);
+var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
+var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
+var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
+var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
 // Grades
 $('#grades-back').click(function(){
 	$('.grades').fadeOut(500);
@@ -339,11 +367,16 @@ $('#save-file').click(function(){
 		notes: $('.comments').val(),
 		strategy: {
 			pieChart: {
-				shooting: parseInt($("#pie-shooting").val()),
-				gearing: parseInt($("#pie-gearing").val()),
-				defense: parseInt($("#pie-defense").val()),
-				climbing: parseInt($("#pie-climbing").val()),
-				futzing: parseInt($("#pie-futzing").val())
+				// shooting: parseInt($("#pie-shooting").val()),
+				// gearing: parseInt($("#pie-gearing").val()),
+				// defense: parseInt($("#pie-defense").val()),
+				// climbing: parseInt($("#pie-climbing").val()),
+				// futzing: parseInt($("#pie-futzing").val())
+				shooting: sliderShoot,
+				gearing: sliderGear,
+				defense: sliderDefense,
+				climbing: sliderClimb,
+				futzing: sliderFutz
 			},
 			grades: {
 				overall: gradesOverall,
@@ -371,5 +404,3 @@ require('getmac').getMac(function(err,macAddress){
     if (err)  throw err
     console.log(macAddress)
 });
-
-var chartjs = require('chart.js');

@@ -22,6 +22,26 @@ body{
 .pie-hide-button{
 	text-align: center;
 }
+/*.slider{
+	width: 150px !important;
+	display: block !important;
+	margin: auto !important;
+}*/
+.c-1-color{
+	background: #2ecc71 !important;
+}
+.c-2-color{
+	background: #3498db !important;
+}
+.c-3-color{
+	background: #95a5a6 !important;
+}
+.c-4-color{
+	background: #9b59b6 !important;
+}
+.c-5-color{
+	background: #f1c40f !important;
+}
 #pie-shooting, #pie-gearing, #pie-defense, #pie-climbing, #pie-futzing{
 	display: block;
 	margin: auto;
@@ -81,4 +101,9 @@ body{
 }
 #pie-label{
 	text-align: center;
+}
+#slider-color{
+	width: 80%;
+	display: block;
+	margin: auto;
 }
