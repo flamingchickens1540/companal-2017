@@ -164,7 +164,7 @@
       <hr>
       <div class="row">
         <div class="col-sm-4">
-          <h3 style="text-align: center;">Fuel</h3>
+          <h3 style="text-align: center;">Fuel <span class="badge badge-hide"><span class="badge-replace"></span></span></h3>
           <br>
           <h4>Fuel Carried This Cycle</h4>
           <div id="teleop-fuel" class="btn-group" data-toggle="buttons">
@@ -366,7 +366,7 @@
             $('#pie-label').fadeIn(500);
             $('#myChart').fadeIn(500);
             var sliderArray = slider.noUiSlider.get();
-            var sliderShoot = parseFloat(sliderArray[0]).toFixed(2);
+            var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
             var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
             var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
             var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
@@ -513,7 +513,7 @@
     <!-- Textarea -->
     <div id="last-textarea" class="container">
       <br>
-      <textarea class="comments" rows="8" cols="80" placeholder="Comments"></textarea>
+      <textarea class="comments form-control" rows="8" cols="80" placeholder="Comments"></textarea>
       <br>
       <button id="textarea-back" type="button" class="btn btn-warning">
         <i class="fa fa-chevron-left"></i>&nbsp;Back

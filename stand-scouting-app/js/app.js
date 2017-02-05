@@ -2,6 +2,7 @@ window.$ = window.jQuery = require('jquery');
 // var sliderjs = require('bootstrap-slider');
 var noUiSlider = require('nouislider');
 var chartjs = require('chart.js');
+var fs = require('fs');
 // General
 $(document).ready(function(){
 	$('.login-info').hide();
@@ -17,6 +18,7 @@ $(document).ready(function(){
 	$('#fuel-end').hide();
 	$('.pie').hide();
 	$('.grades').hide();
+	$('.badge-hide').hide();
 });
 // FS
 function createFile(fileName, text){
@@ -50,6 +52,14 @@ function deleteFile(fileName){
   	if (err) {
     	return console.error(err);
   	}
+	});
+}
+function infoFile(fileName) {
+	var fs = require("fs");
+	fs.stat(fileName, function (err, stats) {
+	   if (err) {
+	       return console.error(err);
+	   }
 	});
 }
 readFile("matchNum.txt");
@@ -219,6 +229,9 @@ $('#teleop-back').click(function(){
 var teleopFuel = [];
 $('#teleop-fuel-submit').click(function(){
 	teleopFuel.push($('input[name="teleop-radio-fuel"]:checked').val());
+	$('.badge-hide').show();
+	$('.badge-replace').replaceWith("<span class=\"badge-replace\">" + teleopFuel.length + "</span>");
+	$('#teleop-fuel').replaceWith('<div id="teleop-fuel" class="btn-group" data-toggle="buttons"><span id="teleop-fuelcycle-lt10" class="btn btn-danger"><input type="radio" name="teleop-radio-fuel" value="<10" autocomplete="off">&lt;10</span><span id="teleop-fuelcycle-1025" class="btn btn-warning"><input type="radio" name="teleop-radio-fuel" value="10-25" autocomplete="off">10-25</span><span id="teleop-fuelcycle-2540" class="btn btn-primary"><input type="radio" name="teleop-radio-fuel" value="25-40" autocomplete="off">25-40</span><span id="teleop-fuelcycle-gt40" class="btn btn-success"><input type="radio" name="teleop-radio-fuel" value=">40" autocomplete="off">&gt;40</span</div>')
 });
 function teleopgearnum(val) {
     var qty = document.getElementById('teleop-gear').value;
@@ -289,7 +302,7 @@ for(var i = 0; i < connect.length; i++){
     connect[i].classList.add(classes[i]);
 }
 var sliderArray = slider.noUiSlider.get();
-var sliderShoot = parseFloat(sliderArray[0]).toFixed(2);
+var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
 var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
 var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
 var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
@@ -425,9 +438,18 @@ $('#save-file').click(function(){
 	};
 	var stringify = JSON.stringify(json);
 	createFile(__dirname + "/data/" + "m" + $("#match-number-number").val() + "-" + accounts[act] + ".json", stringify);
-	console.log(stringify);
 	deleteFile('matchNum.txt');
 	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
+	if (fs.existsSync('manifest.json') == false) {
+		fs.writeFileSync('manifest.json', "[]")
+	}
+	var manifestRead = fs.readFileSync('manifest.json', 'utf-8');
+	console.log(manifestRead);
+	var manifestParse = JSON.parse(manifestRead);
+	console.log(manifestParse);
+	manifestParse.push("m" + $("#match-number-number").val() + "-" + accounts[act] + ".json");
+	var mStringify = JSON.stringify(manifestParse);
+	fs.writeFileSync('manifest.json', mStringify);
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;
