@@ -1,5 +1,5 @@
 var fs = require('fs');
-var WebCamera = require("webcamjs");
+var remote = require('electron').remote;
 
 function createFile(one,two) {
 	fs.writeFile(one, two, function(err) {
@@ -108,9 +108,30 @@ var ballFloor = false;
 var ballHuman = false;
 var ballHopper = false;
 
+$(document).on('keydown',function(e) { 
+    var key = e.charCode || e.keyCode;
+    if(key==9) {
+    	e.preventDefault();
+    }
+});
+
 $(document).ready(function(){
 	createTable();
 	$("body").css("overflow", "hidden");
+	$("#savetoflash").click(function(){
+		if (fs.existsSync("/Volumes/1540")) {
+			var array = JSON.parse(fs.readFileSync("manifest.json"));
+			for (x in array) {
+				if (!fs.existsSync("/Volumes/1540/"+array[x])) {
+					var file = fs.readFileSync("pit_data/"+array[x]);
+					createFile("/Volumes/1540/"+array[x],file);
+				}
+			}
+			$("#saved").show();
+		} else {
+			$("#no1540").show();
+		}
+	});
 	$("#logbutton").click(function(){
 		var num = $("#lognum").val();
 		var numb = $("#lognumb").val();
@@ -149,6 +170,8 @@ $(document).ready(function(){
 	$(".close").click(function(){
 		$("#noid").hide();
 		$("#notall").hide();
+		$("#saved").hide();
+		$("#no1540").hide();
 	});
 	$("#next").click(function(){
 		round+=1;
@@ -252,11 +275,38 @@ $(document).ready(function(){
 	$("#othermotor").click(function() {
 		$("#motoroptions").show();
 	});
+	$("input").keypress(function (evt) {
+		  var keycode = evt.charCode || evt.keyCode;
+		  if (keycode  == 9) { //Enter key's keycode
+		    return false;
+		    console.log("hi");
+		  }
+	});
 	$("#submit").click(function() {
-		if (!($("input[name='drivetrainShifts']:checked").val()==undefined || $("input[name='motorType']:checked").val()==undefined || $("input[name='wheelType']:checked").val()==undefined || $("#motorcount").val()=="" || $("input[name='canClimb']:checked").val()==undefined || $("#ballCapacity").val()=="" || $("input[name='hasHigh']:checked").val()==undefined || $("input[name='hasLow']:checked").val()==undefined || $("input[name='hasDefended']:checked").val()==undefined || $("input[name='willDefend']:checked").val()==undefined || $("#roboweight").val()=="" || $("input[name='gears']:checked").val()==undefined || $("#accuracy").val()=="")) {
-			$("#driveoptions").hide();
-	 		$("#motoroptions").hide();
-	 		$("#wheeloptions").hide();
+		var list = [];
+		list.push(["Drive Train Shifts",$("input[name='drivetrainShifts']:checked").val()]);
+		list.push(["Type of Motor",$("input[name='motorType']:checked").val()]);
+		list.push(["Type of Wheel",$("input[name='wheelType']:checked").val()]);
+		list.push(["Number of Motors",$("#motorcount").val()]);
+		list.push(["Can Robot Climb",$("input[name='canClimb']:checked").val()]);
+		list.push(["Ball Capacity",$("#ballCapacity").val()]);
+		list.push(["High Goal Shooter",$("input[name='hasHigh']:checked").val()]);
+		list.push(["Low Goal Shooter",$("input[name='hasLow']:checked").val()]);
+		list.push(["Has Robot Defended",$("input[name='hasDefended']:checked").val()]);
+		list.push(["Will Robot Defend",$("input[name='willDefend']:checked").val()]);
+		list.push(["Robot's Weight",$("#roboweight").val()]);
+		list.push(["Can Deposit Gears",$("input[name='gears']:checked").val()]);
+		list.push(["Shooter Efficiency",$("#accuracy").val()]);
+		var go = true;
+		var message = "";
+		for (x in list) {
+			if (list[x][1]==undefined || list[x][1]==null) {
+				go=false;
+				message=list[x][0];
+				break;
+			}
+		}
+		if (go) {
 			json["teamNumber"]=team;
 			json["scoutIds"]=[act,secact];
 			json["notes"]=$("#extratext").val();
@@ -299,16 +349,10 @@ $(document).ready(function(){
 		 	array.push(team+".json");
 		 	var stringed = JSON.stringify(array);
 		 	createFile("manifest.json",stringed);
-		 	$("#extratext").val("");
-		 	$("#motoroptions").val("");
-		 	$("#wheeloptions").val("");
-		 	$("#driveoptions").val("");
-		 	gearHuman = false;gearFloor = false;ballFloor = false;ballHuman = false;ballHopper = false;
-		 	$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
-		 	json=def;
-		 	round=1;
+			remote.getCurrentWindow().reload();
 		 } else {
 		 	$("#notall").show();
+		 	$("#notcomp").text(message);
 		 }
 	});
 	$("#teamsubmit").click(function(){

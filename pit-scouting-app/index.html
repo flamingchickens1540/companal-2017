@@ -193,7 +193,7 @@
 	    			<input name="willDefend" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
 	  			<label class="btn btn-warning">
-	    			<input name="defend" value="false" type="radio" autocomplete="off"> no
+	    			<input name="willDefend" value="false" type="radio" autocomplete="off"> no
 	  			</label>
 			</div>
 			<br />
@@ -344,9 +344,10 @@
 		<span id="forgetid" style="text-decoration:underline">Forgot your id number?</span>
 		<br />
 		<br />
-		<span style="font-family:'Varela Round';position:absolute;top:240;right:5">*if you are scouting, alone, login twice.</span>
+		<span style="position:absolute;top:240;right:5">*if you are scouting, alone, login twice.</span>
 		<input id="logbutton" type="button" class="btn btn-danger" style="bottom:5px;position:relative" value="Login">
 		<br />
+		<input id="savetoflash" type="button" class="btn btn-warning" style="position:absolute;left:20px;top:200px" value="Save to Flashdrive">
 	</div>
   	<div style="top:700px;opacity:0.0" id="check" class="center box">
   		<br />
@@ -362,14 +363,22 @@
   		<br />
  	</div>
   	<div hidden=true style="position:absolute" class="alert alert-warning alert-dismissable" id="noid">
-	  <a href="#" class="close" id="close" aria-label="close">&times;</a>
+	  <a href="#" class="close" aria-label="close">&times;</a>
 	  <strong>There is no account with the id </strong>
 	  <strong id="alertid">id</strong>
-	  <strong>.<strong>
 	</div>
 	<div hidden=true style="position:absolute" class="alert alert-warning alert-dismissable" id="notall">
-	  <a href="#" class="close" id="closena" aria-label="close">&times;</a>
-	  <strong>You have not answered all the questions yet!</strong>
+	  <a href="#" class="close" aria-label="close">&times;</a>
+	  <strong>You have not filled in: </strong>
+	  <strong id="notcomp">err</strong>
+	</div>
+	<div hidden=true style="position:absolute" class="alert alert-success alert-dismissable" id="saved">
+	  <a href="#" class="close" aria-label="close">&times;</a>
+	  <strong>Files saved!</strong>
+	</div>
+	<div hidden=true style="position:absolute" class="alert alert-warning alert-dismissable" id="no1540">
+	  <a href="#" class="close" aria-label="close">&times;</a>
+	  <strong>The flashdrive 1540 is not inputed into the tablet.</strong>
 	</div>
   </body>
 </html>
