@@ -112,7 +112,6 @@ readFile("matchNum.txt");
 // 	});
 // });
 // Login
-// Login
 var accounts = {
 	"98": "Adolfo",
 	"50": "Noor",
@@ -196,6 +195,21 @@ $('#forgot-id-back').click(function(){
 	$('#forgot-id').fadeOut(500);
 	$('#the-whole-login').delay(500).fadeIn(500);
 });
+// Flashdrive Save
+$('.flashdrive-save').click(function(){
+	var data = JSON.parse(fs.readFileSync('manifest.json', "utf-8"));
+	for (i in data) {
+		if (fs.existsSync("data/" + data[i]) == true) {
+			fs.writeFileSync("/Users/tristanpeng/Desktop/test/" + data[i]);
+			fs.createReadStream("data/" + data[i]).pipe(fs.createWriteStream("/Users/tristanpeng/Desktop/test/" + data[i]));
+			// if (navigator.platform == "MacIntel") {
+			// 	fs.createReadStream(files[i]).pipe(fs.createWriteStream("/Volumes/1540/companal/stand-scouting"));
+			// } else if (navigator.platform == "Win32" || "Win64") {
+			// 	fs.createReadStream(files[i]).pipe(fs.createWriteStream("K:/companal/stand-scouting"));
+			// }
+		}
+	}
+});
 // Betting
 var jsonBet;
 $('#bet-blue-win, #bet-red-win').click(function(){
@@ -264,6 +278,12 @@ $('#teleop-fuelload-floor').click(function(){
 	fuelEndFloor = !fuelEndFloor;
 });
 // Pie
+var sliderArray;
+var sliderShoot;
+var sliderGear;
+var sliderDefense;
+var sliderClimb;
+var sliderFutz;
 $('.pie-hide-button').hide();
 $('#myChart').hide();
 $('#pie-label').hide();
@@ -274,6 +294,12 @@ $('#pie-back').click(function(){
 $('#pie-next').click(function(){
 	$('.pie').fadeOut(500);
 	$('.grades').delay(500).fadeIn(500);
+	sliderArray = slider.noUiSlider.get();
+	sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
+	sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
+	sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
+	sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
+	sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
 });
 $('#pie-show-editor').click(function(){
 	$('.pie-hide-button').fadeOut(500);
@@ -301,12 +327,6 @@ var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
 for(var i = 0; i < connect.length; i++){
     connect[i].classList.add(classes[i]);
 }
-var sliderArray = slider.noUiSlider.get();
-var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
-var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
-var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
-var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
-var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
 // Grades
 $('#grades-back').click(function(){
 	$('.grades').fadeOut(500);
@@ -421,11 +441,11 @@ $('#save-file').click(function(){
 				// defense: parseInt($("#pie-defense").val()),
 				// climbing: parseInt($("#pie-climbing").val()),
 				// futzing: parseInt($("#pie-futzing").val())
-				shooting: sliderShoot,
-				gearing: sliderGear,
-				defense: sliderDefense,
-				climbing: sliderClimb,
-				futzing: sliderFutz
+				shooting: Math.round(sliderShoot),
+				gearing:  Math.round(sliderGear),
+				defense:  Math.round(sliderDefense),
+				climbing:  Math.round(sliderClimb),
+				futzing:  Math.round(sliderFutz)
 			},
 			grades: {
 				overall: gradesOverall,
@@ -444,9 +464,7 @@ $('#save-file').click(function(){
 		fs.writeFileSync('manifest.json', "[]")
 	}
 	var manifestRead = fs.readFileSync('manifest.json', 'utf-8');
-	console.log(manifestRead);
 	var manifestParse = JSON.parse(manifestRead);
-	console.log(manifestParse);
 	manifestParse.push("m" + $("#match-number-number").val() + "-" + accounts[act] + ".json");
 	var mStringify = JSON.stringify(manifestParse);
 	fs.writeFileSync('manifest.json', mStringify);

@@ -548,9 +548,18 @@
     <!-- Match Number -->
     <nav class="navbar navbar-fixed-bottom">
       <hr>
-      <div class="match-number" style="text-align: center;">
-        <h4 class="match-number-title">Match Number: </h4>
-        <input id="match-number-number" value="1">
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <div class="match-number" style="text-align: center;">
+            <h4 class="match-number-title">Match Number: </h4>
+            <input id="match-number-number" value="1">
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2" style="margin-top: 20px;">
+          <button type="button" class="btn btn-warning flashdrive-save">Save</button>
+        </div>
       </div>
     </nav>
     <script>window.$ = window.jQuery = require('jquery');</script>
