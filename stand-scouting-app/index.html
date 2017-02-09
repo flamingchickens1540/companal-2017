@@ -279,9 +279,9 @@
         </button>
       </div>
       <br>
-      <div class="pie-hide-button">
+      <!-- <div class="pie-hide-button">
         <button id="pie-show-editor" type="button" class="btn btn-warning">Show Pie Editor</button>
-      </div>
+      </div> -->
       <div class="pie-hide">
         <h2 style="text-align: center;">Strategy</h2>
         <hr>
@@ -321,77 +321,83 @@
           <div class="col-sm-12" id="pie-slider">
             <div id="slider-color"></div>
           </div>
-          <div class="col-sm-12" style="text-align: center;">
+          <!-- <div class="col-sm-12" style="text-align: center;">
             <br>
             <br>
             <button type="button" id="pie-submit" class="btn btn-success">See Pie Chart</button>
             <br>
-            <br>
+            <br> -->
           </div>
         </div>
       </div>
-      <div id="pie-label" class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-2">
-          <h3 style="color: #2ecc71;">Shooting</h3>
+      <div class="pie">
+        <div id="pie-label" class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-2">
+            <h3 style="color: #2ecc71;">Shooting</h3>
+          </div>
+          <div class="col-sm-2">
+            <h3 style="color: #3498db;">Gearing</h3>
+          </div>
+          <div class="col-sm-2">
+            <h3 style="color: #95a5a6;">Defense</h3>
+          </div>
+          <div class="col-sm-2">
+            <h3 style="color: #9b59b6;">Climbing</h3>
+          </div>
+          <div class="col-sm-2">
+            <h3 style="color: #f1c40f;">Futzing</h3>
+          </div>
         </div>
-        <div class="col-sm-2">
-          <h3 style="color: #3498db;">Gearing</h3>
-        </div>
-        <div class="col-sm-2">
-          <h3 style="color: #95a5a6;">Defense</h3>
-        </div>
-        <div class="col-sm-2">
-          <h3 style="color: #9b59b6;">Climbing</h3>
-        </div>
-        <div class="col-sm-2">
-          <h3 style="color: #f1c40f;">Futzing</h3>
-        </div>
-      </div>
-      <canvas id="myChart"></canvas>
-      <script type="text/javascript">
-        window.$ = window.jQuery = require('jquery');
-        $('#pie-submit').click(function(){
-          // var pieSum = parseInt($("#pie-shooting").val()) + parseInt($("#pie-gearing").val()) + parseInt($("#pie-defense").val()) + parseInt($("#pie-climbing").val()) + parseInt($("#pie-futzing").val());
-          // var pieShootPecent = parseInt($("#pie-shooting").val()) / pieSum;
-          // var pieGearPercent = parseInt($("#pie-gearing").val()) / pieSum;
-          // var pieDefensePercent = parseInt($("#pie-defense").val()) / pieSum;
-          // var pieClimbPercent = parseInt($("#pie-climbing").val()) / pieSum;
-          // var pieFutzPercent = parseInt($("#pie-futzing").val()) / pieSum;
-          // if(pieSum != 100){
-          //
-          // }
-          // if(parseInt($("#pie-shooting").val()) + parseInt($("#pie-gearing").val()) + parseInt($("#pie-defense").val()) + parseInt($("#pie-climbing").val()) + parseInt($("#pie-futzing").val()) == 100){
-            $('#myChart').replaceWith('<canvas id="myChart"></canvas>');
-            $('.pie-hide').fadeOut(500);
-            $('.pie-hide-button').delay(500).fadeIn(500);
-            $('#pie-label').fadeIn(500);
-            $('#myChart').fadeIn(500);
-            var sliderArray = slider.noUiSlider.get();
-            var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
-            var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
-            var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
-            var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
-            var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
-            var ctx = document.getElementById("myChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-              type: 'pie',
-              data: {
-                datasets: [{
-                  backgroundColor: [
-                    "#2ecc71",
-                    "#3498db",
-                    "#95a5a6",
-                    "#9b59b6",
-                    "#f1c40f"
-                  ],
-                  data: [sliderShoot, sliderGear, sliderDefense, sliderClimb, sliderFutz]
-                }]
-              }
-            });
-          // } else{
-              // alert("NOT EQUAL TO 100!!!");
-          // }
+        <canvas id="myChart"></canvas>
+        <script type="text/javascript">
+          window.$ = window.jQuery = require('jquery');
+          $(document).ready(function(){
+            // $('#pie-submit').click(function(){
+              // var pieSum = parseInt($("#pie-shooting").val()) + parseInt($("#pie-gearing").val()) + parseInt($("#pie-defense").val()) + parseInt($("#pie-climbing").val()) + parseInt($("#pie-futzing").val());
+              // var pieShootPecent = parseInt($("#pie-shooting").val()) / pieSum;
+              // var pieGearPercent = parseInt($("#pie-gearing").val()) / pieSum;
+              // var pieDefensePercent = parseInt($("#pie-defense").val()) / pieSum;
+              // var pieClimbPercent = parseInt($("#pie-climbing").val()) / pieSum;
+              // var pieFutzPercent = parseInt($("#pie-futzing").val()) / pieSum;
+              // if(pieSum != 100){
+              //
+              // }
+              // if(parseInt($("#pie-shooting").val()) + parseInt($("#pie-gearing").val()) + parseInt($("#pie-defense").val()) + parseInt($("#pie-climbing").val()) + parseInt($("#pie-futzing").val()) == 100){
+                $('#myChart').replaceWith('<canvas id="myChart"></canvas>');
+                // $('.pie-hide').fadeOut(500);
+                // $('.pie-hide-button').delay(500).fadeIn(500);
+                // $('#pie-label').fadeIn(500);
+                // $('#myChart').fadeIn(500);
+                var slider = document.getElementById('slider-color');
+                slider.noUiSlider.on('set', function(){
+                  var sliderArray = slider.noUiSlider.get();
+                  var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
+                  var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
+                  var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
+                  var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
+                  var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
+                  var ctx = document.getElementById("myChart").getContext('2d');
+                  var myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        backgroundColor: [
+                          "#2ecc71",
+                          "#3498db",
+                          "#95a5a6",
+                          "#9b59b6",
+                          "#f1c40f"
+                        ],
+                        data: [sliderShoot, sliderGear, sliderDefense, sliderClimb, sliderFutz]
+                      }]
+                    }
+                  });
+                });
+            // } else{
+                // alert("NOT EQUAL TO 100!!!");
+            // }
+          // });
         });
       </script>
     </div>

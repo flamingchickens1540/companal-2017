@@ -373,6 +373,7 @@ $('#fuel-next').click(function(){
 	} else {
 		$('#fuel-end').fadeOut(500);
 		$('.pie').delay(500).fadeIn(500);
+		$('.#myChart').fadeIn(500);
 	}
 });
 $('.no-fuel').click(function(){
@@ -398,8 +399,11 @@ var sliderGear;
 var sliderDefense;
 var sliderClimb;
 var sliderFutz;
-$('.pie-hide-button').hide();
-$('#myChart').hide();
+// $('.pie-hide-button').hide();
+// $('#myChart').hide();
+// $('.pie').ready(function(){
+// 	slider.noUiSlider.reset();
+// })
 $('#pie-label').hide();
 $('#pie-back').click(function(){
 	$('.pie').fadeOut(500);
@@ -407,6 +411,7 @@ $('#pie-back').click(function(){
 });
 $('#pie-next').click(function(){
 	$('.pie').fadeOut(500);
+	$('#myChart').fadeOut(500);
 	$('.grades').delay(500).fadeIn(500);
 	sliderArray = slider.noUiSlider.get();
 	sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
@@ -415,12 +420,12 @@ $('#pie-next').click(function(){
 	sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
 	sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
 });
-$('#pie-show-editor').click(function(){
-	$('.pie-hide-button').fadeOut(500);
-	$('#pie-label').fadeOut(500);
-	$('#myChart').fadeOut(500);
-	$('.pie-hide').delay(500).fadeIn(500);
-});
+// $('#pie-show-editor').click(function(){
+// 	$('.pie-hide-button').fadeOut(500);
+// 	$('#pie-label').fadeOut(500);
+// 	$('#myChart').fadeOut(500);
+// 	$('.pie-hide').delay(500).fadeIn(500);
+// });
 // $("#pie-shooting").slider({});
 // $("#pie-gearing").slider({});
 // $("#pie-defense").slider({});
@@ -445,6 +450,7 @@ for(var i = 0; i < connect.length; i++){
 $('#grades-back').click(function(){
 	$('.grades').fadeOut(500);
 	$('.pie').delay(500).fadeIn(500);
+	$('#myChart').fadeIn(500);
 });
 $('#grades-next').click(function(){
 	if (!$('input[name=grades-overall]:checked').val() || !$('input[name=grades-shooting]:checked').val() || !$('input[name=grades-gearing]:checked').val() || !$('input[name=grades-defense]:checked').val() || !$('input[name=grades-climbing]:checked').val()) {
