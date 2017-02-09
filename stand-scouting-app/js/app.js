@@ -42,7 +42,7 @@ require('getmac').getMac(function(err,macAddress){
 			break;
 		default:
 			alert("This is not a 1540 verified tablet. :(");
-			teamColor = ":(";
+			teamColor = "Red 1";
 	}
 	// Too lazy to name this section
 	var z;
@@ -526,7 +526,7 @@ $('#save-file').click(function(){
 				teamColor = addressArray[5].role;
 				break;
 			default:
-				teamColor = false;
+				teamColor = "r1";
 		}
 		// Too lazy to name this section
 		var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
