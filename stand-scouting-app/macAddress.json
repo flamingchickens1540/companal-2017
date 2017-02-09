@@ -1,0 +1,38 @@
+{
+    "dwight": {
+        "fullName": "Dwight",
+        "macAddress": "ac2b6ece6e8b",
+        "role": "B3",
+        "color": "blue"
+    },
+    "holly": {
+        "fullName": "Holly",
+        "macAddress": "ac2b6ecf2afb",
+        "role": "R2",
+        "color": "red"
+    },
+    "angela": {
+        "fullName": "Angela",
+        "macAddress": "ac2b6ec40acc",
+        "role": "R3",
+        "color": "red"
+    },
+    "michael": {
+        "fullName": "Michael",
+        "macAddress": "ac2b6ec40adb",
+        "role": "B2",
+        "color": "blue"
+    },
+    "jim": {
+        "fullName": "Jim",
+        "macAddress": "ac2b6ecf2a60",
+        "role": "B1",
+        "color": "blue"
+    },
+    "pam": {
+        "fullName": "Pam",
+        "macAddress": "ac2b6ecf31c7",
+        "role": "R1",
+        "color": "red"
+    }
+}

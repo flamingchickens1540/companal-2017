@@ -52,6 +52,9 @@ body{
 	font-size: 24pt;
 	text-align: center;
 	border: none;
+	box-shadow: none;
+	display: block;
+	margin: auto;
 }
 #cont-btn{
 	display: block;

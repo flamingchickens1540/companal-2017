@@ -216,6 +216,8 @@
       </button>
       <br>
       <h3 style="text-align: center;">Fuel</h3>
+      <br>
+      <button type="button" class="btn btn-warning no-fuel">Did not shoot fuel</button>
       <hr>
       <div class="col-sm-4">
         <h4>Accuracy of Shooter</h4>
@@ -255,13 +257,13 @@
         <h4>Loaded From</h4>
         <div class="btn-group" data-toggle="buttons">
           <label id="teleop-fuelload-hopper" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load-ho" value="hopper" autocomplete="off">Hopper
+            <input type="checkbox" name="fuel-end-load" value="hopper" autocomplete="off">Hopper
           </label>
           <label id="teleop-fuelload-human" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load-hu" value="human" autocomplete="off">Human
+            <input type="checkbox" name="fuel-end-load" value="human" autocomplete="off">Human
           </label>
           <label id="teleop-fuelload-floor" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load-fl" value="floor" autocomplete="off">Floor
+            <input type="checkbox" name="fuel-end-load" value="floor" autocomplete="off">Floor
           </label>
         </div>
       </div>
@@ -549,11 +551,18 @@
     <nav class="navbar navbar-fixed-bottom">
       <hr>
       <div class="row">
-        <div class="col-sm-4"></div>
+        <div class="col-sm-4 team-color"></div>
         <div class="col-sm-4">
           <div class="match-number" style="text-align: center;">
             <h4 class="match-number-title">Match Number: </h4>
-            <input id="match-number-number" value="1">
+            <input id="match-number-number" class="form-control">
+            <!-- <input id="match-number-number" readonly="readonly" style="width: 90px;" value="1"> -->
+            <div class="edit-match-btn">
+              <br>
+              <button type="button" class="btn btn-warning edit-match">Edit Match Number</button>
+              <br>
+              <br>
+            </div>
           </div>
         </div>
         <div class="col-sm-2"></div>
