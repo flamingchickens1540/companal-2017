@@ -377,6 +377,7 @@
                   var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
                   var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
                   var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
+                  $('#myChart').replaceWith("<canvas id='myChart'></canvas>")
                   var ctx = document.getElementById("myChart").getContext('2d');
                   var myChart = new Chart(ctx, {
                     type: 'pie',
