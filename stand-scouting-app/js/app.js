@@ -3,91 +3,91 @@ window.$ = window.jQuery = require('jquery');
 var noUiSlider = require('nouislider');
 var chartjs = require('chart.js');
 var fs = require('fs');
-// getmac
-var teamColor;
-var teamNum;
-var macAddress;
-var address = JSON.parse(fs.readFileSync('macAddress.json', 'utf-8'));
-var dwight = address.dwight;
-var holly = address.holly;
-var angela = address.angela;
-var michael = address.michael;
-var jim = address.jim;
-var pam = address.pam;
-var addressArray = [dwight, holly, angela, michael, jim, pam];
-require('getmac').getMac(function(err,macAddress){
-	if (err)  throw err
-	macAddress = macAddress.replace(/-/g, '').replace(/:/g, '');
-	switch (macAddress) {
-		case addressArray[0].macAddress:
-			teamColor = "Blue 3";
-			break;
-		case "9801a7cb4b19":
-			teamColor = "Green 1";
-			break;
-		case addressArray[1].macAddress:
-			teamColor = "Red 2";
-			break;
-		case addressArray[2].macAddress:
-			teamColor = "Red 3";
-			break;
-		case addressArray[3].macAddress:
-			teamColor = "Blue 2";
-			break;
-		case addressArray[4].macAddress:
-			teamColor = "Blue 1";
-			break;
-		case addressArray[5].macAddress:
-			teamColor = "Red 1";
-			break;
-		default:
-			alert("This is not a 1540 verified tablet. :(");
-			teamColor = "Red 1";
-	}
-	// Too lazy to name this section
-	var z;
-	var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
-	for (i in schedule) {
-		if (i == fs.readFileSync('matchNum.txt')) {
-			switch (teamColor) {
-				case "Red 1":
-					teamNum = schedule[i][0];
-					break;
-				case "Red 2":
-					teamNum = schedule[i][1];
-					break;
-				case "Red 3":
-					teamNum = schedule[i][2];
-					break;
-				case "Blue 1":
-					teamNum = schedule[i][3];
-					break;
-				case "Blue 2":
-					teamNum = schedule[i][4];
-					break;
-				case "Blue 3":
-					teamNum = schedule[i][5];
-					break;
-				case "Green 1":
-					teamNum = schedule[i][0];
-					break;
-				default:
-					teamNum = ":(";
-			}
-		}
-	}
-	$('.team-color').append("<h3 style=\"text-align: center;\">Color: <span class='color-number'>" + teamColor + "</span>, Team Number: <span style='color: purple;'>" + teamNum + "</span>");
-	if (addressArray.color == "red") {
-		$('.color-number').css("color", "red");
-	} else if (addressArray.color == "blue") {
-		$('.color-number').css("color", "blue");
-	} else if (macAddress = "9801a7cb4b19") {
-		$('.color-number').css("color", "green");
-	}
-});
+// // getmac
+// var teamColor;
+// var teamNum;
+// var macAddress;
+// var address = JSON.parse(fs.readFileSync('macAddress.json', 'utf-8'));
+// var dwight = address.dwight;
+// var holly = address.holly;
+// var angela = address.angela;
+// var michael = address.michael;
+// var jim = address.jim;
+// var pam = address.pam;
+// var addressArray = [dwight, holly, angela, michael, jim, pam];
+// require('getmac').getMac(function(err,macAddress){
+// 	if (err)  throw err
+// 	macAddress = macAddress.replace(/-/g, '').replace(/:/g, '');
+// 	switch (macAddress) {
+// 		case addressArray[0].macAddress:
+// 			teamColor = "Blue 3";
+// 			break;
+// 		case "9801a7cb4b19":
+// 			teamColor = "Green 1";
+// 			break;
+// 		case addressArray[1].macAddress:
+// 			teamColor = "Red 2";
+// 			break;
+// 		case addressArray[2].macAddress:
+// 			teamColor = "Red 3";
+// 			break;
+// 		case addressArray[3].macAddress:
+// 			teamColor = "Blue 2";
+// 			break;
+// 		case addressArray[4].macAddress:
+// 			teamColor = "Blue 1";
+// 			break;
+// 		case addressArray[5].macAddress:
+// 			teamColor = "Red 1";
+// 			break;
+// 		default:
+// 			alert("This is not a 1540 verified tablet. :(");
+// 			teamColor = "Red 1";
+// 	}
+// 	// Too lazy to name this section
+// 	var newRole = fs.readFileSync('role.txt');
+// 	var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
+// 	for (i in schedule) {
+// 		if (i == fs.readFileSync('matchNum.txt')) {
+// 			switch (teamColor) {
+// 				case "Red 1":
+// 					teamNum = schedule[i][0];
+// 					break;
+// 				case "Red 2":
+// 					teamNum = schedule[i][1];
+// 					break;
+// 				case "Red 3":
+// 					teamNum = schedule[i][2];
+// 					break;
+// 				case "Blue 1":
+// 					teamNum = schedule[i][3];
+// 					break;
+// 				case "Blue 2":
+// 					teamNum = schedule[i][4];
+// 					break;
+// 				case "Blue 3":
+// 					teamNum = schedule[i][5];
+// 					break;
+// 				case "Green 1":
+// 					teamNum = schedule[i][0];
+// 					break;
+// 				default:
+// 					teamNum = ":(";
+// 			}
+// 		}
+// 	}
+// 	$('.team-color').append("<h3 style=\"text-align: center;\">Color: <span class='color-number'>" + teamColor + "</span>, Team Number: <span style='color: purple;'>" + teamNum + "</span>");
+// 	if (addressArray.color == "red") {
+// 		$('.color-number').css("color", "red");
+// 	} else if (addressArray.color == "blue") {
+// 		$('.color-number').css("color", "blue");
+// 	} else if (macAddress = "9801a7cb4b19") {
+// 		$('.color-number').css("color", "green");
+// 	}
+// });
 // General
 function fillOut(){
-	alert("Fill out everything!")
+	alert("Fill out everything!");
 }
 $(document).ready(function(){
 	$('.login-info').hide();
@@ -105,6 +105,8 @@ $(document).ready(function(){
 	$('.grades').hide();
 	$('.badge-hide').hide();
 	$('.edit-match-btn').hide();
+	$('.choose-role').hide();
+	$('.password').hide();
 });
 // FS
 function createFile(fileName, text){
@@ -244,6 +246,7 @@ function createTable() {
     }
 }
 createTable();
+var roleAlert = $('.choose-role');
 var loggedIn = false;
 var act = "none";
 $('#login-button').click(function(){
@@ -260,9 +263,19 @@ $('#login-button').click(function(){
 		$('.login-info').delay(250).fadeIn(500);
 		$('.login-info-replace').replaceWith('<h3 class="login-info-replace">' + num + " | " + accounts[act] + "</h3>");
 		$('#login-input-number').css("border", "3px solid #5cb85c");
-	} else if (!accounts.hasOwnProperty(num)) {
-			$('#no-login').show();
-			$('#login-input-number').css("border", "3px solid #d9534f");
+		$('[data-toggle="popover"]').popover();
+		$('[data-toggle="popover"]').click();
+	} else if (!accounts.hasOwnProperty(num) && parseInt($('#login-input-number').val()) != 69) {
+		$('#no-login').show();
+		$('#login-input-number').css("border", "3px solid #d9534f");
+	} else if (parseInt($('#login-input-number').val()) == 69) {
+		$('.password').fadeIn(500);
+	}
+});
+$('.pass-submit').click(function(){
+	if ($('.pass-input').val() == "team1540") {
+		$('.password').fadeOut(500);
+		$('.choose-role').delay(500).fadeIn(500)
 	}
 });
 $('.close').click(function(){
@@ -271,7 +284,53 @@ $('.close').click(function(){
 $('#cont-btn').click(function(){
 	$('#the-whole-login').fadeOut(500);
 	$('.betting').delay(500).fadeIn(500);
+	$('.flashdrive-save').fadeOut(500);
+	$('[data-toggle="popover"]').popover('hide');
+	$('#match-number-number').attr('readonly', 'readonly');
 });
+// Choose Role
+$('.role-submit').click(function(){
+	deleteFile('role.txt');
+	fs.writeFileSync('role.txt', $('.role-btn:checked').val());
+	window.location.reload();
+});
+// Too lazy to name this section
+var teamColorName;
+var teamColor = fs.readFileSync('role.txt', 'utf-8');
+var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
+for (i in schedule) {
+	if (i == fs.readFileSync('matchNum.txt', 'utf-8')) {
+		switch (teamColor) {
+			case "r1":
+				teamNum = schedule[i][0];
+				teamColorName = "Red 1";
+				break;
+			case "r2":
+				teamNum = schedule[i][1];
+				teamColorName = "Red 2";
+				break;
+			case "r3":
+				teamNum = schedule[i][2];
+				teamColorName = "Red 3";
+				break;
+			case "b1":
+				teamNum = schedule[i][3];
+				teamColorName = "Blue 1";
+				break;
+			case "b2":
+				teamNum = schedule[i][4];
+				teamColorName = "Blue 2"
+				break;
+			case "b3":
+				teamNum = schedule[i][5];
+				teamColorName = "Blue 3";
+				break;
+			default:
+				teamNum = ":(";
+		}
+	}
+}
+$('.team-color').append("<h3 style=\"text-align: center;\">Color: <span class='color-number'>" + teamColorName + "</span>, Team Number: <span style='color: purple;'>" + teamNum + "</span>");
 // Forgot ID
 $('#forgot-id-button').click(function(){
 	$("#the-whole-login").fadeOut(500);
@@ -363,6 +422,9 @@ function teleopgearnum(val) {
     return new_qty;
 }
 // Fuel End
+var fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
+var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
+var fuelEndLoad = [];
 $('#fuel-back').click(function(){
 	$('#fuel-end').fadeOut(500);
 	$('#teleop').delay(500).fadeIn(500);
@@ -379,6 +441,9 @@ $('#fuel-next').click(function(){
 $('.no-fuel').click(function(){
 	$('#fuel-end').fadeOut(500);
 	$('.pie').delay(500).fadeIn(500);
+	fuelEndAccuracy = 0;
+	fuelEndRate = 0;
+	fuelEndLoad = 0;
 });
 var fuelEndHopper = false;
 var fuelEndHuman = false;
@@ -404,6 +469,13 @@ var sliderFutz;
 // $('.pie').ready(function(){
 // 	slider.noUiSlider.reset();
 // })
+// Grades
+var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
+var gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
+var gradesGearing = parseInt($('input[name="grades-gearing"]:checked').val());
+var gradesDefense = parseInt($('input[name="grades-defense"]:checked').val());
+var gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
+// Pie
 $('#pie-label').hide();
 $('#pie-back').click(function(){
 	$('.pie').fadeOut(500);
@@ -419,6 +491,27 @@ $('#pie-next').click(function(){
 	sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
 	sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
 	sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
+	if (Math.round(sliderShoot) == 0) {
+		$('.grades-shooting').hide();
+		gradesShooting = 0;
+	} else if (Math.round(sliderGear) == 0) {
+		$('.grades-gearing').hide();
+		gradesGearing = 0;
+	} else if (Math.round(sliderDefense) == 0) {
+		$('.grades-defense').hide();
+		gradesDefense = 0;
+	} else if (Math.round(sliderClimb) == 0) {
+		$('.grades-climbing').hide();
+		gradesClimbing = 0
+	} else if (Math.round(sliderShoot) > 0) {
+		$('.grades-shooting').show();
+	} else if (Math.round(sliderGear) > 0) {
+		$('.grades-gearing').show();
+	} else if (Math.round(sliderDefense) > 0) {
+		$('.grades-defense').show();
+	} else if (Math.round(sliderClimb) > 0) {
+		$('.grades-climbing').show();
+	}
 });
 // $('#pie-show-editor').click(function(){
 // 	$('.pie-hide-button').fadeOut(500);
@@ -466,7 +559,7 @@ $('#textarea-back').click(function(){
 	$('#fuel-end').delay(500).fadeIn(500);
 });
 // Navbar
-$('#match-number-number').focus(function(){
+$('#match-number-number').keypress(function(){
 	$('.edit-match-btn').fadeIn(500);
 });
 $('.edit-match').click(function(){
@@ -499,174 +592,272 @@ $('#sign-out').click(function(){
 });
 $('#save-file').click(function(){
 	$('#last-textarea').fadeOut(500);
-	// getmac
-	require('getmac').getMac(function(err,macAddress){
-		if (err)  throw err
-		macAddress = macAddress.replace(/-/g, '').replace(/:/g, '');
-		switch (macAddress) {
-			case addressArray[0].macAddress:
-				teamColor = addressArray[0].role;
-				break;
-			case "9801a7cb4b19":
-				teamColor = "g1";
-				break;
-			case addressArray[1].macAddress:
-				teamColor = addressArray[1].role;
-				break;
-			case addressArray[2].macAddress:
-				teamColor = addressArray[2].role;
-				break;
-			case addressArray[3].macAddress:
-				teamColor = addressArray[3].role;
-				break;
-			case addressArray[4].macAddress:
-				teamColor = addressArray[4].role;
-				break;
-			case addressArray[5].macAddress:
-				teamColor = addressArray[5].role;
-				break;
-			default:
-				teamColor = "r1";
-		}
-		// Too lazy to name this section
-		var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
-		for (i in schedule) {
-			if (i == $("#match-number-number").val()) {
-				switch (teamColor) {
-					case "r1":
-						teamNum = schedule[i][0];
-						break;
-					case "r2":
-						teamNum = schedule[i][1];
-						break;
-					case "r3":
-						teamNum = schedule[i][2];
-						break;
-					case "b1":
-						teamNum = schedule[i][3];
-						break;
-					case "b2":
-						teamNum = schedule[i][4];
-						break;
-					case "b3":
-						teamNum = schedule[i][5];
-						break;
-					case "g1":
-						teamNum = schedule[i][0];
-						break;
-					default:
-						teamNum = false;
-				}
+	// // getmac
+	// require('getmac').getMac(function(err,macAddress){
+	// 	if (err)  throw err
+	// 	macAddress = macAddress.replace(/-/g, '').replace(/:/g, '');
+	// 	switch (macAddress) {
+	// 		case addressArray[0].macAddress:
+	// 			teamColor = addressArray[0].role;
+	// 			break;
+	// 		case "9801a7cb4b19":
+	// 			teamColor = "g1";
+	// 			break;
+	// 		case addressArray[1].macAddress:
+	// 			teamColor = addressArray[1].role;
+	// 			break;
+	// 		case addressArray[2].macAddress:
+	// 			teamColor = addressArray[2].role;
+	// 			break;
+	// 		case addressArray[3].macAddress:
+	// 			teamColor = addressArray[3].role;
+	// 			break;
+	// 		case addressArray[4].macAddress:
+	// 			teamColor = addressArray[4].role;
+	// 			break;
+	// 		case addressArray[5].macAddress:
+	// 			teamColor = addressArray[5].role;
+	// 			break;
+	// 		default:
+	// 			teamColor = "r1";
+	// 	}
+	// 	// Too lazy to name this section
+	// 	var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
+	// 	for (i in schedule) {
+	// 		if (i == $("#match-number-number").val()) {
+	// 			switch (teamColor) {
+	// 				case "r1":
+	// 					teamNum = schedule[i][0];
+	// 					break;
+	// 				case "r2":
+	// 					teamNum = schedule[i][1];
+	// 					break;
+	// 				case "r3":
+	// 					teamNum = schedule[i][2];
+	// 					break;
+	// 				case "b1":
+	// 					teamNum = schedule[i][3];
+	// 					break;
+	// 				case "b2":
+	// 					teamNum = schedule[i][4];
+	// 					break;
+	// 				case "b3":
+	// 					teamNum = schedule[i][5];
+	// 					break;
+	// 				case "g1":
+	// 					teamNum = schedule[i][0];
+	// 					break;
+	// 				default:
+	// 					teamNum = false;
+	// 			}
+	// 		}
+	// 	}
+	// 	// Autonomous
+	// 	var autoCross = false;
+	// 	autoCross = $('input[name="auto-radio-cross"]:checked').val();
+	// 	// autoCross = JSON.parse(autoCross);
+	// 	if (autoCross == "true"){
+	// 		autoCross = true;
+	// 	} else if (autoCross == "false") {
+	// 		autoCross = false;
+	// 	}
+	// 	var autoCross = false;
+	// 	autoGear = $('input[name="auto-radio-gear"]:checked').val();
+	// 	// autoGear = JSON.parse(autoGear);
+	// 	if (autoGear == "true"){
+	// 		autoGear = true;
+	// 	} else if (autoGear == "false") {
+	// 		autoGear = false;
+	// 	}
+	// 	var autoShoot = false;
+	// 	autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
+	// 	// autoShoot = JSON.parse(autoShoot);
+	// 	if (autoShoot == "true"){
+	// 		autoShoot = true;
+	// 	} else if (autoShoot == "false") {
+	// 		autoShoot = false;
+	// 	}
+	// 	// Tele-Op
+	// 	var teleopGear = parseInt($('#teleop-gear').val());
+	// 	var teleopClimb = $('input[name="teleop-radio-climb"]:checked').val();
+	// 	if (teleopClimb == "true"){
+	// 		teleopClimb = true;
+	// 	} else if (teleopClimb == "false") {
+	// 		teleopClimb = false;
+	// 	}
+	// 	// Fuel End
+	// 	var fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
+	// 	var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
+	// 	var fuelEndLoad = [];
+	// 	if (fuelEndHopper == true){
+	// 		fuelEndLoad.push("hopper");
+	// 	}
+	// 	if (fuelEndHuman == true){
+	// 		fuelEndLoad.push("human");
+	// 	}
+	// 	if (fuelEndFloor == true){
+	// 		fuelEndLoad.push("floor");
+	// 	}
+	// 	// Grades
+	// 	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
+	// 	var gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
+	// 	var gradesGearing = parseInt($('input[name="grades-gearing"]:checked').val());
+	// 	var gradesDefense = parseInt($('input[name="grades-defense"]:checked').val());
+	// 	var gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
+	// 	// File
+	// 	var json = {
+	// 		scoutId: $('input[name=login-number]').val(),
+	// 		bettingPick: jsonBet,
+	// 		auto: {
+	// 			crossedLine: autoCross,
+	// 			depositedGear: autoGear,
+	// 			shotCycle: autoShoot
+	// 		},
+	// 		teleop: {
+	// 			balls: {
+	// 				cycles:  teleopFuel,
+	// 				accuracy: fuelEndAccuracy,
+	// 				shotRate: fuelEndRate,
+	// 				loadingZones: fuelEndLoad
+	// 			},
+	// 			gearsDeposited: teleopGear,
+	// 			climbed: teleopClimb
+	// 		},
+	// 		notes: $('.comments').val(),
+	// 		strategy: {
+	// 			pieChart: {
+	// 				// shooting: parseInt($("#pie-shooting").val()),
+	// 				// gearing: parseInt($("#pie-gearing").val()),
+	// 				// defense: parseInt($("#pie-defense").val()),
+	// 				// climbing: parseInt($("#pie-climbing").val()),
+	// 				// futzing: parseInt($("#pie-futzing").val())
+	// 				shooting: Math.round(sliderShoot),
+	// 				gearing:  Math.round(sliderGear),
+	// 				defense:  Math.round(sliderDefense),
+	// 				climbing:  Math.round(sliderClimb),
+	// 				futzing:  Math.round(sliderFutz)
+	// 			},
+	// 			grades: {
+	// 				overall: gradesOverall,
+	// 				shooting: gradesShooting,
+	// 				gearing: gradesGearing,
+	// 				defense: gradesDefense,
+	// 				climbing: gradesClimbing
+	// 			}
+	// 		}
+	// 	};
+	// 	var stringify = JSON.stringify(json);
+	// 	var filepath = "m" + $("#match-number-number").val() + "-" + teamColor + "-" + teamNum + ".json"
+	// 	createFile(__dirname + "/data/" + filepath, stringify);
+	// 	deleteFile('matchNum.txt');
+	// 	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
+	// 	if (fs.existsSync('manifest.json') == false) {
+	// 		fs.writeFileSync('manifest.json', "[]")
+	// 	}
+	// 	var manifestRead = fs.readFileSync('manifest.json', 'utf-8');
+	// 	var manifestParse = JSON.parse(manifestRead);
+	// 	manifestParse.push(filepath);
+	// 	var mStringify = JSON.stringify(manifestParse);
+	// 	fs.writeFileSync('manifest.json', mStringify);
+	// });
+	// Autonomous
+	var autoCross = false;
+	autoCross = $('input[name="auto-radio-cross"]:checked').val();
+	// autoCross = JSON.parse(autoCross);
+	if (autoCross == "true"){
+		autoCross = true;
+	} else if (autoCross == "false") {
+		autoCross = false;
+	}
+	var autoCross = false;
+	autoGear = $('input[name="auto-radio-gear"]:checked').val();
+	// autoGear = JSON.parse(autoGear);
+	if (autoGear == "true"){
+		autoGear = true;
+	} else if (autoGear == "false") {
+		autoGear = false;
+	}
+	var autoShoot = false;
+	autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
+	// autoShoot = JSON.parse(autoShoot);
+	if (autoShoot == "true"){
+		autoShoot = true;
+	} else if (autoShoot == "false") {
+		autoShoot = false;
+	}
+	// Tele-Op
+	var teleopGear = parseInt($('#teleop-gear').val());
+	var teleopClimb = $('input[name="teleop-radio-climb"]:checked').val();
+	if (teleopClimb == "true"){
+		teleopClimb = true;
+	} else if (teleopClimb == "false") {
+		teleopClimb = false;
+	}
+	// Fuel End
+	if (fuelEndHopper == true){
+		fuelEndLoad.push("hopper");
+	}
+	if (fuelEndHuman == true){
+		fuelEndLoad.push("human");
+	}
+	if (fuelEndFloor == true){
+		fuelEndLoad.push("floor");
+	}
+	// File
+	var json = {
+		scoutId: $('input[name=login-number]').val(),
+		bettingPick: jsonBet,
+		auto: {
+			crossedLine: autoCross,
+			depositedGear: autoGear,
+			shotCycle: autoShoot
+		},
+		teleop: {
+			balls: {
+				cycles:  teleopFuel,
+				accuracy: fuelEndAccuracy,
+				shotRate: fuelEndRate,
+				loadingZones: fuelEndLoad
+			},
+			gearsDeposited: teleopGear,
+			climbed: teleopClimb
+		},
+		notes: $('.comments').val(),
+		strategy: {
+			pieChart: {
+				// shooting: parseInt($("#pie-shooting").val()),
+				// gearing: parseInt($("#pie-gearing").val()),
+				// defense: parseInt($("#pie-defense").val()),
+				// climbing: parseInt($("#pie-climbing").val()),
+				// futzing: parseInt($("#pie-futzing").val())
+				shooting: Math.round(sliderShoot),
+				gearing:  Math.round(sliderGear),
+				defense:  Math.round(sliderDefense),
+				climbing:  Math.round(sliderClimb),
+				futzing:  Math.round(sliderFutz)
+			},
+			grades: {
+				overall: gradesOverall,
+				shooting: gradesShooting,
+				gearing: gradesGearing,
+				defense: gradesDefense,
+				climbing: gradesClimbing
 			}
 		}
-		// Autonomous
-		var autoCross = false;
-		autoCross = $('input[name="auto-radio-cross"]:checked').val();
-		// autoCross = JSON.parse(autoCross);
-		if (autoCross == "true"){
-			autoCross = true;
-		} else if (autoCross == "false") {
-			autoCross = false;
-		}
-		var autoCross = false;
-		autoGear = $('input[name="auto-radio-gear"]:checked').val();
-		// autoGear = JSON.parse(autoGear);
-		if (autoGear == "true"){
-			autoGear = true;
-		} else if (autoGear == "false") {
-			autoGear = false;
-		}
-		var autoShoot = false;
-		autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
-		// autoShoot = JSON.parse(autoShoot);
-		if (autoShoot == "true"){
-			autoShoot = true;
-		} else if (autoShoot == "false") {
-			autoShoot = false;
-		}
-		// Tele-Op
-		var teleopGear = parseInt($('#teleop-gear').val());
-		var teleopClimb = $('input[name="teleop-radio-climb"]:checked').val();
-		if (teleopClimb == "true"){
-			teleopClimb = true;
-		} else if (teleopClimb == "false") {
-			teleopClimb = false;
-		}
-		// Fuel End
-		var fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
-		var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
-		var fuelEndLoad = [];
-		if (fuelEndHopper == true){
-			fuelEndLoad.push("hopper");
-		}
-		if (fuelEndHuman == true){
-			fuelEndLoad.push("human");
-		}
-		if (fuelEndFloor == true){
-			fuelEndLoad.push("floor");
-		}
-		// Grades
-		var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
-		var gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
-		var gradesGearing = parseInt($('input[name="grades-gearing"]:checked').val());
-		var gradesDefense = parseInt($('input[name="grades-defense"]:checked').val());
-		var gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
-		// File
-		var json = {
-			scoutId: $('input[name=login-number]').val(),
-			bettingPick: jsonBet,
-			auto: {
-				crossedLine: autoCross,
-				depositedGear: autoGear,
-				shotCycle: autoShoot
-			},
-			teleop: {
-				balls: {
-					cycles:  teleopFuel,
-					accuracy: fuelEndAccuracy,
-					shotRate: fuelEndRate,
-					loadingZones: fuelEndLoad
-				},
-				gearsDeposited: teleopGear,
-				climbed: teleopClimb
-			},
-			notes: $('.comments').val(),
-			strategy: {
-				pieChart: {
-					// shooting: parseInt($("#pie-shooting").val()),
-					// gearing: parseInt($("#pie-gearing").val()),
-					// defense: parseInt($("#pie-defense").val()),
-					// climbing: parseInt($("#pie-climbing").val()),
-					// futzing: parseInt($("#pie-futzing").val())
-					shooting: Math.round(sliderShoot),
-					gearing:  Math.round(sliderGear),
-					defense:  Math.round(sliderDefense),
-					climbing:  Math.round(sliderClimb),
-					futzing:  Math.round(sliderFutz)
-				},
-				grades: {
-					overall: gradesOverall,
-					shooting: gradesShooting,
-					gearing: gradesGearing,
-					defense: gradesDefense,
-					climbing: gradesClimbing
-				}
-			}
-		};
-		var stringify = JSON.stringify(json);
-		var filepath = "m" + $("#match-number-number").val() + "-" + teamColor + "-" + teamNum + ".json"
-		createFile(__dirname + "/data/" + filepath, stringify);
-		deleteFile('matchNum.txt');
-		createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
-		if (fs.existsSync('manifest.json') == false) {
-			fs.writeFileSync('manifest.json', "[]")
-		}
-		var manifestRead = fs.readFileSync('manifest.json', 'utf-8');
-		var manifestParse = JSON.parse(manifestRead);
-		manifestParse.push(filepath);
-		var mStringify = JSON.stringify(manifestParse);
-		fs.writeFileSync('manifest.json', mStringify);
-	});
+	};
+	var stringify = JSON.stringify(json);
+	var filepath = "m" + $("#match-number-number").val() + "-" + teamColor + "-" + teamNum + ".json";
+	createFile(__dirname + "/data/" + filepath, stringify);
+	deleteFile('matchNum.txt');
+	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
+	if (fs.existsSync('manifest.json') == false) {
+		fs.writeFileSync('manifest.json', "[]")
+	}
+	var manifestRead = fs.readFileSync('manifest.json', 'utf-8');
+	var manifestParse = JSON.parse(manifestRead);
+	manifestParse.push(filepath);
+	var mStringify = JSON.stringify(manifestParse);
+	fs.writeFileSync('manifest.json', mStringify);
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;

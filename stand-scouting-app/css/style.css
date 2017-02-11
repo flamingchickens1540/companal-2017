@@ -1,6 +1,12 @@
 body{
 	font-family: 'Montserrat';
 }
+span.btn:hover, label.btn:hover{
+	background: pink !important;
+}
+.password{
+	text-align: center;
+}
 .jumbotron{
 	text-align: center;
 	position: relative;
@@ -41,6 +47,17 @@ body{
 }
 .c-5-color{
 	background: #f1c40f !important;
+}
+.btn-blue{
+	background: #4286f4 !important;
+	color: white !important;
+}
+.btn-blue:hover{
+	background: #356fce !important;
+	color: white !important;
+}
+.choose-role{
+	text-align: center;
 }
 #pie-shooting, #pie-gearing, #pie-defense, #pie-climbing, #pie-futzing{
 	display: block;

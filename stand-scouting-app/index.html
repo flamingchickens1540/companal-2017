@@ -57,6 +57,38 @@
       <br>
       <button id="cont-btn" type="button" class="btn btn-success">Continue!</button>
     </div>
+    <!-- Password -->
+    <div class="password container">
+      <input type="password" class="form-control pass-input">
+      <br>
+      <button type="button" class="btn btn-success pass-submit">Submit</button>
+    </div>
+    <!-- Choose Role -->
+    <div class="choose-role">
+      <div class="btn-group" data-toggle="buttons">
+        <span class="btn btn-danger">
+          <input type="radio" class="role-btn" autocomplete="off" value="r1">Red 1
+        </span>
+        <span class="btn btn-danger">
+          <input type="radio" class="role-btn" autocomplete="off" value="r2">Red 2
+        </span>
+        <span class="btn btn-danger">
+          <input type="radio" class="role-btn" autocomplete="off" value="r3">Red 3
+        </span>
+        <span class="btn btn-blue">
+          <input type="radio" class="role-btn" autocomplete="off" value="b1">Blue 1
+        </span>
+        <span class="btn btn-blue">
+          <input type="radio" class="role-btn" autocomplete="off" value="b2">Blue 2
+        </span>
+        <span class="btn btn-blue">
+          <input type="radio" class="role-btn" autocomplete="off" value="b3">Blue 3
+        </span>
+      </div>
+      <br>
+      <br>
+      <button type="button" class="btn btn-success role-submit">Submit</button>
+    </div>
     <!-- Forgot ID -->
     <div id="forgot-id" class="container">
       <table class="table table-hover">
@@ -194,13 +226,13 @@
           <button type="button" id="teleop-up" class="btn btn-success" onclick="teleopgearnum(1)">+1</button>
         </div>
         <div class="col-sm-4">
-          <h3 style="text-align: center;">Climbed Rope</h3>
+          <h3 style="text-align: center;">Climbed Rope Successfully</h3>
           <div class="btn-group" data-toggle="buttons">
             <span id="teleop-climb" class="btn btn-success">
-              <input type="radio" name="teleop-radio-climb" value="true" autocomplete="off">Climbed
+              <input type="radio" name="teleop-radio-climb" value="true" autocomplete="off">Climbed Successfully
             </span>
             <span id="teleop-no-climb" class="btn btn-danger">
-              <input type="radio" name="teleop-radio-climb" value="false" autocomplete="off">Did Not Climb
+              <input type="radio" name="teleop-radio-climb" value="false" autocomplete="off">Failed to Climb
             </span>
           </div>
         </div>
@@ -312,7 +344,7 @@
             <!-- <input type="number" id="pie-climbing" style="color: #9b59b6; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
           </div>
           <div class="col-sm-2">
-            <h3 style="text-align: center; color: #f1c40f;">Futzing</h3>
+            <h3 style="text-align: center; color: #f1c40f;">Futzing/Doing Nothing</h3>
             <br>
             <!-- <input id="pie-futzing" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
             <!-- <input type="number" id="pie-futzing" style="color: #f1c40f; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
@@ -346,7 +378,7 @@
             <h3 style="color: #9b59b6;">Climbing</h3>
           </div>
           <div class="col-sm-2">
-            <h3 style="color: #f1c40f;">Futzing</h3>
+            <h3 style="color: #f1c40f;">Futzing/Doing Nothing</h3>
           </div>
         </div>
         <canvas id="myChart"></canvas>
@@ -416,7 +448,7 @@
       <hr>
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="col-sm-2">
+        <div class="col-sm-2 grades-overall">
           <h3>Overall</h3>
           <div class="btn-group" data-toggle="buttons">
             <span id="grades-overall-1" class="btn btn-danger">
@@ -436,7 +468,7 @@
             </span>
           </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2 grades-shooting">
           <h3>Shooting</h3>
           <div class="btn-group" data-toggle="buttons">
             <span id="grades-shooting-1" class="btn btn-danger">
@@ -456,7 +488,7 @@
             </span>
           </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2 grades-gearing">
           <h3>Gearing</h3>
           <div class="btn-group" data-toggle="buttons">
             <span id="grades-gearing-1" class="btn btn-danger">
@@ -476,7 +508,7 @@
             </span>
           </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2 grades-defense">
           <h3>Defense</h3>
           <div class="btn-group" data-toggle="buttons">
             <span id="grades-defense-1" class="btn btn-danger">
@@ -496,7 +528,7 @@
             </span>
           </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2 grades-climbing">
           <h3>Climbing</h3>
           <div class="btn-group" data-toggle="buttons">
             <span id="grades-climbing-1" class="btn btn-danger">
@@ -522,6 +554,16 @@
     <!-- Textarea -->
     <div id="last-textarea" class="container">
       <br>
+      <p style="text-align: left;">Things to think about:
+        <ol style="text-align: left;">
+          <li>Reliability</li>
+          <li>Consistency</li>
+          <li>Driver Skill/Defense</li>
+          <li>Robot Dying</li>
+          <li>???</li>
+        </ol>
+      </p>
+      <br>
       <textarea class="comments form-control" rows="8" cols="80" placeholder="Comments"></textarea>
       <br>
       <button id="textarea-back" type="button" class="btn btn-warning">
@@ -529,7 +571,7 @@
       </button>
       <a data-toggle="modal" data-target="#success">
         <button id="save-file" type="button" class="btn btn-success">
-          <i class="fa fa-floppy-o"></i>&nbsp;Save
+          <i class="fa fa-flag-checkered"></i>&nbsp;Finish
         </button>
       </a>
     </div>
@@ -556,6 +598,7 @@
     </div>
     <!-- Match Number -->
     <nav class="navbar navbar-fixed-bottom">
+      <a href="#" data-toggle="popover" title="CHECK MATCH NUMBER" data-content="Check to make sure match number is right!" data-placement="top" style="display: block; margin: auto;">&nbsp;</a>
       <hr>
       <div class="row">
         <div class="col-sm-4 team-color"></div>
@@ -572,10 +615,11 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-2" style="margin-top: 20px;">
-          <button type="button" class="btn btn-warning flashdrive-save">Save</button>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3" style="margin-top: 20px;">
+          <button type="button" class="btn btn-warning flashdrive-save">Save to Flashdrive&nbsp;&nbsp;&nbsp;<i class="fa fa-usb"></i></button>
         </div>
+        <div class="col-sm-1"></div>
       </div>
     </nav>
     <script>window.$ = window.jQuery = require('jquery');</script>
