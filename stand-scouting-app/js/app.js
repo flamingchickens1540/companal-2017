@@ -295,11 +295,12 @@ $('.role-submit').click(function(){
 	window.location.reload();
 });
 // Too lazy to name this section
+var teamNum;
 var teamColorName;
 var teamColor = fs.readFileSync('role.txt', 'utf-8');
 var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
 for (i in schedule) {
-	if (i == fs.readFileSync('matchNum.txt', 'utf-8')) {
+	if (i == parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))) {
 		switch (teamColor) {
 			case "r1":
 				teamNum = schedule[i][0];
@@ -422,9 +423,9 @@ function teleopgearnum(val) {
     return new_qty;
 }
 // Fuel End
-var fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
-var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
-var fuelEndLoad = [];
+var fuelEndAccuracy;
+var fuelEndRate;
+var fuelEndLoad;
 $('#fuel-back').click(function(){
 	$('#fuel-end').fadeOut(500);
 	$('#teleop').delay(500).fadeIn(500);
@@ -435,15 +436,21 @@ $('#fuel-next').click(function(){
 	} else {
 		$('#fuel-end').fadeOut(500);
 		$('.pie').delay(500).fadeIn(500);
-		$('.#myChart').fadeIn(500);
+		$('#myChart').fadeIn(500);
+		fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
+		fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
+		fuelEndLoad = [];
 	}
 });
 $('.no-fuel').click(function(){
-	$('#fuel-end').fadeOut(500);
-	$('.pie').delay(500).fadeIn(500);
-	fuelEndAccuracy = 0;
-	fuelEndRate = 0;
-	fuelEndLoad = 0;
+	var ans = confirm("Really?!");
+	if (ans) {
+		$('#fuel-end').fadeOut(500);
+		$('.pie').delay(500).fadeIn(500);
+		fuelEndAccuracy = 0;
+		fuelEndRate = 0;
+		fuelEndLoad = 0;
+	} else {}
 });
 var fuelEndHopper = false;
 var fuelEndHuman = false;
@@ -470,11 +477,10 @@ var sliderFutz;
 // 	slider.noUiSlider.reset();
 // })
 // Grades
-var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
-var gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
-var gradesGearing = parseInt($('input[name="grades-gearing"]:checked').val());
-var gradesDefense = parseInt($('input[name="grades-defense"]:checked').val());
-var gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
+var gradesShooting;
+var gradesGearing;
+var gradesDefense;
+var gradesClimbing;
 // Pie
 $('#pie-label').hide();
 $('#pie-back').click(function(){
@@ -492,25 +498,33 @@ $('#pie-next').click(function(){
 	sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
 	sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
 	if (Math.round(sliderShoot) == 0) {
+		// $('.grades-shooting').empty();
 		$('.grades-shooting').hide();
 		gradesShooting = 0;
 	} else if (Math.round(sliderGear) == 0) {
+		// $('.grades-gearing').empty();
 		$('.grades-gearing').hide();
 		gradesGearing = 0;
 	} else if (Math.round(sliderDefense) == 0) {
+		// $('.grades-defense').empty();
 		$('.grades-defense').hide();
 		gradesDefense = 0;
 	} else if (Math.round(sliderClimb) == 0) {
+		// $('.grades-climbing').empty();
 		$('.grades-climbing').hide();
-		gradesClimbing = 0
+		gradesClimbing = 0;
 	} else if (Math.round(sliderShoot) > 0) {
 		$('.grades-shooting').show();
+		// $('.grades-shooting').append('<h3>Shooting</h3><div class="btn-group" data-toggle="buttons"><span id="grades-shooting-1" class="btn btn-danger"><input type="radio" name="grades-shooting" value="1" autocomplete="off">1</span><span id="grades-shooting-2" class="btn btn-warning"><input type="radio" name="grades-shooting" value="2" autocomplete="off">2</span><span id="grades-shooting-3" class="btn btn-primary"><input type="radio" name="grades-shooting" value="3" autocomplete="off">3</span><span id="grades-shooting-4" class="btn btn-info"><input type="radio" name="grades-shooting" value="4" autocomplete="off">4</span><span id="grades-shooting-5" class="btn btn-success"><input type="radio" name="grades-shooting" value="5" autocomplete="off">5</span></div>');
 	} else if (Math.round(sliderGear) > 0) {
 		$('.grades-gearing').show();
+		// $('.grades-gearing').append('<h3>Gearing</h3><div class="btn-group" data-toggle="buttons"><span id="grades-gearing-1" class="btn btn-danger"><input type="radio" name="grades-gearing" value="1" autocomplete="off">1</span><span id="grades-gearing-2" class="btn btn-warning"><input type="radio" name="grades-gearing" value="2" autocomplete="off">2</span><span id="grades-gearing-3" class="btn btn-primary"><input type="radio" name="grades-gearing" value="3" autocomplete="off">3</span><span id="grades-gearing-4" class="btn btn-info"><input type="radio" name="grades-gearing" value="4" autocomplete="off">4</span><span id="grades-gearing-5" class="btn btn-success"><input type="radio" name="grades-gearing" value="5" autocomplete="off">5</span></div>');
 	} else if (Math.round(sliderDefense) > 0) {
 		$('.grades-defense').show();
+		// $('.grades-defense').append('<h3>Defense</h3><div class="btn-group" data-toggle="buttons"><span id="grades-defense-1" class="btn btn-danger"><input type="radio" name="grades-defense" value="1" autocomplete="off">1</span><span id="grades-defense-2" class="btn btn-warning"><input type="radio" name="grades-defense" value="2" autocomplete="off">2</span><span id="grades-defense-3" class="btn btn-primary"><input type="radio" name="grades-defense" value="3" autocomplete="off">3</span><span id="grades-defense-4" class="btn btn-info"><input type="radio" name="grades-defense" value="4" autocomplete="off">4</span><span id="grades-defense-5" class="btn btn-success"><input type="radio" name="grades-defense" value="5" autocomplete="off">5</span></div>');
 	} else if (Math.round(sliderClimb) > 0) {
 		$('.grades-climbing').show();
+		// $('.grades-climbing').append('<h3>Climbing</h3><div class="btn-group" data-toggle="buttons"><span id="grades-climbing-1" class="btn btn-danger"><input type="radio" name="grades-climbing" value="1" autocomplete="off">1</span><span id="grades-climbing-2" class="btn btn-warning"><input type="radio" name="grades-climbing" value="2" autocomplete="off">2</span><span id="grades-climbing-3" class="btn btn-primary"><input type="radio" name="grades-climbing" value="3" autocomplete="off">3</span><span id="grades-climbing-4" class="btn btn-info"><input type="radio" name="grades-climbing" value="4" autocomplete="off">4</span><span id="grades-climbing-5" class="btn btn-success"><input type="radio" name="grades-climbing" value="5" autocomplete="off">5</span></div>');
 	}
 });
 // $('#pie-show-editor').click(function(){
@@ -546,11 +560,32 @@ $('#grades-back').click(function(){
 	$('#myChart').fadeIn(500);
 });
 $('#grades-next').click(function(){
-	if (!$('input[name=grades-overall]:checked').val() || !$('input[name=grades-shooting]:checked').val() || !$('input[name=grades-gearing]:checked').val() || !$('input[name=grades-defense]:checked').val() || !$('input[name=grades-climbing]:checked').val()) {
+	if (!$('input[name=grades-overall]:checked').val()) {
+		fillOut();
+	} else if ($('input[name=grades-shooting]').is(":visible") && !$('input[name=grades-shooting]:checked').val()) {
+		fillOut();
+	} else if ($('input[name=grades-gearing]').is(":visible") && !$('input[name=grades-gearing]:checked').val()) {
+		fillOut();
+	} else if ($('input[name=grades-defense]').is(":visible") && !$('input[name=grades-defense]:checked').val()) {
+		fillOut();
+	} else if ($('input[name=grades-climbing]').is(":visible") && !$('input[name=grades-climbing]:checked').val()) {
 		fillOut();
 	} else {
 		$('.grades').fadeOut(500);
 		$('#last-textarea').delay(500).fadeIn(500);
+		gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
+		gradesGearing = parseInt($('input[name="grades-gearing"]:checked').val());
+		gradesDefense = parseInt($('input[name="grades-defense"]:checked').val());
+		gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
+		if (Math.round(sliderShoot) == 0) {
+			gradesShooting = 0;
+		} else if (Math.round(sliderGear) == 0) {
+			gradesGearing = 0;
+		} else if (Math.round(sliderDefense) == 0) {
+			gradesDefense = 0;
+		} else if (Math.round(sliderClimb) == 0) {
+			gradesClimbing = 0;
+		}
 	}
 });
 // Last Textarea
@@ -769,7 +804,7 @@ $('#save-file').click(function(){
 	} else if (autoCross == "false") {
 		autoCross = false;
 	}
-	var autoCross = false;
+	var autoGear = false;
 	autoGear = $('input[name="auto-radio-gear"]:checked').val();
 	// autoGear = JSON.parse(autoGear);
 	if (autoGear == "true"){
@@ -803,6 +838,8 @@ $('#save-file').click(function(){
 	if (fuelEndFloor == true){
 		fuelEndLoad.push("floor");
 	}
+	// Grades
+	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
 	// File
 	var json = {
 		scoutId: $('input[name=login-number]').val(),
