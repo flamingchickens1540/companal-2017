@@ -276,6 +276,9 @@ $('.pass-submit').click(function(){
 	if ($('.pass-input').val() == "team1540") {
 		$('.password').fadeOut(500);
 		$('.choose-role').delay(500).fadeIn(500)
+	} else {
+		alert('Wrong password');
+		window.location.reload();
 	}
 });
 $('.close').click(function(){
@@ -347,11 +350,11 @@ $('.flashdrive-save').click(function(){
 	for (i in data) {
 		if (fs.existsSync("data/" + data[i]) == true) {
 			if (navigator.platform == "MacIntel") {
-				fs.writeFileSync("/Volumes/1540/companal/stand-scouting/" + data[i]);
-				fs.createReadStream("data/" + data[i]).pipe(fs.createWriteStream("/Volumes/1540/companal/stand-scouting/" + data[i]));
+				fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/" + data[i]);
+				fs.createReadStream("data/" + data[i]).pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/" + data[i]));
 			} else if (navigator.platform == "Win32") {
-				fs.writeFileSync("K:/companal/stand-scouting/" + data[i]);
-				fs.createReadStream("data/" + data[i]).pipe(fs.createWriteStream("K:/companal/stand-scouting/" + data[i]));
+				fs.writeFileSync("K:/Companal/stand-scouting/" + data[i]);
+				fs.createReadStream("data/" + data[i]).pipe(fs.createWriteStream("K:/Companal/stand-scouting/" + data[i]));
 			}
 			// if (navigator.platform == "MacIntel") {
 			// 	fs.createReadStream(files[i]).pipe(fs.createWriteStream("/Volumes/1540/companal/stand-scouting"));
@@ -513,16 +516,20 @@ $('#pie-next').click(function(){
 		// $('.grades-climbing').empty();
 		$('.grades-climbing').hide();
 		gradesClimbing = 0;
-	} else if (Math.round(sliderShoot) > 0) {
+	}
+	if (Math.round(sliderShoot) > 0) {
 		$('.grades-shooting').show();
 		// $('.grades-shooting').append('<h3>Shooting</h3><div class="btn-group" data-toggle="buttons"><span id="grades-shooting-1" class="btn btn-danger"><input type="radio" name="grades-shooting" value="1" autocomplete="off">1</span><span id="grades-shooting-2" class="btn btn-warning"><input type="radio" name="grades-shooting" value="2" autocomplete="off">2</span><span id="grades-shooting-3" class="btn btn-primary"><input type="radio" name="grades-shooting" value="3" autocomplete="off">3</span><span id="grades-shooting-4" class="btn btn-info"><input type="radio" name="grades-shooting" value="4" autocomplete="off">4</span><span id="grades-shooting-5" class="btn btn-success"><input type="radio" name="grades-shooting" value="5" autocomplete="off">5</span></div>');
-	} else if (Math.round(sliderGear) > 0) {
+	}
+	if (Math.round(sliderGear) > 0) {
 		$('.grades-gearing').show();
 		// $('.grades-gearing').append('<h3>Gearing</h3><div class="btn-group" data-toggle="buttons"><span id="grades-gearing-1" class="btn btn-danger"><input type="radio" name="grades-gearing" value="1" autocomplete="off">1</span><span id="grades-gearing-2" class="btn btn-warning"><input type="radio" name="grades-gearing" value="2" autocomplete="off">2</span><span id="grades-gearing-3" class="btn btn-primary"><input type="radio" name="grades-gearing" value="3" autocomplete="off">3</span><span id="grades-gearing-4" class="btn btn-info"><input type="radio" name="grades-gearing" value="4" autocomplete="off">4</span><span id="grades-gearing-5" class="btn btn-success"><input type="radio" name="grades-gearing" value="5" autocomplete="off">5</span></div>');
-	} else if (Math.round(sliderDefense) > 0) {
+	}
+	if (Math.round(sliderDefense) > 0) {
 		$('.grades-defense').show();
 		// $('.grades-defense').append('<h3>Defense</h3><div class="btn-group" data-toggle="buttons"><span id="grades-defense-1" class="btn btn-danger"><input type="radio" name="grades-defense" value="1" autocomplete="off">1</span><span id="grades-defense-2" class="btn btn-warning"><input type="radio" name="grades-defense" value="2" autocomplete="off">2</span><span id="grades-defense-3" class="btn btn-primary"><input type="radio" name="grades-defense" value="3" autocomplete="off">3</span><span id="grades-defense-4" class="btn btn-info"><input type="radio" name="grades-defense" value="4" autocomplete="off">4</span><span id="grades-defense-5" class="btn btn-success"><input type="radio" name="grades-defense" value="5" autocomplete="off">5</span></div>');
-	} else if (Math.round(sliderClimb) > 0) {
+	}
+	if (Math.round(sliderClimb) > 0) {
 		$('.grades-climbing').show();
 		// $('.grades-climbing').append('<h3>Climbing</h3><div class="btn-group" data-toggle="buttons"><span id="grades-climbing-1" class="btn btn-danger"><input type="radio" name="grades-climbing" value="1" autocomplete="off">1</span><span id="grades-climbing-2" class="btn btn-warning"><input type="radio" name="grades-climbing" value="2" autocomplete="off">2</span><span id="grades-climbing-3" class="btn btn-primary"><input type="radio" name="grades-climbing" value="3" autocomplete="off">3</span><span id="grades-climbing-4" class="btn btn-info"><input type="radio" name="grades-climbing" value="4" autocomplete="off">4</span><span id="grades-climbing-5" class="btn btn-success"><input type="radio" name="grades-climbing" value="5" autocomplete="off">5</span></div>');
 	}
@@ -591,7 +598,7 @@ $('#grades-next').click(function(){
 // Last Textarea
 $('#textarea-back').click(function(){
 	$('#last-textarea').fadeOut(500);
-	$('#fuel-end').delay(500).fadeIn(500);
+	$('.grades').delay(500).fadeIn(500);
 });
 // Navbar
 $('#match-number-number').keypress(function(){
