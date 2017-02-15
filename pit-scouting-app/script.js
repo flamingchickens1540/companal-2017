@@ -24,60 +24,67 @@ function createTable() {
 	}
 }
 
+function contains(a, obj) {
+	var i = a.length;
+	while (i--) {
+		if (a[i] === obj) {
+			return true;
+		}
+	}
+	return false;
+}
 
-var accounts = {"01":"Ben",
-				"05":"Nicholas",
-				"12":"Jonathan",
-				"15":"Tristan",
-				"18":"Liam W",
-				"19":"Andrei",
-				"20":"Holly",
-				"22":"Ava",
-				"24":"Amber",
-				"26":"Ruby",
-				"31":"Jake",
-				"34":"Spencer",
-				"37":"Aarushi",
-				"39":"Kean",
-				"40":"Ryan",
-				"42":"David",
-				"44":"Alexander Y",
-				"48":"Kobi",
-				"49":"Claire",
-				"51":"Lauren Mei",
-				"55":"Dylan",
-				"59":"Tyler",
-				"60":"Natalie",
-				"64":"Hammad",
-				"66":"Fin",
-				"70":"Bailey",
-				"71":"Culla",
-				"72":"Josephine",
-				"75":"Noor",
-				"79":"Hannah",
-				"82":"Marti",
-				"85":"Robin",
-				"92":"Zachary",
-				"95":"Quinn",
-				"96":"Alexander M",
-				"98":"Adolfo",
-				"99":"Liam B",
-				"00":"Anonymous Scout"
-				};
+var accounts = {
+	"98": "Adolfo",
+	"50": "Noor", 
+	"60": "Nicholas", 
+	"64": "David", 
+	"66": "Alexander Y", 
+	"81": "Holly", 
+	"24": "Zack", 
+	"25": "Ruby", 
+	"20": "Lauren Mei", 
+	"21": "Hammad", 
+	"22": "Robin", 
+	"23": "Claire", 
+	"44": "Hannah", 
+	"40": "Fin", 
+	"41": "Amber", 
+	"96": "Liam B", 
+	"77": "Bailey", 
+	"76": "Spencer", 
+	"72": "Aarushi", 
+	"97": "Marti", 
+	"58": "Quinn", 
+	"99": "Jake", 
+	"13": "Andrei", 
+	"12": "Alexander M", 
+	"15": "Tristan", 
+	"14": "Jonathan", 
+	"17": "Ava", 
+	"16": "Tyler", 
+	"19": "Kobi", 
+	"18": "Ryan", 
+	"30": "Josephine", 
+	"37": "Kean", 
+	"36": "Liam W", 
+	"34": "Ben J", 
+	"33": "Culla", 
+	"55": "Dylan", 
+	"48": "Natalie"
+};
 var json = {
 	teamNumber: "0000",
 	scoutIds: [00,00],
+	roles: [],
 	drivetrain: {
 		drivetrainShifts:true,
 		drivetrainType:"mecanum",
-		motorType:"775pro",
 		motorCount:17,
-		wheelType:"omni"
+		wheelType:"omni",
+		allWheelsDriven:true
 	},
-	defense: {
-		willDefend: true, //is the team willing to defend?
-		hasDefended: false, //has it been their strategy to defend?
-	},
+	hasDefended: false,
 	shooting: {
 		hasHigh: false,
 		hasLow: false,
@@ -99,6 +106,7 @@ var json = {
 var def = json;
 var logged = false;
 var act = "none";
+var roles = [];
 var secact = "none";
 var team = "none";
 var round = 1;
@@ -122,9 +130,9 @@ $(document).ready(function(){
 		if (fs.existsSync("/Volumes/1540")) {
 			var array = JSON.parse(fs.readFileSync("manifest.json"));
 			for (x in array) {
-				if (!fs.existsSync("/Volumes/1540/"+array[x])) {
+				if (!fs.existsSync("/Volumes/1540/companal/pit-scouting"+array[x])) {
 					var file = fs.readFileSync("pit_data/"+array[x]);
-					createFile("/Volumes/1540/"+array[x],file);
+					createFile("/Volumes/1540/companal/pit-scouting"+array[x],file);
 				}
 			}
 			$("#saved").show();
@@ -250,9 +258,34 @@ $(document).ready(function(){
 		act="none";
 		secact="none";
 		logged=false;
+		round=1;
 	});
 	$("#gearfloor").click(function(){
 		gearFloor = !gearFloor;
+	});
+	$("#shootingrole").click(function(){
+		var x = roles.indexOf("shooting");
+		if (x!=-1) {
+			roles.splice(x,1);
+		} else {
+			roles.push("shooting");
+		}
+	});
+	$("#gearsrole").click(function(){
+		var x = roles.indexOf("gears");
+		if (x!=-1) {
+			roles.splice(x,1);
+		} else {
+			roles.push("gears");
+		}
+	});
+	$("#defendrole").click(function(){
+		var x = roles.indexOf("defending");
+		if (x!=-1) {
+			roles.splice(x,1);
+		} else {
+			roles.push("defending");
+		}
 	});
 	$("#gearhuman").click(function(){
 		gearHuman = !gearHuman;
@@ -275,6 +308,15 @@ $(document).ready(function(){
 	$("#othermotor").click(function() {
 		$("#motoroptions").show();
 	});
+	$("#otherrole").click(function() {
+		var x = roles.indexOf("other");
+		if (x!=-1) {
+			roles.splice(x,1);
+		} else {
+			roles.push("other");
+		}
+		$("#roletext").show();
+	});
 	$("input").keypress(function (evt) {
 		  var keycode = evt.charCode || evt.keyCode;
 		  if (keycode  == 9) { //Enter key's keycode
@@ -285,15 +327,14 @@ $(document).ready(function(){
 	$("#submit").click(function() {
 		var list = [];
 		list.push(["Drive Train Shifts",$("input[name='drivetrainShifts']:checked").val()]);
-		list.push(["Type of Motor",$("input[name='motorType']:checked").val()]);
 		list.push(["Type of Wheel",$("input[name='wheelType']:checked").val()]);
 		list.push(["Number of Motors",$("#motorcount").val()]);
 		list.push(["Can Robot Climb",$("input[name='canClimb']:checked").val()]);
 		list.push(["Ball Capacity",$("#ballCapacity").val()]);
 		list.push(["High Goal Shooter",$("input[name='hasHigh']:checked").val()]);
 		list.push(["Low Goal Shooter",$("input[name='hasLow']:checked").val()]);
-		list.push(["Has Robot Defended",$("input[name='hasDefended']:checked").val()]);
-		list.push(["Will Robot Defend",$("input[name='willDefend']:checked").val()]);
+		list.push(["All Wheels Driven",$("input[name='wheelsDriven']:checked").val()]);
+//		list.push(["Has Robot Defended",$("input[name='hasDefended']:checked").val()]);
 		list.push(["Robot's Weight",$("#roboweight").val()]);
 		list.push(["Can Deposit Gears",$("input[name='gears']:checked").val()]);
 		list.push(["Shooter Efficiency",$("#accuracy").val()]);
@@ -307,6 +348,11 @@ $(document).ready(function(){
 			}
 		}
 		if (go) {
+			var z = roles.indexOf("other");
+			if (z!=-1) {
+				roles.splice(z,1);
+				roles.push($("#roletext").val());
+			}
 			json["teamNumber"]=team;
 			json["scoutIds"]=[act,secact];
 			json["notes"]=$("#extratext").val();
@@ -316,12 +362,6 @@ $(document).ready(function(){
 			} else {
 				json["drivetrain"]["drivetrainType"]=$("#driveoptions").val();
 			}
-			if ($("input[name='motorType']:checked").val()!="other") {
-				json["drivetrain"]["motorType"]=$("input[name='motorType']:checked").val();
-			} else {
-				console.log($("#motoroptions").val());
-				json["drivetrain"]["motorType"]=$("#motoroptions").val();
-			}
 			json["drivetrain"]["motorCount"]=$("#motorcount").val();
 			if ($("input[name='wheelType']:checked").val()!="other") {
 				json["drivetrain"]["wheelType"]=$("input[name='wheelType']:checked").val();
@@ -329,8 +369,9 @@ $(document).ready(function(){
 				json["drivetrain"]["wheelType"]=$("#wheeloptions").val();
 			}
 			json["canClimb"]=$("input[name='canClimb']:checked").val();
-			json["defense"]["willDefend"]=$("input[name='willDefend']:checked").val();
-			json["defense"]["hasDefended"]=$("input[name='hasDefended']:checked").val();
+			json["allWheelsDriven"]=$("input[name='wheelsDriven']:checked").val();
+			json["hasDefended"]=false;
+			//json["hasDefended"]=$("input[name='hasDefended']:checked").val();
 			json["weight"]=$("#roboweight").val();
 			json["shooting"]["hasHigh"]=$("input[name='hasHigh']:checked").val();
 			json["shooting"]["hasLow"]=$("input[name='hasLow']:checked").val();
@@ -342,6 +383,7 @@ $(document).ready(function(){
 			json["gears"]["canDeposit"]=$("input[name='gears']:checked").val();
 			json["gears"]["floorLoading"]=gearFloor;
 			json["gears"]["humanLoading"]=gearHuman;
+			json["roles"]=roles;
 			var str = "pit_data/"+team+".json";
 			var spotify = JSON.stringify(json);
 		 	createFile(str,spotify);
