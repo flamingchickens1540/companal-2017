@@ -38,7 +38,8 @@
     <div id="the-whole-login" class="container">
       <form class="login">
         <div class="input-group">
-          <input type="text" maxlength="2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="login-number" id="login-input-number" class="form-control" placeholder="Ex: 21">
+          <!-- <input type="text" maxlength="2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="login-number" id="login-input-number" class="form-control" placeholder="Ex: 21"> -->
+          <input type="number" min="10" max="99" name="login-number" id="login-input-number" class="form-control" placeholder="Ex: 15">
           <div class="input-group-btn">
             <button id="login-button" class="btn btn-success" type="button">
               <i class="fa fa-sign-in"></i>&nbsp;Sign In
@@ -615,7 +616,7 @@
         <div class="col-sm-4">
           <div class="match-number" style="text-align: center;">
             <h4 class="match-number-title">Match Number: </h4>
-            <input id="match-number-number" class="form-control">
+            <input type="number" id="match-number-number" class="form-control">
             <!-- <input id="match-number-number" readonly="readonly" style="width: 90px;" value="1"> -->
             <div class="edit-match-btn">
               <br>

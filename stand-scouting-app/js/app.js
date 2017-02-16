@@ -323,7 +323,7 @@ for (i in schedule) {
 				break;
 			case "b2":
 				teamNum = schedule[i][4];
-				teamColorName = "Blue 2"
+				teamColorName = "Blue 2";
 				break;
 			case "b3":
 				teamNum = schedule[i][5];
@@ -335,6 +335,28 @@ for (i in schedule) {
 	}
 }
 $('.team-color').append("<h3 style=\"text-align: center;\">Color: <span class='color-number'>" + teamColorName + "</span>, Team Number: <span style='color: purple;'>" + teamNum + "</span>");
+switch (teamColor) {
+	case "r1":
+		$('.color-number').css('color', 'red');
+		break;
+	case "r2":
+		$('.color-number').css('color', 'red');
+		break;
+	case "r3":
+		$('.color-number').css('color', 'red');
+		break;
+	case "b1":
+		$('.color-number').css('color', 'blue');
+		break;
+	case "b2":
+		$('.color-number').css('color', 'red');
+		break;
+	case "b3":
+		$('.color-number').css('color', 'red');
+		break;
+	default:
+		teamNum = ":(";
+}
 // Forgot ID
 $('#forgot-id-button').click(function(){
 	$("#the-whole-login").fadeOut(500);
