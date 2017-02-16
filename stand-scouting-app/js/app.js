@@ -612,11 +612,14 @@ $('#grades-next').click(function(){
 		gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
 		if (Math.round(sliderShoot) == 0) {
 			gradesShooting = 0;
-		} else if (Math.round(sliderGear) == 0) {
+		}
+		if (Math.round(sliderGear) == 0) {
 			gradesGearing = 0;
-		} else if (Math.round(sliderDefense) == 0) {
+		}
+		if (Math.round(sliderDefense) == 0) {
 			gradesDefense = 0;
-		} else if (Math.round(sliderClimb) == 0) {
+		}
+		if (Math.round(sliderClimb) == 0) {
 			gradesClimbing = 0;
 		}
 	}
