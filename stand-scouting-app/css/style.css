@@ -1,8 +1,15 @@
 body{
 	font-family: 'Montserrat';
 }
-span.btn:hover, label.btn:hover{
-	background: pink !important;
+span.btn.active, label.btn.active{
+	/*background: #dab420 !important;
+	border: 1px solid #dab420 !important;*/
+	/*background: #69dab1 !important;
+	border: 1px solid #69dab1 !important;*/
+	/*background: #eda200 !important;
+	border: 1px solid #eda200 !important;*/
+	background: #a200ed !important;
+	border: 1px solid #a200ed !important;
 }
 .password{
 	text-align: center;

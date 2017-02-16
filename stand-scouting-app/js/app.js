@@ -504,15 +504,19 @@ $('#pie-next').click(function(){
 		// $('.grades-shooting').empty();
 		$('.grades-shooting').hide();
 		gradesShooting = 0;
-	} else if (Math.round(sliderGear) == 0) {
+	}
+	if (Math.round(sliderGear) == 0) {
 		// $('.grades-gearing').empty();
 		$('.grades-gearing').hide();
 		gradesGearing = 0;
-	} else if (Math.round(sliderDefense) == 0) {
+	}
+	if (Math.round(sliderDefense) == 0) {
+		console.log("defense");
 		// $('.grades-defense').empty();
 		$('.grades-defense').hide();
 		gradesDefense = 0;
-	} else if (Math.round(sliderClimb) == 0) {
+	}
+	if (Math.round(sliderClimb) == 0) {
 		// $('.grades-climbing').empty();
 		$('.grades-climbing').hide();
 		gradesClimbing = 0;
@@ -601,7 +605,7 @@ $('#textarea-back').click(function(){
 	$('.grades').delay(500).fadeIn(500);
 });
 // Navbar
-$('#match-number-number').keypress(function(){
+$('#match-number-number').click(function(){
 	$('.edit-match-btn').fadeIn(500);
 });
 $('.edit-match').click(function(){
