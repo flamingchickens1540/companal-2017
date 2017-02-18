@@ -56,9 +56,9 @@
 		}
 		.btn-warning.active {
 			background: #b76105 !important;
+			border: 1px solid black;
 		}
 		.maintext {
-/* 			border: 1px solid black; */
 			position: relative;
 			top:5px;
 			margin-left:auto;
@@ -73,7 +73,7 @@
 	</style>
   </head>
   <body>
-	<div style="top:700px;opacity:0.0" id="scouting" class="center box">
+	<div style="height:1000;top:700px;opacity:0.0" id="scouting" class="center box">
 		<span style="font-size:45px" id="teamdisplay"></span>
 		<br />
 		<br />
@@ -117,7 +117,7 @@
 			<br />
 			<strong class="cooltext">How many drive motors does your robot have?</strong>
 	  		<br />
-	  		<input id="motorcount" type="text" style="color:white;background-color:#F89406"/>
+	  		<input id="motorcount" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="color:white;background-color:#F89406"/>
 	  		<br />
 		</div>
 		<div hidden=true id="roundtwo">
@@ -144,6 +144,7 @@
 	  			</label>
 			</div>
 			<br />
+			<input hidden=true type="text" id="wheeloptions" style="color:white;background-color:#F89406"/>
 			<br />
 			<strong class="cooltext">Are all wheels driven?</strong>
 			<br />
@@ -155,8 +156,6 @@
 	    			<input name="wheelsDriven" value="false" type="radio" autocomplete="off"> no
 	  			</label>
 			</div>
-			<br />
-			<input hidden=true type="text" id="wheeloptions" style="color:white;background-color:#F89406"/>
 			<br />
 			<strong class="cooltext">Can your robot climb?</strong>
 			<br />
@@ -172,7 +171,7 @@
 		<div hidden=true id="roundthree">
 			<strong class="cooltext">What is your robot's weight in pounds?</strong>
 			<br />
-			<input id="roboweight" type="text" style="color:white;background-color:#F89406"/>
+			<input id="roboweight" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="color:white;background-color:#F89406"/>
 			<br />
 			<br />
 			<strong class="cooltext">What is your preferred role for the robot?</strong>
@@ -237,7 +236,7 @@
 			<br />
 			<strong class="cooltext">How many balls can your robot hold?</strong>
 			<br />
-			<input id="ballCapacity" type="text" style="color:white;background-color:#F89406"/>
+			<input id="ballCapacity" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="color:white;background-color:#F89406"/>
 			<br />
 		</div>
 		<div hidden=true id="roundfive">

@@ -43,6 +43,8 @@ $(document).ready(function(){
 		newtext.setAttribute("id",teams[x]+"text");
 		$("#"+teams[x]).append(newtext);
 		$("#"+teams[x]+"text").text(teams[x]);
+		$("#"+teams[x]).css("background-color","white");
+		$("#"+teams[x]).css("border","solid 1px black");
 	}
 	for (x in images) {
 		var newimg = document.createElement("img");
@@ -56,7 +58,7 @@ $(document).ready(function(){
 	$(".removal").click(function(){
 		if (confirm("Delete this photo?")) {
 			var id = $(this).attr("id");
-			fs.unlink("../../Dropbox/1540_Photos/"+id);
+			fs.unlink("../../../Dropbox/1540_Photos/"+id);
 			$(this).remove();
 		}
 	});

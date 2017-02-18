@@ -127,17 +127,32 @@ $(document).ready(function(){
 	createTable();
 	$("body").css("overflow", "hidden");
 	$("#savetoflash").click(function(){
-		if (fs.existsSync("/Volumes/1540")) {
-			var array = JSON.parse(fs.readFileSync("manifest.json"));
-			for (x in array) {
-				if (!fs.existsSync("/Volumes/1540/companal/pit-scouting"+array[x])) {
-					var file = fs.readFileSync("pit_data/"+array[x]);
-					createFile("/Volumes/1540/companal/pit-scouting"+array[x],file);
+		if (navigator.platform=="MacIntel") {
+			if (fs.existsSync("/Volumes/1540")) {
+				var array = JSON.parse(fs.readFileSync("manifest.json"));
+				for (x in array) {
+					if (!fs.existsSync("/Volumes/1540/companal/pit-scouting"+array[x])) {
+						var file = fs.readFileSync("pit_data/"+array[x]);
+						createFile("/Volumes/1540/companal/pit-scouting"+array[x],file);
+					}
 				}
+				$("#saved").show();
+			} else {
+				$("#no1540").show();
 			}
-			$("#saved").show();
-		} else {
-			$("#no1540").show();
+		} else if (navigator.platform=="Win32") {
+			if (fs.existsSync("K:/Companal/pit-scouting")) {
+				var array = JSON.parse(fs.readFileSync("manifest.json"));
+				for (x in array) {
+					if (!fs.existsSync("K:/Companal/pit-scouting"+array[x])) {
+						var file = fs.readFileSync("pit_data/"+array[x]);
+						createFile("K:/Companal/pit-scouting"+array[x],file);
+					}
+				}
+				$("#saved").show();
+			} else {
+				$("#no1540").show();
+			}
 		}
 	});
 	$("#logbutton").click(function(){
@@ -186,6 +201,7 @@ $(document).ready(function(){
 		if (round==2) {
 			$("#roundtwo").show();
 			$("#roundone").hide();
+			$("#previous").show();
 		} else if (round==3) {
 			$("#roundthree").show();
 			$("#roundtwo").hide();
@@ -201,6 +217,7 @@ $(document).ready(function(){
 		} else if (round==7) {
 			$("#roundsix").hide();
 			$("#roundseven").show();
+			$("#next").hide();
 		}
 		if (round>7) {
 			round=7;
@@ -211,6 +228,7 @@ $(document).ready(function(){
 		if (round==1) {
 			$("#roundtwo").hide();
 			$("#roundone").show();
+			$("#previous").hide();
 		} else if (round==2) {
 			$("#roundtwo").show();
 			$("#roundthree").hide();
@@ -226,6 +244,7 @@ $(document).ready(function(){
 		} else if (round==6) {
 			$("#roundseven").hide();
 			$("#roundsix").show();
+			$("#next").show();
 		}
 		if (round<1) {
 			round=1;
@@ -248,17 +267,18 @@ $(document).ready(function(){
 		secact="none";
 	});
 	$(".signout").click(function(){
-		$("#lognum").val("");
-		$("#lognumb").val("");
-		$("#logname").val("");
-		$("#teamsel").animate({opacity:'0.0',top:'700px'},1600);
-		$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
-		$("#top").animate({opacity:'1.0',top:'0'},1600);
-		$("#camerabox").animate({opacity:'0.0',top:'700px'},1600);
-		act="none";
-		secact="none";
-		logged=false;
-		round=1;
+		remote.getCurrentWindow().reload();
+//		$("#lognum").val("");
+// 		$("#lognumb").val("");
+// 		$("#logname").val("");
+// 		$("#teamsel").animate({opacity:'0.0',top:'700px'},1600);
+// 		$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
+// 		$("#top").animate({opacity:'1.0',top:'0'},1600);
+// 		$("#camerabox").animate({opacity:'0.0',top:'700px'},1600);
+// 		act="none";
+// 		secact="none";
+// 		logged=false;
+// 		round=1;
 	});
 	$("#gearfloor").click(function(){
 		gearFloor = !gearFloor;
@@ -399,6 +419,8 @@ $(document).ready(function(){
 	});
 	$("#teamsubmit").click(function(){
 		team = $("#teaminput").val();
+		$("#teaminput").attr("disabled", true);
+		$("#teamsubmit").attr("disabled", true);
 		$("#scouting").animate({opacity:'1.0',top:'120'},1600);
 		$("#teamdisplay").text(team);
 		$("#teaminput").val("");
@@ -409,6 +431,7 @@ $(document).ready(function(){
 		$("#roundfive").hide();
 		$("#roundsix").hide();
 		$("#roundseven").hide();
+		$("#previous").hide();
 	});
 	$("#forgetid").click(function(){
 		$("body").css("overflow", "auto");
