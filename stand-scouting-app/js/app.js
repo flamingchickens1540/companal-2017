@@ -107,6 +107,8 @@ $(document).ready(function(){
 	$('.edit-match-btn').hide();
 	$('.choose-role').hide();
 	$('.password').hide();
+	$('.betting-2').hide();
+	$('.betting-end').hide();
 });
 // FS
 function createFile(fileName, text){
@@ -200,45 +202,46 @@ readFile("matchNum.txt");
 // 	});
 // });
 // Login
-var accounts = {
-	"98": "Adolfo",
-	"50": "Noor",
-	"60": "Nicholas",
-	"64": "David",
-	"66": "Alexander Y",
-	"81": "Holly",
-	"24": "Zack",
-	"25": "Ruby",
-	"20": "Lauren Mei",
-	"21": "Hammad",
-	"22": "Robin",
-	"23": "Claire",
-	"44": "Hannah",
-	"40": "Fin",
-	"41": "Amber",
-	"96": "Liam B",
-	"77": "Bailey",
-	"76": "Spencer",
-	"72": "Aarushi",
-	"97": "Marti",
-	"58": "Quinn",
-	"99": "Jake",
-	"13": "Andrei",
-	"12": "Alexander M",
-	"15": "Tristan",
-	"14": "Jonathan",
-	"17": "Ava",
-	"16": "Tyler",
-	"19": "Kobi",
-	"18": "Ryan",
-	"30": "Josephine",
-	"37": "Kean",
-	"36": "Liam W",
-	"34": "Ben J",
-	"33": "Culla",
-	"55": "Dylan",
-	"48": "Natalie"
-};
+var accounts = JSON.parse(fs.readFileSync('scouts.json', 'utf-8'));
+// var accounts = {
+// 	"98": ["Adolfo", 100],
+// 	"50": ["Noor", 100],
+// 	"60": ["Nicholas", 100],
+// 	"64": ["David", 100],
+// 	"66": ["Alexander Y", 100],
+// 	"81": ["Holly", 100],
+// 	"24": ["Zack", 100],
+// 	"25": ["Ruby", 100],
+// 	"20": ["Lauren Mei", 100],
+// 	"21": ["Hammad", 100],
+// 	"22": ["Robin", 100],
+// 	"23": ["Claire", 100],
+// 	"44": ["Hannah", 100],
+// 	"40": ["Fin", 100],
+// 	"41": ["Amber", 100],
+// 	"96": ["Liam B", 100],
+// 	"77": ["Bailey", 100],
+// 	"76": ["Spencer", 100],
+// 	"72": ["Aarushi", 100],
+// 	"97": ["Marti", 100],
+// 	"58": ["Quinn", 100],
+// 	"99": ["Jake", 100],
+// 	"13": ["Andrei", 100],
+// 	"12": ["Alexander M", 100],
+// 	"15": ["Tristan", 100],
+// 	"14": ["Jonathan", 100],
+// 	"17": ["Ava", 100],
+// 	"16": ["Tyler", 100],
+// 	"19": ["Kobi", 100],
+// 	"18": ["Ryan", 100],
+// 	"30": ["Josephine", 100],
+// 	"37": ["Kean", 100],
+// 	"36": ["Liam W", 100],
+// 	"34": ["Ben J", 100],
+// 	"33": ["Culla", 100],
+// 	"55": ["Dylan", 100],
+// 	"48": ["Natalie", 100]
+// };
 function createTable() {
     var keys = Object.keys(accounts);
     for (x in keys) {
@@ -349,10 +352,10 @@ switch (teamColor) {
 		$('.color-number').css('color', 'blue');
 		break;
 	case "b2":
-		$('.color-number').css('color', 'red');
+		$('.color-number').css('color', 'blue');
 		break;
 	case "b3":
-		$('.color-number').css('color', 'red');
+		$('.color-number').css('color', 'blue');
 		break;
 	default:
 		teamNum = ":(";
@@ -390,13 +393,41 @@ $('.flashdrive-save').click(function(){
 var jsonBet;
 $('#bet-blue-win, #bet-red-win').click(function(){
 	$('.betting').fadeOut(500);
-	$('#post-login').delay(500).fadeIn(500);
+	$('.betting-2').delay(500).fadeIn(500);
 });
 $('#bet-red-win').click(function(){
 	jsonBet = "Red";
 });
 $('#bet-blue-win').click(function(){
 	jsonBet = "Blue";
+});
+// Betting 2
+$('#betting-2-next').click(function(){
+	$('.betting-2').fadeOut(500);
+	$('#post-login').delay(500).fadeIn(500);
+});
+$('#betting-2-back').click(function(){
+	$('.betting-2').fadeOut(500);
+	$('.betting').delay(500).fadeIn(500);
+});
+var pipsRange = document.getElementById('pips-range');
+var range_all_sliders = {
+	'min': [0, 5],
+	// '25%': [12.5, 12.5],
+	'20%': [10, 5],
+	'40%': [20, 5],
+	'60%': [30, 5],
+	'80%': [40, 5],
+	'max': [50]
+};
+noUiSlider.create(pipsRange, {
+	range: range_all_sliders,
+	start: 25,
+	connect: [true, false],
+	pips: {
+		mode: 'range',
+		density: 10
+	}
 });
 // Post-Login
 $('#auto-next').click(function(){
@@ -628,6 +659,15 @@ $('#grades-next').click(function(){
 $('#textarea-back').click(function(){
 	$('#last-textarea').fadeOut(500);
 	$('.grades').delay(500).fadeIn(500);
+});
+$('#textarea-next').click(function(){
+	$('#last-textarea').fadeOut(500);
+	$('.betting-end').delay(500).fadeIn(500);
+});
+// Betting End
+$('#betting-end-back').click(function(){
+	$('.betting-end').fadeOut(500);
+	$('#last-textarea').delay(500).fadeIn(500);
 });
 // Navbar
 $('#match-number-number').click(function(){
@@ -931,6 +971,11 @@ $('#save-file').click(function(){
 	manifestParse.push(filepath);
 	var mStringify = JSON.stringify(manifestParse);
 	fs.writeFileSync('manifest.json', mStringify);
+	// Second File
+	var json2 = {
+		pick: jsonBet,
+		value: Math.round($('#pips-range').val())
+	};
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;

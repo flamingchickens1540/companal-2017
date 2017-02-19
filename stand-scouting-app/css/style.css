@@ -66,6 +66,12 @@ span.btn.active, label.btn.active{
 .choose-role{
 	text-align: center;
 }
+.betting-2-buttons{
+	text-align: center;
+}
+.betting-end-nav{
+	text-align: center;
+}
 #pie-shooting, #pie-gearing, #pie-defense, #pie-climbing, #pie-futzing{
 	display: block;
 	margin: auto;
@@ -91,18 +97,18 @@ span.btn.active, label.btn.active{
 	display: block;
 	margin: auto;
 }
-#bet-blue-win, #bet-blue-win-intro{
+#bet-blue-win, #bet-blue-win-intro, #blue-win{
 	background: #4286f4 !important;
 	color: white;
 }
-#bet-blue-win, #bet-red-win{
+#bet-blue-win, #bet-red-win, #red-win, #blue-win{
 	padding: 100px;
 	border-radius: 10%;
 	font-size: 36pt;
 	display: block;
 	margin: auto;
 }
-#bet-blue-win:hover, #bet-blue-win-intro:hover{
+#bet-blue-win:hover, #bet-blue-win-intro:hover, #blue-win:hover{
 	background: #356fce !important;
 }
 #last-textarea{
@@ -130,6 +136,11 @@ span.btn.active, label.btn.active{
 	text-align: center;
 }
 #slider-color{
+	width: 80%;
+	display: block;
+	margin: auto;
+}
+#pips-range{
 	width: 80%;
 	display: block;
 	margin: auto;
