@@ -959,10 +959,11 @@ $('#save-file').click(function(){
 		}
 	};
 	var stringify = JSON.stringify(json);
-	var filepath = "m" + $("#match-number-number").val() + "-" + teamColor + "-" + teamNum + ".json";
+	var match = parseInt(fs.readFileSync('matchNum.txt', 'utf-8'));
+	var filepath = "m" + match + "-" + teamColor + "-" + teamNum + ".json";
 	createFile(__dirname + "/data/" + filepath, stringify);
 	deleteFile('matchNum.txt');
-	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
+	createFile('matchNum.txt', match + 1);
 	if (fs.existsSync('manifest.json') == false) {
 		fs.writeFileSync('manifest.json', "[]")
 	}
@@ -971,11 +972,6 @@ $('#save-file').click(function(){
 	manifestParse.push(filepath);
 	var mStringify = JSON.stringify(manifestParse);
 	fs.writeFileSync('manifest.json', mStringify);
-	// Second File
-	var json2 = {
-		pick: jsonBet,
-		value: Math.round($('#pips-range').val())
-	};
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;
