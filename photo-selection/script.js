@@ -19,16 +19,20 @@ function rotate(path,img,name) {
 			img.style.position = "relative";
 			if (error) {
 				renameFile(todb+id,todb+"A-"+id.slice(2));
+				img.setAttribute("id","A-"+id.slice(2));
 				return;
 			} else if (orientation==6) {
 				img.style.transform = "rotate(90deg)";
 				renameFile(todb+id,todb+"C-"+id.slice(2));
+				img.setAttribute("id","C-"+id.slice(2));
 			} else if (orientation==3) {
 				img.style.transform = "rotate(180deg)";
 				renameFile(todb+id,todb+"B-"+id.slice(2));
+				img.setAttribute("id","B-"+id.slice(2));
 			} else if (orientation==8) {
 				img.style.transform = "rotate(270deg)";
 				renameFile(todb+id,todb+"D-"+id.slice(2));
+				img.setAttribute("id","D-"+id.slice(2));
 			}
 			var z = ((img.naturalHeight)/(img.naturalWidth/img.width)-img.width)/2;
 			console.log(z+" "+img.naturalHeight);

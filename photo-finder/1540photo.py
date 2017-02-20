@@ -1,6 +1,6 @@
 ### Supports .jpg .png .gif
 
-from gmail import Gmail
+from gmail.gmail.gmail import Gmail
 import time, os
 
 def containsNumber(string):
@@ -10,7 +10,7 @@ def login(g):
     try:
         g.login("1540photo","robotics1540")
     except:
-        time.sleep(500)
+        time.sleep(50)
         login(g)
 def run():
     g = Gmail()
@@ -44,7 +44,7 @@ def run():
                 exists = True
                 num = 1
                 while exists:
-                    if os.path.isfile("../../../Dropbox/1540_Photos/"+"0"+str(num)+"-"+str(subject)+".jpg"):
+                    if os.path.isfile("../../../Dropbox/1540_Photos/Z-"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/Z-"+"0"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/B-"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/B-"+"0"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/C-"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/C-"+"0"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/D-"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/D-"+"0"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/A-"+str(num)+"-"+str(subject)+".jpg") or os.path.isfile("../../../Dropbox/1540_Photos/A-"+"0"+str(num)+"-"+str(subject)+".jpg"):
                         num+=1
                     else:
                         exists = False
@@ -55,7 +55,6 @@ def run():
                 print 'Saving attachment: '+num+"-"+str(subject)
                 print 'Size: ' +str(attachment.size) + 'KB'
                 attachment.save('../../../Dropbox/1540_Photos/Z-'+num+"-"+str(subject)+".jpg")
-                attachment.save('../../../Dropbox/All_Photos/'+num+"-"+str(subject)+".jpg")
         email.read()
     g.logout()
 while True:

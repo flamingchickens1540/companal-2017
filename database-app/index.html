@@ -1,0 +1,47 @@
+<html>
+	<head>
+    	<link href="Bootstrap/css/bootstrap.css" rel="stylesheet">
+  	 	<script>window.$ = window.jQuery = require('jquery');</script>
+		<script src="Bootstrap/js/bootstrap.js"></script>
+    	<script type="text/javascript"> window.$ = window.jQuery = require('jquery'); </script> <!-- jQuery -->
+    	<!-- <link rel='stylesheet' type='text/css' href='/Users/Fin/Database App/stylesheet.css'> My stylesheet -->
+    	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> <!-- Raleway font -->
+    	<link href="Varela_Round/stylesheet.css" rel="stylesheet">
+    	<style>
+    		body {
+    			background-color #d7d9dd
+    		}
+    		* {
+    			font-family: Varela Round !important;
+    		}
+    		.center {
+    			text-align:center;
+    		}
+    		.btn {
+    			background-color:#d7d9dd;
+    		}
+    	</style>
+    </head>
+	<body>
+		<div style="" class="center box">
+			<h2>Database App</h2>
+			<br>
+			<button class="btn" type="button" onclick="importData()" class="btn-primary btn.lg">Import</button>
+			<button class="btn" type="button" onclick="exportData()" class="btn-primary btn.lg">Export</button>
+		</div>
+		<div>
+			<br><br>
+			<table id='scoutingTable' border="1" class="center-block table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>Scout</th>
+    					<th>Matches Scouted</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<script src='script.js'> </script>
+	</body>
+</html>

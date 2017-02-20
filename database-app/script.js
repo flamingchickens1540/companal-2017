@@ -48,7 +48,7 @@ function importData() {
       updateTable();
       alert('Done importing data!');
       } else {
-        alert('USB not inserted properly ;)');
+        alert('USB not inserted properly');
       }
     } else {
       alert('Oops! Something went wrong');
@@ -57,7 +57,7 @@ function importData() {
 
 function exportData() {
   // Run Alexander's code here
-  //var processedData = new Folder("~/Volumes/1540/ProcessedData");
+	var processedData = new Folder("~/Volumes/1540/ProcessedData");
 }
 
 function inDict(thing, dict) {
