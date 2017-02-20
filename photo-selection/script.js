@@ -4,33 +4,72 @@ var options = {quality: 85};
 var content;
 
 function rotate(path,img,name) {
-	auto.rotate(path, options, function(error, buffer, orientation) {
+	var id = img.getAttribute("id");
+	var todb = "../../../Dropbox/1540_Photos/";
+	var c = id.slice(0,-1*(id.length-1));
+	if (c=="Z") {
+		auto.rotate(path, options, function(error, buffer, orientation) {
+			progress+=1;
+			if (progress==images.length) {
+				$("#holder").show();
+				$("#load").hide();
+			}
+			var val = parseInt($("#"+name).attr("value"));
+			img.style.top-=val*2;
+			img.style.position = "relative";
+			if (error) {
+				renameFile(todb+id,todb+"A-"+id.slice(2));
+				return;
+			} else if (orientation==6) {
+				img.style.transform = "rotate(90deg)";
+				renameFile(todb+id,todb+"C-"+id.slice(2));
+			} else if (orientation==3) {
+				img.style.transform = "rotate(180deg)";
+				renameFile(todb+id,todb+"B-"+id.slice(2));
+			} else if (orientation==8) {
+				img.style.transform = "rotate(270deg)";
+				renameFile(todb+id,todb+"D-"+id.slice(2));
+			}
+			var z = ((img.naturalHeight)/(img.naturalWidth/img.width)-img.width)/2;
+			console.log(z+" "+img.naturalHeight);
+			img.style.top=parseInt((img.style.top).slice(0,-2))-z;
+			$("#"+name).attr("value",val+z);
+			$("#"+name).append(document.createElement("br"));
+			$("#"+name).append(document.createElement("br"));
+			$("#"+name).append(document.createElement("br"));
+			$("#"+name).append(document.createElement("br"));
+		});
+	} else {
 		progress+=1;
 		if (progress==images.length) {
 			$("#holder").show();
 			$("#load").hide();
 		}
 		var val = parseInt($("#"+name).attr("value"));
-		img.style.top-=val*2;
+		img.style.top-=(val*2);
 		img.style.position = "relative";
-		if (error) {
+		if (c=="A") {
 			return;
-		}
-		if (orientation==6) {
+		} else if (c=="C") {
 			img.style.transform = "rotate(90deg)";
-		} else if (orientation==3) {
-			img.setAttribute("style","transform:rotate(180deg)");
-		} else if (orientation==8) {
-			img.setAttribute("style","transform:rotate(270deg)");
+		} else if (c=="B") {
+			img.style.transform = "rotate(180deg)";
+		} else if (c=="D") {
+			img.style.transform = "rotate(270deg)";
 		}
-		var y = img.naturalWidth/img.width;
-		var z = ((img.height)/y-img.width)/2;
-		img.style.top=parseInt((img.style.top).slice(0,-2))-z;
-		$("#"+name).attr("value",val+z);
+		img.style.top=parseInt((img.style.top).slice(0,-2))-37;
+		$("#"+name).attr("value",val);
 		$("#"+name).append(document.createElement("br"));
 		$("#"+name).append(document.createElement("br"));
 		$("#"+name).append(document.createElement("br"));
 		$("#"+name).append(document.createElement("br"));
+	}
+}
+
+function renameFile(oldPath,newPath) {
+	fs.rename(oldPath,newPath, (err) => {
+		if (err) throw err;
+		console.log('renamed complete');
 	});
 }
 
@@ -41,13 +80,7 @@ function readFile(file) {
 	    }
 	    content = data;
 	    console.log(content);
-    	processFile();
 	});
-	processFile();
-}
-
-function processFile() {
-    console.log(content);
 }
 
 function addImage(name) {
@@ -63,7 +96,6 @@ fs.readdir("../../../Dropbox/1540_Photos/", (err, files) => {
 		images.push(file);
 	});
 });
-
 $(document).ready(function(){
 	$("#holder").hide();
 	for (x in teams) {
@@ -78,17 +110,27 @@ $(document).ready(function(){
 		$("#"+teams[x]).css("border","solid 1px black");
 		$("#"+teams[x]).attr("value",0);
 	}
+	images.shift();
 	for (x in images) {
 		var newimg = document.createElement("img");
-		var it = images[x].slice(3,-4);
- 	 	newimg.className="removal";
- 	 	newimg.setAttribute("src","../../../Dropbox/1540_Photos/"+images[x]);
-		newimg.setAttribute("width","300px");
-		newimg.setAttribute("id",images[x]);
-		rotate("../../../Dropbox/1540_Photos/"+images[x],newimg,it);
-		$("#"+it).append(newimg);
-		$("#"+it).append(document.createElement("br"));
-		$("#"+it).append(document.createElement("br"));
+		var it = images[x].slice(5,-4);
+		if ($("#"+it).length) {
+		 	newimg.className="removal";
+		 	newimg.setAttribute("src","../../../Dropbox/1540_Photos/"+images[x]);
+			newimg.setAttribute("width","300px");
+			newimg.setAttribute("id",images[x]);
+			rotate("../../../Dropbox/1540_Photos/"+images[x],newimg,it);
+			$("#"+it).append(newimg);
+			$("#"+it).append(document.createElement("br"));
+			$("#"+it).append(document.createElement("br"));
+		} else {
+			progress+=1;
+			if (progress==images.length) {
+				$("#holder").show();
+				$("#load").hide();
+			}
+			fs.unlink("../../../Dropbox/1540_Photos/"+images[x]);
+		}
 	}
 	$(".removal").click(function(){
 		if (progress==images.length) {
