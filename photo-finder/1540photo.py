@@ -27,9 +27,10 @@ def run():
                 num="0"+str(num)
             else:
                 num=str(num)
-            print 'Saving attachment: '+attachment.name
+            print 'Saving attachment: '+str(subject)+".jpg"
             print 'Size: ' +str(attachment.size) + 'KB'
             attachment.save('../../../Dropbox/1540_Photos/'+num+"-"+str(subject)+".jpg")
+            attachment.save('../../../Dropbox/All_Photos/'+num+"-"+str(subject)+".jpg")
         email.read()
     g.logout()
 while True:
