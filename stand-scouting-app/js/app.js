@@ -3,6 +3,8 @@ window.$ = window.jQuery = require('jquery');
 var noUiSlider = require('nouislider');
 var chartjs = require('chart.js');
 var fs = require('fs');
+// OPR
+var opr = 50;
 // // getmac
 // var teamColor;
 // var teamNum;
@@ -396,10 +398,10 @@ $('#bet-blue-win, #bet-red-win').click(function(){
 	$('.betting-2').delay(500).fadeIn(500);
 });
 $('#bet-red-win').click(function(){
-	jsonBet = "Red";
+	jsonBet = "red";
 });
 $('#bet-blue-win').click(function(){
-	jsonBet = "Blue";
+	jsonBet = "blue";
 });
 // Betting 2
 $('#betting-2-next').click(function(){
@@ -564,7 +566,6 @@ $('#pie-next').click(function(){
 		gradesGearing = 0;
 	}
 	if (Math.round(sliderDefense) == 0) {
-		console.log("defense");
 		// $('.grades-defense').empty();
 		$('.grades-defense').hide();
 		gradesDefense = 0;
@@ -668,6 +669,16 @@ $('#textarea-next').click(function(){
 $('#betting-end-back').click(function(){
 	$('.betting-end').fadeOut(500);
 	$('#last-textarea').delay(500).fadeIn(500);
+});
+var win;
+$('#red-win').click(function(){
+	win = "red";
+});
+$('#blue-win').click(function(){
+	win = "blue";
+});
+$('#red-win, #blue-win').click(function(){
+	$('.end-result').replaceWith('<div class="container" style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: #20d420; font-size: 100pt;"></i></div>')
 });
 // Navbar
 $('#match-number-number').click(function(){
@@ -972,6 +983,17 @@ $('#save-file').click(function(){
 	manifestParse.push(filepath);
 	var mStringify = JSON.stringify(manifestParse);
 	fs.writeFileSync('manifest.json', mStringify);
+	// transaction.json
+	var transaction = JSON.parse(fs.readFileSync('transactions.json', 'utf-8'));
+	if (transaction.hasOwnProperty($('input[name=login-number]').val())) {
+		if (jsonBet == win) {
+			console.log(":)");
+			console.log(parseInt(transaction[$('input[name=login-number]').val()] + opr));
+		} else if (jsonBet != win) {
+			console.log(":(");
+			console.log(parseInt(transaction[$('input[name=login-number]').val()] - $('#pips-range').val()));
+		}
+	}
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;
