@@ -3,13 +3,11 @@ window.$ = window.jQuery = require('jquery');
 var noUiSlider = require('nouislider');
 var chartjs = require('chart.js');
 var fs = require('fs');
-// OPR
-var opr = 50;
 // // getmac
 // var teamColor;
 // var teamNum;
 // var macAddress;
-// var address = JSON.parse(fs.readFileSync('macAddress.json', 'utf-8'));
+// var address = JSON.parse(fs.readFileSync('json/macAddress.json', 'utf-8'));
 // var dwight = address.dwight;
 // var holly = address.holly;
 // var angela = address.angela;
@@ -48,7 +46,7 @@ var opr = 50;
 // 	}
 // 	// Too lazy to name this section
 // 	var newRole = fs.readFileSync('role.txt');
-// 	var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
+// 	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
 // 	for (i in schedule) {
 // 		if (i == fs.readFileSync('matchNum.txt')) {
 // 			switch (teamColor) {
@@ -111,6 +109,7 @@ $(document).ready(function(){
 	$('.password').hide();
 	$('.betting-2').hide();
 	$('.betting-end').hide();
+	$('.flashdrive-save').hide();
 });
 // FS
 function createFile(fileName, text){
@@ -192,7 +191,7 @@ readFile("matchNum.txt");
 // 		console.log("The h file has been succesfully saved");
 // 	});
 // 	// Readable
-// 	var cfilepath = __dirname + "/data/" + 'Readable.json';
+// 	var cfilepath = __dirname + "/data/" + 'json/Readable.json';
 // 	var ccontent = $('.comments').val();
 // 	fs.writeFile(cfilepath, ccontent, function (err) {
 // 		if(err){
@@ -204,7 +203,7 @@ readFile("matchNum.txt");
 // 	});
 // });
 // Login
-var accounts = JSON.parse(fs.readFileSync('scouts.json', 'utf-8'));
+var accounts = JSON.parse(fs.readFileSync('json/scouts.json', 'utf-8'));
 // var accounts = {
 // 	"98": ["Adolfo", 100],
 // 	"50": ["Noor", 100],
@@ -270,6 +269,24 @@ $('#login-button').click(function(){
 		$('#login-input-number').css("border", "3px solid #5cb85c");
 		$('[data-toggle="popover"]').popover();
 		$('[data-toggle="popover"]').click();
+		range_all_sliders = {
+			'min': [0, parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+			// '25%': [12.5, 12.5],
+			'20%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+			'40%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+			'60%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (3 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+			'80%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (2 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+			'max': [parseInt(robobucks[$('input[name=login-number]').val()]) / 2]
+		};
+		noUiSlider.create(pipsRange, {
+			range: range_all_sliders,
+			start: 0,
+			connect: [true, false],
+			pips: {
+				mode: 'range',
+				density: 10
+			}
+		});
 	} else if (!accounts.hasOwnProperty(num) && parseInt($('#login-input-number').val()) != 69) {
 		$('#no-login').show();
 		$('#login-input-number').css("border", "3px solid #d9534f");
@@ -280,7 +297,8 @@ $('#login-button').click(function(){
 $('.pass-submit').click(function(){
 	if ($('.pass-input').val() == "team1540") {
 		$('.password').fadeOut(500);
-		$('.choose-role').delay(500).fadeIn(500)
+		$('.choose-role').delay(500).fadeIn(500);
+		$('.flashdrive-save').fadeIn(500);
 	} else {
 		alert('Wrong password');
 		window.location.reload();
@@ -306,7 +324,7 @@ $('.role-submit').click(function(){
 var teamNum;
 var teamColorName;
 var teamColor = fs.readFileSync('role.txt', 'utf-8');
-var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
+var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
 for (i in schedule) {
 	if (i == parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))) {
 		switch (teamColor) {
@@ -373,7 +391,7 @@ $('#forgot-id-back').click(function(){
 });
 // Flashdrive Save
 $('.flashdrive-save').click(function(){
-	var data = JSON.parse(fs.readFileSync('manifest.json', "utf-8"));
+	var data = JSON.parse(fs.readFileSync('json/manifest.json', "utf-8"));
 	for (i in data) {
 		if (fs.existsSync("data/" + data[i]) == true) {
 			if (navigator.platform == "MacIntel") {
@@ -390,6 +408,13 @@ $('.flashdrive-save').click(function(){
 			// }
 		}
 	}
+	if (navigator.platform == "MacIntel") {
+		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/manifest.json");
+		fs.createReadStream("json/manifest.json").pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/manifest.json"));
+	} else if (navigator.platform == "Win32") {
+		fs.writeFileSync("K:/Companal/stand-scouting/" + data[i]);
+		fs.createReadStream("json/manifest.json").pipe(fs.createWriteStream("K:/Companal/stand-scouting/manifest.json"));
+	}
 });
 // Betting
 var jsonBet;
@@ -404,6 +429,10 @@ $('#bet-blue-win').click(function(){
 	jsonBet = "blue";
 });
 // Betting 2
+var transaction = JSON.parse(fs.readFileSync('json/transactions.json', 'utf-8'));
+var robobucks = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
+var range_all_sliders;
+var pipsRange = document.getElementById('pips-range');
 $('#betting-2-next').click(function(){
 	$('.betting-2').fadeOut(500);
 	$('#post-login').delay(500).fadeIn(500);
@@ -411,25 +440,6 @@ $('#betting-2-next').click(function(){
 $('#betting-2-back').click(function(){
 	$('.betting-2').fadeOut(500);
 	$('.betting').delay(500).fadeIn(500);
-});
-var pipsRange = document.getElementById('pips-range');
-var range_all_sliders = {
-	'min': [0, 5],
-	// '25%': [12.5, 12.5],
-	'20%': [10, 5],
-	'40%': [20, 5],
-	'60%': [30, 5],
-	'80%': [40, 5],
-	'max': [50]
-};
-noUiSlider.create(pipsRange, {
-	range: range_all_sliders,
-	start: 25,
-	connect: [true, false],
-	pips: {
-		mode: 'range',
-		density: 10
-	}
 });
 // Post-Login
 $('#auto-next').click(function(){
@@ -508,7 +518,7 @@ $('.no-fuel').click(function(){
 		fuelEndAccuracy = 0;
 		fuelEndRate = 0;
 		fuelEndLoad = 0;
-	} else {}
+	}
 });
 var fuelEndHopper = false;
 var fuelEndHuman = false;
@@ -698,6 +708,14 @@ $('.edit-match').click(function(){
 // 	$('.comments').val("");
 // 	$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');
 // });
+// OPR
+var opr = JSON.parse(fs.readFileSync('json/opr.json', 'utf-8'));
+var redAlliance = [schedule[fs.readFileSync('matchNum.txt', 'utf-8')][0], schedule[fs.readFileSync('matchNum.txt', 'utf-8')][1], schedule[fs.readFileSync('matchNum.txt', 'utf-8')][2]];
+var redOpr = parseInt(opr[redAlliance[0]]) + parseInt(opr[redAlliance[1]]) + parseInt(opr[redAlliance[2]]);
+var blueAlliance = [schedule[fs.readFileSync('matchNum.txt', 'utf-8')][3], schedule[fs.readFileSync('matchNum.txt', 'utf-8')][4], schedule[fs.readFileSync('matchNum.txt', 'utf-8')][5]];
+var blueOpr = parseInt(opr[blueAlliance[0]]) + parseInt(opr[blueAlliance[1]]) + parseInt(opr[blueAlliance[2]]);
+$('.expected').append('<h3>The expected score is: Red: ' + redOpr + ' - Blue: ' + blueOpr + '</h3>');
+// Buttons
 $('#sign-out').click(function(){
 	window.location.reload();
 	// $('#the-whole-login').fadeIn(500);
@@ -744,7 +762,7 @@ $('#save-file').click(function(){
 	// 			teamColor = "r1";
 	// 	}
 	// 	// Too lazy to name this section
-	// 	var schedule = JSON.parse(fs.readFileSync('matchSched.json', "utf-8"));
+	// 	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
 	// 	for (i in schedule) {
 	// 		if (i == $("#match-number-number").val()) {
 	// 			switch (teamColor) {
@@ -975,25 +993,41 @@ $('#save-file').click(function(){
 	createFile(__dirname + "/data/" + filepath, stringify);
 	deleteFile('matchNum.txt');
 	createFile('matchNum.txt', match + 1);
-	if (fs.existsSync('manifest.json') == false) {
-		fs.writeFileSync('manifest.json', "[]")
+	if (fs.existsSync('json/manifest.json') == false) {
+		fs.writeFileSync('json/manifest.json', "[]")
 	}
-	var manifestRead = fs.readFileSync('manifest.json', 'utf-8');
+	var manifestRead = fs.readFileSync('json/manifest.json', 'utf-8');
 	var manifestParse = JSON.parse(manifestRead);
 	manifestParse.push(filepath);
 	var mStringify = JSON.stringify(manifestParse);
-	fs.writeFileSync('manifest.json', mStringify);
+	fs.writeFileSync('json/manifest.json', mStringify);
 	// transaction.json
-	var transaction = JSON.parse(fs.readFileSync('transactions.json', 'utf-8'));
+	var addedValue;
+	var tStringify;
 	if (transaction.hasOwnProperty($('input[name=login-number]').val())) {
-		if (jsonBet == win) {
-			console.log(":)");
-			console.log(parseInt(transaction[$('input[name=login-number]').val()] + opr));
-		} else if (jsonBet != win) {
-			console.log(":(");
-			console.log(parseInt(transaction[$('input[name=login-number]').val()] - $('#pips-range').val()));
+		if (opr.hasOwnProperty(teamNum)) {
+			if (jsonBet == win) {
+				if ((jsonBet == "red" && redOpr > blueOpr) || (jsonBet == "blue" && blueOpr > redOpr)) {
+					// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+					addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) / 10);
+					transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				} else if ((jsonBet == "red" && blueOpr > redOpr) || (jsonBet == "blue" && redOpr > blueOpr)) {
+					// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+					addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) / 2);
+					console.log(addedValue);
+					transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+					console.log(transaction[$('input[name=login-number]').val()]);
+				} else {
+					addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) / 20);
+					transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				}
+			} else if (jsonBet != win) {
+				addedValue = pipsRange.noUiSlider.get() * -1;
+			}
 		}
 	}
+	tStringify = JSON.stringify(transaction);
+	fs.writeFileSync('json/transactions.json', tStringify);
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;
