@@ -93,7 +93,7 @@ function addImage(name) {
 
 var progress = 0;
 var images = []
-var teams = [847,955,957,997,1359,1425,1510,1571,2374,2471,2521,2990,3024,3636,3711,4043,4125,4488,5085,5970,5975]
+var teams = [568,753,847,955,957,997,1359,1425,1432,2411,2471,2521,2550,2635,2733,2811,2915,2990,3024,3574,3636,3673,3674,3711,4043,4051,4057,4060,4110,4488,5085,5198,5977,6343,6437,6443,6445,6456,6465]
 
 fs.readdir("../../../Dropbox/1540_Photos/", (err, files) => {
 	files.forEach(file => {
@@ -133,7 +133,6 @@ $(document).ready(function(){
 				$("#holder").show();
 				$("#load").hide();
 			}
-			fs.unlink("../../../Dropbox/1540_Photos/"+images[x]);
 		}
 	}
 	$(".removal").click(function(){

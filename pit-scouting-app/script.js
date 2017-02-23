@@ -61,7 +61,7 @@ var accounts = {
 	"12": "Alexander M", 
 	"15": "Tristan", 
 	"14": "Jonathan", 
-	"17": "Ava", 
+	"17": "Avery", 
 	"16": "Tyler", 
 	"19": "Kobi", 
 	"18": "Ryan", 
@@ -127,13 +127,15 @@ $(document).ready(function(){
 	createTable();
 	$("body").css("overflow", "hidden");
 	$("#savetoflash").click(function(){
+		var array = JSON.parse(fs.readFileSync("manifest.json"));
 		if (navigator.platform=="MacIntel") {
+			createFile("/Volumes/1540/Companal/pit-scouting/manifest.json",JSON.stringify(array));
 			if (fs.existsSync("/Volumes/1540")) {
 				var array = JSON.parse(fs.readFileSync("manifest.json"));
 				for (x in array) {
-					if (!fs.existsSync("/Volumes/1540/companal/pit-scouting"+array[x])) {
+					if (!fs.existsSync("/Volumes/1540/companal/pit-scouting/"+array[x])) {
 						var file = fs.readFileSync("pit_data/"+array[x]);
-						createFile("/Volumes/1540/companal/pit-scouting"+array[x],file);
+						createFile("/Volumes/1540/companal/pit-scouting/"+array[x],file);
 					}
 				}
 				$("#saved").show();
@@ -141,6 +143,7 @@ $(document).ready(function(){
 				$("#no1540").show();
 			}
 		} else if (navigator.platform=="Win32") {
+			createFile("K:/Companal/pit-scouting/manifest.json",JSON.stringify(array));
 			if (fs.existsSync("K:/Companal/pit-scouting")) {
 				var array = JSON.parse(fs.readFileSync("manifest.json"));
 				for (x in array) {

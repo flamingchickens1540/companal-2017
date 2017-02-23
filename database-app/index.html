@@ -7,6 +7,7 @@
     	<!-- <link rel='stylesheet' type='text/css' href='/Users/Fin/Database App/stylesheet.css'> My stylesheet -->
     	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> <!-- Raleway font -->
     	<link href="Varela_Round/stylesheet.css" rel="stylesheet">
+    	<title>Database App</title>
     	<style>
     		body {
     			background-color #d7d9dd
@@ -17,28 +18,50 @@
     		.center {
     			text-align:center;
     		}
-    		.btn {
+    		.bttn {
     			background-color:#d7d9dd;
+    		}
+    		.bttn:hover {
+    			background-color:#e8eaef
     		}
     	</style>
     </head>
 	<body>
 		<div style="" class="center box">
 			<h2>Database App</h2>
-			<br>
-			<button class="btn" type="button" onclick="importData()" class="btn-primary btn.lg">Import</button>
-			<button class="btn" type="button" onclick="exportData()" class="btn-primary btn.lg">Export</button>
+			<br />
+			<button class="bttn btn" id="impPit" type="button" class="btn-primary btn.lg">Import Pit Data</button>
+			<button class="bttn btn" id="impStand" type="button" class="btn-primary btn.lg">Import Stand Data</button>
+			<br />
+			<br />
+			<button class="bttn btn" id="export" type="button" class="btn-primary btn.lg">Export Data</button>
+			<br />
+			<br />
+			<button class="disabled btn-success btn" id="new" type="button" class="btn-primary btn.lg">New Flashdrive</button>
+			<br />
+			<br />
+			<button class="btn-warning btn" id="addOrSub" type="button" class="btn-primary btn.lg">Add/Subtract RoboBucks</button>
+			<div id="aos" style="width:50%;margin:auto">
+				<h4>Add or Subtract RoboBucks From A Member:</h4>
+				<input style="width:100" id="idRB" type="text" placeholder="Member ID"/>
+				<input style="width:100" id="numRB" type="text" placeholder="Robobucks"/>
+				<br />
+				<button style="position:relative;top:5" class="bttn btn" id="addRB" type="button" class="btn-primary btn.lg">Submit/Hide</button>
+			</div>
+			<br />
+			<br />
 		</div>
 		<div>
-			<br><br>
-			<table id='scoutingTable' border="1" class="center-block table table-striped table-bordered">
+			<table style="width:80%;border:3px black solid" id='scoutingTable' border="1" class="center-block table table-hover table-bordered">
 				<thead>
 					<tr>
+						<th>ID</th>
 						<th>Scout</th>
-    					<th>Matches Scouted</th>
+    					<th>Matches/Robots Scouted</th>
+    					<th>RoboBuck Total</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="tbody">
 				</tbody>
 			</table>
 		</div>
