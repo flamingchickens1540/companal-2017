@@ -269,24 +269,6 @@ $('#login-button').click(function(){
 		$('#login-input-number').css("border", "3px solid #5cb85c");
 		$('[data-toggle="popover"]').popover();
 		$('[data-toggle="popover"]').click();
-		range_all_sliders = {
-			'min': [0, parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-			// '25%': [12.5, 12.5],
-			'20%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-			'40%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-			'60%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (3 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-			'80%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (2 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-			'max': [parseInt(robobucks[$('input[name=login-number]').val()]) / 2]
-		};
-		noUiSlider.create(pipsRange, {
-			range: range_all_sliders,
-			start: 0,
-			connect: [true, false],
-			pips: {
-				mode: 'range',
-				density: 10
-			}
-		});
 	} else if (!accounts.hasOwnProperty(num) && parseInt($('#login-input-number').val()) != 69) {
 		$('#no-login').show();
 		$('#login-input-number').css("border", "3px solid #d9534f");
@@ -298,7 +280,6 @@ $('.pass-submit').click(function(){
 	if ($('.pass-input').val() == "team1540") {
 		$('.password').fadeOut(500);
 		$('.choose-role').delay(500).fadeIn(500);
-		$('.flashdrive-save').fadeIn(500);
 	} else {
 		alert('Wrong password');
 		window.location.reload();
@@ -313,12 +294,34 @@ $('#cont-btn').click(function(){
 	$('.flashdrive-save').fadeOut(500);
 	$('[data-toggle="popover"]').popover('hide');
 	$('#match-number-number').attr('readonly', 'readonly');
+	range_all_sliders = {
+		'min': [0, parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+		// '25%': [12.5, 12.5],
+		'20%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+		'40%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+		'60%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (3 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+		'80%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (2 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+		'max': [parseInt(robobucks[$('input[name=login-number]').val()]) / 2]
+	};
+	noUiSlider.create(pipsRange, {
+		range: range_all_sliders,
+		start: 0,
+		connect: [true, false],
+		pips: {
+			mode: 'range',
+			density: 10
+		}
+	});
 });
 // Choose Role
 $('.role-submit').click(function(){
-	deleteFile('role.txt');
-	fs.writeFileSync('role.txt', $('.role-btn:checked').val());
-	window.location.reload();
+	if (!$("input[name=role-btn]:checked").val()) {
+		fillOut();
+	} else {
+		deleteFile('role.txt');
+		fs.writeFileSync('role.txt', $('.role-btn:checked').val());
+		window.location.reload();
+	}
 });
 // Too lazy to name this section
 var teamNum;
@@ -390,6 +393,11 @@ $('#forgot-id-back').click(function(){
 	$('#the-whole-login').delay(500).fadeIn(500);
 });
 // Flashdrive Save
+if (fs.existsSync('/Volumes/1540/')) {
+	$('flashdrive-save').fadeIn(500);
+	fs.writeFileSync("json/robobucks.json");
+	fs.createReadStream("/Volumes/1540/Companal/stand-scouting/robobucks.json").pipe(fs.createWriteStream("json/robobucks.json"));
+} // NOTE: NOT WORKING!!!
 $('.flashdrive-save').click(function(){
 	var data = JSON.parse(fs.readFileSync('json/manifest.json', "utf-8"));
 	for (i in data) {
@@ -411,10 +419,56 @@ $('.flashdrive-save').click(function(){
 	if (navigator.platform == "MacIntel") {
 		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/manifest.json");
 		fs.createReadStream("json/manifest.json").pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/manifest.json"));
+		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/transactions.json");
+		fs.createReadStream("json/transactions.json").pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/transactions.json"));
 	} else if (navigator.platform == "Win32") {
-		fs.writeFileSync("K:/Companal/stand-scouting/" + data[i]);
+		fs.writeFileSync("K:/Companal/stand-scouting/manifest.json");
 		fs.createReadStream("json/manifest.json").pipe(fs.createWriteStream("K:/Companal/stand-scouting/manifest.json"));
+		fs.writeFileSync("K:/Companal/stand-scouting/transactions.json");
+		fs.createReadStream("json/transactions.json").pipe(fs.createWriteStream("K:/Companal/stand-scouting/transactions.json"));
 	}
+	var newTransaction = {
+		"12": "0",
+		"13": "0",
+		"14": "0",
+		"15": "0",
+		"16": "0",
+		"17": "0",
+		"18": "0",
+		"19": "0",
+		"20": "0",
+		"21": "0",
+		"22": "0",
+		"23": "0",
+		"24": "0",
+		"25": "0",
+		"30": "0",
+		"33": "0",
+		"34": "0",
+		"36": "0",
+		"37": "0",
+		"40": "0",
+		"41": "0",
+		"44": "0",
+		"48": "0",
+		"50": "0",
+		"55": "0",
+		"58": "0",
+		"60": "0",
+		"64": "0",
+		"66": "0",
+		"72": "0",
+		"76": "0",
+		"77": "0",
+		"81": "0",
+		"96": "0",
+		"97": "0",
+		"98": "0",
+		"99": "0"
+	}
+	deleteFile('json/transactions.json');
+	var sNT = JSON.stringify(newTransaction);
+	fs.writeFileSync('json/transactions.json', newTransaction);
 });
 // Betting
 var jsonBet;
@@ -445,8 +499,7 @@ $('#betting-2-back').click(function(){
 $('#auto-next').click(function(){
 	if (!$("input[name='auto-radio-cross']:checked").val() || !$("input[name='auto-radio-gear']:checked").val() || !$("input[name='auto-radio-shoot']:checked").val()) {
 	  fillOut();
-	}
-	else {
+	} else {
 		$('#post-login').fadeOut(500);
 		$('#teleop').delay(500).fadeIn(500);
 	}
@@ -710,11 +763,11 @@ $('.edit-match').click(function(){
 // });
 // OPR
 var opr = JSON.parse(fs.readFileSync('json/opr.json', 'utf-8'));
-var redAlliance = [schedule[fs.readFileSync('matchNum.txt', 'utf-8')][0], schedule[fs.readFileSync('matchNum.txt', 'utf-8')][1], schedule[fs.readFileSync('matchNum.txt', 'utf-8')][2]];
+var redAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][0], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][1], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][2]];
 var redOpr = parseInt(opr[redAlliance[0]]) + parseInt(opr[redAlliance[1]]) + parseInt(opr[redAlliance[2]]);
-var blueAlliance = [schedule[fs.readFileSync('matchNum.txt', 'utf-8')][3], schedule[fs.readFileSync('matchNum.txt', 'utf-8')][4], schedule[fs.readFileSync('matchNum.txt', 'utf-8')][5]];
+var blueAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][3], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][4], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][5]];
 var blueOpr = parseInt(opr[blueAlliance[0]]) + parseInt(opr[blueAlliance[1]]) + parseInt(opr[blueAlliance[2]]);
-$('.expected').append('<h3>The expected score is: Red: ' + redOpr + ' - Blue: ' + blueOpr + '</h3>');
+$('.expected').append('<h3>' + '</h3>');
 // Buttons
 $('#sign-out').click(function(){
 	window.location.reload();
@@ -994,7 +1047,7 @@ $('#save-file').click(function(){
 	deleteFile('matchNum.txt');
 	createFile('matchNum.txt', match + 1);
 	if (fs.existsSync('json/manifest.json') == false) {
-		fs.writeFileSync('json/manifest.json', "[]")
+		fs.writeFileSync('json/manifest.json', "[]");
 	}
 	var manifestRead = fs.readFileSync('json/manifest.json', 'utf-8');
 	var manifestParse = JSON.parse(manifestRead);
@@ -1004,25 +1057,100 @@ $('#save-file').click(function(){
 	// transaction.json
 	var addedValue;
 	var tStringify;
+	function betOver(max, min, points) {
+		if ((jsonBet == "red" && max >= redOpr - blueOpr > min) || (jsonBet == "blue" && max >= blueOpr - redOpr > min)) {
+			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+			addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * points);
+			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 50);
+		}
+	};
+	function betUnder(max, min, points) {
+		if ((jsonBet == "red" && max >= blueOpr - redOpr > min) || (jsonBet == "blue" && max >= redOpr - blueOpr > min)) {
+			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+			addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * points);
+			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 50);
+		}
+	}
 	if (transaction.hasOwnProperty($('input[name=login-number]').val())) {
 		if (opr.hasOwnProperty(teamNum)) {
 			if (jsonBet == win) {
-				if ((jsonBet == "red" && redOpr > blueOpr) || (jsonBet == "blue" && blueOpr > redOpr)) {
+				for (i = 1; i < 11; i++) {
+					betOver(10 * i, (10 * i) - 10, (9 - i) / 10);
+					betUnder(10 * i, (10 * i) - 10, (9 + 2 * i) / 10);
+				};
+				if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
 					// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-					addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) / 10);
-					transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				} else if ((jsonBet == "red" && blueOpr > redOpr) || (jsonBet == "blue" && redOpr > blueOpr)) {
-					// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-					addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) / 2);
-					console.log(addedValue);
-					transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-					console.log(transaction[$('input[name=login-number]').val()]);
-				} else {
-					addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) / 20);
-					transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				}
+					addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
+					transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 50);
+				};
+				// if ((jsonBet == "red" && 10 >= redOpr - blueOpr > 0) || (jsonBet == "blue" && 10 >= blueOpr - redOpr > 0)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (9 / 10));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 20 >= redOpr - blueOpr > 10) || (jsonBet == "blue" && 20 >= blueOpr - redOpr > 10)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 30 >= redOpr - blueOpr > 20) || (jsonBet == "blue" && 30 >= blueOpr - redOpr > 20)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (7 / 10));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 40 >= redOpr - blueOpr > 30) || (jsonBet == "blue" && 40 >= blueOpr - redOpr > 30)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 50 >= redOpr - blueOpr > 40) || (jsonBet == "blue" && 50 >= blueOpr - redOpr > 40)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (5 / 10));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 60 >= redOpr - blueOpr > 50) || (jsonBet == "blue" && 60 >= blueOpr - redOpr > 50)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 70 >= redOpr - blueOpr > 60) || (jsonBet == "blue" && 70 >= blueOpr - redOpr > 60)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 10));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 10));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 10 >= blueOpr - redOpr > 0) || (jsonBet == "blue" && 10 >= redOpr - blueOpr > 0)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+				// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 20 >= blueOpr - redOpr > 10) || (jsonBet == "blue" && 20 >= redOpr - blueOpr > 10)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+				// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 30 >= blueOpr - redOpr > 20) || (jsonBet == "blue" && 30 >= redOpr - blueOpr > 20)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+				// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 40 >= blueOpr - redOpr > 30) || (jsonBet == "blue" && 40 >= redOpr - blueOpr > 30)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+				// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 50 >= blueOpr - redOpr > 40) || (jsonBet == "blue" && 50 >= redOpr - blueOpr > 40)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+				// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get());
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// } else if ((jsonBet == "red" && 60 >= blueOpr - redOpr > 50) || (jsonBet == "blue" && 60 >= redOpr - blueOpr > 50)) {
+				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+				// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+				// }
 			} else if (jsonBet != win) {
 				addedValue = pipsRange.noUiSlider.get() * -1;
+				transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) - parseInt(addedValue)) + 50);
 			}
 		}
 	}
