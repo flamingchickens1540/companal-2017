@@ -312,6 +312,11 @@ $('#cont-btn').click(function(){
 			density: 10
 		}
 	});
+	// Editing robobucks.json
+	var robobucksEdit = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
+	robobucksEdit[$('input[name=login-number]').val()] = robobucksEdit[$('input[name=login-number]').val()] + transaction[$('input[name=login-number]').val()];
+	rStringify = JSON.stringify(robobucksEdit);
+	fs.writeFileSync('json/robobucks.json', rStringify);
 });
 // Choose Role
 $('.role-submit').click(function(){
@@ -393,12 +398,14 @@ $('#forgot-id-back').click(function(){
 	$('#the-whole-login').delay(500).fadeIn(500);
 });
 // Flashdrive Save
-if (fs.existsSync('/Volumes/1540/')) {
-	$('flashdrive-save').fadeIn(500);
+// if (fs.existsSync('/Volumes/1540/')) {
+// 	$('flashdrive-save').fadeIn(500);
+// 	fs.writeFileSync("json/robobucks.json");
+// 	fs.createReadStream("/Volumes/1540/Companal/stand-scouting/robobucks.json").pipe(fs.createWriteStream("json/robobucks.json"));
+// } // NOTE: NOT WORKING!!!
+$('.flashdrive-save').click(function(){
 	fs.writeFileSync("json/robobucks.json");
 	fs.createReadStream("/Volumes/1540/Companal/stand-scouting/robobucks.json").pipe(fs.createWriteStream("json/robobucks.json"));
-} // NOTE: NOT WORKING!!!
-$('.flashdrive-save').click(function(){
 	var data = JSON.parse(fs.readFileSync('json/manifest.json', "utf-8"));
 	for (i in data) {
 		if (fs.existsSync("data/" + data[i]) == true) {
@@ -468,7 +475,7 @@ $('.flashdrive-save').click(function(){
 	}
 	deleteFile('json/transactions.json');
 	var sNT = JSON.stringify(newTransaction);
-	fs.writeFileSync('json/transactions.json', newTransaction);
+	fs.writeFileSync('json/transactions.json', sNT);
 });
 // Betting
 var jsonBet;
