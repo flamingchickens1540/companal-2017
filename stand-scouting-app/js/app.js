@@ -109,7 +109,6 @@ $(document).ready(function(){
 	$('.password').hide();
 	$('.betting-2').hide();
 	$('.betting-end').hide();
-	$('.flashdrive-save').hide();
 });
 // FS
 function createFile(fileName, text){
@@ -314,7 +313,7 @@ $('#cont-btn').click(function(){
 	});
 	// Editing robobucks.json
 	var robobucksEdit = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
-	robobucksEdit[$('input[name=login-number]').val()] = robobucksEdit[$('input[name=login-number]').val()] + transaction[$('input[name=login-number]').val()];
+	robobucksEdit[$('input[name=login-number]').val()] = String(parseInt(robobucksEdit[$('input[name=login-number]').val()]) + parseInt(transaction[$('input[name=login-number]').val()]));
 	rStringify = JSON.stringify(robobucksEdit);
 	fs.writeFileSync('json/robobucks.json', rStringify);
 });
@@ -1161,7 +1160,7 @@ $('#save-file').click(function(){
 			}
 		}
 	}
-	tStringify = JSON.stringify(transaction);
+	tStringify = String(JSON.stringify(transaction));
 	fs.writeFileSync('json/transactions.json', tStringify);
 });
 // function add_match(val) {
