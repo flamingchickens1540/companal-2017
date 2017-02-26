@@ -1059,19 +1059,20 @@ $('#save-file').click(function(){
 	var addedValue;
 	var tStringify;
 	function betOver(max, min, points) {
-		if ((jsonBet == "red" && max >= redOpr - blueOpr > min) || (jsonBet == "blue" && max >= blueOpr - redOpr > min)) {
+		if ((jsonBet == "red" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min)) || (jsonBet == "blue" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min))) {
 			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
 			addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
 			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
 		}
 	};
 	function betUnder(max, min, points) {
-		if ((jsonBet == "red" && max >= blueOpr - redOpr > min) || (jsonBet == "blue" && max >= redOpr - blueOpr > min)) {
+
+		if ((jsonBet == "red" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || (jsonBet == "blue" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
 			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
 			addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
 			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
 		}
-	}
+	};
 	if (transaction.hasOwnProperty($('input[name=login-number]').val())) {
 		if (opr.hasOwnProperty(teamNum)) {
 			if (jsonBet == win) {
@@ -1155,8 +1156,8 @@ $('#save-file').click(function(){
 				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
 				// }
 			} else if (jsonBet != win) {
-				addedValue = pipsRange.noUiSlider.get() * -1;
-				transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) - parseInt(addedValue)) + 10);
+				addedValue = parseInt(pipsRange.noUiSlider.get()) * -1;
+				transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
 			}
 		}
 	}
