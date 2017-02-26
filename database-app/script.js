@@ -1,4 +1,6 @@
 var fs = require('fs');
+var Dialogs = require('dialogs');
+var dialogs = Dialogs(opts={})
 window.$ = window.jQuery = require('jquery');
 
 // if (fs.existsSync('/Volumes/1540/companal/output/persondict.json')) {
@@ -8,12 +10,50 @@ window.$ = window.jQuery = require('jquery');
 //   var personDict = {};
 // }
 
-var pitbonus = 20;
-var standbonus = 10;
+var pitbonus = 10;
+var standbonus = 0;
 var manifest_pit = [];
 var manifest_stand = [];
+var scores = {
+	"98": 0,
+	"50": 0,
+	"60": 0,
+	"64": 0,
+	"66": 0,
+	"81": 0,
+	"24": 0,
+	"25": 0,
+	"20": 0,
+	"21": 0,
+	"22": 0,
+	"23": 0,
+	"44": 0,
+	"40": 0,
+	"41": 0,
+	"96": 0,
+	"77": 0,
+	"76": 0,
+	"72": 0,
+	"97": 0,
+	"58": 0,
+	"99": 0,
+	"13": 0,
+	"12": 0,
+	"15": 0,
+	"14": 0,
+	"17": 0,
+	"16": 0,
+	"19": 0,
+	"18": 0,
+	"30": 0,
+	"37": 0,
+	"36": 0,
+	"34": 0,
+	"33": 0,
+	"55": 0,
+	"48": 0
+}
 var additional = {}
-
 var scoutcount = {
 	"98": [0, 100],
 	"50": [0, 100], 
@@ -106,6 +146,10 @@ function createFile(one,two) {
 	});
 }
 
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
+
 function contains(a, obj) {
 	var i = a.length;
 	while (i--) {
@@ -120,6 +164,7 @@ function importStart() {
 	manifest_stand = JSON.parse(fs.readFileSync('data-collect/stand-scouting/manifest.json'));
 	manifest_pit = JSON.parse(fs.readFileSync('data-collect/pit-scouting/manifest.json'));
 	additional = JSON.parse(fs.readFileSync('data-collect/additional.json'));
+	scores = JSON.parse(fs.readFileSync('data-collect/scores.json'));
 	for (x in manifest_stand) {
 		if (fs.existsSync('data-collect/stand-scouting/'+manifest_stand[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/stand-scouting/'+manifest_stand[x]));
@@ -138,8 +183,9 @@ function importStart() {
 			}
 		}
 	}
-	keys = Object.keys(additional);
+	var keys = Object.keys(additional);
 	for (x in keys) {
+		scoutcount[keys[x]][1]+=parseInt(scores[keys[x]]);
 		scoutcount[keys[x]][1]+=parseInt(additional[keys[x]]);
 	}
 	updateTable();
@@ -161,6 +207,7 @@ function importPit() {
 						scoutcount[teamData.scoutIds[1]][1]+=pitbonus;
 					}
 					manifest_pit.push(manifestArray[team]);
+					createFile("data-collect/pit-scouting/manifest.json",JSON.stringify(manifest_pit));
 					createFile("data-collect/pit-scouting/"+manifestArray[team],txt);
           // Scouting update info
           // Writes to file
@@ -171,12 +218,12 @@ function importPit() {
 			}
 			$("#impPit").addClass("disabled");
 			updateTable();
-			alert('\nDone importing data!');
+			dialogs.alert('Done importing data!');
 		} else {
-			alert('\nUSB not inserted properly');
+			dialogs.alert('The USB not inserted properly');
 		}
 	} else {
-		alert('\nOops! Something went wrong');
+		dialogs.alert('Oops! Something went wrong');
 	}
 }
 
@@ -195,6 +242,7 @@ function importStand() {
           			scoutcount[teamData.scoutId][0]+=1;
           			scoutcount[teamData.scoutId][1]+=standbonus;
           			manifest_stand.push(manifestArray[team]);
+          			createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
           			createFile("data-collect/stand-scouting/"+manifestArray[team],txt);
           // Writes to file
 //           var standSource = fs.createReadStream('/Volumes/1540/companal/stand-scouting/' + manifestArray[team]);
@@ -202,6 +250,7 @@ function importStand() {
 //           standSource.pipe(standDest);
 				}
 			}
+			console.log(teamData);
 			if (teamData!=undefined) {
 				var tr = JSON.parse((fs.readFileSync('/Volumes/1540/companal/stand-scouting/transactions.json')));
 				scoutcount[teamData.scoutId][1]+=parseInt(tr[teamData.scoutId]);
@@ -209,40 +258,44 @@ function importStand() {
 				for (x in keys) {
 					var id = keys[x];
 					var tr_rb = parseInt(tr[id]);
+					console.log("ID "+id);
+					console.log("TR_RB"+tr_rb);
 					scoutcount[id][1]+=tr_rb;
+					scores[id]+=tr_rb;
 				}
+				// createFile("data-collect/transactions.json",JSON.stringify(tr));
 			}
 			$("#impStand").addClass("disabled");
+			createFile("data-collect/scores.json",JSON.stringify(scores));
 			updateTable();
-			alert('\nDone importing data!');
+			dialogs.alert('Done importing data!');
 		} else {
-			alert('\nUSB not inserted properly');
+			dialogs.alert('The USB not inserted properly');
 		}
 	} else {
-    	alert('\nOops! Something went wrong');
+    	dialogs.alert('Oops! Something went wrong');
 	}
 }
-
 function exportData() {
 	//alexander code
-	var robo = fs.readFileSync('/Volumes/1540/companal/stand-scouting/robobucks.json');
-	robo = JSON.parse(robo);
-	var keys = Object.keys(scoutcount);
-	for (x in keys) {
-		var id = keys[x];
-		robo[id]=scoutcount[id][1];
+	if (fs.existsSync('/Volumes/1540')) {
+		var robo = fs.readFileSync('/Volumes/1540/companal/stand-scouting/robobucks.json');
+		robo = JSON.parse(robo);
+		var keys = Object.keys(scoutcount);	
+		for (x in keys) {
+			var id = keys[x];
+			robo[id]=scoutcount[id][1].toString();
+		}
+		createFile("/Volumes/1540/companal/stand-scouting/robobucks.json",JSON.stringify(robo));
+		$("#export").addClass("disabled");
+		$("#impStand").addClass("disabled");
+		$("#impPit").addClass("disabled");
+		$("#new").removeClass("disabled");
+	} else {
+		dialogs.alert("The USB is not inserted properly.");
 	}
-	createFile("/Volumes/1540/companal/stand-scouting/robobucks.json",JSON.stringify(robo));
-	createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
-	createFile("data-collect/pit-scouting/manifest.json",JSON.stringify(manifest_pit));
-	createFile("data-collect/additional.json",JSON.stringify(additional));
-	$("#export").addClass("disabled");
-	$("#impStand").addClass("disabled");
-	$("#impPit").addClass("disabled");
-	$("#new").removeClass("disabled");
 // 	var processedData = new Folder("/Volumes/1540/ProcessedData");
 }
-
 function createTable() {
 	var keys = Object.keys(accounts);
 	for (x in keys) {
@@ -277,14 +330,12 @@ function updateTable() {
 		$("#"+id+"num").text(scoutcount[id][0]);
 	}
 }
-
 function newFlash() {
 	$("#impPit").removeClass("disabled");
 	$("#impStand").removeClass("disabled");
 	$("#export").removeClass("disabled");
 	$("#new").addClass("disabled");
 }
-
 $("#impPit").click(function(){
 	if (!$(this).hasClass("disabled")) {
 		importPit();
@@ -307,13 +358,20 @@ $("#new").click(function(){
 });
 $("#addRB").click(function(){
 	var keys = Object.keys(scoutcount);
+	var values = Object.keys(accounts).map(function(key){return accounts[key]});
 	var id = $("#idRB").val();
 	var rb = parseInt($("#numRB").val());
 	$("#idRB").val("");
 	$("#numRB").val("");
-	if (contains(keys,id.toString())) {
+	if (contains(keys,id)) {
 		scoutcount[id][1]+=rb;
-		additional[id]+=rb;
+		additional[id]=(parseInt(additional[id])+rb).toString();
+		createFile("data-collect/additional.json",JSON.stringify(additional));
+	} else if (contains(values,id)) {
+		id = getKeyByValue(accounts, id);
+		scoutcount[id][1]+=rb;
+		additional[id]=(parseInt(additional[id])+rb).toString();
+		createFile("data-collect/additional.json",JSON.stringify(additional));
 	}
 	updateTable();
 	$("#aos").hide();
