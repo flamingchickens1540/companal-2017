@@ -261,7 +261,7 @@ function importStand() {
 					console.log("ID "+id);
 					console.log("TR_RB"+tr_rb);
 					scoutcount[id][1]+=tr_rb;
-					scores[id]+=tr_rb;
+					scores[id]=parseInt(scores[id])+tr_rb;
 				}
 				// createFile("data-collect/transactions.json",JSON.stringify(tr));
 			}
@@ -273,7 +273,7 @@ function importStand() {
 			dialogs.alert('The USB not inserted properly');
 		}
 	} else {
-    	dialogs.alert('Oops! Something went wrong');
+		dialogs.alert('Oops! Something went wrong');
 	}
 }
 function exportData() {
