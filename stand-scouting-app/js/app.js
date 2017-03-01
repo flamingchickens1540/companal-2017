@@ -182,8 +182,15 @@ $(document).ready(function(){
 	if (fs.existsSync('role.txt') == false) {
 		fs.writeFileSync('role.txt', 'r1');
 	};
+	if (fs.existsSync('login.txt')) {
+		$('input[name=login-number]').val(fs.readFileSync('login.txt', 'utf-8'));
+		$('#login-button').click();
+		$('.name-div').show();
+		$('.name').text("Welcome, " + accounts[act] + "!");
+	} else {
+		$('.name-div').hide();
+	}
 	$('.login-info').hide();
-	$('.name-div').hide();
 	$('#no-login').hide();
 	$("#forgot-id").hide();
 	$('#cont-btn').hide();
@@ -339,8 +346,9 @@ function createTable() {
     for (x in keys) {
         $("tbody").append("<tr><td>" + keys[x] + "</td><td>" + accounts[keys[x]] + "</td></tr>");
     }
-}
+};
 createTable();
+// Break
 var roleAlert = $('.choose-role');
 var loggedIn = false;
 var act = "none";
@@ -360,6 +368,26 @@ $('#login-button').click(function(){
 		$('#login-input-number').css("border", "3px solid #5cb85c");
 		$('[data-toggle="popover"]').popover();
 		$('[data-toggle="popover"]').click();
+		var start;
+		var totalValue;
+		function blueBet(max, min, points) {
+			if (((max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || ((max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
+				start = 1;
+				totalValue = start * points;
+				$('.expected').append('<h4>If you think <button type="button" id="bet-red-win-intro" class="btn btn-danger">Red</button> will win, you will get ' + totalValue + ' Robobucks for every ' + start + ' Robobuck you bet</h4>');
+			}
+		};
+		function redBet(max, min, points) {
+			if (((max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || ((max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
+				start = 1;
+				totalValue = start * points;
+				$('.expected').append('<h4>If you think <button type="button" id="bet-blue-win-intro" class="btn btn-default">Blue</button> will win, you will get ' + totalValue + ' Robobucks for every ' + start + ' Robobuck you bet</h4>');
+			}
+		};
+		for (i = 1; i < 11; i++) {
+			redBet(10 * i, (10 * i) - 10, (20 - i) / 10);
+			blueBet(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
+		};
 	} else if (!accounts.hasOwnProperty(num) && parseInt($('#login-input-number').val()) != 69) {
 		$('#no-login').show();
 		$('#login-input-number').css("border", "3px solid #d9534f");
@@ -564,6 +592,12 @@ $('.flashdrive-save').click(function(){
 	fs.writeFileSync('json/transactions.json', sNT);
 	$('.flashdrive-save').addClass('disabled');
 });
+// OPR
+var opr = JSON.parse(fs.readFileSync('json/opr.json', 'utf-8'));
+var redAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][0], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][1], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][2]];
+var redOpr = parseInt(opr[redAlliance[0]]) + parseInt(opr[redAlliance[1]]) + parseInt(opr[redAlliance[2]]);
+var blueAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][3], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][4], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][5]];
+var blueOpr = parseInt(opr[blueAlliance[0]]) + parseInt(opr[blueAlliance[1]]) + parseInt(opr[blueAlliance[2]]);
 // Betting
 var jsonBet;
 $('#bet-blue-win, #bet-red-win').click(function(){
@@ -835,7 +869,7 @@ $('#blue-win').click(function(){
 	win = "blue";
 });
 $('#red-win, #blue-win').click(function(){
-	$('.end-result').replaceWith('<div class="container" style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: #20d420; font-size: 100pt;"></i></div>')
+	$('.end-result').replaceWith('<div class="container" style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: #20d420; font-size: 100pt;"></i></div>');
 });
 // Navbar
 $('#match-number-number').click(function(){
@@ -855,15 +889,13 @@ $('.edit-match').click(function(){
 // 	$('.comments').val("");
 // 	$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');
 // });
-// OPR
-var opr = JSON.parse(fs.readFileSync('json/opr.json', 'utf-8'));
-var redAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][0], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][1], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][2]];
-var redOpr = parseInt(opr[redAlliance[0]]) + parseInt(opr[redAlliance[1]]) + parseInt(opr[redAlliance[2]]);
-var blueAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][3], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][4], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][5]];
-var blueOpr = parseInt(opr[blueAlliance[0]]) + parseInt(opr[blueAlliance[1]]) + parseInt(opr[blueAlliance[2]]);
-$('.expected').append('<h3>' + '</h3>');
 // Buttons
+$('#continue').click(function(){
+	fs.writeFileSync('login.txt', $('input[name=login-number]').val());
+	window.location.reload();
+})
 $('#sign-out').click(function(){
+	deleteFile('login.txt');
 	window.location.reload();
 	// $('#the-whole-login').fadeIn(500);
 	// $('input[name=login-number]').val("");
@@ -1096,6 +1128,7 @@ $('#save-file').click(function(){
 	var json = {
 		scoutId: $('input[name=login-number]').val(),
 		bettingPick: jsonBet,
+		win: win,
 		auto: {
 			crossedLine: autoCross,
 			depositedGear: autoGear,
@@ -1159,7 +1192,6 @@ $('#save-file').click(function(){
 		}
 	};
 	function betUnder(max, min, points) {
-
 		if ((jsonBet == "red" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || (jsonBet == "blue" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
 			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
 			addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
@@ -1261,6 +1293,12 @@ $('#save-file').click(function(){
 	robobucksEdit[$('input[name=login-number]').val()] = String(parseInt(robobucksEdit[$('input[name=login-number]').val()]) + parseInt(transaction[$('input[name=login-number]').val()]));
 	rStringify = JSON.stringify(robobucksEdit);
 	fs.writeFileSync('json/robobucks.json', rStringify);
+	// Modal
+	if (jsonBet = win) {
+		$('.modal-body').append('<h1 style="text-align: center;"><b>Congratulations!</b>&nbsp;You won&nbsp;' + (transaction[$('input[name=login-number]').val()] - 10) + '&nbsp;Robobucks!</h1>');
+	} else if (jsonBet != win) {
+		$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + ((transaction[$('input[name=login-number]').val()] - 10) * -1) + '&nbsp;Robobucks. :(</h1>');
+	}
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;
