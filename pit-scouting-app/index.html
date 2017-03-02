@@ -44,7 +44,7 @@
 			top:20px;
 		}
 		.title {
-			font-size:15px;
+			font-size:20px;
 		}
 		.cooltext {
 			color:rgb(40,40,40);
@@ -73,7 +73,8 @@
 	</style>
   </head>
   <body>
-	<div style="height:1000;top:700px;opacity:0.0" id="scouting" class="center box">
+	<div id="scouting" style="height:1000;top:700px;opacity:0.0" class="center box">
+		<br />
 		<span style="font-size:45px" id="teamdisplay"></span>
 		<br />
 		<br />
@@ -93,19 +94,19 @@
 			<strong class="cooltext">What type of drive train do you use?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-dt">
 	    			<input name="drivetrainType" value="4wheel" type="radio" autocomplete="off"> 4wheel
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-dt">
 	    			<input name="drivetrainType" value="6wheel" type="radio" autocomplete="off"> 6wheel
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-dt">
 	    			<input name="drivetrainType" value="8wheel" type="radio" autocomplete="off"> 8wheel
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-dt">
 	    			<input name="drivetrainType" value="swerve" type="radio" autocomplete="off"> swerve
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-dt">
 	    			<input name="drivetrainType" value="mecanum_drive" type="radio" autocomplete="off"> mecanum_drive
 	  			</label>
 	  			<label id="otherdrive" class="btn btn-warning">
@@ -124,19 +125,19 @@
 			<strong class="cooltext">What type of wheel do you use?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-wh">
 	    			<input name="wheelType" value="mechanum" type="radio" autocomplete="off"> mechanum
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-wh">
 	    			<input name="wheelType" value="omni" type="radio" autocomplete="off"> omni
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-wh">
 	    			<input name="wheelType" value="colson" type="radio" autocomplete="off"> colson
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-wh">
 	    			<input name="wheelType" value="pneumatic" type="radio" autocomplete="off"> pneumatic
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label class="btn btn-warning deselect-wh">
 	    			<input name="wheelType" value="wtread" type="radio" autocomplete="off"> wtread
 	  			</label>
 	  			<label id="otherwheel" class="btn btn-warning">
@@ -171,10 +172,10 @@
 		<div hidden=true id="roundthree">
 			<strong class="cooltext">What is your robot's weight in pounds?</strong>
 			<br />
-			<input id="roboweight" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="color:white;background-color:#F89406"/>
+			<input id="roboweight" type="text" style="color:white;background-color:#F89406"/>
 			<br />
 			<br />
-			<strong class="cooltext">What is your preferred role for the robot? (select all that apply)</strong>
+			<strong class="cooltext">What is your preferred role for the robot (check all that apply)?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
 	  			<label id="shootingrole" class="btn btn-warning">
@@ -305,8 +306,8 @@
 		<br />
 		<br />
 	</div>
-	<div style="top:700px;opacity:0.0" id="teamsel" class="center box">
-  		<kbd class="title">Your Name</kbd>
+	<div id="teamsel" style="top:700px;opacity:0.0" class="center box">
+  		<span style="text-decoration:underline" class="title">Your Name</span>
   		<br />
   		<br />
   		<input class="form-control maintext" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="maintext center" placeholder="Team Number" id="teaminput"/>
@@ -348,7 +349,7 @@
 		<br />
 		<input id="savetoflash" type="button" class="btn btn-warning" style="position:absolute;left:20px;top:200px" value="Save to Flashdrive">
 	</div>
-  	<div style="top:700px;opacity:0.0" id="check" class="center box">
+  	<div id="check" style="top:700px;opacity:0.0" class="center box">
   		<br />
   		<span style="font-size:20px">You are...</span>
   		<br />
@@ -370,14 +371,6 @@
 	  <a href="#" class="close" aria-label="close">&times;</a>
 	  <strong>You have not filled in: </strong>
 	  <strong id="notcomp">err</strong>
-	</div>
-	<div hidden=true style="position:absolute" class="alert alert-success alert-dismissable" id="saved">
-	  <a href="#" class="close" aria-label="close">&times;</a>
-	  <strong>Files saved!</strong>
-	</div>
-	<div hidden=true style="position:absolute" class="alert alert-warning alert-dismissable" id="no1540">
-	  <a href="#" class="close" aria-label="close">&times;</a>
-	  <strong>The flashdrive 1540 is not inputed into the tablet.</strong>
 	</div>
   </body>
 </html>

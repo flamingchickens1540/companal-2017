@@ -1,5 +1,7 @@
 var fs = require('fs');
 var remote = require('electron').remote;
+var Dialogs = require('dialogs');
+var dialogs = Dialogs(opts={})
 
 function createFile(one,two) {
 	fs.writeFile(one, two, function(err) {
@@ -138,9 +140,9 @@ $(document).ready(function(){
 						createFile("/Volumes/1540/companal/pit-scouting/"+array[x],file);
 					}
 				}
-				$("#saved").show();
+				dialogs.alert("Files saved!");
 			} else {
-				$("#no1540").show();
+				dialogs.alert("The flashdrive 1540 is not inputed into the tablet.");
 			}
 		} else if (navigator.platform=="Win32") {
 			createFile("K:/Companal/pit-scouting/manifest.json",JSON.stringify(array));
@@ -184,20 +186,13 @@ $(document).ready(function(){
 			if (chosen=="") {
 				chosen="None";
 			}
-			$("#noid").show(chosen);
-			$("#alertid").text(chosen);
 			$("#check").animate({top:'700px',opacity:'0.0'},1600);
 			logged=false;
+			dialogs.alert("There is no account with the id "+chosen+".");
 			act="none";
 			secact="none";
 		}
 		$("#logname").val("");
-	});
-	$(".close").click(function(){
-		$("#noid").hide();
-		$("#notall").hide();
-		$("#saved").hide();
-		$("#no1540").hide();
 	});
 	$("#next").click(function(){
 		round+=1;
@@ -270,18 +265,9 @@ $(document).ready(function(){
 		secact="none";
 	});
 	$(".signout").click(function(){
-		remote.getCurrentWindow().reload();
-//		$("#lognum").val("");
-// 		$("#lognumb").val("");
-// 		$("#logname").val("");
-// 		$("#teamsel").animate({opacity:'0.0',top:'700px'},1600);
-// 		$("#scouting").animate({opacity:'0.0',top:'700px'},1600);
-// 		$("#top").animate({opacity:'1.0',top:'0'},1600);
-// 		$("#camerabox").animate({opacity:'0.0',top:'700px'},1600);
-// 		act="none";
-// 		secact="none";
-// 		logged=false;
-// 		round=1;
+		dialogs.alert("You have been signed out.", function(ok) {
+			remote.getCurrentWindow().reload();
+		 });
 	});
 	$("#gearfloor").click(function(){
 		gearFloor = !gearFloor;
@@ -335,10 +321,11 @@ $(document).ready(function(){
 		var x = roles.indexOf("other");
 		if (x!=-1) {
 			roles.splice(x,1);
+			$("#roletext").hide();
 		} else {
 			roles.push("other");
+			$("#roletext").show();
 		}
-		$("#roletext").show();
 	});
 	$("input").keypress(function (evt) {
 		  var keycode = evt.charCode || evt.keyCode;
@@ -414,11 +401,18 @@ $(document).ready(function(){
 		 	array.push(team+".json");
 		 	var stringed = JSON.stringify(array);
 		 	createFile("manifest.json",stringed);
-			remote.getCurrentWindow().reload();
+		 	dialogs.alert("The data has been saved", function(ok) {
+			 	remote.getCurrentWindow().reload();
+		 	});
 		 } else {
-		 	$("#notall").show();
-		 	$("#notcomp").text(message);
+		 	dialogs.alert("You have not filled in: "+message+".");
 		 }
+	});
+	$(".deselect-dt").click(function(){
+		$("#driveoptions").hide();
+	});
+	$(".deselect-wh").click(function(){
+		$("#wheeloptions").hide();
 	});
 	$("#teamsubmit").click(function(){
 		team = $("#teaminput").val();
