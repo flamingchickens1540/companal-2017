@@ -16,6 +16,7 @@
     "chart.js": "^2.4.0",
     "getmac": "^1.2.1",
     "jquery": "^3.1.1",
-    "nouislider": "^9.2.0"
+    "nouislider": "^9.2.0",
+    "dialogs": "^1.1.17"
   }
 }
