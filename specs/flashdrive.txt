@@ -70,13 +70,16 @@ so for example, "m4-r1-1540.json"
 	"role": "r1",
 	"scoutId": "50",
 	"bettingPick": "red",
+	"win": "red",
+	"robobucks": 200, // This is how much was added to their account this game
 	"auto": {
 		"crossedLine": true,
 		"shotCycle": false,
-		"depositedGear": true 
+		"depositedGear": true
 	},
 	"teleop": {
 		"balls": {
+			"lowGoal": true, // If they did low goal
 			"cycles": [5, 10, 15, 50], //this is taken as they go, how many balls in each shooting cycle. The length of the list is the number of cycles they did. Estimation categories: ["10-", "10-25", "25-40", "40+"]
 			"accuracy": "50-", //this is in %, can be ["50-", "50-70", "70-90", "90+"] <-- this goes at the end
 			"shotRate": "3-5", //this is in balls/second, can be ["1-", "1-3", "3-5", "5+"]  <-- this goes at the end
@@ -145,6 +148,3 @@ pit-scouting 1540.json <-- self explanatory I hope
 	"weight": 100 //lbs
 
 }
-
-
-

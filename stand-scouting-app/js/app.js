@@ -3,6 +3,8 @@ window.$ = window.jQuery = require('jquery');
 var noUiSlider = require('nouislider');
 var chartjs = require('chart.js');
 var fs = require('fs');
+var Dialogs = require('dialogs');
+var dialogs = Dialogs(opts = {});
 // // getmac
 // var teamColor;
 // var teamNum;
@@ -87,7 +89,26 @@ var fs = require('fs');
 // });
 // General
 function fillOut(){
-	alert("Fill out everything!");
+	if ($('.grades').is(':visible')) {
+		dialogs.alert('Please fill out everything!');
+	} else {
+		dialogs.confirm(
+			'You haven\'t filled out everything yet! Proceed?', function(ok) {
+				if (ok) {
+					if ($('#post-login').is(':visible')) {
+						$('#post-login').fadeOut(500);
+						$('#teleop').delay(500).fadeIn(500);
+					} else if ($('#teleop').is(':visible')) {
+						$('#teleop').fadeOut(500);
+						$('#fuel-end').delay(500).fadeIn(500);
+					} else if ($('#fuel-end').is(':visible')) {
+						$('#fuel-end').fadeOut(500);
+						$('.pie').delay(500).fadeIn(500);
+					}
+				}
+			}
+		);
+	}
 };
 $(document).ready(function(){
 	if (fs.existsSync('json/transactions.json') == false) {
@@ -344,7 +365,7 @@ var accounts = JSON.parse(fs.readFileSync('json/scouts.json', 'utf-8'));
 function createTable() {
     var keys = Object.keys(accounts);
     for (x in keys) {
-        $("tbody").append("<tr><td>" + keys[x] + "</td><td>" + accounts[keys[x]] + "</td></tr>");
+        $(".login-stuff").append("<tr><td>" + keys[x] + "</td><td>" + accounts[keys[x]] + "</td></tr>");
     }
 };
 createTable();
@@ -610,6 +631,15 @@ $('#bet-red-win').click(function(){
 $('#bet-blue-win').click(function(){
 	jsonBet = "blue";
 });
+$('.skip-bet').click(function(){
+	$('.betting').fadeOut(500);
+	$('#post-login').delay(500).fadeIn(500);
+	if (Math.random() < 0.5) {
+		jsonBet = "red";
+	} else {
+		jsonBet = 'blue';
+	}
+});
 // Betting 2
 var transaction = JSON.parse(fs.readFileSync('json/transactions.json', 'utf-8'));
 var robobucks = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
@@ -685,6 +715,7 @@ $('#fuel-next').click(function(){
 	} else {
 		$('#fuel-end').fadeOut(500);
 		$('.pie').delay(500).fadeIn(500);
+		$('.time-cat-btn').click();
 		$('#myChart').fadeIn(500);
 		fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
 		fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
@@ -692,14 +723,15 @@ $('#fuel-next').click(function(){
 	}
 });
 $('.no-fuel').click(function(){
-	var ans = confirm("Really?!");
-	if (ans) {
-		$('#fuel-end').fadeOut(500);
-		$('.pie').delay(500).fadeIn(500);
-		fuelEndAccuracy = 0;
-		fuelEndRate = 0;
-		fuelEndLoad = 0;
-	}
+	dialogs.confirm("Really?!", function(ans) {
+		if (ans) {
+			$('#fuel-end').fadeOut(500);
+			$('.pie').delay(500).fadeIn(500);
+			fuelEndAccuracy = 0;
+			fuelEndRate = 0;
+			fuelEndLoad = 0;
+		}
+	});
 });
 var fuelEndHopper = false;
 var fuelEndHuman = false;
@@ -1124,63 +1156,6 @@ $('#save-file').click(function(){
 	}
 	// Grades
 	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
-	// File
-	var json = {
-		scoutId: $('input[name=login-number]').val(),
-		bettingPick: jsonBet,
-		win: win,
-		auto: {
-			crossedLine: autoCross,
-			depositedGear: autoGear,
-			shotCycle: autoShoot
-		},
-		teleop: {
-			balls: {
-				cycles:  teleopFuel,
-				accuracy: fuelEndAccuracy,
-				shotRate: fuelEndRate,
-				loadingZones: fuelEndLoad
-			},
-			gearsDeposited: teleopGear,
-			climbed: teleopClimb
-		},
-		notes: $('.comments').val(),
-		strategy: {
-			pieChart: {
-				// shooting: parseInt($("#pie-shooting").val()),
-				// gearing: parseInt($("#pie-gearing").val()),
-				// defense: parseInt($("#pie-defense").val()),
-				// climbing: parseInt($("#pie-climbing").val()),
-				// futzing: parseInt($("#pie-futzing").val())
-				shooting: Math.round(sliderShoot),
-				gearing:  Math.round(sliderGear),
-				defense:  Math.round(sliderDefense),
-				climbing:  Math.round(sliderClimb),
-				futzing:  Math.round(sliderFutz)
-			},
-			grades: {
-				overall: gradesOverall,
-				shooting: gradesShooting,
-				gearing: gradesGearing,
-				defense: gradesDefense,
-				climbing: gradesClimbing
-			}
-		}
-	};
-	var stringify = JSON.stringify(json);
-	var match = parseInt(fs.readFileSync('matchNum.txt', 'utf-8'));
-	var filepath = "m" + match + "-" + teamColor + "-" + teamNum + ".json";
-	createFile(__dirname + "/data/" + filepath, stringify);
-	deleteFile('matchNum.txt');
-	createFile('matchNum.txt', match + 1);
-	if (fs.existsSync('json/manifest.json') == false) {
-		fs.writeFileSync('json/manifest.json', "[]");
-	}
-	var manifestRead = fs.readFileSync('json/manifest.json', 'utf-8');
-	var manifestParse = JSON.parse(manifestRead);
-	manifestParse.push(filepath);
-	var mStringify = JSON.stringify(manifestParse);
-	fs.writeFileSync('json/manifest.json', mStringify);
 	// transaction.json
 	var addedValue;
 	var tStringify;
@@ -1299,6 +1274,68 @@ $('#save-file').click(function(){
 	} else if (jsonBet != win) {
 		$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + ((transaction[$('input[name=login-number]').val()] - 10) * -1) + '&nbsp;Robobucks. :(</h1>');
 	}
+	// File
+	var json = {
+		matchNumber: parseInt(fs.readFileSync('matchNum.txt', 'utf-8')),
+		teamNumber: teamNum,
+		role: fs.readFileSync('role.txt', 'utf-8'),
+		scoutId: $('input[name=login-number]').val(),
+		bettingPick: jsonBet,
+		win: win,
+		robobucks: addedValue,
+		auto: {
+			crossedLine: autoCross,
+			depositedGear: autoGear,
+			shotCycle: autoShoot
+		},
+		teleop: {
+			balls: {
+				lowGoal: $(".low-goal:checked").val(),
+				cycles:  teleopFuel,
+				accuracy: fuelEndAccuracy,
+				shotRate: fuelEndRate,
+				loadingZones: fuelEndLoad
+			},
+			gearsDeposited: teleopGear,
+			climbed: teleopClimb
+		},
+		notes: $('.comments').val(),
+		strategy: {
+			pieChart: {
+				// shooting: parseInt($("#pie-shooting").val()),
+				// gearing: parseInt($("#pie-gearing").val()),
+				// defense: parseInt($("#pie-defense").val()),
+				// climbing: parseInt($("#pie-climbing").val()),
+				// futzing: parseInt($("#pie-futzing").val())
+				shooting: Math.round(sliderShoot),
+				gearing:  Math.round(sliderGear),
+				defense:  Math.round(sliderDefense),
+				climbing:  Math.round(sliderClimb),
+				futzing:  Math.round(sliderFutz)
+			},
+			grades: {
+				overall: gradesOverall,
+				shooting: gradesShooting,
+				gearing: gradesGearing,
+				defense: gradesDefense,
+				climbing: gradesClimbing
+			}
+		}
+	};
+	var stringify = JSON.stringify(json);
+	var match = parseInt(fs.readFileSync('matchNum.txt', 'utf-8'));
+	var filepath = "m" + match + "-" + teamColor + "-" + teamNum + ".json";
+	createFile(__dirname + "/data/" + filepath, stringify);
+	deleteFile('matchNum.txt');
+	createFile('matchNum.txt', match + 1);
+	if (fs.existsSync('json/manifest.json') == false) {
+		fs.writeFileSync('json/manifest.json', "[]");
+	}
+	var manifestRead = fs.readFileSync('json/manifest.json', 'utf-8');
+	var manifestParse = JSON.parse(manifestRead);
+	manifestParse.push(filepath);
+	var mStringify = JSON.stringify(manifestParse);
+	fs.writeFileSync('json/manifest.json', mStringify);
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;

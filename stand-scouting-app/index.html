@@ -99,7 +99,7 @@
             <th>Name</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody class='login-stuff'></tbody>
       </table>
       <br>
       <button type="button" id="forgot-id-back" class="btn btn-warning">
@@ -131,6 +131,20 @@
         </div>
         <div class="col-sm-3"></div>
       </div>
+      <br>
+      <div>
+        <button type="button" class="btn btn-danger skip-bet" style="display: block; margin: auto;">Skip Betting</button>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
     </div>
     <!-- Betting 2 -->
     <div class="betting-2">
@@ -261,6 +275,11 @@
       <h3 style="text-align: center;">Fuel</h3>
       <br>
       <button type="button" class="btn btn-warning no-fuel">Did not shoot fuel</button>
+      <div class="btn-group" data-toggle="buttons">
+        <label id="low-goal" class="btn btn-info">
+          <input type="checkbox" autocomplete="off">Low Goal
+        </label>
+      </div>
       <hr>
       <div class="col-sm-4">
         <h4>Accuracy of Shooter</h4>
@@ -327,6 +346,56 @@
       </div> -->
       <div class="pie-hide">
         <h2 style="text-align: center;">Strategy</h2>
+        <button type="button" class="btn btn-info time-cat-btn" data-toggle="collapse" data-target=".useful-time" style="display: block; margin: auto;">Useful Time Categories</button>
+        <br>
+        <br>
+        <br>
+        <div class="well useful-time collapse container">
+          <div class="well-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Time (seconds)</th>
+                  <th>Percent (out of 100%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2 minutes 30 seconds</td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td>2 minutes</td>
+                  <td>80%</td>
+                </tr>
+                <tr>
+                  <td>1 minute 30 seconds</td>
+                  <td>60%</td>
+                </tr>
+                <tr>
+                  <td>1 minute</td>
+                  <td>40%</td>
+                </tr>
+                <tr>
+                  <td>45 seconds</td>
+                  <td>30%</td>
+                </tr>
+                <tr>
+                  <td>30 seconds</td>
+                  <td>20%</td>
+                </tr>
+                <tr>
+                  <td>15 seconds</td>
+                  <td>10%</td>
+                </tr>
+                <tr>
+                  <td>0 seconds</td>
+                  <td>0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
         <hr>
         <div class="row">
           <div class="col-sm-1"></div>
