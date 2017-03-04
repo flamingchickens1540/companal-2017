@@ -3,57 +3,77 @@ var Dialogs = require('dialogs');
 var dialogs = Dialogs(opts={})
 window.$ = window.jQuery = require('jquery');
 
-// if (fs.existsSync('/Volumes/1540/companal/output/persondict.json')) {
-//   var personTxt = fs.readFileSync('/Volumes/1540/companal/output/persondict.json');
-//   var personDict = JSON.parse(personTxt);
-// } else {
-//   var personDict = {};
-// }
+//Useful universal functions
+function createFile(file,text) {
+	fs.writeFile(file, text, function(err) {
+    	if (err) {
+        	return console.log(err);
+		}
+	});
+}
+function appendFile(file,text) {
+	fs.appendFile(file,text, function(err) {
+		if (err) {
+			return console.log(err);
+		}
+	});
+}
+function deleteFile(fileName){
+	fs.unlink(fileName, function(err) {
+		if (err) {
+			return console.error(err);
+		}
+	});
+}
+function renameFile(oldPath,newPath) {
+	fs.rename(oldPath,newPath, (err) => {
+		if (err) throw err;
+		console.log('renamed complete');
+	});
+}
+function getKeyByValue(object, value) {
+	return Object.keys(object).find(key => object[key] === value);
+}
+function contains(a, obj) {
+	var i = a.length;
+	while (i--) {
+		if (a[i] === obj) {
+			return true;
+		}
+	}
+	return false;
+}
+function isLetter(str) {
+  return str.length === 1 && str.match(/[a-z]/i);
+}
+function integer(thing) {
+	if (typeof thing=="string") {
+		thing = parseInt(thing);
+		return thing;
+	} else if (typeof thing!="number") {
+		return null;
+	}
+	return thing;
+}
+function isKey(obj, key) {
+	return key in obj;
+}
 
+//Bonus for pit scouting
 var pitbonus = 10;
+//Bonus for stand scouting
 var standbonus = 0;
+
+//Files In Data-Collect
 var manifest_pit = [];
 var manifest_stand = [];
-var scores = {
-	"98": 0,
-	"50": 0,
-	"60": 0,
-	"64": 0,
-	"66": 0,
-	"81": 0,
-	"24": 0,
-	"25": 0,
-	"20": 0,
-	"21": 0,
-	"22": 0,
-	"23": 0,
-	"44": 0,
-	"40": 0,
-	"41": 0,
-	"96": 0,
-	"77": 0,
-	"76": 0,
-	"72": 0,
-	"97": 0,
-	"58": 0,
-	"99": 0,
-	"13": 0,
-	"12": 0,
-	"15": 0,
-	"14": 0,
-	"17": 0,
-	"16": 0,
-	"19": 0,
-	"18": 0,
-	"30": 0,
-	"37": 0,
-	"36": 0,
-	"34": 0,
-	"33": 0,
-	"55": 0,
-	"48": 0
-}
-var additional = {}
+var additional = {};
+var resutls = {};
+
+//Stores:
+//Member ID
+//Total Number of Matches Scoutes
+//Total Number of Robobucks
 var scoutcount = {
 	"98": [0, 100],
 	"50": [0, 100], 
@@ -94,6 +114,9 @@ var scoutcount = {
 	"48": [0, 100]
 };
 
+//Stores:
+//Member ID
+//Member Name
 var accounts = {
 	"98": "Adolfo",
 	"50": "Noor", 
@@ -134,48 +157,76 @@ var accounts = {
 	"48": "Natalie"
 };
 
-$("#aos").hide();
-createTable();
-importStart();
-
-function createFile(one,two) {
-	fs.writeFile(one, two, function(err) {
-    	if (err) {
-        	return console.log(err);
+//Checks For Inconsistencies In Which Team Won
+function checkForI() {
+	var keys = Object.keys(results);
+	cfi(keys,0);
+	createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
+	createFile("data-collect/results.json",JSON.stringify(results));
+}
+function cfi(keys,m) {
+	var data = results[keys[m]];
+	if (data.length>1) {
+		var def = data[0].win;
+		var inconsistent = false;
+		for (scout in data) {
+			if (data[scout].win!=def) {
+				inconsistent=true;
+				break;
+			}
 		}
-	});
-}
-
-function getKeyByValue(object, value) {
-  return Object.keys(object).find(key => object[key] === value);
-}
-
-function contains(a, obj) {
-	var i = a.length;
-	while (i--) {
-		if (a[i] === obj) {
-			return true;
+		if (inconsistent) {
+			var alliance;
+			console.log(data);
+			dialogs.confirm("There was an error with Match "+keys[m]+". If the red alliance won Match "+keys[m]+", press 'OK'.", function(ok) {
+				if (ok) {
+					alliance="red";
+				} else {
+					alliance="blue";
+				}
+				for (match in data) {
+					var scout=data[match];
+					if (scout.win!=alliance) {
+						scoutcount[scout.scoutId][1]-=integer(scout.robobucks);
+						var name = "m"+scout.matchNumber+"-"+scout.role+"-"+scout.teamNumber+".json";
+						var index = manifest_stand.indexOf(name);
+						manifest_stand.splice(index,1);
+						deleteFile("data-collect/stand-scouting/"+name);
+						results[match].splice(x,1);
+						
+					}
+				}
+				m+=1;
+				if (keys.length>m) {
+					cfi(keys,m);
+				}
+			});
+		} else {
+			m+=1;
+			if (keys.length>m) {
+				cfi(keys,m);
+			}
 		}
 	}
-	return false;
 }
 
-function isLetter(str) {
-  return str.length === 1 && str.match(/[a-z]/i);
-}
-
-function importStart() {
+//Imports Previous Files
+function start() {
+	createTable();
 	manifest_stand = JSON.parse(fs.readFileSync('data-collect/stand-scouting/manifest.json'));
-	manifest_pit = JSON.parse(fs.readFileSync('data-collect/pit-scouting/manifest.json'));
-	additional = JSON.parse(fs.readFileSync('data-collect/additional.json'));
-	scores = JSON.parse(fs.readFileSync('data-collect/wins.json'));
+ 	manifest_pit = JSON.parse(fs.readFileSync('data-collect/pit-scouting/manifest.json'));
+ 	additional = JSON.parse(fs.readFileSync('data-collect/additional.json'));
+ 	results = JSON.parse(fs.readFileSync('data-collect/results.json'));
+ 	//Load Stand
 	for (x in manifest_stand) {
 		if (fs.existsSync('data-collect/stand-scouting/'+manifest_stand[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/stand-scouting/'+manifest_stand[x]));
 			scoutcount[data.scoutId][0]+=1;
           	scoutcount[data.scoutId][1]+=standbonus;
+          	scoutcount[data.scoutId][1]+=integer(data.robubucks);
 		}
 	}
+	//Load Pit
 	for (x in manifest_pit) {
 		if (fs.existsSync('data-collect/pit-scouting/'+manifest_pit[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/pit-scouting/'+manifest_pit[x]));
@@ -187,14 +238,16 @@ function importStart() {
 			}
 		}
 	}
+	//Load Additional
 	var keys = Object.keys(additional);
 	for (x in keys) {
-		scoutcount[keys[x]][1]+=parseInt(scores[keys[x]]);
-		scoutcount[keys[x]][1]+=parseInt(additional[keys[x]]);
+		scoutcount[keys[x]][1]+=integer(additional[keys[x]]);
 	}
+	checkForI();
 	updateTable();
 }
 
+//Imports Incoming Pit Data
 function importPit() {
 	if (navigator.appVersion.indexOf('Mac') != -1) {
 		if (fs.existsSync('/Volumes/1540/')) {
@@ -213,11 +266,6 @@ function importPit() {
 					manifest_pit.push(manifestArray[team]);
 					createFile("data-collect/pit-scouting/manifest.json",JSON.stringify(manifest_pit));
 					createFile("data-collect/pit-scouting/"+manifestArray[team],txt);
-          // Scouting update info
-          // Writes to file
-//           var standSource = fs.createReadStream('/Volumes/1540/companal/pit-scouting/' + manifestArray[team]);
-//           var standDest = fs.createWriteStream('/Volumes/1540/companal/output/pit-scouting/' + manifestArray[team]);
-//           standSource.pipe(standDest);
 				}
 			}
 			$("#impPit").addClass("disabled");
@@ -231,95 +279,29 @@ function importPit() {
 	}
 }
 
+//Imports Incoming Stand Data, Runs CheckForI()
 function importStand() {
 	if (navigator.appVersion.indexOf('Mac') != -1) {
 		if (fs.existsSync('/Volumes/1540/')) {
-			// Reads stand manifest
 			var jsonTxt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/manifest.json');
-			var wins = JSON.parse(fs.readFileSync('data-collect/wins.json'));
-			var results = JSON.parse(fs.readFileSync('data-collect/results.json'));
 			var manifestArray = JSON.parse(jsonTxt);
-			var teamData = undefined;
-			var i = false;
 			for (var team in manifestArray) {
 				if (!fs.existsSync('data-collect/stand-scouting/'+manifestArray[team]) && fs.existsSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team])) {
-					// Scouting update info
 					var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team]);
-					teamData = JSON.parse(txt);
+					var data = JSON.parse(txt);
 					manifest_stand.push(manifestArray[team]);
-					createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
-					createFile("data-collect/stand-scouting/"+manifestArray[team],JSON.stringify(teamData));
-					var win = teamData.win;
-					var match = manifestArray[team].slice(1,-5);
-					while (!isLetter(match.slice(-1))) {
-						match = match.slice(0,-1);
-          			}
-					match = match.slice(0,-2);
-					results[match].push(teamData);
-					console.log("1"+results);
-					console.log("2"+results[match]);
-					console.log("3"+results[match][0]);
-					console.log("4"+results[match][0].win);
-          			var inconsistent = false;
-          			var def = results[match][0].win;
-          			console.log("DEF: "+def);
-          			for (x in results[match]) {
-          				var next = results[match][x].win;
-          				console.log("NEXT: "+next);
-          				if (def!=next) {
-							console.log("A scout is lying!!!!!!!!!!! Lol fail. Check Match "+results[match]);
-							inconsistent=true;
-							break;
-						}
-					}
-					console.log("I "+inconsistent);
-					if (inconsistent) {
-						var alliance;
-						dialogs.confirm("Did red win Match "+match+"?", function(ok) {
-							i =true;
-							console.log("OK "+ok);
-							if (ok) {
-								alliance="red";
-							} else {
-								alliance="blue";
-							}
-							console.log("r[m]"+results[match]);
-							for (x in results[match]) {
-								var next = results[match][x];
-								if (next.win!=alliance) {
-									wins[next.scoutId]=parseInt(wins[next.scoutId])-parseInt(wins[next.robobucks]);
-									results[match].splice(x,1);
-								}
-							}
-						});
-					}
-          			scoutcount[teamData.scoutId][0]+=1;
-          			scoutcount[teamData.scoutId][1]+=standbonus;
-          // Writes to file
-//           var standSource = fs.createReadStream('/Volumes/1540/companal/stand-scouting/' + manifestArray[team]);
-//           var standDest = fs.createWriteStream('/Volumes/1540/companal/output/stand-scouting/' + manifestArray[team]);
-//           standSource.pipe(standDest);
+          			scoutcount[data.scoutId][0]+=1;
+          			scoutcount[data.scoutId][1]+=standbonus;
+          			scoutcount[data.scoutId][1]+=integer(next.robobucks)
+          			createFile("data-collect/stand-scouting/"+manifestArray[team],JSON.stringify(data));
 				}
-			}
-			if (teamData!=undefined) {
-				var tr = JSON.parse((fs.readFileSync('/Volumes/1540/companal/stand-scouting/transactions.json')));
-				scoutcount[teamData.scoutId][1]+=parseInt(tr[teamData.scoutId]);
-				var keys = Object.keys(tr);
-				for (x in keys) {
-					var id = keys[x];
-					var tr_rb = parseInt(tr[id]);
-					scoutcount[id][1]+=tr_rb;
-					scores[id]=parseInt(scores[id])+tr_rb;
-				}
-				// createFile("data-collect/transactions.json",JSON.stringify(tr));
 			}
 			$("#impStand").addClass("disabled");
-			createFile("data-collect/wins.json",JSON.stringify(scores));
 			createFile("data-collect/results.json",JSON.stringify(results));
+			createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
+			dialogs.alert('Done importing data!');
+			checkForI();
 			updateTable();
-			if (i=false) {
-				dialogs.alert('Done importing data!');
-			}
 		} else {
 			dialogs.alert('The USB not inserted properly');
 		}
@@ -327,6 +309,8 @@ function importStand() {
 		dialogs.alert('Oops! Something went wrong');
 	}
 }
+
+//Exports Data To Flashdrive
 function exportData() {
 	//alexander code
 	if (fs.existsSync('/Volumes/1540')) {
@@ -345,8 +329,9 @@ function exportData() {
 	} else {
 		dialogs.alert("The USB is not inserted properly.");
 	}
-// 	var processedData = new Folder("/Volumes/1540/ProcessedData");
 }
+
+//Creates The Table
 function createTable() {
 	var keys = Object.keys(accounts);
 	for (x in keys) {
@@ -373,6 +358,8 @@ function createTable() {
 		$("#"+id+"bet").text(scoutcount[id][1]);
 	}
 }
+
+//Updates The Table
 function updateTable() {
 	var keys = Object.keys(accounts);
 	for (x in keys) {
@@ -381,12 +368,16 @@ function updateTable() {
 		$("#"+id+"num").text(scoutcount[id][0]);
 	}
 }
+
+//Allows Uploading Of More Pit and Stand Data
 function newFlash() {
 	$("#impPit").removeClass("disabled");
 	$("#impStand").removeClass("disabled");
 	$("#export").removeClass("disabled");
 	$("#new").addClass("disabled");
 }
+
+//Buttons
 $("#impPit").click(function(){
 	if (!$(this).hasClass("disabled")) {
 		importPit();
@@ -411,17 +402,17 @@ $("#addRB").click(function(){
 	var keys = Object.keys(scoutcount);
 	var values = Object.keys(accounts).map(function(key){return accounts[key]});
 	var id = $("#idRB").val();
-	var rb = parseInt($("#numRB").val());
+	var rb = integer($("#numRB").val());
 	$("#idRB").val("");
 	$("#numRB").val("");
 	if (contains(keys,id)) {
 		scoutcount[id][1]+=rb;
-		additional[id]=(parseInt(additional[id])+rb).toString();
+		additional[id]=(integer(additional[id])+rb).toString();
 		createFile("data-collect/additional.json",JSON.stringify(additional));
 	} else if (contains(values,id)) {
 		id = getKeyByValue(accounts, id);
 		scoutcount[id][1]+=rb;
-		additional[id]=(parseInt(additional[id])+rb).toString();
+		additional[id]=(integer(additional[id])+rb).toString();
 		createFile("data-collect/additional.json",JSON.stringify(additional));
 	}
 	updateTable();
@@ -434,3 +425,47 @@ $("#addOrSub").click(function(){
 	$("#hide").show();
 	$("#addOrSub").hide();
 });
+
+//Runs At Start
+start();
+
+//For copying as a default
+var scores = {
+	"98": 0,
+	"50": 0,
+	"60": 0,
+	"64": 0,
+	"66": 0,
+	"81": 0,
+	"24": 0,
+	"25": 0,
+	"20": 0,
+	"21": 0,
+	"22": 0,
+	"23": 0,
+	"44": 0,
+	"40": 0,
+	"41": 0,
+	"96": 0,
+	"77": 0,
+	"76": 0,
+	"72": 0,
+	"97": 0,
+	"58": 0,
+	"99": 0,
+	"13": 0,
+	"12": 0,
+	"15": 0,
+	"14": 0,
+	"17": 0,
+	"16": 0,
+	"19": 0,
+	"18": 0,
+	"30": 0,
+	"37": 0,
+	"36": 0,
+	"34": 0,
+	"33": 0,
+	"55": 0,
+	"48": 0
+}
