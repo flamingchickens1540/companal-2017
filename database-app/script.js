@@ -160,11 +160,15 @@ function contains(a, obj) {
 	return false;
 }
 
+function isLetter(str) {
+  return str.length === 1 && str.match(/[a-z]/i);
+}
+
 function importStart() {
 	manifest_stand = JSON.parse(fs.readFileSync('data-collect/stand-scouting/manifest.json'));
 	manifest_pit = JSON.parse(fs.readFileSync('data-collect/pit-scouting/manifest.json'));
 	additional = JSON.parse(fs.readFileSync('data-collect/additional.json'));
-	scores = JSON.parse(fs.readFileSync('data-collect/scores.json'));
+	scores = JSON.parse(fs.readFileSync('data-collect/wins.json'));
 	for (x in manifest_stand) {
 		if (fs.existsSync('data-collect/stand-scouting/'+manifest_stand[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/stand-scouting/'+manifest_stand[x]));
@@ -232,18 +236,55 @@ function importStand() {
 		if (fs.existsSync('/Volumes/1540/')) {
 			// Reads stand manifest
 			var jsonTxt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/manifest.json');
+			var wins = JSON.parse(fs.readFileSync('data-collect/wins.json'));
+			var results = JSON.parse(fs.readFileSync('data-collect/results.json'));
 			var manifestArray = JSON.parse(jsonTxt);
 			var teamData = undefined;
 			for (var team in manifestArray) {
-				if (fs.existsSync(!fs.existsSync('data-collect/stand-scouting/'+manifestArray[team]) && '/Volumes/1540/companal/stand-scouting/' + manifestArray[team])) {
-          			// Scouting update info
-          			var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/' + manifestArray[team]);
-          			teamData = JSON.parse(txt);
+				if (!fs.existsSync('data-collect/stand-scouting/'+manifestArray[team]) && fs.existsSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team])) {
+					// Scouting update info
+					var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team]);
+					teamData = JSON.parse(txt);
+					manifest_stand.push(manifestArray[team]);
+					createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
+					createFile("data-collect/stand-scouting/"+manifestArray[team],JSON.stringify(teamData));
+					var win = teamData.win;
+					var match = manifestArray[team].slice(1,-5);
+					while (!isLetter(match.slice(-1))) {
+						match = match.slice(0,-1);
+          			}
+					match = match.slice(0,-2);
+					results[match].push(teamData);
+          			var inconsistent = false;
+          			var def = results[match][0][win];
+          			console.log(def);
+          			for (x in results[match]) {
+          				var next = results[match][x][win];
+          				if (def!=next) {
+// 							dialogs.alert("A scout is lying!!!!!!!!!!! Lol fail. Check Match "+wins[match]);
+							inconsistent=true;
+							break;
+						}
+					}
+					if (inconsistent) {
+						var alliance;
+						dialogs.confirm("Did red win match "+match+"?", function(ok) {
+							if (ok) {
+								alliance="red";
+							} else {
+								alliance="blue";
+							}
+						});
+						for (x in results[match]) {
+							var next = results[match][x];
+							if (next[win]!=alliance) {
+								wins[next.scoutId]=parseInt(wins[next.scoutId])-parseInt(wins[next.robobucks]);
+								results.splice(x,1);
+							}
+						}
+					}
           			scoutcount[teamData.scoutId][0]+=1;
           			scoutcount[teamData.scoutId][1]+=standbonus;
-          			manifest_stand.push(manifestArray[team]);
-          			createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
-          			createFile("data-collect/stand-scouting/"+manifestArray[team],txt);
           // Writes to file
 //           var standSource = fs.createReadStream('/Volumes/1540/companal/stand-scouting/' + manifestArray[team]);
 //           var standDest = fs.createWriteStream('/Volumes/1540/companal/output/stand-scouting/' + manifestArray[team]);
@@ -266,7 +307,8 @@ function importStand() {
 				// createFile("data-collect/transactions.json",JSON.stringify(tr));
 			}
 			$("#impStand").addClass("disabled");
-			createFile("data-collect/scores.json",JSON.stringify(scores));
+			createFile("data-collect/wins.json",JSON.stringify(scores));
+			createFile("data-collect/results.json",JSON.stringify(results));
 			updateTable();
 			dialogs.alert('Done importing data!');
 		} else {
