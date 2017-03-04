@@ -747,7 +747,7 @@ $('.no-fuel').click(function(){
 			$('.pie').delay(500).fadeIn(500);
 			fuelEndAccuracy = 0;
 			fuelEndRate = 0;
-			fuelEndLoad = 0;
+			fuelEndLoad = [0];
 		}
 	});
 });
