@@ -223,7 +223,7 @@ function start() {
 			var data = JSON.parse(fs.readFileSync('data-collect/stand-scouting/'+manifest_stand[x]));
 			scoutcount[data.scoutId][0]+=1;
           	scoutcount[data.scoutId][1]+=standbonus;
-          	scoutcount[data.scoutId][1]+=integer(data.robubucks);
+          	scoutcount[data.scoutId][1]+=integer(data.robobucks);
 		}
 	}
 	//Load Pit
