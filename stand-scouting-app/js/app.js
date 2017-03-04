@@ -111,6 +111,14 @@ function fillOut(){
 	}
 };
 $(document).ready(function(){
+	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
+	if (!schedule.hasOwnProperty(fs.readFileSync('matchNum.txt', 'utf-8'))) {
+		dialogs.prompt('No match number!', '1',
+		function(num) {
+			fs.writeFileSync('matchNum.txt', num);
+			window.location.reload();
+		});
+	}
 	if (fs.existsSync('json/transactions.json') == false) {
 		var noTransaction = {
 			"12": "0",
@@ -153,6 +161,7 @@ $(document).ready(function(){
 		}
 		var nNT = JSON.stringify(noTransaction);
 		fs.writeFileSync('json/transactions.json', nNT);
+		window.location.reload();
 	}
 	if (fs.existsSync('json/robobucks.json') == false) {
 		var noRobobucks = {
@@ -196,12 +205,15 @@ $(document).ready(function(){
 		}
 		var sNR = JSON.stringify(noRobobucks);
 		fs.writeFileSync('json/robobucks.json', sNR);
+		window.location.reload();
 	};
 	if (fs.existsSync('matchNum.txt') == false) {
 		fs.writeFileSync('matchNum.txt', 1);
+		window.location.reload();
 	};
 	if (fs.existsSync('role.txt') == false) {
 		fs.writeFileSync('role.txt', 'r1');
+		window.location.reload();
 	};
 	if (fs.existsSync('login.txt')) {
 		$('input[name=login-number]').val(fs.readFileSync('login.txt', 'utf-8'));
@@ -395,6 +407,9 @@ $('#login-button').click(function(){
 			if (((max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || ((max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
 				start = 1;
 				totalValue = start * points;
+				if (totalValue < 1) {
+					totalValue = 1.1;
+				}
 				$('.expected').append('<h4>If you think <button type="button" id="bet-red-win-intro" class="btn btn-danger">Red</button> will win, you will get ' + totalValue + ' Robobucks for every ' + start + ' Robobuck you bet</h4>');
 			}
 		};
@@ -402,10 +417,13 @@ $('#login-button').click(function(){
 			if (((max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || ((max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
 				start = 1;
 				totalValue = start * points;
+				if (totalValue < 1) {
+					totalValue = 1.1;
+				}
 				$('.expected').append('<h4>If you think <button type="button" id="bet-blue-win-intro" class="btn btn-default">Blue</button> will win, you will get ' + totalValue + ' Robobucks for every ' + start + ' Robobuck you bet</h4>');
 			}
 		};
-		for (i = 1; i < 11; i++) {
+		for (i = 1; i < 2000; i++) {
 			redBet(10 * i, (10 * i) - 10, (20 - i) / 10);
 			blueBet(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
 		};
@@ -421,7 +439,7 @@ $('.pass-submit').click(function(){
 		$('.password').fadeOut(500);
 		$('.choose-role').delay(500).fadeIn(500);
 	} else {
-		alert('Wrong password');
+		dialogs.alert('Wrong password');
 		window.location.reload();
 	}
 });
@@ -1163,6 +1181,9 @@ $('#save-file').click(function(){
 		if ((jsonBet == "red" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min)) || (jsonBet == "blue" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min))) {
 			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
 			addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
+			if (addedValue < 1) {
+				addedValue = 1.1;
+			}
 			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
 		}
 	};
@@ -1170,6 +1191,9 @@ $('#save-file').click(function(){
 		if ((jsonBet == "red" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || (jsonBet == "blue" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
 			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
 			addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
+			if (addedValue < 1) {
+				addedValue = 1.1;
+			}
 			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
 		}
 	};
@@ -1177,11 +1201,11 @@ $('#save-file').click(function(){
 		if (opr.hasOwnProperty(teamNum)) {
 			if (jsonBet == win) {
 				if ((jsonBet == "red" && redOpr > blueOpr) || (jsonBet == "blue" && blueOpr > redOpr)) {
-					for (i = 1; i < 11; i++) {
+					for (i = 1; i < 2000; i++) {
 						betOver(10 * i, (10 * i) - 10, (20 - i) / 10);
 					};
 				} else if ((jsonBet == "red" && redOpr < blueOpr) || (jsonBet == "blue" && blueOpr < redOpr)) {
-					for (i = 1; i < 11; i++) {
+					for (i = 1; i < 2000; i++) {
 						betUnder(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
 					};
 				}
