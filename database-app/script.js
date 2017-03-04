@@ -240,6 +240,7 @@ function importStand() {
 			var results = JSON.parse(fs.readFileSync('data-collect/results.json'));
 			var manifestArray = JSON.parse(jsonTxt);
 			var teamData = undefined;
+			var i = false;
 			for (var team in manifestArray) {
 				if (!fs.existsSync('data-collect/stand-scouting/'+manifestArray[team]) && fs.existsSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team])) {
 					// Scouting update info
@@ -255,33 +256,42 @@ function importStand() {
           			}
 					match = match.slice(0,-2);
 					results[match].push(teamData);
+					console.log("1"+results);
+					console.log("2"+results[match]);
+					console.log("3"+results[match][0]);
+					console.log("4"+results[match][0].win);
           			var inconsistent = false;
-          			var def = results[match][0][win];
-          			console.log(def);
+          			var def = results[match][0].win;
+          			console.log("DEF: "+def);
           			for (x in results[match]) {
-          				var next = results[match][x][win];
+          				var next = results[match][x].win;
+          				console.log("NEXT: "+next);
           				if (def!=next) {
-// 							dialogs.alert("A scout is lying!!!!!!!!!!! Lol fail. Check Match "+wins[match]);
+							console.log("A scout is lying!!!!!!!!!!! Lol fail. Check Match "+results[match]);
 							inconsistent=true;
 							break;
 						}
 					}
+					console.log("I "+inconsistent);
 					if (inconsistent) {
 						var alliance;
-						dialogs.confirm("Did red win match "+match+"?", function(ok) {
+						dialogs.confirm("Did red win Match "+match+"?", function(ok) {
+							i =true;
+							console.log("OK "+ok);
 							if (ok) {
 								alliance="red";
 							} else {
 								alliance="blue";
 							}
-						});
-						for (x in results[match]) {
-							var next = results[match][x];
-							if (next[win]!=alliance) {
-								wins[next.scoutId]=parseInt(wins[next.scoutId])-parseInt(wins[next.robobucks]);
-								results.splice(x,1);
+							console.log("r[m]"+results[match]);
+							for (x in results[match]) {
+								var next = results[match][x];
+								if (next.win!=alliance) {
+									wins[next.scoutId]=parseInt(wins[next.scoutId])-parseInt(wins[next.robobucks]);
+									results[match].splice(x,1);
+								}
 							}
-						}
+						});
 					}
           			scoutcount[teamData.scoutId][0]+=1;
           			scoutcount[teamData.scoutId][1]+=standbonus;
@@ -291,7 +301,6 @@ function importStand() {
 //           standSource.pipe(standDest);
 				}
 			}
-			console.log(teamData);
 			if (teamData!=undefined) {
 				var tr = JSON.parse((fs.readFileSync('/Volumes/1540/companal/stand-scouting/transactions.json')));
 				scoutcount[teamData.scoutId][1]+=parseInt(tr[teamData.scoutId]);
@@ -299,8 +308,6 @@ function importStand() {
 				for (x in keys) {
 					var id = keys[x];
 					var tr_rb = parseInt(tr[id]);
-					console.log("ID "+id);
-					console.log("TR_RB"+tr_rb);
 					scoutcount[id][1]+=tr_rb;
 					scores[id]=parseInt(scores[id])+tr_rb;
 				}
@@ -310,7 +317,9 @@ function importStand() {
 			createFile("data-collect/wins.json",JSON.stringify(scores));
 			createFile("data-collect/results.json",JSON.stringify(results));
 			updateTable();
-			dialogs.alert('Done importing data!');
+			if (i=false) {
+				dialogs.alert('Done importing data!');
+			}
 		} else {
 			dialogs.alert('The USB not inserted properly');
 		}

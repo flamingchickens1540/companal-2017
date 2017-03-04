@@ -557,7 +557,6 @@ $('#forgot-id-back').click(function(){
 // 	fs.createReadStream("/Volumes/1540/Companal/stand-scouting/robobucks.json").pipe(fs.createWriteStream("json/robobucks.json"));
 // } // NOTE: NOT WORKING!!!
 $('.flashdrive-save').click(function(){
-	fs.writeFileSync("json/robobucks.json");
 	fs.createReadStream("/Volumes/1540/Companal/stand-scouting/robobucks.json").pipe(fs.createWriteStream("json/robobucks.json"));
 	var data = JSON.parse(fs.readFileSync('json/manifest.json', "utf-8"));
 	for (i in data) {
@@ -577,14 +576,14 @@ $('.flashdrive-save').click(function(){
 		}
 	}
 	if (navigator.platform == "MacIntel") {
-		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/manifest.json");
+		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/manifest.json", '');
 		fs.createReadStream("json/manifest.json").pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/manifest.json"));
-		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/transactions.json");
+		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/transactions.json", '');
 		fs.createReadStream("json/transactions.json").pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/transactions.json"));
 	} else if (navigator.platform == "Win32") {
-		fs.writeFileSync("K:/Companal/stand-scouting/manifest.json");
+		fs.writeFileSync("K:/Companal/stand-scouting/manifest.json", '');
 		fs.createReadStream("json/manifest.json").pipe(fs.createWriteStream("K:/Companal/stand-scouting/manifest.json"));
-		fs.writeFileSync("K:/Companal/stand-scouting/transactions.json");
+		fs.writeFileSync("K:/Companal/stand-scouting/transactions.json", '');
 		fs.createReadStream("json/transactions.json").pipe(fs.createWriteStream("K:/Companal/stand-scouting/transactions.json"));
 	}
 	var newTransaction = {
@@ -626,7 +625,6 @@ $('.flashdrive-save').click(function(){
 		"98": "0",
 		"99": "0"
 	}
-	deleteFile('json/transactions.json');
 	var sNT = JSON.stringify(newTransaction);
 	fs.writeFileSync('json/transactions.json', sNT);
 	$('.flashdrive-save').addClass('disabled');

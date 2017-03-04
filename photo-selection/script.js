@@ -1,6 +1,8 @@
 var fs = require('fs');
 var auto = require('jpeg-autorotate');
 var options = {quality: 85};
+var Dialogs = require('dialogs');
+var dialogs = Dialogs(opts={})
 var content;
 
 function rotate(path,img,name) {
@@ -137,12 +139,15 @@ $(document).ready(function(){
 		}
 	}
 	$(".removal").click(function(){
+		var th = $(this);
+		var id = $(this).attr("id");
 		if (progress==images.length) {
-			if (confirm("Delete this photo?")) {
-				var id = $(this).attr("id");
-				fs.unlink("../../../Dropbox/1540_Photos/"+id);
-				$(this).remove();
-			}
+			dialogs.confirm("Delete this photo?", function(ok) {
+				if (ok) {
+					fs.unlink("../../../Dropbox/1540_Photos/"+id);
+					th.remove();
+				}
+			});
 		}
 	});
 });
