@@ -111,6 +111,10 @@ function fillOut(){
 	}
 };
 $(document).ready(function(){
+	if (fs.existsSync('matchNum.txt') == false) {
+		fs.writeFileSync('matchNum.txt', 1);
+		window.location.reload();
+	};
 	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
 	if (!schedule.hasOwnProperty(fs.readFileSync('matchNum.txt', 'utf-8'))) {
 		dialogs.prompt('No match number!', '1',
@@ -205,10 +209,6 @@ $(document).ready(function(){
 		}
 		var sNR = JSON.stringify(noRobobucks);
 		fs.writeFileSync('json/robobucks.json', sNR);
-		window.location.reload();
-	};
-	if (fs.existsSync('matchNum.txt') == false) {
-		fs.writeFileSync('matchNum.txt', 1);
 		window.location.reload();
 	};
 	if (fs.existsSync('role.txt') == false) {
@@ -394,8 +394,9 @@ $('#login-button').click(function(){
 		$('.name-div').fadeIn(250);
 		$('#cont-btn').delay(250).fadeIn(250);
 		$('.chicken').animate({height: "100px"});
-		$('.jumbotron').animate({height: "250px"});
-		$('.jumbotron-big-title').replaceWith('<h2 class="jumbotron-big-title">Stand Scouting App</h2>');
+		$('.chicken').animate({marginTop: '-2.5%'});
+		$('.jumbotron-big-title').replaceWith('<h2 class="jumbotron-big-title" style="margin-top: 5px;">Stand Scouting App</h2>');
+		$('.jumbotron').animate({height: "200px"}, 750);
 		$('.login-info').delay(250).fadeIn(500);
 		$('.login-info-replace').replaceWith('<h3 class="login-info-replace">' + num + " | " + accounts[act] + "</h3>");
 		$('#login-input-number').css("border", "3px solid #5cb85c");
@@ -476,7 +477,6 @@ $('.role-submit').click(function(){
 	if (!$("input[name=role-btn]:checked").val()) {
 		fillOut();
 	} else {
-		deleteFile('role.txt');
 		fs.writeFileSync('role.txt', $('.role-btn:checked').val());
 		window.location.reload();
 	}
@@ -762,6 +762,24 @@ $('#teleop-fuelload-floor').click(function(){
 	fuelEndFloor = !fuelEndFloor;
 });
 // Pie
+$('.pie-100-btn').click(function(){
+	$('.pie-100-btn').css('color', 'white');
+});
+$('.shoot-100-btn').click(function(){
+	slider.noUiSlider.set([100, 100, 100, 100]);
+});
+$('.gear-100-btn').click(function(){
+	slider.noUiSlider.set([0, 100, 100, 100]);
+});
+$('.defense-100-btn').click(function(){
+	slider.noUiSlider.set([0, 0, 100, 100]);
+});
+$('.climb-100-btn').click(function(){
+	slider.noUiSlider.set([0, 0, 0, 100]);
+});
+$('.futz-100-btn').click(function(){
+	slider.noUiSlider.set([0, 0, 0, 0]);
+});
 var sliderArray;
 var sliderShoot;
 var sliderGear;
@@ -779,6 +797,53 @@ var gradesGearing;
 var gradesDefense;
 var gradesClimbing;
 // Pie
+var slider = document.getElementById('slider-color');
+noUiSlider.create(slider, {
+	start: [20, 40, 60, 80],
+	tooltips: [true, true, true, true],
+	behavior: 'tap',
+	connect: [true, true, true, true, true],
+	range: {
+		'min': [0],
+		'max': [100]
+	}
+});
+var connect = slider.querySelectorAll('.noUi-connect');
+var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
+for (var i = 0; i < connect.length; i++) {
+  connect[i].classList.add(classes[i]);
+}
+slider.noUiSlider.on('update', function(){
+	var arr = slider.noUiSlider.get();
+	var results = [];
+	var sorted_arr = arr.slice().sort();
+	for (var i = 0; i < arr.length - 1; i++) {
+	  if (sorted_arr[i + 1] == sorted_arr[i]) {
+	     results.push(parseInt(sorted_arr[i]));
+	  }
+	};
+	if (results.length > 0) {
+		if (parseInt(arr[0]) == results[0]) {
+			if ($('.noUi-handle-lower').hasClass('noUi-active')) {
+				slider.noUiSlider.set([results[0], results[0] + 10, null, null]);
+			} else {
+				slider.noUiSlider.set([0, results[0], null, null]);
+			}
+		} else if (parseInt(arr[1]) == results[0]) {
+			if ($('.noUi-origin:nth-child(4) > .noUi-handle').hasClass('noUi-active')) {
+				slider.noUiSlider.set([null, results[0], results[0] + 10, null]);
+			} else {
+				slider.noUiSlider.set([null, results[0] - 10, results[0], null]);
+			}
+		} else if (parseInt(arr[2]) == results[0]) {
+			if ($('.noUi-origin:nth-child(6) > .noUi-handle').hasClass('noUi-active')) {
+				slider.noUiSlider.set([null, null, results[0], 100]);
+			} else {
+				slider.noUiSlider.set([null, null, results[0] - 10, results[0]]);
+			}
+		}
+	}
+});
 $('#pie-label').hide();
 $('#pie-back').click(function(){
 	$('.pie').fadeOut(500);
@@ -842,21 +907,6 @@ $('#pie-next').click(function(){
 // $("#pie-defense").slider({});
 // $("#pie-climbing").slider({});
 // $("#pie-futzing").slider({});
-var slider = document.getElementById('slider-color');
-noUiSlider.create(slider, {
-	start: [20, 40, 60, 80],
-	behavior: 'tap',
-	connect: [true, true, true, true, true],
-	range: {
-		'min': [0],
-		'max': [100]
-	}
-});
-var connect = slider.querySelectorAll('.noUi-connect');
-var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
-for(var i = 0; i < connect.length; i++){
-    connect[i].classList.add(classes[i]);
-}
 // Grades
 $('#grades-back').click(function(){
 	$('.grades').fadeOut(500);
@@ -941,7 +991,7 @@ $('.edit-match').click(function(){
 $('#continue').click(function(){
 	fs.writeFileSync('login.txt', $('input[name=login-number]').val());
 	window.location.reload();
-})
+});
 $('#sign-out').click(function(){
 	deleteFile('login.txt');
 	window.location.reload();
@@ -1291,10 +1341,10 @@ $('#save-file').click(function(){
 	rStringify = JSON.stringify(robobucksEdit);
 	fs.writeFileSync('json/robobucks.json', rStringify);
 	// Modal
-	if (jsonBet = win) {
-		$('.modal-body').append('<h1 style="text-align: center;"><b>Congratulations!</b>&nbsp;You won&nbsp;' + (transaction[$('input[name=login-number]').val()] - 10) + '&nbsp;Robobucks!</h1>');
-	} else if (jsonBet != win) {
-		$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + ((transaction[$('input[name=login-number]').val()] - 10) * -1) + '&nbsp;Robobucks. :(</h1>');
+	if (addedValue > 0) {
+		$('.modal-body').append('<h1 style="text-align: center;"><b>Congratulations!</b>&nbsp;You won&nbsp;' + addedValue + '&nbsp;Robobucks!</h1>');
+	} else if (addedValue < 0) {
+		$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + (addedValue * -1) + '&nbsp;Robobucks.</h1>');
 	}
 	// File
 	var json = {

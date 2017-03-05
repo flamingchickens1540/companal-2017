@@ -348,8 +348,6 @@
         <h2 style="text-align: center;">Strategy</h2>
         <button type="button" class="btn btn-info time-cat-btn" data-toggle="collapse" data-target=".useful-time" style="display: block; margin: auto;">Useful Time Categories</button>
         <br>
-        <br>
-        <br>
         <div class="well useful-time collapse container">
           <div class="well-body">
             <table class="table table-hover">
@@ -401,30 +399,35 @@
           <div class="col-sm-1"></div>
           <div class="col-sm-2">
             <h3 style="text-align: center; color: #2ecc71;">Shooting</h3>
+            <button type="button" class="btn shoot-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button>
             <br>
             <!-- <input id="pie-shooting" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
             <!-- <input type="number" id="pie-shooting" style="color: #2ecc71; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
           </div>
           <div class="col-sm-2">
             <h3 style="text-align: center; color: #3498db;">Gearing</h3>
+            <button type="button" class="btn gear-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button>
             <br>
             <!-- <input id="pie-gearing" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
             <!-- <input type="number" id="pie-gearing" style="color: #3498db; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
           </div>
           <div class="col-sm-2">
             <h3 style="text-align: center; color: #95a5a6;">Defense</h3>
+            <button type="button" class="btn defense-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button>
             <br>
             <!-- <input id="pie-defense" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
             <!-- <input type="number" id="pie-defense" style="color: #95a5a6; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
           </div>
           <div class="col-sm-2">
             <h3 style="text-align: center; color: #9b59b6;">Climbing</h3>
+            <button type="button" class="btn climb-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button>
             <br>
             <!-- <input id="pie-climbing" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
             <!-- <input type="number" id="pie-climbing" style="color: #9b59b6; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
           </div>
           <div class="col-sm-2">
             <h3 style="text-align: center; color: #f1c40f;">Futzing/Doing Nothing</h3>
+            <button type="button" class="btn futz-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button>
             <br>
             <!-- <input id="pie-futzing" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
             <!-- <input type="number" id="pie-futzing" style="color: #f1c40f; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
@@ -443,7 +446,7 @@
         </div>
       </div>
       <div class="pie">
-        <div id="pie-label" class="row">
+        <!-- <div id="pie-label" class="row">
           <div class="col-sm-1"></div>
           <div class="col-sm-2">
             <h3 style="color: #2ecc71;">Shooting</h3>
@@ -460,7 +463,7 @@
           <div class="col-sm-2">
             <h3 style="color: #f1c40f;">Futzing/Doing Nothing</h3>
           </div>
-        </div>
+        </div> -->
         <canvas id="myChart"></canvas>
         <script type="text/javascript">
           window.$ = window.jQuery = require('jquery');
@@ -489,7 +492,7 @@
                   var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
                   var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
                   var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
-                  $('#myChart').replaceWith("<canvas id='myChart'></canvas>")
+                  $('#myChart').replaceWith("<canvas id='myChart'></canvas>");
                   var ctx = document.getElementById("myChart").getContext('2d');
                   var myChart = new Chart(ctx, {
                     type: 'pie',
@@ -724,7 +727,7 @@
     <nav class="navbar navbar-fixed-bottom">
       <hr>
       <a href="#" data-toggle="popover" title="CHECK MATCH NUMBER" data-content="Check to make sure match number is right!" data-placement="top" style="display: block; margin: auto;"></a>
-      <div class="row">
+      <div class="row nav-row">
         <div class="col-sm-4 team-color"></div>
         <div class="col-sm-4">
           <div class="match-number" style="text-align: center;">
