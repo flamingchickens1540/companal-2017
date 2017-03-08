@@ -2,3 +2,4 @@ manifest.json
 login.txt
 role.txt
 matchNum.txt
+data/*.json
