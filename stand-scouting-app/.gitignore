@@ -1,4 +1,7 @@
-manifest.json
+json/manifest.json
+json/opr.json
+json/transactions.json
+json/robobucks.json
 login.txt
 role.txt
 matchNum.txt

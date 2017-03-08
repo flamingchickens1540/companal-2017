@@ -123,7 +123,7 @@ $(document).ready(function(){
 			window.location.reload();
 		});
 	}
-	if (fs.existsSync('json/transactions.json') == false) {
+	if ((fs.existsSync('json/transactions.json') == false) || (fs.readFileSync('json/transactions.json', 'utf-8') == '')) {
 		var noTransaction = {
 			"12": "0",
 			"13": "0",
@@ -562,7 +562,10 @@ $('.flashdrive-save').click(function(){
 		fs.copySync('json/transactions.json', '/Volumes/1540/Companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
 		fs.copySync('/Volumes/1540/Companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
-		fs.copySync('/Volumes/1540/Companal/stand-scouting/robobucks.json', 'json/robobucks.json');
+		fs.copySync('/Volumes/1540/Companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		if (fs.existsSync('/Volumes/1540/Companal/stand-scouting/matchSched.json')) {
+			fs.copySync('/Volumes/1540/Companal/stand-scouting/matchSched.json', 'json/matchSched.json', {overwrite: true});
+		}
 	} else if (navigator.platform == 'Win32') {
 		// Export
 		fs.copySync('json/manifest.json', 'K:/Companal/stand-scouting/manifest.json', {overwrite: true});
