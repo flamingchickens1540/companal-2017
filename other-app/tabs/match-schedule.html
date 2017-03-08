@@ -1,0 +1,48 @@
+<script type="text/javascript">
+	
+	const AppDirectory = require('appdirectory')
+	const fs = require('fs')
+	const dataDir = new AppDirectory("companal-2017-analysis-simple").userData()
+	const scheduleJson = fs.readFileSync(`${dataDir}/matchSchedule.json`, 'utf8')
+	const schedule = JSON.parse(scheduleJson)
+	var matchNumbers = []
+	for (var strMatchNum in schedule)
+		matchNumbers.push(parseInt(strMatchNum))
+	matchNumbers.sort()
+	var a = [], b = [], c = []
+	for (var i = 0; i < matchNumbers.length; i += 3) {
+		a.push(matchNumbers[i])
+		b.push(matchNumbers[i+1])
+		c.push(matchNumbers[i+2])
+	}
+	for (var ii = 0; ii < 3; ii++) {
+		var l = [a, b, c][ii]
+		for (var i = 0; i < l.length; i++) {
+			var match = schedule[String(l[i])]
+			var html = `<h1 align="center" style="font-family: robotoBlack">${l[i]}&nbsp;<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-fast-forward" style="zoom: 150%;"></span></button></h1>
+			<h2 align="center"><span class="label label-danger">${match[0]}</span>&nbsp;<span class="label label-danger">${match[1]}</span>&nbsp;<span class="label label-danger">${match[2]}</span></h2>
+			<h2 align="center"><span class="label label-primary">${match[3]}</span>&nbsp;<span class="label label-primary">${match[4]}</span>&nbsp;<span class="label label-primary">${match[5]}</span></h2>
+			`
+			$(`#msC${ii+1}`).append(html)
+		}
+	}
+
+</script>
+
+<div id="page-match-schedule" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Match Schedule</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-4" id="msC1">
+				
+			</div>
+			<div class="col-xs-4" id="msC2">
+
+			</div>
+			<div class="col-xs-4" id="msC3">
+
+			</div>
+		</div>
+	</div>
+
+</div>

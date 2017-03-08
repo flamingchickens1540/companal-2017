@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fuel Scouting UI Testing</title>
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/font-awesome.css" rel="stylesheet">
+        <link href="css/selectize.css" rel="stylesheet">
+        <link href="css/fa-animation.css" rel="stylesheet">
+        <link href="roboto/stylesheet.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <button type="button" class="btn btn-lg btn-primary" id="importStandButton">Import Stand Data</button>
+        <button type="button" class="btn btn-lg btn-danger" id="importPitButton">Import Pit Data</button>
+        <button type="button" class="btn btn-lg btn-success" id="exportButton">Export Data</button>
+
+
+        <script>window.$ = window.jQuery = require('jquery');</script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/selectize.js"></script>
+        <script src="js/app.js"></script>
+
+        <script type="text/javascript">
+            const fs = require('fs-extra')
+            const AppDirectory = require('appdirectory')
+            const dataDir = new AppDirectory("companal-2017-otherapp").userData()
+            $("#importStandButton").click(function() {
+                if (!fs.existsSync('/Volumes/1540/companal')) {
+                    alert("Wait for flashdrive...")
+                }
+                var standManifest = JSON.parse(fs.readFileSync('/Volumes/1540/companal/stand-scouting/manifest.json', 'utf8'))
+                var outManifest = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/manifest.json`, 'utf8'))
+                for (var i in standManifest) {
+                    var filename = standManifest[i]
+                    fs.copySync(`/Volumes/1540/companal/stand-scouting/${filename}`, `${dataDir}/stand-scouting/${filename}`)
+                    if (outManifest.indexOf(filename) === -1) {
+                        outManifest.push(filename)
+                    }
+                }
+                fs.writeFileSync(`${dataDir}/stand-scouting/manifest.json`, JSON.stringify(outManifest), {flag : 'w'})
+                alert("Done!")
+            })
+            $("#importPitButton").click(function() {
+                if (!fs.existsSync('/Volumes/1540/companal')) {
+                    alert("Wait for flashdrive...")
+                }
+                var pitManifest = JSON.parse(fs.readFileSync('/Volumes/1540/companal/pit-scouting/manifest.json', 'utf8'))
+                var outManifest = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/manifest.json`, 'utf8'))
+                for (var i in pitManifest) {
+                    var filename = pitManifest[i]
+                    fs.copySync(`/Volumes/1540/companal/pit-scouting/${filename}`, `${dataDir}/pit-scouting/${filename}`)
+                    if (outManifest.indexOf(filename) === -1) {
+                        outManifest.push(filename)
+                    }
+                }
+                fs.writeFileSync(`${dataDir}/pit-scouting/manifest.json`, JSON.stringify(outManifest), {flag : 'w'})
+                alert("Done!")
+            })
+            $("#exportButton").click(function() {
+                if (!fs.existsSync('/Volumes/1540/companal')) {
+                    alert("Wait for flashdrive...")
+                }
+                fs.copySync(`${dataDir}/pit-scouting`, '/Volumes/1540/companal/output/pit-scouting', {overwrite: true})
+                fs.copySync(`${dataDir}/stand-scouting`, '/Volumes/1540/companal/output/stand-scouting', {overwrite: true})
+                fs.copySync(`${dataDir}/tournament`, '/Volumes/1540/companal/output/tournament', {overwrite: true})
+                alert("Done!")
+            })
+        </script>
+
+    </body>
+</html>
