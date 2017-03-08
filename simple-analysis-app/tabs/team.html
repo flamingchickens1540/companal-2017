@@ -82,6 +82,16 @@
 	var scouts = JSON.parse(fs.readFileSync('scouts.json', 'utf8'))
 
 	$('#lookupButton').click(function() {
+		$("#teamAveragesTbody").html('')
+		$("#teamTbody").html('')
+		$("#gradeOverall").html('')
+		$("#gradeShooting").html('')
+		$("#gradeGearing").html('')
+		$("#gradeClimbing").html('')
+		$("#gradeDefense").html('')
+		$("#pitModalP").html('')
+		$("#teamNotes").html('')
+		$("#myChart")[0].getContext('2d').clearRect(0,0,$("#myChart")[0].width,$("#myChart")[0].height)
 		var teamNumber = $('#teamLookupMatchNumber').val()
 		if (!pitRecords.hasOwnProperty(teamNumber)) {
 			alert("No pit records for that team!")
