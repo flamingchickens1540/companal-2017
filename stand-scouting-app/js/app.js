@@ -1,4 +1,4 @@
-window.$ = window.jQuery = require('jquery');
+companalwindow.$ = window.jQuery = require('jquery');
 // var sliderjs = require('bootstrap-slider');
 var noUiSlider = require('nouislider');
 var chartjs = require('chart.js');
@@ -558,29 +558,29 @@ $('#forgot-id-back').click(function(){
 $('.flashdrive-save').click(function(){
 	if (navigator.platform == 'MacIntel') {
 		// Export
-		fs.copySync('json/manifest.json', '/Volumes/1540/Companal/stand-scouting/manifest.json', {overwrite: true});
-		fs.copySync('json/transactions.json', '/Volumes/1540/Companal/stand-scouting/transactions.json', {overwrite: true});
+		fs.copySync('json/manifest.json', '/Volumes/1540/companal/stand-scouting/manifest.json', {overwrite: true});
+		fs.copySync('json/transactions.json', '/Volumes/1540/companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
-		fs.copySync('/Volumes/1540/Companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
-		fs.copySync('/Volumes/1540/Companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
-		if (fs.existsSync('/Volumes/1540/Companal/stand-scouting/matchSched.json')) {
-			fs.copySync('/Volumes/1540/Companal/stand-scouting/matchSched.json', 'json/matchSched.json', {overwrite: true});
+		fs.copySync('/Volumes/1540/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+		fs.copySync('/Volumes/1540/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/matchSched.json')) {
+			fs.copySync('/Volumes/1540/companal/stand-scouting/matchSched.json', 'json/matchSched.json', {overwrite: true});
 		}
 	} else if (navigator.platform == 'Win32') {
 		// Export
-		fs.copySync('json/manifest.json', 'K:/Companal/stand-scouting/manifest.json', {overwrite: true});
-		fs.copySync('json/transactions.json', 'K:/Companal/stand-scouting/transactions.json', {overwrite: true});
+		fs.copySync('json/manifest.json', 'K:/companal/stand-scouting/manifest.json', {overwrite: true});
+		fs.copySync('json/transactions.json', 'K:/companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
-		fs.copySync('K:/Companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
-		fs.copySync('K:/Companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+		fs.copySync('K:/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		fs.copySync('K:/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
 	}
 	var data = JSON.parse(fs.readFileSync('json/manifest.json', "utf-8"));
 	for (i in data) {
 		if (fs.existsSync("data/" + data[i]) == true) {
 			if (navigator.platform == "MacIntel") {
-				fs.copySync('data/' + data[i], "/Volumes/1540/Companal/stand-scouting/" + data[i]);
+				fs.copySync('data/' + data[i], "/Volumes/1540/companal/stand-scouting/" + data[i]);
 			} else if (navigator.platform == "Win32") {
-				fs.copySync('data/' + data[i], "K:/Companal/stand-scouting/" + data[i]);
+				fs.copySync('data/' + data[i], "K:/companal/stand-scouting/" + data[i]);
 			}
 			// if (navigator.platform == "MacIntel") {
 			// 	fs.createReadStream(files[i]).pipe(fs.createWriteStream("/Volumes/1540/companal/stand-scouting"));
