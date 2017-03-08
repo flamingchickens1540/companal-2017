@@ -1,0 +1,64 @@
+<script type="text/javascript">
+	
+	function switchToTeam(teamNumber) {
+		$("#tab-team").click()
+		$('#teamLookupMatchNumber').val(teamNumber)
+		$('#lookupButton').click()
+	}
+
+	const AppDirectory = require('appdirectory')
+	var fs = require('fs-extra')
+	const dataDir = new AppDirectory("companal-2017-analysis-simple").userData()
+	var scheduleJson = fs.readFileSync(`${dataDir}/matchSchedule.json`, 'utf8')
+	var schedule = JSON.parse(scheduleJson)
+	console.log(scheduleJson)
+	var matchNumbers = []
+	for (var strMatchNum in schedule) {
+		if (schedule[strMatchNum].indexOf("1540") !== -1) {
+			matchNumbers.push(parseInt(strMatchNum))
+		}
+	}
+	matchNumbers.sort()
+	var a = [], b = [], c = []
+	for (var i = 0; i < matchNumbers.length; i += 3) {
+		a.push(matchNumbers[i])
+		b.push(matchNumbers[i+1])
+		c.push(matchNumbers[i+2])
+	}
+	for (var ii = 0; ii < 3; ii++) {
+		var l = [a, b, c][ii]
+		for (var i = 0; i < l.length; i++) {
+			var match = schedule[String(l[i])]
+			if (typeof(match) !== 'undefined') {
+				var html = `<h1 align="center" style="font-family: robotoBlack">${l[i]}&nbsp;</h1><h2 align="center">`
+				html += `<span class="label label-danger" onclick="switchToTeam('${match[0]}');">${match[0]}</span>&nbsp;`
+				html += `<span class="label label-danger" onclick="switchToTeam('${match[1]}');">${match[1]}</span>&nbsp;`
+				html += `<span class="label label-danger" onclick="switchToTeam('${match[2]}');">${match[2]}</span>&nbsp;<br><br>`
+				html += `<span class="label label-primary" onclick="switchToTeam('${match[3]}');">${match[3]}</span>&nbsp;`
+				html += `<span class="label label-primary" onclick="switchToTeam('${match[4]}');">${match[4]}</span>&nbsp;`
+				html += `<span class="label label-primary" onclick="switchToTeam('${match[5]}');">${match[5]}</span>&nbsp;`
+				html += `</h2>`
+				$(`#msC${ii+1}`).append(html)
+			}
+		}
+	}
+
+</script>
+
+<div id="page-match-schedule" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Match Schedule</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-4" id="msC1">
+				
+			</div>
+			<div class="col-xs-4" id="msC2">
+
+			</div>
+			<div class="col-xs-4" id="msC3">
+
+			</div>
+		</div>
+	</div>
+
+</div>

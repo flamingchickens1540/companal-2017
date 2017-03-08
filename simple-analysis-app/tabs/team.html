@@ -1,0 +1,324 @@
+<style type="text/css">
+	.mylabel {
+		border: none !important;
+		color: white !important;
+		font-family: robotoBlack !important;
+	}
+</style>
+
+<div id="page-team" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Team Lookup</h1>
+	<center>
+		<div class="input-group" style="width: 30%;">
+	    	<input type="text" class="form-control" id="teamLookupMatchNumber" placeholder="Team Number...">
+	    	<span class="input-group-btn">
+	    		<button class="btn btn-success" id="lookupButton">Lookup</button>
+	    	</span>
+	    </div>
+	</center>
+	<br>
+	<center><button type="button" align="center" class="btn btn-info" data-toggle="modal" data-target="#pitModal">Pit Data</button></center>
+
+	<h3 align="center" style="font-family: robotoBlack">Grades</h3>
+	<h5 align="center">Overall,  Shooting,  Gearing,  Climbing,  Defense</h5>
+	<h1 align="center">
+		<span class="label label-default mylabel" id="gradeOverall" style="background-color: #551A8B;"></span>
+		<span class="label label-default mylabel" id="gradeShooting" style="background-color: #C95C54;"></span>
+		<span class="label label-default mylabel" id="gradeGearing" style="background-color: #EFAF5F;"></span>
+		<span class="label label-default mylabel" id="gradeClimbing" style="background-color: #74B566;"></span>
+		<span class="label label-default mylabel" id="gradeDefense" style="background-color: #4679B2;"></span>
+	</h1>
+
+	<h3 style="font-family: robotoBlack">&nbsp;&nbsp;&nbsp;Matches:</h3>
+	<table class="table" align="center" style="width: 90%;">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Scout</th>
+				<th>Auto</th>
+				<th>Gears</th>
+				<th>Climb?</th>
+				<th>Cycles</th>
+				<th>Shooter</th>
+				<th>Grades (O, S, G, C, D)</th>
+			</tr>
+		</thead>
+		<tbody id="teamTbody">
+		</tbody>
+	</table>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-4">
+				<h3 style="font-family: robotoBlack">&nbsp;&nbsp;&nbsp;Averages:</h3>
+				<table class="table" align="center" style="width: 90%;">
+					<thead>
+						<tr>
+							<th>Gears</th>
+							<th>Climb</th>
+							<th>Cycle Count</th>
+						</tr>
+					</thead>
+					<tbody id="teamAveragesTbody">
+					</tbody>
+				</table>
+			</div>
+			<div class="col-xs-4">
+				<h3 style="font-family: robotoBlack">&nbsp;&nbsp;&nbsp;Time/Strategy Average:</h3>
+				<center><canvas id="myChart" style="width: 70%;"></canvas></center>
+			</div>
+			<div class="col-xs-4">
+				<h3 style="font-family: robotoBlack">&nbsp;&nbsp;&nbsp;Notes:</h3>
+				<p id="teamNotes"></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+	var scouts = JSON.parse(fs.readFileSync('scouts.json', 'utf8'))
+
+	$('#lookupButton').click(function() {
+		var teamNumber = $('#teamLookupMatchNumber').val()
+		if (!pitRecords.hasOwnProperty(teamNumber)) {
+			alert("No pit records for that team!")
+		}
+		else {
+			$("#pitModalTeamNumber").html(teamNumber)
+			var pit = pitRecords[teamNumber]
+			var text = `Scouted by ${scouts[pit.scoutIds[0]]} and ${scouts[pit.scoutIds[1]]}. They have a ${pit.drivetrain.drivetrainType} drivetrain that ${does(pit.drivetrain.drivetrainShifts)} shift. They have ${pit.drivetrain.motorCount} motors in the 'train with ${pit.drivetrain.wheelType} wheels that ${are(pit.drivetrain.allWheelsDriven)} all driven.`
+			text += ` They ${doo(pit.shooting.hasHigh)} have a high shooter, and ${doo(pit.shooting.hasLow)} have a low shooter. They hold ${pit.shooting.ballCapacity} balls and `
+			var loadZoneKey = String(pit.shooting.floorLoading)+String(pit.shooting.hopperLoading)+String(pit.shooting.humanLoading)
+			var loadZoneText = {
+				"falsefalsefalse": "no stations.",
+				"truefalsefalse": "the floor only.",
+				"falsetruefalse": "the hopper only.",
+				"falsefalsetrue": "the human only.",
+				"truetruefalse": "the floor or hopper.",
+				"falsetruetrue": "the hopper or human.",
+				"truefalsetrue": "the floor or human.",
+				"truetruetrue": "the floor, hopper, or human."
+			}
+			text += `can load from ${loadZoneText[loadZoneKey]} They estimate ${pit.shooting.efficiency} efficiency.`
+			var gearZoneKey = String(pit.gears.floorLoading)+String(pit.gears.humanLoading)
+			var gearZoneText = {
+				"falsefalse": "nowhere.",
+				"truefalse": "the floor.",
+				"falsetrue": "the human.",
+				"truetrue": "the floor or human."
+			}
+			text += ` They ${can(pit.gears.canDeposit)} deposit gears which they load from ${gearZoneText[gearZoneKey]}` 
+			text += ` They ${can(pit.canClimb)} climb. Weight: ${pit.weight} (should be lbs). They prefer the roles of ${pit.roles}. The scout said this about them: ${pit.notes} END PIT SCOUT DATA.`
+			$("#pitModalP").html(text)
+		}
+		if (!standRecords.hasOwnProperty(teamNumber)) {
+			alert("No stand records for that team!")
+		}
+		else {
+			var averages = {
+				gears: 0,
+				climbs: 0,
+				cycleCount: 0,
+				grades: {
+					"overall": 0,
+				    "shooting": 0,
+				    "gearing": 0,
+				    "defense": 0,
+				    "climbing": 0
+				},
+				strategy: {
+					"shooting": 0,
+				    "gearing": 0,
+				    "defense": 0,
+				    "climbing": 0,
+				    "futzing": 0
+				}
+			}
+			var averageCount = 0
+			$('#teamAveragesTbody').html('')
+			$('#teamTbody').html()
+			var matches = standRecords[teamNumber]
+			for (var i in matches) {
+				var match = matches[i]
+
+				averages.gears += match.teleop.gearsDeposited
+				if (match.teleop.climbed)
+					averages.climbs ++
+				averages.cycleCount += match.teleop.balls.cycles.length
+				averages.grades.overall += match.strategy.grades.overall
+				averages.grades.shooting += match.strategy.grades.shooting
+				averages.grades.gearing += match.strategy.grades.gearing
+				averages.grades.defense += match.strategy.grades.defense
+				averages.grades.climbing += match.strategy.grades.climbing
+				averages.strategy.shooting += match.strategy.pieChart.shooting
+				averages.strategy.gearing += match.strategy.pieChart.gearing
+				averages.strategy.climbing += match.strategy.pieChart.climbing
+				averages.strategy.defense += match.strategy.pieChart.defense
+				averages.strategy.futzing += match.strategy.pieChart.futzing
+				averageCount++
+
+				var html = '<tr>'
+				html += `<td>${match.matchNumber}</td>`
+				html += `<td>${scouts[match.scoutId]}</td>`
+
+				var autoKey = String(match.auto.crossedLine)+String(match.auto.depositedGear)+String(match.auto.shotCycle)
+				var autoText = {
+					'falsefalsefalse': '<p style="color: red;">None</p>',
+					'truefalsefalse': '<p style="color: #f0ad4e;">Crossed Line</p>',
+					'falsetruefalse': '<p style="color: #5cb85c;">Deposited Gear</p>',
+					'falsefalsetrue': '<p style="color: #5cb85c;">Shot Cycle</p>',
+					'truetruefalse': '<p style="color: #5cb85c;">Cross Line + Gear</p>',
+					'falsetruetrue': '<p style="color: #5cb85c;">Gear + Shot</p>',
+					'truefalsetrue': '<p style="color: #5cb85c;">Cross Line + Shot</p>',
+					'truetruetrue': '<p style="color: #5cb85c;">Line, Gear, Shoot</p>'
+				}
+				html += `<td>${autoText[autoKey]}</td>`
+
+				html += `<td>${match.teleop.gearsDeposited}</td>`
+
+				if (match.teleop.climbed)
+					html += `<td><p style="color: #5cb85c;">Yes</p>`
+				else
+					html += `<td><p style="color: red">No</p>`
+
+				html += `<td>[${String(match.teleop.balls.cycles)}]</td>`
+
+				if (match.auto.shotCycle || match.teleop.balls.cycles.length > 0) {
+					html += `<td>${match.teleop.balls.accuracy}% accuracy, ${match.teleop.balls.shotRate}bps, loads [${String(match.teleop.balls.loadingZones)}]`
+				} else {
+					html += `<td>N/A</td>`
+				}
+
+				html += `<td><p style="font-size: 1.5em;font-family:robotoLight;">`
+				html += `<span style="color: #551A8B;font-family: robotoBlack;">${match.strategy.grades.overall}</span>,&nbsp;`
+				html += `<span style="color: #C95C54;">${match.strategy.grades.shooting}</span>,&nbsp;`
+				html += `<span style="color: #EFAF5F;">${match.strategy.grades.gearing}</span>,&nbsp;`
+				html += `<span style="color: #74B566;">${match.strategy.grades.climbing}</span>,&nbsp;`
+				html += `<span style="color: #4679B2;">${match.strategy.grades.defense}</span>`
+				html += `</p></td>`
+
+				html += '</tr>'
+				$("#teamTbody").append(html)
+				$("#teamNotes").append(scouts[match.scoutId]+'  ---------------------<br>'+match.notes+'<br>')
+			}
+			averageCount *= 1.0
+			averages.gears /= averageCount
+			averages.climbs /= averageCount
+			averages.cycleCount /= averageCount
+			averages.grades.overall /= averageCount
+			averages.grades.shooting /= averageCount
+			averages.grades.gearing /= averageCount
+			averages.grades.defense /= averageCount
+			averages.grades.climbing /= averageCount
+			averages.strategy.shooting /= averageCount
+			averages.strategy.gearing /= averageCount
+			averages.strategy.climbing /= averageCount
+			averages.strategy.defense /= averageCount
+			averages.strategy.futzing /= averageCount
+			var html = `<tr><td>${averages.gears.toFixed(2)}</td><td>${(averages.climbs*100).toFixed(2)}%</td><td>${averages.cycleCount.toFixed(2)}</td></tr>`
+			$("#teamAveragesTbody").html(html)
+			$("#gradeOverall").html(averages.grades.overall.toFixed(2))
+			$("#gradeShooting").html(averages.grades.shooting.toFixed(2))
+			$("#gradeGearing").html(averages.grades.gearing.toFixed(2))
+			$("#gradeClimbing").html(averages.grades.climbing.toFixed(2))
+			$("#gradeDefense").html(averages.grades.defense.toFixed(2))
+			var data = {
+			    datasets: [
+			        {
+			            data: [averages.strategy.shooting, averages.strategy.gearing, averages.strategy.climbing, averages.strategy.defense, averages.strategy.futzing],
+			            backgroundColor: [
+			                "#C95C54",
+			                "#EFAF5F",
+			                "#74B566",
+			                "#4679B2",
+			                "#000000"
+			            ],
+			            hoverBackgroundColor: [
+			                "#C95C54",
+			                "#EFAF5F",
+			                "#74B566",
+			                "#4679B2",
+			                "#000000"
+			            ]
+			        }]
+			};
+			var Chart = require('chart.js')
+			var myPieChart = new Chart("myChart",{
+			    type: 'pie',
+			    data: data,
+			    options: {"responsive": false, "legend": {"display": false}}
+			});
+		}
+		
+	})
+
+</script>
+
+<div class="modal fade" id="pitModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Pit Data for <span id="pitModalTeamNumber" style="font-family: robotoBlack"></span></h4>
+      </div>
+      <div class="modal-body">
+        <p id="pitModalP"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Table
+MatchNumber, Scout, Auto, Gears Done, Climbed, Cycles, Accuracy, Shot Rate, Loading Zones, Overall Grade, Rest of Grades (colors)
+at the bottom, an average row, and an average pie chart-->
+
+<!--
+{
+	"matchNumber": "4",
+	"teamNumber": "1540",
+	"role": "r1",
+	"scoutId": "50",
+	"bettingPick": "red",
+	"win": "red",
+	"robobucks": 200, // This is how much was added to their account this game
+	"auto": {
+		"crossedLine": true,
+		"shotCycle": false,
+		"depositedGear": true
+	},
+	"teleop": {
+		"balls": {
+			"lowGoal": true, // If they did low goal
+			"cycles": [5, 10, 15, 50], //this is taken as they go, how many balls in each shooting cycle. The length of the list is the number of cycles they did. Estimation categories: ["10-", "10-25", "25-40", "40+"]
+			"accuracy": "50-", //this is in %, can be ["50-", "50-70", "70-90", "90+"] this goes at the end
+			"shotRate": "3-5", //this is in balls/second, can be ["1-", "1-3", "3-5", "5+"]  this goes at the end
+			"loadingZones": ["floor", "human"] //this is where they loaded in balls from. They can select as many as they want, the options are ["floor", "hopper", "human"]  <-- this goes at the end
+		},
+		"gearsDeposited": 5,
+		"climbed": true
+	},
+	"notes": "They are a good team, I think... Remember, people will put unicode here! handle it!!!",
+	"strategy": { //Tristan, this section needs to be very specific. Talk to me before you implement it Ryan
+		"pieChart": { //each is %, should sum to 100%
+			"shooting": 15,
+			"gearing": 0,
+			"defense": 15,
+			"climbing": 0,
+			"futzing": "70"
+		},
+		"grades": {
+			"overall": "4", //1-5
+			"shooting": "2", //0-5, should be 0 if pie chart shooting is 0
+			"gearing": "0", //0-5, should be 0 if pie chart gearing is 0
+			"defense": "5", //0-5, should be 0 if pie chart defense is 0
+			"climbing": "0" //0-5, should be 0 if pie chart climbing is 0
+		}
+	}
+}
+-->

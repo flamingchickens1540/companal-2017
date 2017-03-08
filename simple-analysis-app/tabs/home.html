@@ -1,0 +1,49 @@
+<div id="page-home">
+	<h1 align="center" style="font-family: robotoBlack">Home</h1>
+	<center><button type="button" class="btn btn-lg btn-success" id="importButton">Import Data</button></center>
+</div>
+
+<script type="text/javascript">
+	const platform = require('electron-platform');
+	var fs = require('fs-extra')
+	const AD = require('appdirectory')
+	dataDir = new AD("companal-2017-analysis-simple").userData()
+	 
+	$("#importButton").click(function() {
+		var flashDir
+		if (platform.isDarwin)
+			flashDir = '/Volumes/1540/companal'
+		else if (platform.isWin32)
+			flashDir = 'R:/companal'
+        if (!fs.existsSync(flashDir)) {
+            alert("Wait for flashdrive...")
+        }
+        fs.copySync(`${flashDir}/output/pit-scouting`, `${dataDir}/pit-scouting`, {overwrite: true})
+        fs.copySync(`${flashDir}/output/stand-scouting`, `${dataDir}/stand-scouting`, {overwrite: true})
+        fs.copySync(`${flashDir}/output/tournament`, `${dataDir}/tournament`, {overwrite: true})
+        fs.copySync(`${flashDir}/output/tournament/matchSchedule.json`, `${dataDir}/matchSchedule.json`, {overwrite: true})
+        alert("Done!")
+        window.location.reload()
+    })
+
+	var standRecords = {}
+	var pitRecords = {}
+    var pitManifest = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/manifest.json`, 'utf8'))
+    var standManifest = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/manifest.json`, 'utf8'))
+    for (var i in pitManifest) {
+    	var filename = pitManifest[i]
+    	var team = filename.split('.')[0]
+    	pitRecords[team] = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/${filename}`, 'utf8'))
+    }
+    for (var j in standManifest) {
+    	var filename = standManifest[j]
+    	var team = filename.split('-')[2].split('.')[0]
+    	if (!standRecords.hasOwnProperty(team)) {
+    		standRecords[team] = []
+    	}
+    	standRecords[team].push(JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8')))
+    }
+
+
+
+</script>
