@@ -1,4 +1,4 @@
-companalwindow.$ = window.jQuery = require('jquery');
+window.$ = window.jQuery = require('jquery');
 // var sliderjs = require('bootstrap-slider');
 var noUiSlider = require('nouislider');
 var chartjs = require('chart.js');
