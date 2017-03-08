@@ -2,7 +2,7 @@ window.$ = window.jQuery = require('jquery');
 // var sliderjs = require('bootstrap-slider');
 var noUiSlider = require('nouislider');
 var chartjs = require('chart.js');
-var fs = require('fs');
+var fs = require('fs-extra');
 var Dialogs = require('dialogs');
 var dialogs = Dialogs(opts = {});
 // // getmac
@@ -167,7 +167,7 @@ $(document).ready(function(){
 		fs.writeFileSync('json/transactions.json', nNT);
 		window.location.reload();
 	}
-	if (fs.existsSync('json/robobucks.json') == false) {
+	if ((fs.existsSync('json/robobucks.json') == false) || (fs.readFileSync('json/robobucks.json', 'utf-8') == '')) {
 		var noRobobucks = {
 			"12": "100",
 			"13": "100",
@@ -223,6 +223,7 @@ $(document).ready(function(){
 	} else {
 		$('.name-div').hide();
 	}
+	$('#match-number-number').val(fs.readFileSync('matchNum.txt', 'utf-8'));
 	$('.login-info').hide();
 	$('#no-login').hide();
 	$("#forgot-id").hide();
@@ -242,49 +243,47 @@ $(document).ready(function(){
 	$('.betting-2').hide();
 	$('.betting-end').hide();
 });
-// FS
-function createFile(fileName, text){
-	var fs = require('fs');
-	fs.writeFile(fileName, text, function(err) {
-    	if (err) {
-        	return console.log(err);
-		}
-	});
-}
-function appendFile(fileName, text){
-	var fs = require('fs');
-	fs.appendFile(fileName, text, function(err) {
-		if (err) {
-			return console.log(err);
-		}
-	});
-}
-function readFile(fileName){
-	var fs = require('fs');
-	fs.readFile(fileName, function (err, data){
-  	if (err) {
-    	return console.error(err);
-   	};
-	 $('#match-number-number').val(data.toString());
-	});
-}
-function deleteFile(fileName){
-	var fs = require("fs");
-	fs.unlink(fileName, function(err) {
-  	if (err) {
-    	return console.error(err);
-  	}
-	});
-}
-function infoFile(fileName) {
-	var fs = require("fs");
-	fs.stat(fileName, function (err, stats) {
-	   if (err) {
-	       return console.error(err);
-	   }
-	});
-}
-readFile("matchNum.txt");
+// // FS
+// function createFile(fileName, text){
+// 	var fs = require('fs');
+// 	fs.writeFileSync(fileName, text, function(err) {
+//     	if (err) {
+//         	return console.log(err);
+// 		}
+// 	});
+// }
+// function appendFile(fileName, text){
+// 	var fs = require('fs');
+// 	fs.appendFileSync(fileName, text, function(err) {
+// 		if (err) {
+// 			return console.log(err);
+// 		}
+// 	});
+// }
+// function readFile(fileName){
+// 	var fs = require('fs');
+// 	fs.readFileSync(fileName, 'utf-8', function (err, data){
+//   	if (err) {
+//     	return console.error(err);
+//    	};
+// 	});
+// }
+// function deleteFile(fileName){
+// 	var fs = require("fs");
+// 	fs.unlinkSync(fileName, function(err) {
+//   	if (err) {
+//     	return console.error(err);
+//   	}
+// 	});
+// }
+// function infoFile(fileName) {
+// 	var fs = require("fs");
+// 	fs.statSync(fileName, function (err, stats) {
+// 	   if (err) {
+// 	       return console.error(err);
+// 	   }
+// 	});
+// }
 // $('#save-file').click(function(){
 // 	$('#save-alert').show();
 // 	var fs = require("fs");
@@ -557,16 +556,28 @@ $('#forgot-id-back').click(function(){
 // 	fs.createReadStream("/Volumes/1540/Companal/stand-scouting/robobucks.json").pipe(fs.createWriteStream("json/robobucks.json"));
 // } // NOTE: NOT WORKING!!!
 $('.flashdrive-save').click(function(){
-	fs.createReadStream("/Volumes/1540/Companal/stand-scouting/robobucks.json").pipe(fs.createWriteStream("json/robobucks.json"));
+	if (navigator.platform == 'MacIntel') {
+		// Export
+		fs.copySync('json/manifest.json', '/Volumes/1540/Companal/stand-scouting/manifest.json', {overwrite: true});
+		fs.copySync('json/transactions.json', '/Volumes/1540/Companal/stand-scouting/transactions.json', {overwrite: true});
+		// Import
+		fs.copySync('/Volumes/1540/Companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+		fs.copySync('/Volumes/1540/Companal/stand-scouting/robobucks.json', 'json/robobucks.json');
+	} else if (navigator.platform == 'Win32') {
+		// Export
+		fs.copySync('json/manifest.json', 'K:/Companal/stand-scouting/manifest.json', {overwrite: true});
+		fs.copySync('json/transactions.json', 'K:/Companal/stand-scouting/transactions.json', {overwrite: true});
+		// Import
+		fs.copySync('K:/Companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		fs.copySync('K:/Companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+	}
 	var data = JSON.parse(fs.readFileSync('json/manifest.json', "utf-8"));
 	for (i in data) {
 		if (fs.existsSync("data/" + data[i]) == true) {
 			if (navigator.platform == "MacIntel") {
-				fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/" + data[i]);
-				fs.createReadStream("data/" + data[i]).pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/" + data[i]));
+				fs.copySync('data/' + data[i], "/Volumes/1540/Companal/stand-scouting/" + data[i]);
 			} else if (navigator.platform == "Win32") {
-				fs.writeFileSync("K:/Companal/stand-scouting/" + data[i]);
-				fs.createReadStream("data/" + data[i]).pipe(fs.createWriteStream("K:/Companal/stand-scouting/" + data[i]));
+				fs.copySync('data/' + data[i], "K:/Companal/stand-scouting/" + data[i]);
 			}
 			// if (navigator.platform == "MacIntel") {
 			// 	fs.createReadStream(files[i]).pipe(fs.createWriteStream("/Volumes/1540/companal/stand-scouting"));
@@ -574,17 +585,6 @@ $('.flashdrive-save').click(function(){
 			// 	fs.createReadStream(files[i]).pipe(fs.createWriteStream("K:/companal/stand-scouting"));
 			// }
 		}
-	}
-	if (navigator.platform == "MacIntel") {
-		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/manifest.json", '');
-		fs.createReadStream("json/manifest.json").pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/manifest.json"));
-		fs.writeFileSync("/Volumes/1540/Companal/stand-scouting/transactions.json", '');
-		fs.createReadStream("json/transactions.json").pipe(fs.createWriteStream("/Volumes/1540/Companal/stand-scouting/transactions.json"));
-	} else if (navigator.platform == "Win32") {
-		fs.writeFileSync("K:/Companal/stand-scouting/manifest.json", '');
-		fs.createReadStream("json/manifest.json").pipe(fs.createWriteStream("K:/Companal/stand-scouting/manifest.json"));
-		fs.writeFileSync("K:/Companal/stand-scouting/transactions.json", '');
-		fs.createReadStream("json/transactions.json").pipe(fs.createWriteStream("K:/Companal/stand-scouting/transactions.json"));
 	}
 	var newTransaction = {
 		"12": "0",
@@ -627,6 +627,7 @@ $('.flashdrive-save').click(function(){
 	}
 	var sNT = JSON.stringify(newTransaction);
 	fs.writeFileSync('json/transactions.json', sNT);
+	fs.unlinkSync('json/manifest.json');
 	$('.flashdrive-save').addClass('disabled');
 });
 // OPR
@@ -876,10 +877,10 @@ $('#repel').click(function(){
 		});
 	} else if (!bool) {
 		var slider = document.getElementById('slider-color');
+		var sliderStuff = slider.noUiSlider.get();
 		slider.noUiSlider.destroy();
-		var slider = document.getElementById('slider-color');
 		noUiSlider.create(slider, {
-			start: [20, 40, 60, 80],
+			start: [sliderStuff[0], sliderStuff[1], sliderStuff[2], sliderStuff[3]],
 			tooltips: [true, true, true, true],
 			behavior: 'tap',
 			connect: [true, true, true, true, true],
@@ -1173,7 +1174,11 @@ $('#red-win').click(function(){
 $('#blue-win').click(function(){
 	win = "blue";
 });
-$('#red-win, #blue-win').click(function(){
+$('#tie').click(function(){
+	win = "tie";
+});
+$('#red-win, #blue-win, #tie').click(function(){
+	$('#save-file').fadeIn(500);
 	$('.end-result').replaceWith('<div class="container" style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: #20d420; font-size: 100pt;"></i></div>');
 });
 // Navbar
@@ -1181,9 +1186,8 @@ $('#match-number-number').click(function(){
 	$('.edit-match-btn').fadeIn(500);
 });
 $('.edit-match').click(function(){
-	if ($('#match-number-number').val != fs.readFileSync('matchNum.txt')) {
-		deleteFile('matchNum.txt');
-		createFile('matchNum.txt', parseInt($("#match-number-number").val()));
+	if ($('#match-number-number').val() != fs.readFileSync('matchNum.txt')) {
+		fs.writeFileSync('matchNum.txt', parseInt($("#match-number-number").val()), {overwrite: true});
 		window.location.reload();
 	} else {
 		window.location.reload();
@@ -1196,11 +1200,13 @@ $('.edit-match').click(function(){
 // });
 // Buttons
 $('#continue').click(function(){
-	fs.writeFileSync('login.txt', $('input[name=login-number]').val());
+	fs.writeFileSync('login.txt', $('input[name=login-number]').val(), {overwrite: true});
 	window.location.reload();
 });
 $('#sign-out').click(function(){
-	deleteFile('login.txt');
+	if (fs.existsSync('login.txt')) {
+		fs.unlinkSync('login.txt');
+	}
 	window.location.reload();
 	// $('#the-whole-login').fadeIn(500);
 	// $('input[name=login-number]').val("");
@@ -1214,6 +1220,7 @@ $('#sign-out').click(function(){
 	// $('.jumbotron-big-title').replaceWith('<h1 class="jumbotron-big-title">Stand Scouting App</h1>');
 	// $("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');
 });
+$('#save-file').hide();
 $('#save-file').click(function(){
 	$('#last-textarea').fadeOut(500);
 	// // getmac
@@ -1604,8 +1611,8 @@ $('#save-file').click(function(){
 	var stringify = JSON.stringify(json);
 	var match = parseInt(fs.readFileSync('matchNum.txt', 'utf-8'));
 	var filepath = "m" + match + "-" + teamColor + "-" + teamNum + ".json";
-	createFile(__dirname + "/data/" + filepath, stringify);
-	deleteFile('matchNum.txt');
+	fs.writeFileSync(__dirname + "/data/" + filepath, stringify);
+	fs.unlinkSync('matchNum.txt');
 	fs.writeFileSync('matchNum.txt', match + 1);
 	if (fs.existsSync('json/manifest.json') == false) {
 		fs.writeFileSync('json/manifest.json', "[]");
