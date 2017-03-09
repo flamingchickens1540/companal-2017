@@ -556,9 +556,19 @@ $('#forgot-id-back').click(function(){
 // 	fs.createReadStream("/Volumes/1540/Companal/stand-scouting/robobucks.json").pipe(fs.createWriteStream("json/robobucks.json"));
 // } // NOTE: NOT WORKING!!!
 $('.flashdrive-save').click(function(){
+	if (!fs.existsSync('json/manifest.json')) {
+		fs.writeFileSync('json/manifest.json', '[]')
+	}
 	if (navigator.platform == 'MacIntel') {
+		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/manifest.json')) {
+			fManifest = JSON.parse(fs.readFileSync('/Volumes/1540/companal/stand-scouting/manifest.json'))
+			dManifest = JSON.parse(fs.readFileSync('json/manifest.json'))
+			var exportManifest = fManifest.concat(dManifest)
+		} else {
+			var exportManifest = JSON.parse(fs.readFileSync('json/manifest.json'))
+		}
+		fs.writeFileSync('/Volumes/1540/companal/stand-scouting/manifest.json', JSON.stringify(exportManifest))
 		// Export
-		fs.copySync('json/manifest.json', '/Volumes/1540/companal/stand-scouting/manifest.json', {overwrite: true});
 		fs.copySync('json/transactions.json', '/Volumes/1540/companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
 		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/opr.json')) {
@@ -571,8 +581,15 @@ $('.flashdrive-save').click(function(){
 			fs.copySync('/Volumes/1540/companal/stand-scouting/matchSched.json', 'json/matchSched.json', {overwrite: true});
 		}
 	} else if (navigator.platform == 'Win32') {
+		if (fs.existsSync('K:/companal/stand-scouting/manifest.json')) {
+			fManifest = JSON.parse(fs.readFileSync('K:/companal/stand-scouting/manifest.json'))
+			dManifest = JSON.parse(fs.readFileSync('json/manifest.json'))
+			var exportManifest = fManifest.concat(dManifest)
+		} else {
+			var exportManifest = JSON.parse(fs.readFileSync('json/manifest.json'))
+		}
+		fs.writeFileSync('K:/companal/stand-scouting/manifest.json', JSON.stringify(exportManifest))
 		// Export
-		fs.copySync('json/manifest.json', 'K:/companal/stand-scouting/manifest.json', {overwrite: true});
 		fs.copySync('json/transactions.json', 'K:/companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
 		if (fs.existsSync('K:/companal/stand-scouting/robobucks.json')) {
@@ -639,9 +656,20 @@ $('.flashdrive-save').click(function(){
 	var sNT = JSON.stringify(newTransaction);
 	fs.writeFileSync('json/transactions.json', sNT);
 	fs.unlinkSync('json/manifest.json');
+	fs.writeFileSync('json/manifest.json', '[]')
 	$('.flashdrive-save').addClass('disabled');
+	alert("Done!")
 });
 // OPR
+if (!(fs.existsSync('json/opr.json'))) {
+	var oprTemp = {}
+	for (var i = 1; i < 10000; i++) {
+		oprTemp[String(i)] = "50"
+	}
+	fs.writeFileSync('json/opr.json', JSON.stringify(oprTemp))
+} else {
+	console.log(fs.existsSync('json/opr.json'))
+}
 var opr = JSON.parse(fs.readFileSync('json/opr.json', 'utf-8'));
 var redAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][0], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][1], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][2]];
 var redOpr = parseInt(opr[redAlliance[0]]) + parseInt(opr[redAlliance[1]]) + parseInt(opr[redAlliance[2]]);
@@ -1625,7 +1653,7 @@ $('#save-file').click(function(){
 	fs.writeFileSync(__dirname + "/data/" + filepath, stringify);
 	fs.unlinkSync('matchNum.txt');
 	fs.writeFileSync('matchNum.txt', match + 1);
-	if (fs.existsSync('json/manifest.json') == false) {
+	if (!fs.existsSync('json/manifest.json')) {
 		fs.writeFileSync('json/manifest.json', "[]");
 	}
 	var manifestRead = fs.readFileSync('json/manifest.json', 'utf-8');
