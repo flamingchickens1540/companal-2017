@@ -1,2 +1,3 @@
 manifest.json
 pit_data/*
+!pit_data/.gitkeep
