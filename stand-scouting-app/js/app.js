@@ -561,8 +561,12 @@ $('.flashdrive-save').click(function(){
 		fs.copySync('json/manifest.json', '/Volumes/1540/companal/stand-scouting/manifest.json', {overwrite: true});
 		fs.copySync('json/transactions.json', '/Volumes/1540/companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
-		fs.copySync('/Volumes/1540/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
-		fs.copySync('/Volumes/1540/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/opr.json')) {
+			fs.copySync('/Volumes/1540/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+		}
+		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/robobucks.json')) {
+			fs.copySync('/Volumes/1540/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		}
 		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/matchSched.json')) {
 			fs.copySync('/Volumes/1540/companal/stand-scouting/matchSched.json', 'json/matchSched.json', {overwrite: true});
 		}
@@ -571,8 +575,12 @@ $('.flashdrive-save').click(function(){
 		fs.copySync('json/manifest.json', 'K:/companal/stand-scouting/manifest.json', {overwrite: true});
 		fs.copySync('json/transactions.json', 'K:/companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
-		fs.copySync('K:/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
-		fs.copySync('K:/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+		if (fs.existsSync('K:/companal/stand-scouting/robobucks.json')) {
+			fs.copySync('K:/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		}
+		if (fs.existsSync('K:/companal/stand-scouting/opr.json', 'json/opr.json')) {
+			fs.copySync('K:/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+		}
 	}
 	var data = JSON.parse(fs.readFileSync('json/manifest.json', "utf-8"));
 	for (i in data) {
