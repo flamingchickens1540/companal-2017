@@ -67,9 +67,133 @@ var standbonus = 0;
 //Files In Data-Collect
 var manifest_pit = [];
 var manifest_stand = [];
-var additional = {};
-var results = {};
-var results_final = {};
+var additional = {
+	"98": 0,
+	"50": 0,
+	"60": 0,
+	"64": 0,
+	"66": 0,
+	"81": 0,
+	"24": 0,
+	"25": 0,
+	"20": 0,
+	"21": 0,
+	"22": 0,
+	"23": 0,
+	"44": 0,
+	"40": 0,
+	"41": 0,
+	"96": 0,
+	"77": 0,
+	"76": 0,
+	"72": 0,
+	"97": 0,
+	"58": 0,
+	"99": 0,
+	"13": 0,
+	"12": 0,
+	"15": 0,
+	"14": 0,
+	"17": 0,
+	"16": 0,
+	"19": 0,
+	"18": 0,
+	"30": 0,
+	"37": 0,
+	"36": 0,
+	"34": 0,
+	"33": 0,
+	"55": 0,
+	"48": 0
+};
+var results = {
+	"1":[],
+	"2":[],
+	"3":[],
+	"4":[],
+	"5":[],
+	"6":[],
+	"7":[],
+	"8":[],
+	"9":[],
+	"10":[],
+	"11":[],
+	"12":[],
+	"13":[],
+	"14":[],
+	"15":[],
+	"16":[],
+	"17":[],
+	"18":[],
+	"19":[],
+	"20":[],
+	"21":[],
+	"22":[],
+	"23":[],
+	"24":[],
+	"25":[],
+	"26":[],
+	"27":[],
+	"28":[],
+	"29":[],
+	"30":[],
+	"31":[],
+	"32":[],
+	"33":[],
+	"34":[],
+	"35":[],
+	"36":[],
+	"37":[],
+	"38":[],
+	"39":[],
+	"40":[],
+	"41":[],
+	"42":[]
+};
+var results_final = {
+	"1":"",
+	"2":"",
+	"3":"",
+	"4":"",
+	"5":"",
+	"6":"",
+	"7":"",
+	"8":"",
+	"9":"",
+	"10":"",
+	"11":"",
+	"12":"",
+	"13":"",
+	"14":"",
+	"15":"",
+	"16":"",
+	"17":"",
+	"18":"",
+	"19":"",
+	"20":"",
+	"21":"",
+	"22":"",
+	"23":"",
+	"24":"",
+	"25":"",
+	"26":"",
+	"27":"",
+	"28":"",
+	"29":"",
+	"30":"",
+	"31":"",
+	"32":"",
+	"33":"",
+	"34":"",
+	"35":"",
+	"36":"",
+	"37":"",
+	"38":"",
+	"39":"",
+	"40":"",
+	"41":"",
+	"42":""
+};
 
 //Stores:
 //Member ID
@@ -199,7 +323,7 @@ function cfi(keys,m) {
 		} else if (inconsistent) {
 			var alliance;
 			console.log(data);
-			dialogs.confirm("There was an error with Match "+keys[m]+". If the red alliance won Match "+keys[m]+", press 'OK'.", function(ok) {
+			dialogs.confirm("There was an error with Match "+keys[m]+". If the red alliance won Match "+keys[m]+", or there was a tie, press 'OK'.", function(ok) {
 				if (ok) {
 					alliance="red";
 					results_final[keys[m]]="red";
@@ -243,12 +367,22 @@ function cfi(keys,m) {
 //Imports Previous Files
 function start() {
 	createTable();
-	manifest_stand = JSON.parse(fs.readFileSync('data-collect/stand-scouting/manifest.json'));
- 	manifest_pit = JSON.parse(fs.readFileSync('data-collect/pit-scouting/manifest.json'));
- 	additional = JSON.parse(fs.readFileSync('data-collect/additional.json'));
- 	results = JSON.parse(fs.readFileSync('data-collect/results.json'));
- 	results_final = JSON.parse(fs.readFileSync('data-collect/results-final.json'));
- 	//Load Stand
+	if (fs.existsSync('data-collect/stand-scouting/manifest.json')) {
+		manifest_stand = JSON.parse(fs.readFileSync('data-collect/stand-scouting/manifest.json'));
+ 	}
+ 	if (fs.existsSync('data-collect/pit-scouting/manifest.json')) {
+		manifest_pit = JSON.parse(fs.readFileSync('data-collect/pit-scouting/manifest.json'));
+	}
+	if (fs.existsSync('data-collect/additional.json')) {
+		additional = JSON.parse(fs.readFileSync('data-collect/additional.json'));
+	}
+	if (fs.existsSync('data-collect/results.json')) {
+		results = JSON.parse(fs.readFileSync('data-collect/results.json'));
+	}
+	if (fs.existsSync('data-collect/results-final')) {
+		results_final = JSON.parse(fs.readFileSync('data-collect/results-final.json'));
+	}
+	//Load Stand
 	for (x in manifest_stand) {
 		if (fs.existsSync('data-collect/stand-scouting/'+manifest_stand[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/stand-scouting/'+manifest_stand[x]));

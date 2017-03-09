@@ -129,7 +129,12 @@ $(document).ready(function(){
 	createTable();
 	$("body").css("overflow", "hidden");
 	$("#savetoflash").click(function(){
-		var array = JSON.parse(fs.readFileSync("manifest.json"));
+		var array;
+		if (fs.existsSync('manifest.json')) {
+			array = JSON.parse(fs.readFileSync("manifest.json"));
+		} else {
+			array = []
+		}
 		if (navigator.platform=="MacIntel") {
 			createFile("/Volumes/1540/Companal/pit-scouting/manifest.json",JSON.stringify(array));
 			if (fs.existsSync("/Volumes/1540")) {
@@ -397,7 +402,12 @@ $(document).ready(function(){
 			var str = "pit_data/"+team+".json";
 			var spotify = JSON.stringify(json);
 		 	createFile(str,spotify);
-		 	var array = JSON.parse(fs.readFileSync("manifest.json"));
+		 	var array;
+		 	if (fs.existsSync('manifest.json')) {
+				array = JSON.parse(fs.readFileSync("manifest.json"));
+			} else {
+				array = []
+			}
 		 	array.push(team+".json");
 		 	var stringed = JSON.stringify(array);
 		 	createFile("manifest.json",stringed);
