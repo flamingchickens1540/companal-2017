@@ -150,13 +150,13 @@ $(document).ready(function(){
 				dialogs.alert("The flashdrive 1540 is not inputed into the tablet.");
 			}
 		} else if (navigator.platform=="Win32") {
-			createFile("K:/Companal/pit-scouting/manifest.json",JSON.stringify(array));
-			if (fs.existsSync("K:/Companal/pit-scouting")) {
+			createFile("K:/companal/pit-scouting/manifest.json",JSON.stringify(array));
+			if (fs.existsSync("K:/companal/pit-scouting")) {
 				var array = JSON.parse(fs.readFileSync("manifest.json"));
 				for (x in array) {
-					if (!fs.existsSync("K:/Companal/pit-scouting"+array[x])) {
+					if (!fs.existsSync("K:/companal/pit-scouting/"+array[x])) {
 						var file = fs.readFileSync("pit_data/"+array[x]);
-						createFile("K:/Companal/pit-scouting"+array[x],file);
+						createFile("K:/companal/pit-scouting/"+array[x],file);
 					}
 				}
 				$("#saved").show();
