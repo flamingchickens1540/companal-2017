@@ -23,6 +23,11 @@ try {
   fs.writeFileSync(`${dataDir}/matchSchedule.json`, JSON.stringify({
       "1": ["1540", "1001", "1002", "1003", "1004", "1005"]
   }))
+  fs.mkdirSync(`${dataDir}/pit-scouting`)
+  fs.mkdirSync(`${dataDir}/stand-scouting`)
+  fs.mkdirSync(`${dataDir}/tournament`)
+  fs.writeFileSync(`${dataDir}/pit-scouting/manifest.json`, '[]')
+  fs.writeFileSync(`${dataDir}/stand-scouting/manifest.json`, '[]')
 }
 //now we'll verify that they have non-corrupted versions of all the files we expect
 try {
