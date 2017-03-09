@@ -9,6 +9,13 @@
 	const AD = require('appdirectory')
 	dataDir = new AD("companal-2017-analysis-simple").userData()
 	 
+    if (!fs.existsSync(`${dataDir}/pit-scouting/manifest.json`)) {
+        fs.writeFileSync(`${dataDir}/pit-scouting/manifest.json`, JSON.stringify([]))
+    }
+    if (!fs.existsSync(`${dataDir}/stand-scouting/manifest.json`)) {
+        fs.writeFileSync(`${dataDir}/stand-scouting/manifest.json`, JSON.stringify([]))
+    }
+     
 	$("#importButton").click(function() {
 		var flashDir
 		if (platform.isDarwin)
@@ -18,10 +25,36 @@
         if (!fs.existsSync(flashDir)) {
             alert("Wait for flashdrive...")
         }
+        var newPitManifest = JSON.parse(fs.readFileSync(`${flashDir}/output/pit-scouting/manifest.json`, 'utf8'))
+        var currentPitManifest = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/manifest.json`, 'utf8'))
+        for (var pitIndex in newPitManifest) {
+            var newPitFile = newPitManifest[pitIndex]
+
+            if (!fs.existsSync(`${dataDir}/pit-scouting/${newPitFile}`)) {
+                fs.copySync(`${flashDir}/output/pit-scouting/${newPitFile}`, `${dataDir}/pit-scouting/${newPitFile}`)
+                currentPitManifest.push(newPitFile)
+            }
+        }
+        fs.writeFileSync(`${dataDir}/pit-scouting/manifest.json`, JSON.stringify(currentPitManifest))
+
+        var newStandManifest = JSON.parse(fs.readFileSync(`${flashDir}/output/stand-scouting/manifest.json`, 'utf8'))
+        var currentStandManifest = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/manifest.json`, 'utf8'))
+        for (var standIndex in newStandManifest) {
+            var newStandFile = newStandManifest[standIndex]
+
+            if (!fs.existsSync(`${dataDir}/stand-scouting/${newStandFile}`)) {
+                fs.copySync(`${flashDir}/output/stand-scouting/${newStandFile}`, `${dataDir}/stand-scouting/${newStandFile}`)
+                currentStandManifest.push(newStandFile)
+            }
+        }
+        fs.writeFileSync(`${dataDir}/stand-scouting/manifest.json`, JSON.stringify(currentStandManifest))
+
         fs.copySync(`${flashDir}/output/pit-scouting`, `${dataDir}/pit-scouting`, {overwrite: true})
         fs.copySync(`${flashDir}/output/stand-scouting`, `${dataDir}/stand-scouting`, {overwrite: true})
         fs.copySync(`${flashDir}/output/tournament`, `${dataDir}/tournament`, {overwrite: true})
-        fs.copySync(`${flashDir}/output/tournament/matchSchedule.json`, `${dataDir}/matchSchedule.json`, {overwrite: true})
+        if (fs.existsSync(`${flashDir}/output/tournament/matchSchedule.json`)) {
+            fs.copySync(`${flashDir}/output/tournament/matchSchedule.json`, `${dataDir}/matchSchedule.json`, {overwrite: true})
+        }
         alert("Done!")
         window.location.reload()
     })

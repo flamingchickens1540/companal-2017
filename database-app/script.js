@@ -1,35 +1,20 @@
-var fs = require('fs');
+var fs = require('fs-extra');
 var Dialogs = require('dialogs');
 var dialogs = Dialogs(opts={})
 window.$ = window.jQuery = require('jquery');
 
 //Useful universal functions
 function createFile(file,text) {
-	fs.writeFile(file, text, function(err) {
-    	if (err) {
-        	return console.log(err);
-		}
-	});
+	fs.writeFileSync(file, text);
 }
 function appendFile(file,text) {
-	fs.appendFile(file,text, function(err) {
-		if (err) {
-			return console.log(err);
-		}
-	});
+	fs.appendFileSync(file,text);
 }
 function deleteFile(fileName){
-	fs.unlink(fileName, function(err) {
-		if (err) {
-			return console.error(err);
-		}
-	});
+	fs.unlinkSync(fileName);
 }
 function renameFile(oldPath,newPath) {
-	fs.rename(oldPath,newPath, (err) => {
-		if (err) throw err;
-		console.log('renamed complete');
-	});
+	fs.renameSync(oldPath,newPath);
 }
 function getKeyByValue(object, value) {
 	return Object.keys(object).find(key => object[key] === value);
@@ -528,6 +513,8 @@ function exportData() {
 		$("#impStand").addClass("disabled");
 		$("#impPit").addClass("disabled");
 		$("#new").removeClass("disabled");
+		fs.copySync('data-collect/stand-scouting/', '/Volumes/1540/companal/output/stand-scouting/')
+		fs.copySync('data-collect/pit-scouting/', '/Volumes/1540/companal/output/pit-scouting/')
 	} else {
 		dialogs.alert("The USB is not inserted properly.");
 	}

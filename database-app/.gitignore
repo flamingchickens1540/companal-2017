@@ -1,0 +1,6 @@
+data-collect/pit-scouting/*.json
+data-collect/stand-scouting/*.json
+
+data-collect/additional.json
+data-collect/results.json
+data-collect/results-final.json
