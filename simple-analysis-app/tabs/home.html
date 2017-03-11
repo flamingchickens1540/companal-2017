@@ -30,7 +30,7 @@
         for (var pitIndex in newPitManifest) {
             var newPitFile = newPitManifest[pitIndex]
 
-            if (!fs.existsSync(`${dataDir}/pit-scouting/${newPitFile}`)) {
+            if (!fs.existsSync(`${dataDir}/pit-scouting/${newPitFile}`) && fs.existsSync(`${flashDir}/output/pit-scouting/${newPitFile}`)) {
                 fs.copySync(`${flashDir}/output/pit-scouting/${newPitFile}`, `${dataDir}/pit-scouting/${newPitFile}`)
                 currentPitManifest.push(newPitFile)
             }
@@ -42,7 +42,7 @@
         for (var standIndex in newStandManifest) {
             var newStandFile = newStandManifest[standIndex]
 
-            if (!fs.existsSync(`${dataDir}/stand-scouting/${newStandFile}`)) {
+            if (!fs.existsSync(`${dataDir}/stand-scouting/${newStandFile}`) && fs.existsSync(`${flashDir}/output/stand-scouting/${newPitFile}`)) {
                 fs.copySync(`${flashDir}/output/stand-scouting/${newStandFile}`, `${dataDir}/stand-scouting/${newStandFile}`)
                 currentStandManifest.push(newStandFile)
             }
@@ -66,7 +66,10 @@
     for (var i in pitManifest) {
     	var filename = pitManifest[i]
     	var team = filename.split('.')[0]
-    	pitRecords[team] = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/${filename}`, 'utf8'))
+        if (fs.existsSync(`${dataDir}/pit-scouting/${filename}`)) {
+            pitRecords[team] = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/${filename}`, 'utf8'))
+        }
+    	
     }
     for (var j in standManifest) {
     	var filename = standManifest[j]
@@ -74,7 +77,8 @@
     	if (!standRecords.hasOwnProperty(team)) {
     		standRecords[team] = []
     	}
-    	standRecords[team].push(JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8')))
+        if (fs.existsSync(`${dataDir}/stand-scouting/${filename}`))
+    	   standRecords[team].push(JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8')))
     }
 
 
