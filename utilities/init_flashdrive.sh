@@ -9,7 +9,13 @@ rm -rf /Volumes/1540/companal
 mkdir companal
 cd companal
 mkdir stand-scouting
+cd stand-scouting
+echo "[]">manifest.json
+cd ..
 mkdir pit-scouting
+cd pit-scouting
+echo "[]">manifest.json
+cd ..
 mkdir tournament
 mkdir output
 cd output/
