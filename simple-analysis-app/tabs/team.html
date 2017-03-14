@@ -65,7 +65,7 @@
 			</div>
 			<div class="col-xs-4">
 				<h3 style="font-family: robotoBlack">&nbsp;&nbsp;&nbsp;Time/Strategy Average:</h3>
-				<center><canvas id="myChart" style="width: 70%;"></canvas></center>
+				<center><span id="chartWrapper"></span></center>
 			</div>
 			<div class="col-xs-4">
 				<h3 style="font-family: robotoBlack">&nbsp;&nbsp;&nbsp;Notes:</h3>
@@ -91,7 +91,6 @@
 		$("#gradeDefense").html('')
 		$("#pitModalP").html('')
 		$("#teamNotes").html('')
-		$("#myChart")[0].getContext('2d').clearRect(0,0,$("#myChart")[0].width,$("#myChart")[0].height)
 		var teamNumber = $('#teamLookupMatchNumber').val()
 		if (!pitRecords.hasOwnProperty(teamNumber)) {
 			alert("No pit records for that team!")
@@ -256,6 +255,7 @@
 			        }]
 			};
 			var Chart = require('chart.js')
+			$("#chartWrapper").html(`<canvas id="myChart" style="width: 70%;"></canvas>`)
 			var myPieChart = new Chart("myChart",{
 			    type: 'pie',
 			    data: data,
