@@ -132,11 +132,11 @@
 				climbs: 0,
 				cycleCount: 0,
 				grades: {
-					"overall": 0,
-				    "shooting": 0,
-				    "gearing": 0,
-				    "defense": 0,
-				    "climbing": 0
+					"overall": [],
+				    "shooting": [],
+				    "gearing": [],
+				    "defense": [],
+				    "climbing": []
 				},
 				strategy: {
 					"shooting": 0,
@@ -157,11 +157,12 @@
 				if (match.teleop.climbed)
 					averages.climbs ++
 				averages.cycleCount += match.teleop.balls.cycles.length
-				averages.grades.overall += match.strategy.grades.overall
-				averages.grades.shooting += match.strategy.grades.shooting
-				averages.grades.gearing += match.strategy.grades.gearing
-				averages.grades.defense += match.strategy.grades.defense
-				averages.grades.climbing += match.strategy.grades.climbing
+				var gradeCategories = ["overall", "shooting", "gearing", "defense", "climbing"]
+				for (var i = 0; i < gradeCategories.length; i++) {
+					console.log(averages.grades[gradeCategories[i]])
+					if (match.strategy.grades[gradeCategories[i]] !== 0)
+						averages.grades[gradeCategories[i]].push(match.strategy.grades[gradeCategories[i]])
+				}
 				averages.strategy.shooting += match.strategy.pieChart.shooting
 				averages.strategy.gearing += match.strategy.pieChart.gearing
 				averages.strategy.climbing += match.strategy.pieChart.climbing
@@ -217,16 +218,18 @@
 			averages.gears /= averageCount
 			averages.climbs /= averageCount
 			averages.cycleCount /= averageCount
-			averages.grades.overall /= averageCount
-			averages.grades.shooting /= averageCount
-			averages.grades.gearing /= averageCount
-			averages.grades.defense /= averageCount
-			averages.grades.climbing /= averageCount
 			averages.strategy.shooting /= averageCount
 			averages.strategy.gearing /= averageCount
 			averages.strategy.climbing /= averageCount
 			averages.strategy.defense /= averageCount
 			averages.strategy.futzing /= averageCount
+			gradeCategories = ["overall", "shooting", "gearing", "defense", "climbing"]
+			for (var j = 0; j < gradeCategories.length; j++) {
+				var length = averages.grades[gradeCategories[j]].length
+				console.log(averages.grades)
+				averages.grades[gradeCategories[j]] = averages.grades[gradeCategories[j]].reduce((a, b) => a + b, 0)
+				averages.grades[gradeCategories[j]] /= length
+			}
 			var html = `<tr><td>${averages.gears.toFixed(2)}</td><td>${(averages.climbs*100).toFixed(2)}%</td><td>${averages.cycleCount.toFixed(2)}</td></tr>`
 			$("#teamAveragesTbody").html(html)
 			$("#gradeOverall").html(averages.grades.overall.toFixed(2))
