@@ -372,14 +372,23 @@ $("#new").click(function(){
 		newFlash();
 	}
 });
-$("#scrollToIds").click(function(){
-	window.scrollTo(0,0);
+$("#toggleMembers").click(function(){
+	$("#members").show();
+	$("#matches").hide();
+	$("#teams").hide();
+// 	window.scrollTo(0,0);
 });
-$("#scrollToTeams").click(function(){
-	window.scrollTo(0,1605);
+$("#toggleTeams").click(function(){
+	$("#teams").show();
+	$("#matches").hide();
+	$("#members").hide();
+// 	window.scrollTo(0,1605);
 });
-$("#scrollToMatches").click(function(){
-	window.scrollTo(0,3210);
+$("#toggleMatches").click(function(){
+	$("#matches").show();
+	$("#teams").hide();
+	$("#members").hide();
+// 	window.scrollTo(0,3210);
 });
 
 //Runs At Start

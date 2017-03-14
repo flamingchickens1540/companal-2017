@@ -116,9 +116,6 @@ pit-scouting 1540.json <-- self explanatory I hope
 	"drivetrain": {
 		"drivetrainShifts": true, //does their drivetrain shift?
 		"drivetrainType": "mecanum", //can be ["4wheel", "8wheel", "6wheel", "swerve","mecanum_drive", "hdrive_slidedrive", "other (fill in)"]
-		"motorCount": 17, //how many motors in the drivetrain?
-		"wheelType": "omni" //can be mechanum, omni, colson, pneumatic, wtread, other (fill in blank)
-		"allWheelsDriven": true
 	},
 
 	"hasDefended": false, //has it been their strategy to defend?

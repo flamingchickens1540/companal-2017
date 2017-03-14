@@ -83,9 +83,6 @@ var json = {
 	drivetrain: {
 		drivetrainShifts:true,
 		drivetrainType:"mecanum",
-		motorCount:17,
-		wheelType:"omni",
-		allWheelsDriven:true
 	},
 	hasDefended: false,
 	shooting: {
@@ -219,13 +216,10 @@ $(document).ready(function(){
 		} else if (round==6) {
 			$("#roundsix").show();
 			$("#roundfive").hide();
-		} else if (round==7) {
-			$("#roundsix").hide();
-			$("#roundseven").show();
 			$("#next").hide();
 		}
-		if (round>7) {
-			round=7;
+		if (round>6) {
+			round=6;
 		} 
 	});
 	$("#previous").click(function(){
@@ -246,9 +240,6 @@ $(document).ready(function(){
 		} else if (round==5) {
 			$("#roundfive").show();
 			$("#roundsix").hide();
-		} else if (round==6) {
-			$("#roundseven").hide();
-			$("#roundsix").show();
 			$("#next").show();
 		}
 		if (round<1) {
@@ -347,13 +338,10 @@ $(document).ready(function(){
 	$("#submit").click(function() {
 		var list = [];
 		list.push(["whether or not the drive train shifts",$("input[name='drivetrainShifts']:checked").val()]);
-		list.push(["the type of wheel the robot uses",$("input[name='wheelType']:checked").val()]);
-		list.push(["the number of motors the robot has",$("#motorcount").val()]);
 		list.push(["if the robot can climb",$("input[name='canClimb']:checked").val()]);
 		list.push(["the robot's ball capacity",$("#ballCapacity").val()]);
 		list.push(["if the robot has a high goal shooter",$("input[name='hasHigh']:checked").val()]);
 		list.push(["if the robot has a low goal shooter",$("input[name='hasLow']:checked").val()]);
-		list.push(["if all wheels are driven",$("input[name='wheelsDriven']:checked").val()]);
 //		list.push(["Has Robot Defended",$("input[name='hasDefended']:checked").val()]);
 		list.push(["the robot's weight",$("#roboweight").val()]);
 		list.push(["whether the robot can deposit gears",$("input[name='gears']:checked").val()]);
@@ -385,19 +373,12 @@ $(document).ready(function(){
 			} else {
 				json["drivetrain"]["drivetrainType"]=$("#driveoptions").val();
 			}
-			json["drivetrain"]["motorCount"]=$("#motorcount").val();
-			if ($("input[name='wheelType']:checked").val()!="other") {
-				json["drivetrain"]["wheelType"]=$("input[name='wheelType']:checked").val();
-			} else {
-				json["drivetrain"]["wheelType"]=$("#wheeloptions").val();
-			}
 			if ($("input[name='lang']:checked").val()!="other") {
 				json["language"]=$("input[name='lang']:checked").val();
 			} else {
 				json["language"]=$("#langoptions").val();
 			}
 			json["canClimb"]=$("input[name='canClimb']:checked").val();
-			json["allWheelsDriven"]=$("input[name='wheelsDriven']:checked").val();
 			json["hasDefended"]=false;
 			//json["hasDefended"]=$("input[name='hasDefended']:checked").val();
 			json["weight"]=$("#roboweight").val();
