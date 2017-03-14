@@ -116,7 +116,7 @@
       <br>
     </div>
     <!-- Betting -->
-    <div class="betting">
+    <!-- <div class="betting">
       <h3 style="text-align: center;">
         <div class="expected" style="text-align: center;"></div>
       </h3>
@@ -145,9 +145,9 @@
       <br>
       <br>
       <br>
-    </div>
+    </div> -->
     <!-- Betting 2 -->
-    <div class="betting-2">
+    <!-- <div class="betting-2">
       <div class="betting-2-buttons">
         <button id="betting-2-back" type="button" class="btn btn-warning">
           <i class="fa fa-chevron-left"></i>&nbsp;Back
@@ -160,7 +160,7 @@
       <h2 style="text-align: center;">How much do you want to bet?</h2>
       <hr>
       <div id="pips-range"></div>
-    </div>
+    </div> -->
     <!-- Post-Login/Auto -->
     <div id="post-login" class="container">
       <!-- <button id="auto-back" type="button" class="btn btn-warning">
@@ -264,74 +264,76 @@
       </div>
     </div>
     <!-- Other Fuel Stuff -->
-    <div id="fuel-end" class="row">
-      <button id="fuel-back" type="button" class="btn btn-warning">
-        <i class="fa fa-chevron-left"></i>&nbsp;Back
-      </button>
-      <button id="fuel-next" type="button" class="btn btn-warning">
-        Next&nbsp;<i class="fa fa-chevron-right"></i>
-      </button>
-      <br>
-      <h3 style="text-align: center;">Fuel</h3>
-      <br>
-      <button type="button" class="btn btn-warning no-fuel">Did not shoot fuel</button>
-      <div class="btn-group" data-toggle="buttons">
-        <label id="low-goal" class="btn btn-info">
-          <input type="checkbox" autocomplete="off">Low Goal
-        </label>
-      </div>
-      <hr>
-      <div class="col-sm-4">
-        <h4>Accuracy of Shooter</h4>
+    <div id="fuel-end" class="container">
+      <div class="row">
+        <button id="fuel-back" type="button" class="btn btn-warning">
+          <i class="fa fa-chevron-left"></i>&nbsp;Back
+        </button>
+        <button id="fuel-next" type="button" class="btn btn-warning">
+          Next&nbsp;<i class="fa fa-chevron-right"></i>
+        </button>
+        <br>
+        <h3 style="text-align: center;">Fuel</h3>
+        <br>
+        <button type="button" class="btn btn-warning no-fuel">Did not shoot fuel</button>
         <div class="btn-group" data-toggle="buttons">
-          <span id="teleop-fuelaccuracy-lt50" class="btn btn-danger">
-            <input type="radio" name="fuel-end-accuracy" value="<50" autocomplete="off">&lt;50
-          </span>
-          <span id="teleop-fuelaccuracy-5070" class="btn btn-warning">
-            <input type="radio" name="fuel-end-accuracy" value="50-70" autocomplete="off">50-70
-          </span>
-          <span id="teleop-fuelaccuracy-7090" class="btn btn-primary">
-            <input type="radio" name="fuel-end-accuracy" value="70-90" autocomplete="off">70-90
-          </span>
-          <span id="teleop-fuelaccuracy-gt90" class="btn btn-success">
-            <input type="radio" name="fuel-end-accuracy" value=">90" autocomplete="off">&gt;90
-          </span>
+          <label id="low-goal" class="btn btn-info">
+            <input type="checkbox" autocomplete="off">Low Goal
+          </label>
         </div>
-      </div>
-      <div class="col-sm-4">
-        <h4>Rate (Balls/Second)</h4>
-        <div class="btn-group" data-toggle="buttons">
-          <span id="teleop-fuelrate-lt1" class="btn btn-danger">
-            <input type="radio" name="fuel-end-rate" value="<1" autocomplete="off">&lt;1
-          </span>
-          <span id="teleop-fuelrate-13" class="btn btn-warning">
-            <input type="radio" name="fuel-end-rate" value="1-3" autocomplete="off">1-3
-          </span>
-          <span id="teleop-fuelrate-35" class="btn btn-primary">
-            <input type="radio" name="fuel-end-rate" value="3-5" autocomplete="off">3-5
-          </span>
-          <span id="teleop-fuelrate-gt5" class="btn btn-success">
-            <input type="radio" name="fuel-end-rate" value=">5" autocomplete="off">&gt;5
-          </span>
+        <hr>
+        <div class="col-sm-4">
+          <h4>Accuracy of Shooter</h4>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="teleop-fuelaccuracy-lt50" class="btn btn-danger">
+              <input type="radio" name="fuel-end-accuracy" value="<50" autocomplete="off">&lt;50
+            </span>
+            <span id="teleop-fuelaccuracy-5070" class="btn btn-warning">
+              <input type="radio" name="fuel-end-accuracy" value="50-70" autocomplete="off">50-70
+            </span>
+            <span id="teleop-fuelaccuracy-7090" class="btn btn-primary">
+              <input type="radio" name="fuel-end-accuracy" value="70-90" autocomplete="off">70-90
+            </span>
+            <span id="teleop-fuelaccuracy-gt90" class="btn btn-success">
+              <input type="radio" name="fuel-end-accuracy" value=">90" autocomplete="off">&gt;90
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="col-sm-4">
-        <h4>Loaded From</h4>
-        <div class="btn-group" data-toggle="buttons">
-          <label id="teleop-fuelload-hopper" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load" value="hopper" autocomplete="off">Hopper
-          </label>
-          <label id="teleop-fuelload-human" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load" value="human" autocomplete="off">Human
-          </label>
-          <label id="teleop-fuelload-floor" class="btn btn-info">
-            <input type="checkbox" name="fuel-end-load" value="floor" autocomplete="off">Floor
-          </label>
+        <div class="col-sm-4">
+          <h4>Rate (Balls/Second)</h4>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="teleop-fuelrate-lt1" class="btn btn-danger">
+              <input type="radio" name="fuel-end-rate" value="<1" autocomplete="off">&lt;1
+            </span>
+            <span id="teleop-fuelrate-13" class="btn btn-warning">
+              <input type="radio" name="fuel-end-rate" value="1-3" autocomplete="off">1-3
+            </span>
+            <span id="teleop-fuelrate-35" class="btn btn-primary">
+              <input type="radio" name="fuel-end-rate" value="3-5" autocomplete="off">3-5
+            </span>
+            <span id="teleop-fuelrate-gt5" class="btn btn-success">
+              <input type="radio" name="fuel-end-rate" value=">5" autocomplete="off">&gt;5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h4>Loaded From</h4>
+          <div class="btn-group" data-toggle="buttons">
+            <label id="teleop-fuelload-hopper" class="btn btn-info">
+              <input type="checkbox" name="fuel-end-load" value="hopper" autocomplete="off">Hopper
+            </label>
+            <label id="teleop-fuelload-human" class="btn btn-info">
+              <input type="checkbox" name="fuel-end-load" value="human" autocomplete="off">Human
+            </label>
+            <label id="teleop-fuelload-floor" class="btn btn-info">
+              <input type="checkbox" name="fuel-end-load" value="floor" autocomplete="off">Floor
+            </label>
+          </div>
         </div>
       </div>
     </div>
     <!-- Pie Chart -->
-    <div class="pie">
+    <div class="container pie">
       <div class="pie-nav">
         <button id="pie-back" type="button" class="btn btn-warning">
           <i class="fa fa-chevron-left"></i>&nbsp;Back
@@ -395,15 +397,17 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-5"></div>
-          <div class="col-sm-2" style="text-align: center;">
-            <div class="btn-group" data-toggle="buttons" style="display: block; margin: auto;">
-              <label id="repel" class="btn btn-info">
-                <input type="checkbox" name="repel-box" autocomplete="off">Enable Repel Mode (Beta)
-              </label>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <div style="text-align: center;">
+              <div class="btn-group" data-toggle="buttons">
+                <label id="repel" class="btn btn-info disabled">
+                  <input type="checkbox" name="repel-box" autocomplete="off">Enable Repel Mode (Beta)
+                </label>
+              </div>
             </div>
           </div>
-          <div class="col-sm-5"></div>
+          <div class="col-sm-4"></div>
         </div>
         <br>
         <hr>
@@ -540,7 +544,7 @@
       </script>
     </div>
     <!-- Grades -->
-    <div class="grades">
+    <div class="grades container">
       <div class="grades-nav">
         <button id="grades-back" type="button" class="btn btn-warning">
           <i class="fa fa-chevron-left"></i>&nbsp;Back
@@ -689,7 +693,7 @@
       <br>
     </div>
     <!-- Betting End -->
-    <div class="betting-end">
+    <!-- <div class="betting-end">
       <h3 style="text-align: center;">Who won?</h3>
       <br>
       <br>
@@ -731,9 +735,17 @@
       <br>
       <br>
       <br>
+    </div> -->
+    <!-- Finish -->
+    <!-- <a data-toggle="modal" data-target="#success"> -->
+    <div class="container finish" style="text-align: center;">
+      <button id="save-file" type="button" class="btn btn-success" style="text-align: center; height: 500px; width: 500px; line-height: 500px; font-size: 69pt; border-radius: 50%;">
+        <i class="fa fa-flag-checkered"></i>&nbsp;Finish
+      </button>
     </div>
+    <!-- </a> -->
     <!-- Success -->
-    <div id="success" class="modal fade" role="dialog">
+    <!-- <div id="success" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content" style="background: #00C851 !important;">
           <div class="modal-header">
@@ -750,7 +762,24 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <!-- <div id="success" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content" style="background: #00C851 !important;">
+          <div class="modal-header">
+            <h2 class="modal-title" style="text-align: center;">Success!</h2>
+          </div>
+          <div class="modal-body" style="text-align: center;">
+            <h3>That was exciting! Scout some more!</h3>
+          </div>
+          <div class="modal-footer" style="text-align: center;">
+            <button id="sign-out" type="button" data-dismiss="modal" class="btn btn-danger">
+              <i class="fa fa-sign-out"></i>&nbsp;Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> -->
     <!-- Match Number -->
     <nav class="navbar navbar-fixed-bottom">
       <hr>

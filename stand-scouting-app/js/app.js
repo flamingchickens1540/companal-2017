@@ -123,112 +123,112 @@ $(document).ready(function(){
 			window.location.reload();
 		});
 	}
-	if ((fs.existsSync('json/transactions.json') == false) || (fs.readFileSync('json/transactions.json', 'utf-8') == '')) {
-		var noTransaction = {
-			"12": "0",
-			"13": "0",
-			"14": "0",
-			"15": "0",
-			"16": "0",
-			"17": "0",
-			"18": "0",
-			"19": "0",
-			"20": "0",
-			"21": "0",
-			"22": "0",
-			"23": "0",
-			"24": "0",
-			"25": "0",
-			"30": "0",
-			"33": "0",
-			"34": "0",
-			"36": "0",
-			"37": "0",
-			"40": "0",
-			"41": "0",
-			"44": "0",
-			"48": "0",
-			"50": "0",
-			"55": "0",
-			"58": "0",
-			"60": "0",
-			"64": "0",
-			"66": "0",
-			"72": "0",
-			"76": "0",
-			"77": "0",
-			"81": "0",
-			"96": "0",
-			"97": "0",
-			"98": "0",
-			"99": "0"
-		}
-		var nNT = JSON.stringify(noTransaction);
-		fs.writeFileSync('json/transactions.json', nNT);
-		window.location.reload();
-	}
-	if ((fs.existsSync('json/robobucks.json') == false) || (fs.readFileSync('json/robobucks.json', 'utf-8') == '')) {
-		var noRobobucks = {
-			"12": "100",
-			"13": "100",
-			"14": "100",
-			"15": "100",
-			"16": "100",
-			"17": "100",
-			"18": "100",
-			"19": "100",
-			"20": "100",
-			"21": "100",
-			"22": "100",
-			"23": "100",
-			"24": "100",
-			"25": "100",
-			"30": "100",
-			"33": "100",
-			"34": "100",
-			"36": "100",
-			"37": "100",
-			"40": "100",
-			"41": "100",
-			"44": "100",
-			"48": "100",
-			"50": "100",
-			"55": "100",
-			"58": "100",
-			"60": "100",
-			"64": "100",
-			"66": "100",
-			"72": "100",
-			"76": "100",
-			"77": "100",
-			"81": "100",
-			"96": "100",
-			"97": "100",
-			"98": "100",
-			"99": "100"
-		}
-		var sNR = JSON.stringify(noRobobucks);
-		fs.writeFileSync('json/robobucks.json', sNR);
-		window.location.reload();
-	};
+	// if ((fs.existsSync('json/transactions.json') == false) || (fs.readFileSync('json/transactions.json', 'utf-8') == '')) {
+	// 	var noTransaction = {
+	// 		"12": "0",
+	// 		"13": "0",
+	// 		"14": "0",
+	// 		"15": "0",
+	// 		"16": "0",
+	// 		"17": "0",
+	// 		"18": "0",
+	// 		"19": "0",
+	// 		"20": "0",
+	// 		"21": "0",
+	// 		"22": "0",
+	// 		"23": "0",
+	// 		"24": "0",
+	// 		"25": "0",
+	// 		"30": "0",
+	// 		"33": "0",
+	// 		"34": "0",
+	// 		"36": "0",
+	// 		"37": "0",
+	// 		"40": "0",
+	// 		"41": "0",
+	// 		"44": "0",
+	// 		"48": "0",
+	// 		"50": "0",
+	// 		"55": "0",
+	// 		"58": "0",
+	// 		"60": "0",
+	// 		"64": "0",
+	// 		"66": "0",
+	// 		"72": "0",
+	// 		"76": "0",
+	// 		"77": "0",
+	// 		"81": "0",
+	// 		"96": "0",
+	// 		"97": "0",
+	// 		"98": "0",
+	// 		"99": "0"
+	// 	}
+	// 	var nNT = JSON.stringify(noTransaction);
+	// 	fs.writeFileSync('json/transactions.json', nNT);
+	// 	window.location.reload();
+	// }
+	// if ((fs.existsSync('json/robobucks.json') == false) || (fs.readFileSync('json/robobucks.json', 'utf-8') == '')) {
+	// 	var noRobobucks = {
+	// 		"12": "100",
+	// 		"13": "100",
+	// 		"14": "100",
+	// 		"15": "100",
+	// 		"16": "100",
+	// 		"17": "100",
+	// 		"18": "100",
+	// 		"19": "100",
+	// 		"20": "100",
+	// 		"21": "100",
+	// 		"22": "100",
+	// 		"23": "100",
+	// 		"24": "100",
+	// 		"25": "100",
+	// 		"30": "100",
+	// 		"33": "100",
+	// 		"34": "100",
+	// 		"36": "100",
+	// 		"37": "100",
+	// 		"40": "100",
+	// 		"41": "100",
+	// 		"44": "100",
+	// 		"48": "100",
+	// 		"50": "100",
+	// 		"55": "100",
+	// 		"58": "100",
+	// 		"60": "100",
+	// 		"64": "100",
+	// 		"66": "100",
+	// 		"72": "100",
+	// 		"76": "100",
+	// 		"77": "100",
+	// 		"81": "100",
+	// 		"96": "100",
+	// 		"97": "100",
+	// 		"98": "100",
+	// 		"99": "100"
+	// 	}
+	// 	var sNR = JSON.stringify(noRobobucks);
+	// 	fs.writeFileSync('json/robobucks.json', sNR);
+	// 	window.location.reload();
+	// };
 	if (fs.existsSync('role.txt') == false) {
 		fs.writeFileSync('role.txt', 'r1');
 		window.location.reload();
 	};
-	if (fs.existsSync('login.txt')) {
-		$('input[name=login-number]').val(fs.readFileSync('login.txt', 'utf-8'));
-		$('#login-button').click();
-		$('.name-div').show();
-		$('.name').text("Welcome, " + accounts[act] + "!");
-	} else {
-		$('.name-div').hide();
-	}
+	// if (fs.existsSync('login.txt')) {
+	// 	$('input[name=login-number]').val(fs.readFileSync('login.txt', 'utf-8'));
+	// 	$('#login-button').click();
+	// 	$('.name-div').show();
+	// 	$('.name').text("Welcome, " + accounts[act] + "!");
+	// } else {
+	// 	$('.name-div').hide();
+	// }
 	$('#match-number-number').val(fs.readFileSync('matchNum.txt', 'utf-8'));
 	$('.login-info').hide();
 	$('#no-login').hide();
 	$("#forgot-id").hide();
 	$('#cont-btn').hide();
-	$('.betting').hide();
+	// $('.betting').hide();
 	$('#post-login').hide();
 	$('#success').hide();
 	$('#last-textarea').hide();
@@ -240,8 +240,10 @@ $(document).ready(function(){
 	$('.edit-match-btn').hide();
 	$('.choose-role').hide();
 	$('.password').hide();
-	$('.betting-2').hide();
-	$('.betting-end').hide();
+	$('.finish').hide();
+	$('.name-div').hide();
+	// $('.betting-2').hide();
+	// $('.betting-end').hide();
 });
 // // FS
 // function createFile(fileName, text){
@@ -401,32 +403,32 @@ $('#login-button').click(function(){
 		$('#login-input-number').css("border", "3px solid #5cb85c");
 		$('[data-toggle="popover"]').popover();
 		$('[data-toggle="popover"]').click();
-		var start;
-		var totalValue;
-		function blueBet(max, min, points) {
-			if (((max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || ((max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
-				start = 1;
-				totalValue = start * points;
-				if (totalValue < 1) {
-					totalValue = 1.1;
-				}
-				$('.expected').append('<h4>If you think <button type="button" id="bet-red-win-intro" class="btn btn-danger">Red</button> will win, you will get ' + totalValue + ' Robobucks for every ' + start + ' Robobuck you bet</h4>');
-			}
-		};
-		function redBet(max, min, points) {
-			if (((max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || ((max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
-				start = 1;
-				totalValue = start * points;
-				if (totalValue < 1) {
-					totalValue = 1.1;
-				}
-				$('.expected').append('<h4>If you think <button type="button" id="bet-blue-win-intro" class="btn btn-default">Blue</button> will win, you will get ' + totalValue + ' Robobucks for every ' + start + ' Robobuck you bet</h4>');
-			}
-		};
-		for (i = 1; i < 2000; i++) {
-			redBet(10 * i, (10 * i) - 10, (20 - i) / 10);
-			blueBet(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
-		};
+		// var start;
+		// var totalValue;
+		// function blueBet(max, min, points) {
+		// 	if (((max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || ((max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
+		// 		start = 1;
+		// 		totalValue = start * points;
+		// 		if (totalValue < 1) {
+		// 			totalValue = 1.1;
+		// 		}
+		// 		$('.expected').append('<h4>If you think <button type="button" id="bet-red-win-intro" class="btn btn-danger">Red</button> will win, you will get ' + totalValue + ' Robobucks for every ' + start + ' Robobuck you bet</h4>');
+		// 	}
+		// };
+		// function redBet(max, min, points) {
+		// 	if (((max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || ((max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
+		// 		start = 1;
+		// 		totalValue = start * points;
+		// 		if (totalValue < 1) {
+		// 			totalValue = 1.1;
+		// 		}
+		// 		$('.expected').append('<h4>If you think <button type="button" id="bet-blue-win-intro" class="btn btn-default">Blue</button> will win, you will get ' + totalValue + ' Robobucks for every ' + start + ' Robobuck you bet</h4>');
+		// 	}
+		// };
+		// for (i = 1; i < 2000; i++) {
+		// 	redBet(10 * i, (10 * i) - 10, (20 - i) / 10);
+		// 	blueBet(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
+		// };
 	} else if (!accounts.hasOwnProperty(num) && parseInt($('#login-input-number').val()) != 69) {
 		$('#no-login').show();
 		$('#login-input-number').css("border", "3px solid #d9534f");
@@ -448,28 +450,29 @@ $('.close').click(function(){
 });
 $('#cont-btn').click(function(){
 	$('#the-whole-login').fadeOut(500);
-	$('.betting').delay(500).fadeIn(500);
+	// $('.betting').delay(500).fadeIn(500);
+	$('#post-login').delay(500).fadeIn(500);
 	$('.flashdrive-save').fadeOut(500);
 	$('[data-toggle="popover"]').popover('hide');
 	$('#match-number-number').attr('readonly', 'readonly');
-	range_all_sliders = {
-		'min': [0, parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-		// '25%': [12.5, 12.5],
-		'20%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-		'40%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-		'60%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (3 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-		'80%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (2 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
-		'max': [parseInt(robobucks[$('input[name=login-number]').val()]) / 2]
-	};
-	noUiSlider.create(pipsRange, {
-		range: range_all_sliders,
-		start: 0,
-		connect: [true, false],
-		pips: {
-			mode: 'range',
-			density: 10
-		}
-	});
+	// range_all_sliders = {
+	// 	'min': [0, parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+	// 	// '25%': [12.5, 12.5],
+	// 	'20%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+	// 	'40%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+	// 	'60%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (3 / 10), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+	// 	'80%': [parseInt(robobucks[$('input[name=login-number]').val()]) * (2 / 5), parseInt(robobucks[$('input[name=login-number]').val()]) * (1 / 10) / 2],
+	// 	'max': [parseInt(robobucks[$('input[name=login-number]').val()]) / 2]
+	// };
+	// noUiSlider.create(pipsRange, {
+	// 	range: range_all_sliders,
+	// 	start: 0,
+	// 	connect: [true, false],
+	// 	pips: {
+	// 		mode: 'range',
+	// 		density: 10
+	// 	}
+	// });
 });
 // Choose Role
 $('.role-submit').click(function(){
@@ -569,14 +572,14 @@ $('.flashdrive-save').click(function(){
 		}
 		fs.writeFileSync('/Volumes/1540/companal/stand-scouting/manifest.json', JSON.stringify(exportManifest))
 		// Export
-		fs.copySync('json/transactions.json', '/Volumes/1540/companal/stand-scouting/transactions.json', {overwrite: true});
+		// fs.copySync('json/transactions.json', '/Volumes/1540/companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
-		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/opr.json')) {
-			fs.copySync('/Volumes/1540/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
-		}
-		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/robobucks.json')) {
-			fs.copySync('/Volumes/1540/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
-		}
+		// if (fs.existsSync('/Volumes/1540/companal/stand-scouting/opr.json')) {
+		// 	fs.copySync('/Volumes/1540/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+		// }
+		// if (fs.existsSync('/Volumes/1540/companal/stand-scouting/robobucks.json')) {
+		// 	fs.copySync('/Volumes/1540/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		// }
 		if (fs.existsSync('/Volumes/1540/companal/stand-scouting/matchSched.json')) {
 			fs.copySync('/Volumes/1540/companal/stand-scouting/matchSched.json', 'json/matchSched.json', {overwrite: true});
 		}
@@ -590,14 +593,14 @@ $('.flashdrive-save').click(function(){
 		}
 		fs.writeFileSync('K:/companal/stand-scouting/manifest.json', JSON.stringify(exportManifest))
 		// Export
-		fs.copySync('json/transactions.json', 'K:/companal/stand-scouting/transactions.json', {overwrite: true});
+		// fs.copySync('json/transactions.json', 'K:/companal/stand-scouting/transactions.json', {overwrite: true});
 		// Import
-		if (fs.existsSync('K:/companal/stand-scouting/robobucks.json')) {
-			fs.copySync('K:/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
-		}
-		if (fs.existsSync('K:/companal/stand-scouting/opr.json', 'json/opr.json')) {
-			fs.copySync('K:/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
-		}
+		// if (fs.existsSync('K:/companal/stand-scouting/robobucks.json')) {
+		// 	fs.copySync('K:/companal/stand-scouting/robobucks.json', 'json/robobucks.json', {overwrite: true});
+		// }
+		// if (fs.existsSync('K:/companal/stand-scouting/opr.json', 'json/opr.json')) {
+		// 	fs.copySync('K:/companal/stand-scouting/opr.json', 'json/opr.json', {overwrite: true});
+		// }
 	}
 	var data = JSON.parse(fs.readFileSync('json/manifest.json', "utf-8"));
 	for (i in data) {
@@ -614,101 +617,100 @@ $('.flashdrive-save').click(function(){
 			// }
 		}
 	}
-	var newTransaction = {
-		"12": "0",
-		"13": "0",
-		"14": "0",
-		"15": "0",
-		"16": "0",
-		"17": "0",
-		"18": "0",
-		"19": "0",
-		"20": "0",
-		"21": "0",
-		"22": "0",
-		"23": "0",
-		"24": "0",
-		"25": "0",
-		"30": "0",
-		"33": "0",
-		"34": "0",
-		"36": "0",
-		"37": "0",
-		"40": "0",
-		"41": "0",
-		"44": "0",
-		"48": "0",
-		"50": "0",
-		"55": "0",
-		"58": "0",
-		"60": "0",
-		"64": "0",
-		"66": "0",
-		"72": "0",
-		"76": "0",
-		"77": "0",
-		"81": "0",
-		"96": "0",
-		"97": "0",
-		"98": "0",
-		"99": "0"
-	}
-	var sNT = JSON.stringify(newTransaction);
-	fs.writeFileSync('json/transactions.json', sNT);
+	// var newTransaction = {
+	// 	"12": "0",
+	// 	"13": "0",
+	// 	"14": "0",
+	// 	"15": "0",
+	// 	"16": "0",
+	// 	"17": "0",
+	// 	"18": "0",
+	// 	"19": "0",
+	// 	"20": "0",
+	// 	"21": "0",
+	// 	"22": "0",
+	// 	"23": "0",
+	// 	"24": "0",
+	// 	"25": "0",
+	// 	"30": "0",
+	// 	"33": "0",
+	// 	"34": "0",
+	// 	"36": "0",
+	// 	"37": "0",
+	// 	"40": "0",
+	// 	"41": "0",
+	// 	"44": "0",
+	// 	"48": "0",
+	// 	"50": "0",
+	// 	"55": "0",
+	// 	"58": "0",
+	// 	"60": "0",
+	// 	"64": "0",
+	// 	"66": "0",
+	// 	"72": "0",
+	// 	"76": "0",
+	// 	"77": "0",
+	// 	"81": "0",
+	// 	"96": "0",
+	// 	"97": "0",
+	// 	"98": "0",
+	// 	"99": "0"
+	// }
+	// var sNT = JSON.stringify(newTransaction);
+	// fs.writeFileSync('json/transactions.json', sNT);
 	fs.unlinkSync('json/manifest.json');
 	fs.writeFileSync('json/manifest.json', '[]')
 	$('.flashdrive-save').addClass('disabled');
-	alert("Done!")
+	dialogs.alert("Done!");
+	window.location.reload();
 });
-// OPR
-if (!(fs.existsSync('json/opr.json'))) {
-	var oprTemp = {}
-	for (var i = 1; i < 10000; i++) {
-		oprTemp[String(i)] = "50"
-	}
-	fs.writeFileSync('json/opr.json', JSON.stringify(oprTemp))
-} else {
-	console.log(fs.existsSync('json/opr.json'))
-}
-var opr = JSON.parse(fs.readFileSync('json/opr.json', 'utf-8'));
-var redAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][0], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][1], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][2]];
-var redOpr = parseInt(opr[redAlliance[0]]) + parseInt(opr[redAlliance[1]]) + parseInt(opr[redAlliance[2]]);
-var blueAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][3], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][4], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][5]];
-var blueOpr = parseInt(opr[blueAlliance[0]]) + parseInt(opr[blueAlliance[1]]) + parseInt(opr[blueAlliance[2]]);
-// Betting
-var jsonBet;
-$('#bet-blue-win, #bet-red-win').click(function(){
-	$('.betting').fadeOut(500);
-	$('.betting-2').delay(500).fadeIn(500);
-});
-$('#bet-red-win').click(function(){
-	jsonBet = "red";
-});
-$('#bet-blue-win').click(function(){
-	jsonBet = "blue";
-});
-$('.skip-bet').click(function(){
-	$('.betting').fadeOut(500);
-	$('#post-login').delay(500).fadeIn(500);
-	if (Math.random() < 0.5) {
-		jsonBet = "red";
-	} else {
-		jsonBet = 'blue';
-	}
-});
-// Betting 2
-var transaction = JSON.parse(fs.readFileSync('json/transactions.json', 'utf-8'));
-var robobucks = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
-var range_all_sliders;
-var pipsRange = document.getElementById('pips-range');
-$('#betting-2-next').click(function(){
-	$('.betting-2').fadeOut(500);
-	$('#post-login').delay(500).fadeIn(500);
-});
-$('#betting-2-back').click(function(){
-	$('.betting-2').fadeOut(500);
-	$('.betting').delay(500).fadeIn(500);
-});
+// // OPR
+// if (!(fs.existsSync('json/opr.json'))) {
+// 	var oprTemp = {}
+// 	for (var i = 1; i < 10000; i++) {
+// 		oprTemp[String(i)] = "50"
+// 	}
+// 	fs.writeFileSync('json/opr.json', JSON.stringify(oprTemp))
+// }
+// var opr = JSON.parse(fs.readFileSync('json/opr.json', 'utf-8'));
+// var redAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][0], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][1], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][2]];
+// var redOpr = parseInt(opr[redAlliance[0]]) + parseInt(opr[redAlliance[1]]) + parseInt(opr[redAlliance[2]]);
+// var blueAlliance = [schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][3], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][4], schedule[parseInt(fs.readFileSync('matchNum.txt', 'utf-8'))][5]];
+// var blueOpr = parseInt(opr[blueAlliance[0]]) + parseInt(opr[blueAlliance[1]]) + parseInt(opr[blueAlliance[2]]);
+// // Betting
+// var jsonBet;
+// $('#bet-blue-win, #bet-red-win').click(function(){
+// 	$('.betting').fadeOut(500);
+// 	$('.betting-2').delay(500).fadeIn(500);
+// });
+// $('#bet-red-win').click(function(){
+// 	jsonBet = "red";
+// });
+// $('#bet-blue-win').click(function(){
+// 	jsonBet = "blue";
+// });
+// $('.skip-bet').click(function(){
+// 	$('.betting').fadeOut(500);
+// 	$('#post-login').delay(500).fadeIn(500);
+// 	if (Math.random() < 0.5) {
+// 		jsonBet = "red";
+// 	} else {
+// 		jsonBet = 'blue';
+// 	}
+// });
+// // Betting 2
+// var transaction = JSON.parse(fs.readFileSync('json/transactions.json', 'utf-8'));
+// var robobucks = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
+// var range_all_sliders;
+// var pipsRange = document.getElementById('pips-range');
+// $('#betting-2-next').click(function(){
+// 	$('.betting-2').fadeOut(500);
+// 	$('#post-login').delay(500).fadeIn(500);
+// });
+// $('#betting-2-back').click(function(){
+// 	$('.betting-2').fadeOut(500);
+// 	$('.betting').delay(500).fadeIn(500);
+// });
 // Post-Login
 $('#auto-next').click(function(){
 	if (!$("input[name='auto-radio-cross']:checked").val() || !$("input[name='auto-radio-gear']:checked").val() || !$("input[name='auto-radio-shoot']:checked").val()) {
@@ -1199,30 +1201,33 @@ $('#textarea-back').click(function(){
 });
 $('#textarea-next').click(function(){
 	$('#last-textarea').fadeOut(500);
-	$('.betting-end').delay(500).fadeIn(500);
+	// $('.betting-end').delay(500).fadeIn(500);
+	$('.finish').delay(500).fadeIn(500);
 });
-// Betting End
-$('#betting-end-back').click(function(){
-	$('.betting-end').fadeOut(500);
-	$('#last-textarea').delay(500).fadeIn(500);
-});
-var win;
-$('#red-win').click(function(){
-	win = "red";
-});
-$('#blue-win').click(function(){
-	win = "blue";
-});
-$('#tie').click(function(){
-	win = "tie";
-});
-$('#red-win, #blue-win, #tie').click(function(){
-	$('#save-file').fadeIn(500);
-	$('.end-result').replaceWith('<div class="container" style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: #20d420; font-size: 100pt;"></i></div>');
-});
+// // Betting End
+// $('#betting-end-back').click(function(){
+// 	$('.betting-end').fadeOut(500);
+// 	$('#last-textarea').delay(500).fadeIn(500);
+// });
+// var win;
+// $('#red-win').click(function(){
+// 	win = "red";
+// });
+// $('#blue-win').click(function(){
+// 	win = "blue";
+// });
+// $('#tie').click(function(){
+// 	win = "tie";
+// });
+// $('#red-win, #blue-win, #tie').click(function(){
+// 	$('#save-file').fadeIn(500);
+// 	$('.end-result').replaceWith('<div class="container" style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: #20d420; font-size: 100pt;"></i></div>');
+// });
 // Navbar
 $('#match-number-number').click(function(){
-	$('.edit-match-btn').fadeIn(500);
+	if (!$('#match-number-number').attr('readonly')) {
+		$('.edit-match-btn').fadeIn(500);
+	}
 });
 $('.edit-match').click(function(){
 	if ($('#match-number-number').val() != fs.readFileSync('matchNum.txt')) {
@@ -1235,17 +1240,17 @@ $('.edit-match').click(function(){
 // $('#continue').click(function(){
 // 	$('.betting').fadeIn(500);
 // 	$('.comments').val("");
-// 	$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');
+/*$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');*/
 // });
 // Buttons
-$('#continue').click(function(){
-	fs.writeFileSync('login.txt', $('input[name=login-number]').val(), {overwrite: true});
-	window.location.reload();
-});
+// $('#continue').click(function(){
+// 	fs.writeFileSync('login.txt', $('input[name=login-number]').val(), {overwrite: true});
+// 	window.location.reload();
+// });
 $('#sign-out').click(function(){
-	if (fs.existsSync('login.txt')) {
-		fs.unlinkSync('login.txt');
-	}
+	// if (fs.existsSync('login.txt')) {
+	// 	fs.unlinkSync('login.txt');
+	// }
 	window.location.reload();
 	// $('#the-whole-login').fadeIn(500);
 	// $('input[name=login-number]').val("");
@@ -1257,9 +1262,9 @@ $('#sign-out').click(function(){
 	// $('.chicken').animate({height: "143px"});
 	// $('.jumbotron').animate({height: "348px"});
 	// $('.jumbotron-big-title').replaceWith('<h1 class="jumbotron-big-title">Stand Scouting App</h1>');
-	// $("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');
+	/*$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');*/
 });
-$('#save-file').hide();
+// $('#save-file').hide();
 $('#save-file').click(function(){
 	$('#last-textarea').fadeOut(500);
 	// // getmac
@@ -1475,139 +1480,139 @@ $('#save-file').click(function(){
 	}
 	// Grades
 	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
-	// transaction.json
-	var addedValue;
-	var tStringify;
-	function betOver(max, min, points) {
-		if ((jsonBet == "red" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min)) || (jsonBet == "blue" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min))) {
-			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-			addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
-			if (addedValue < 1) {
-				addedValue = 1.1;
-			}
-			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
-		}
-	};
-	function betUnder(max, min, points) {
-		if ((jsonBet == "red" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || (jsonBet == "blue" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
-			// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-			addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
-			if (addedValue < 1) {
-				addedValue = 1.1;
-			}
-			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
-		}
-	};
-	if (transaction.hasOwnProperty($('input[name=login-number]').val())) {
-		if (opr.hasOwnProperty(teamNum)) {
-			if (jsonBet == win) {
-				if ((jsonBet == "red" && redOpr > blueOpr) || (jsonBet == "blue" && blueOpr > redOpr)) {
-					for (i = 1; i < 2000; i++) {
-						betOver(10 * i, (10 * i) - 10, (20 - i) / 10);
-					};
-				} else if ((jsonBet == "red" && redOpr < blueOpr) || (jsonBet == "blue" && blueOpr < redOpr)) {
-					for (i = 1; i < 2000; i++) {
-						betUnder(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
-					};
-				}
-				if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
-					// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-					addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
-					transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
-				};
-				// if ((jsonBet == "red" && 10 >= redOpr - blueOpr > 0) || (jsonBet == "blue" && 10 >= blueOpr - redOpr > 0)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (9 / 10));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 20 >= redOpr - blueOpr > 10) || (jsonBet == "blue" && 20 >= blueOpr - redOpr > 10)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 30 >= redOpr - blueOpr > 20) || (jsonBet == "blue" && 30 >= blueOpr - redOpr > 20)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (7 / 10));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 40 >= redOpr - blueOpr > 30) || (jsonBet == "blue" && 40 >= blueOpr - redOpr > 30)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 50 >= redOpr - blueOpr > 40) || (jsonBet == "blue" && 50 >= blueOpr - redOpr > 40)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (5 / 10));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 60 >= redOpr - blueOpr > 50) || (jsonBet == "blue" && 60 >= blueOpr - redOpr > 50)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 70 >= redOpr - blueOpr > 60) || (jsonBet == "blue" && 70 >= blueOpr - redOpr > 60)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 10));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 10));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 10 >= blueOpr - redOpr > 0) || (jsonBet == "blue" && 10 >= redOpr - blueOpr > 0)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-				// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-				// 	addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 20 >= blueOpr - redOpr > 10) || (jsonBet == "blue" && 20 >= redOpr - blueOpr > 10)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-				// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 30 >= blueOpr - redOpr > 20) || (jsonBet == "blue" && 30 >= redOpr - blueOpr > 20)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-				// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 40 >= blueOpr - redOpr > 30) || (jsonBet == "blue" && 40 >= redOpr - blueOpr > 30)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-				// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 50 >= blueOpr - redOpr > 40) || (jsonBet == "blue" && 50 >= redOpr - blueOpr > 40)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-				// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get());
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// } else if ((jsonBet == "red" && 60 >= blueOpr - redOpr > 50) || (jsonBet == "blue" && 60 >= redOpr - blueOpr > 50)) {
-				// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-				// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
-				// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-				// }
-			} else if (jsonBet != win) {
-				addedValue = parseInt(pipsRange.noUiSlider.get()) * -1;
-				transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
-			}
-		}
-	}
-	tStringify = String(JSON.stringify(transaction));
-	fs.writeFileSync('json/transactions.json', tStringify);
-	// Editing robobucks.json
-	var robobucksEdit = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
-	robobucksEdit[$('input[name=login-number]').val()] = String(parseInt(robobucksEdit[$('input[name=login-number]').val()]) + parseInt(transaction[$('input[name=login-number]').val()]));
-	rStringify = JSON.stringify(robobucksEdit);
-	fs.writeFileSync('json/robobucks.json', rStringify);
-	// Modal
-	if (addedValue > 0) {
-		$('.modal-body').append('<h1 style="text-align: center;"><b>Congratulations!</b>&nbsp;You won&nbsp;' + Math.round(addedValue) + '&nbsp;Robobucks!</h1>');
-	} else if (addedValue < 0) {
-		$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + Math.round((addedValue * -1)) + '&nbsp;Robobucks.</h1>');
-	}
+	// // transaction.json
+	// var addedValue;
+	// var tStringify;
+	// function betOver(max, min, points) {
+	// 	if ((jsonBet == "red" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min)) || (jsonBet == "blue" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min))) {
+	// 		// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 		addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
+	// 		if (addedValue < 1) {
+	// 			addedValue = 1.1;
+	// 		}
+	// 		transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
+	// 	}
+	// };
+	// function betUnder(max, min, points) {
+	// 	if ((jsonBet == "red" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || (jsonBet == "blue" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
+	// 		// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+	// 		addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
+	// 		if (addedValue < 1) {
+	// 			addedValue = 1.1;
+	// 		}
+	// 		transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
+	// 	}
+	// };
+	// if (transaction.hasOwnProperty($('input[name=login-number]').val())) {
+	// 	if (opr.hasOwnProperty(teamNum)) {
+	// 		if (jsonBet == win) {
+	// 			if ((jsonBet == "red" && redOpr > blueOpr) || (jsonBet == "blue" && blueOpr > redOpr)) {
+	// 				for (i = 1; i < 2000; i++) {
+	// 					betOver(10 * i, (10 * i) - 10, (20 - i) / 10);
+	// 				};
+	// 			} else if ((jsonBet == "red" && redOpr < blueOpr) || (jsonBet == "blue" && blueOpr < redOpr)) {
+	// 				for (i = 1; i < 2000; i++) {
+	// 					betUnder(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
+	// 				};
+	// 			}
+	// 			if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
+	// 				// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 				addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
+	// 				transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
+	// 			};
+	// 			// if ((jsonBet == "red" && 10 >= redOpr - blueOpr > 0) || (jsonBet == "blue" && 10 >= blueOpr - redOpr > 0)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (9 / 10));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 20 >= redOpr - blueOpr > 10) || (jsonBet == "blue" && 20 >= blueOpr - redOpr > 10)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 30 >= redOpr - blueOpr > 20) || (jsonBet == "blue" && 30 >= blueOpr - redOpr > 20)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (7 / 10));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 40 >= redOpr - blueOpr > 30) || (jsonBet == "blue" && 40 >= blueOpr - redOpr > 30)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 50 >= redOpr - blueOpr > 40) || (jsonBet == "blue" && 50 >= blueOpr - redOpr > 40)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (5 / 10));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 60 >= redOpr - blueOpr > 50) || (jsonBet == "blue" && 60 >= blueOpr - redOpr > 50)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 70 >= redOpr - blueOpr > 60) || (jsonBet == "blue" && 70 >= blueOpr - redOpr > 60)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 10));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 10));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 10 >= blueOpr - redOpr > 0) || (jsonBet == "blue" && 10 >= redOpr - blueOpr > 0)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+	// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 20 >= blueOpr - redOpr > 10) || (jsonBet == "blue" && 20 >= redOpr - blueOpr > 10)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+	// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 30 >= blueOpr - redOpr > 20) || (jsonBet == "blue" && 30 >= redOpr - blueOpr > 20)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+	// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 40 >= blueOpr - redOpr > 30) || (jsonBet == "blue" && 40 >= redOpr - blueOpr > 30)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+	// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 50 >= blueOpr - redOpr > 40) || (jsonBet == "blue" && 50 >= redOpr - blueOpr > 40)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+	// 			// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get());
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// } else if ((jsonBet == "red" && 60 >= blueOpr - redOpr > 50) || (jsonBet == "blue" && 60 >= redOpr - blueOpr > 50)) {
+	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+	// 			// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+	// 			// }
+	// 		} else if (jsonBet != win) {
+	// 			addedValue = parseInt(pipsRange.noUiSlider.get()) * -1;
+	// 			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
+	// 		}
+	// 	}
+	// }
+	// tStringify = String(JSON.stringify(transaction));
+	// fs.writeFileSync('json/transactions.json', tStringify);
+	// // Editing robobucks.json
+	// var robobucksEdit = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
+	// robobucksEdit[$('input[name=login-number]').val()] = String(parseInt(robobucksEdit[$('input[name=login-number]').val()]) + parseInt(transaction[$('input[name=login-number]').val()]));
+	// rStringify = JSON.stringify(robobucksEdit);
+	// fs.writeFileSync('json/robobucks.json', rStringify);
+	// // Modal
+	// if (addedValue > 0) {
+	// 	$('.modal-body').append('<h1 style="text-align: center;"><b>Congratulations!</b>&nbsp;You won&nbsp;' + Math.round(addedValue) + '&nbsp;Robobucks!</h1>');
+	// } else if (addedValue < 0) {
+	// 	$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + Math.round((addedValue * -1)) + '&nbsp;Robobucks.</h1>');
+	// }
 	// File
 	var json = {
 		matchNumber: parseInt(fs.readFileSync('matchNum.txt', 'utf-8')),
 		teamNumber: teamNum,
 		role: fs.readFileSync('role.txt', 'utf-8'),
 		scoutId: $('input[name=login-number]').val(),
-		bettingPick: jsonBet,
-		win: win,
-		robobucks: addedValue,
+		// bettingPick: jsonBet,
+		// win: win,
+		// robobucks: addedValue,
 		auto: {
 			crossedLine: autoCross,
 			depositedGear: autoGear,
@@ -1661,6 +1666,7 @@ $('#save-file').click(function(){
 	manifestParse.push(filepath);
 	var mStringify = JSON.stringify(manifestParse);
 	fs.writeFileSync('json/manifest.json', mStringify);
+	window.location.reload();
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;
