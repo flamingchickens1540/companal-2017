@@ -228,7 +228,8 @@
 				var length = averages.grades[gradeCategories[j]].length
 				console.log(averages.grades)
 				averages.grades[gradeCategories[j]] = averages.grades[gradeCategories[j]].reduce((a, b) => a + b, 0)
-				averages.grades[gradeCategories[j]] /= length
+				if (length > 0)
+					averages.grades[gradeCategories[j]] /= length
 			}
 			var html = `<tr><td>${averages.gears.toFixed(2)}</td><td>${(averages.climbs*100).toFixed(2)}%</td><td>${averages.cycleCount.toFixed(2)}</td></tr>`
 			$("#teamAveragesTbody").html(html)
