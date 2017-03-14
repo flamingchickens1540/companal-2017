@@ -111,19 +111,17 @@ pit-scouting 1540.json <-- self explanatory I hope
 {
 	"teamNumber": "1540",
 	"scoutIds": ["50", "51"],
-
+	"roles": [],
+	"language": "Java",
 	"drivetrain": {
 		"drivetrainShifts": true, //does their drivetrain shift?
 		"drivetrainType": "mecanum", //can be ["4wheel", "8wheel", "6wheel", "swerve","mecanum_drive", "hdrive_slidedrive", "other (fill in)"]
-		"motorType": "775pro", //can be ["cim", "minicim", "775pro", "other (fill in)"]
 		"motorCount": 17, //how many motors in the drivetrain?
 		"wheelType": "omni" //can be mechanum, omni, colson, pneumatic, wtread, other (fill in blank)
+		"allWheelsDriven": true
 	},
 
-	"defense": {
-		"willDefend": true, //is the team willing to defend?
-		"hasDefended": false, //has it been their strategy to defend?
-	},
+	"hasDefended": false, //has it been their strategy to defend?
 
 	"shooting": {
 		"hasHigh": true,
@@ -139,12 +137,10 @@ pit-scouting 1540.json <-- self explanatory I hope
 		"canDeposit": true,
 		"humanLoading": false,
 		"floorLoading": true
+		"active": false //do they have active or passive gearing?
 	},
 
 	"canClimb": true,
-
-	"notes": "blah blah blah"
-
 	"weight": 100 //lbs
-
+	"notes": "blah blah blah"
 }

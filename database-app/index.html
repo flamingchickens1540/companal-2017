@@ -27,41 +27,75 @@
     	</style>
     </head>
 	<body>
-		<div style="" class="center box">
+		<nav class="center box" style="background-color:#ededed;z-index:1;width:100%" data-spy="affix">
 			<h2>Database App</h2>
 			<br />
 			<button class="bttn btn" id="impPit" type="button" class="btn-primary btn.lg">Import Pit Data</button>
 			<button class="bttn btn" id="impStand" type="button" class="btn-primary btn.lg">Import Stand Data</button>
-			<br />
-			<br />
 			<button class="bttn btn" id="export" type="button" class="btn-primary btn.lg">Export Data</button>
+			<button class="disabled btn btn-success" id="new" type="button">New Flashdrive</button>
 			<br />
 			<br />
-			<button class="disabled btn-success btn" id="new" type="button" class="btn-primary btn.lg">New Flashdrive</button>
+			<button class="btn-primary btn" id="scrollToIds" type="button">Scroll to Members</button>
+			<button class="btn-primary btn" id="scrollToTeams" type="button">Scroll to Teams</button>
+			<button class="btn-primary btn" id="scrollToMatches" type="button">Scroll to Matches</button>
+		</nav>
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<div class="center">
 			<br />
-			<br />
-			<button class="btn-warning btn" id="addOrSub" type="button" class="btn-primary btn.lg">Add/Subtract RoboBucks</button>
-			<div hidden=true id="aos" style="width:50%;margin:auto">
-				<h4>Add or Subtract RoboBucks From A Member:</h4>
-				<input style="width:100" id="idRB" type="text" placeholder="Member/ID"/>
-				<input style="width:100" id="numRB" type="text" placeholder="Robobucks"/>
-				<br />
-				<button style="position:relative;top:5" class="bttn btn" id="addRB" type="button" class="btn-primary btn.lg">Submit/Hide</button>
-			</div>
-			<br />
-			<br />
-		</div>
-		<div>
+			<h3>Members</h3>
 			<table style="width:80%;border:3px black solid" id='scoutingTable' border="1" class="center-block table table-hover table-bordered">
 				<thead>
 					<tr>
 						<th>ID</th>
 						<th>Scout</th>
     					<th>Matches/Robots Scouted</th>
-    					<th>RoboBuck Total</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
+				</tbody>
+			</table>
+		</div>
+		<br />
+		<br />
+		<div class="center">
+			<h3>Teams</h3>
+			<table style="width:80%;border:3px black solid" id='robotTable' border="1" class="center-block table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>Robot</th>
+						<th>Pit Scouted</th>
+    					<th>Scouted Matches</th>
+					</tr>
+				</thead>
+				<tbody id="robotBody">
+				</tbody>
+			</table>
+		</div>
+		<br />
+		<br />
+		<div class="center">
+			<h3>Matches</h3>
+			<table style="width:80%;border:3px black solid" id='matchTable' border="1" class="center-block table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>Match Number</th>
+						<th>Red 1</th>
+    					<th>Red 2</th>
+    					<th>Red 3</th>
+    					<th>Blue 1</th>
+    					<th>Blue 2</th>
+    					<th>Blue 3</th>
+					</tr>
+				</thead>
+				<tbody id="matchBody">
 				</tbody>
 			</table>
 		</div>

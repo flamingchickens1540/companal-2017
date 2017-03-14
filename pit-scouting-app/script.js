@@ -79,6 +79,7 @@ var json = {
 	teamNumber: "0000",
 	scoutIds: [00,00],
 	roles: [],
+	language: "Java",
 	drivetrain: {
 		drivetrainShifts:true,
 		drivetrainType:"mecanum",
@@ -99,7 +100,8 @@ var json = {
 	gears: {
 		canDeposit: true,
 		humanLoading: false,
-		floorLoading: true
+		floorLoading: true,
+		active: false
 	},
 	canClimb: true,
 	weight: 100, //pounds
@@ -127,7 +129,7 @@ $(document).on('keydown',function(e) {
 
 $(document).ready(function(){
 	createTable();
-	$("body").css("overflow", "hidden");
+// 	$("body").css("overflow", "hidden");
 	$("#savetoflash").click(function(){
 		var array;
 		if (fs.existsSync('manifest.json')) {
@@ -332,6 +334,9 @@ $(document).ready(function(){
 			$("#roletext").show();
 		}
 	});
+	$("#otherlang").click(function() {
+		$("#langoptions").show();
+	});
 	$("input").keypress(function (evt) {
 		  var keycode = evt.charCode || evt.keyCode;
 		  if (keycode  == 9) { //Enter key's keycode
@@ -341,22 +346,24 @@ $(document).ready(function(){
 	});
 	$("#submit").click(function() {
 		var list = [];
-		list.push(["Drive Train Shifts",$("input[name='drivetrainShifts']:checked").val()]);
-		list.push(["Type of Wheel",$("input[name='wheelType']:checked").val()]);
-		list.push(["Number of Motors",$("#motorcount").val()]);
-		list.push(["Can Robot Climb",$("input[name='canClimb']:checked").val()]);
-		list.push(["Ball Capacity",$("#ballCapacity").val()]);
-		list.push(["High Goal Shooter",$("input[name='hasHigh']:checked").val()]);
-		list.push(["Low Goal Shooter",$("input[name='hasLow']:checked").val()]);
-		list.push(["All Wheels Driven",$("input[name='wheelsDriven']:checked").val()]);
+		list.push(["whether or not the drive train shifts",$("input[name='drivetrainShifts']:checked").val()]);
+		list.push(["the type of wheel the robot uses",$("input[name='wheelType']:checked").val()]);
+		list.push(["the number of motors the robot has",$("#motorcount").val()]);
+		list.push(["if the robot can climb",$("input[name='canClimb']:checked").val()]);
+		list.push(["the robot's ball capacity",$("#ballCapacity").val()]);
+		list.push(["if the robot has a high goal shooter",$("input[name='hasHigh']:checked").val()]);
+		list.push(["if the robot has a low goal shooter",$("input[name='hasLow']:checked").val()]);
+		list.push(["if all wheels are driven",$("input[name='wheelsDriven']:checked").val()]);
 //		list.push(["Has Robot Defended",$("input[name='hasDefended']:checked").val()]);
-		list.push(["Robot's Weight",$("#roboweight").val()]);
-		list.push(["Can Deposit Gears",$("input[name='gears']:checked").val()]);
-		list.push(["Shooter Efficiency",$("#accuracy").val()]);
+		list.push(["the robot's weight",$("#roboweight").val()]);
+		list.push(["whether the robot can deposit gears",$("input[name='gears']:checked").val()]);
+		list.push(["the robot's shooter efficiency",$("#accuracy").val()]);
+		list.push(["whether the gear mechanism is active or passive",$("input[name='gearmech']:checked").val()]);
+		list.push(["what language your robot uses",$("input[name='lang']:checked").val()])
 		var go = true;
 		var message = "";
 		for (x in list) {
-			if (list[x][1]==undefined || list[x][1]==null) {
+			if (list[x][1]==undefined || list[x][1]==null || list[x][1]=="") {
 				go=false;
 				message=list[x][0];
 				break;
@@ -372,6 +379,7 @@ $(document).ready(function(){
 			json["scoutIds"]=[act,secact];
 			json["notes"]=$("#extratext").val();
 			json["drivetrain"]["drivetrainShifts"]=$("input[name='drivetrainShifts']:checked").val();
+			json["gears"]["active"]=$("input[name='gearmech']:checked").val();
 			if ($("input[name='drivetrainType']:checked").val()!="other") {
 				json["drivetrain"]["drivetrainType"]=$("input[name='drivetrainType']:checked").val();
 			} else {
@@ -382,6 +390,11 @@ $(document).ready(function(){
 				json["drivetrain"]["wheelType"]=$("input[name='wheelType']:checked").val();
 			} else {
 				json["drivetrain"]["wheelType"]=$("#wheeloptions").val();
+			}
+			if ($("input[name='lang']:checked").val()!="other") {
+				json["language"]=$("input[name='lang']:checked").val();
+			} else {
+				json["language"]=$("#langoptions").val();
 			}
 			json["canClimb"]=$("input[name='canClimb']:checked").val();
 			json["allWheelsDriven"]=$("input[name='wheelsDriven']:checked").val();
@@ -415,7 +428,7 @@ $(document).ready(function(){
 			 	remote.getCurrentWindow().reload();
 		 	});
 		 } else {
-		 	dialogs.alert("You have not filled in: "+message+".");
+		 	dialogs.alert("You have not filled in "+message+".");
 		 }
 	});
 	$(".deselect-dt").click(function(){
@@ -424,21 +437,28 @@ $(document).ready(function(){
 	$(".deselect-wh").click(function(){
 		$("#wheeloptions").hide();
 	});
+	$(".deselect-ln").click(function(){
+		$("#langoptions").hide();
+	});
 	$("#teamsubmit").click(function(){
 		team = $("#teaminput").val();
-		$("#teaminput").attr("disabled", true);
-		$("#teamsubmit").attr("disabled", true);
-		$("#scouting").animate({opacity:'1.0',top:'120'},1600);
-		$("#teamdisplay").text(team);
-		$("#teaminput").val("");
-		$("#roundone").show();
-		$("#roundtwo").hide();
-		$("#roundthree").hide();
-		$("#roundfour").hide();
-		$("#roundfive").hide();
-		$("#roundsix").hide();
-		$("#roundseven").hide();
-		$("#previous").hide();
+		if (team!="") {
+			$("#teaminput").attr("disabled", true);
+			$("#teamsubmit").attr("disabled", true);
+			$("#scouting").animate({opacity:'1.0',top:'120'},1600);
+			$("#teamdisplay").text(team);
+			$("#teaminput").val("");
+			$("#roundone").show();
+			$("#roundtwo").hide();
+			$("#roundthree").hide();
+			$("#roundfour").hide();
+			$("#roundfive").hide();
+			$("#roundsix").hide();
+			$("#roundseven").hide();
+			$("#previous").hide();
+		} else {
+			dialogs.alert("I'm pretty sure the team your scouting has a number.");
+		}
 	});
 	$("#forgetid").click(function(){
 		$("body").css("overflow", "auto");
@@ -447,7 +467,7 @@ $(document).ready(function(){
 		$("#top").animate({opacity:'0.0',top:'-300px'},1600);
 	});
 	$(".backdir").click(function(){
-		window.scrollTo(0, 0);
+// 		window.scrollTo(0, 0);
 		$("body").css("overflow", "hidden");
 		$("#dir").animate({opacity:'0.0',top:'700px'},1600);
 		$("#top").animate({opacity:'1.0',top:'0'},1600);

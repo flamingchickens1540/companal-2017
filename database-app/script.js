@@ -44,15 +44,17 @@ function isKey(obj, key) {
 	return key in obj;
 }
 
-//Bonus for pit scouting
-var pitbonus = 10;
-//Bonus for stand scouting
-var standbonus = 0;
-
 //Files In Data-Collect
 var manifest_pit = [];
 var manifest_stand = [];
-var additional = {
+
+//List of Teams
+var teams = [753,847,955,957,997,1425,1510,1540,1571,2002,2374,2521,2550,2811,2898,2990,3131,3673,3674,4043,4051,4057,4110,4127,4132,4488,4662,4692,5085,5198,5468,5956,5970,6442,6445,6456,6696]
+
+//Stores:
+//Member ID
+//Total Number of Matches Scoutes
+var scoutcount = {
 	"98": 0,
 	"50": 0,
 	"60": 0,
@@ -90,138 +92,6 @@ var additional = {
 	"33": 0,
 	"55": 0,
 	"48": 0
-};
-var results = {
-	"1":[],
-	"2":[],
-	"3":[],
-	"4":[],
-	"5":[],
-	"6":[],
-	"7":[],
-	"8":[],
-	"9":[],
-	"10":[],
-	"11":[],
-	"12":[],
-	"13":[],
-	"14":[],
-	"15":[],
-	"16":[],
-	"17":[],
-	"18":[],
-	"19":[],
-	"20":[],
-	"21":[],
-	"22":[],
-	"23":[],
-	"24":[],
-	"25":[],
-	"26":[],
-	"27":[],
-	"28":[],
-	"29":[],
-	"30":[],
-	"31":[],
-	"32":[],
-	"33":[],
-	"34":[],
-	"35":[],
-	"36":[],
-	"37":[],
-	"38":[],
-	"39":[],
-	"40":[],
-	"41":[],
-	"42":[]
-};
-var results_final = {
-	"1":"",
-	"2":"",
-	"3":"",
-	"4":"",
-	"5":"",
-	"6":"",
-	"7":"",
-	"8":"",
-	"9":"",
-	"10":"",
-	"11":"",
-	"12":"",
-	"13":"",
-	"14":"",
-	"15":"",
-	"16":"",
-	"17":"",
-	"18":"",
-	"19":"",
-	"20":"",
-	"21":"",
-	"22":"",
-	"23":"",
-	"24":"",
-	"25":"",
-	"26":"",
-	"27":"",
-	"28":"",
-	"29":"",
-	"30":"",
-	"31":"",
-	"32":"",
-	"33":"",
-	"34":"",
-	"35":"",
-	"36":"",
-	"37":"",
-	"38":"",
-	"39":"",
-	"40":"",
-	"41":"",
-	"42":""
-};
-
-//Stores:
-//Member ID
-//Total Number of Matches Scoutes
-//Total Number of Robobucks
-var scoutcount = {
-	"98": [0, 100],
-	"50": [0, 100], 
-	"60": [0, 100],
-	"64": [0, 100],
-	"66": [0, 100],
-	"81": [0, 100],
-	"24": [0, 100],
-	"25": [0, 100],
-	"20": [0, 100],
-	"21": [0, 100],
-	"22": [0, 100],
-	"23": [0, 100],
-	"44": [0, 100],
-	"40": [0, 100],
-	"41": [0, 100],
-	"96": [0, 100],
-	"77": [0, 100],
-	"76": [0, 100],
-	"72": [0, 100],
-	"97": [0, 100],
-	"58": [0, 100],
-	"99": [0, 100],
-	"13": [0, 100],
-	"12": [0, 100],
-	"15": [0, 100],
-	"14": [0, 100],
-	"17": [0, 100],
-	"16": [0, 100],
-	"19": [0, 100],
-	"18": [0, 100],
-	"30": [0, 100],
-	"37": [0, 100],
-	"36": [0, 100],
-	"34": [0, 100],
-	"33": [0, 100],
-	"55": [0, 100],
-	"48": [0, 100]
 };
 
 //Stores:
@@ -267,88 +137,6 @@ var accounts = {
 	"48": "Natalie"
 };
 
-//Checks For Inconsistencies In Which Team Won
-function checkForI() {
-	var keys = Object.keys(results);
-	cfi(keys,0);
-}
-function cfi(keys,m) {
-	var data = results[keys[m]];
-	if (data.length>1) {
-		var def = data[0].win;
-		var inconsistent = false;
-		for (scout in data) {
-			if (data[scout].win!=def) {
-				inconsistent=true;
-				break;
-			}
-		}
-		if (inconsistent && results_final[keys[m]]!="") {
-			console.log("A wrong and lonely place.");
-			for (match in data) {
-				var scout=data[match];
-				if (scout.win!=results_final[keys[x]]) {
-					scoutcount[scout.scoutId][1]-=integer(scout.robobucks);
-					scoutcount[scout.scoutId][0]-=1;
-					var name = "m"+scout.matchNumber+"-"+scout.role+"-"+scout.teamNumber+".json";
-					var index = manifest_stand.indexOf(name);
-					manifest_stand.splice(index,1);
-					deleteFile("data-collect/stand-scouting/"+name);
-					results[match].splice(index,1);
-					updateTable();	
-				}
-			}
-			createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
-			createFile("data-collect/results.json",JSON.stringify(results));
-			createFile("data-collect/results-final.json",JSON.stringify(results_final));
-			m+=1;
-			if (keys.length>m) {
-				cfi(keys,m);
-			}
-		} else if (inconsistent) {
-			var alliance;
-			console.log(data);
-			dialogs.confirm("There was an error with Match "+keys[m]+". If the red alliance won Match "+keys[m]+", or there was a tie, press 'OK'.", function(ok) {
-				if (ok) {
-					alliance="red";
-					results_final[keys[m]]="red";
-				} else {
-					alliance="blue";
-					results_final[keys[m]]="blue";
-				}
-				console.log("ALLIANCE"+alliance);
-				for (match in data) {
-					var scout=data[match];
-					console.log("SC"+scout);
-					console.log("SCW"+scout.win);
-					if (scout.win!=alliance) {
-						scoutcount[scout.scoutId][1]-=integer(scout.robobucks);
-						scoutcount[scout.scoutId][0]-=1;
-						var name = "m"+scout.matchNumber+"-"+scout.role+"-"+scout.teamNumber+".json";
-						var index = manifest_stand.indexOf(name);
-						manifest_stand.splice(index,1);
-						deleteFile("data-collect/stand-scouting/"+name);
-						results[match].splice(index,1);
-						updateTable();	
-					}
-				}
-				createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
-				createFile("data-collect/results.json",JSON.stringify(results));
-				createFile("data-collect/results-final.json",JSON.stringify(results_final));
-				m+=1;
-				if (keys.length>m) {
-					cfi(keys,m);
-				}
-			});
-		} else {
-			m+=1;
-			if (keys.length>m) {
-				cfi(keys,m);
-			}
-		}
-	}
-}
-
 //Imports Previous Files
 function start() {
 	createTable();
@@ -358,40 +146,22 @@ function start() {
  	if (fs.existsSync('data-collect/pit-scouting/manifest.json')) {
 		manifest_pit = JSON.parse(fs.readFileSync('data-collect/pit-scouting/manifest.json'));
 	}
-	if (fs.existsSync('data-collect/additional.json')) {
-		additional = JSON.parse(fs.readFileSync('data-collect/additional.json'));
-	}
-	if (fs.existsSync('data-collect/results.json')) {
-		results = JSON.parse(fs.readFileSync('data-collect/results.json'));
-	}
-	if (fs.existsSync('data-collect/results-final')) {
-		results_final = JSON.parse(fs.readFileSync('data-collect/results-final.json'));
-	}
 	//Load Stand
 	for (x in manifest_stand) {
 		if (fs.existsSync('data-collect/stand-scouting/'+manifest_stand[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/stand-scouting/'+manifest_stand[x]));
-			scoutcount[data.scoutId][0]+=1;
-          	scoutcount[data.scoutId][1]+=standbonus;
-          	scoutcount[data.scoutId][1]+=integer(data.robobucks);
+			scoutcount[data.scoutId]+=1;
 		}
 	}
 	//Load Pit
 	for (x in manifest_pit) {
 		if (fs.existsSync('data-collect/pit-scouting/'+manifest_pit[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/pit-scouting/'+manifest_pit[x]));
-			scoutcount[data.scoutIds[0]][0]+=1;
-          	scoutcount[data.scoutIds[0]][1]+=pitbonus;
+			scoutcount[data.scoutIds[0]]+=1;
           	if (data.scoutIds[1]!="-") {
-				scoutcount[data.scoutIds[1]][0]+=1;
-				scoutcount[data.scoutIds[1]][1]+=pitbonus;
+				scoutcount[data.scoutIds[1]]+=1;
 			}
 		}
-	}
-	//Load Additional
-	var keys = Object.keys(additional);
-	for (x in keys) {
-		scoutcount[keys[x]][1]+=integer(additional[keys[x]]);
 	}
 	updateTable();
 }
@@ -406,11 +176,9 @@ function importPit() {
 				if (!fs.existsSync('data-collect/pit-scouting/'+manifestArray[team]) && fs.existsSync('/Volumes/1540/companal/pit-scouting/' + manifestArray[team])) {
 					var txt = fs.readFileSync('/Volumes/1540/companal/pit-scouting/' + manifestArray[team]);
 					var teamData = JSON.parse(txt);
-					scoutcount[teamData.scoutIds[0]][0]+=1;
-					scoutcount[teamData.scoutIds[0]][1]+=pitbonus;
+					scoutcount[teamData.scoutIds[0]]+=1;
 					if (teamData.scoutIds[1]!="-") {
-						scoutcount[teamData.scoutIds[1]][0]+=1;
-						scoutcount[teamData.scoutIds[1]][1]+=pitbonus;
+						scoutcount[teamData.scoutIds[1]]+=1;
 					}
 					manifest_pit.push(manifestArray[team]);
 					createFile("data-collect/pit-scouting/manifest.json",JSON.stringify(manifest_pit));
@@ -428,7 +196,7 @@ function importPit() {
 	}
 }
 
-//Imports Incoming Stand Data, Runs CheckForI()
+//Imports Incoming Stand Data
 function importStand() {
 	if (navigator.appVersion.indexOf('Mac') != -1) {
 		if (fs.existsSync('/Volumes/1540/')) {
@@ -439,18 +207,13 @@ function importStand() {
 					var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team]);
 					var data = JSON.parse(txt);
 					manifest_stand.push(manifestArray[team]);
-          			scoutcount[data.scoutId][0]+=1;
-          			scoutcount[data.scoutId][1]+=standbonus;
-          			scoutcount[data.scoutId][1]+=integer(data.robobucks)
-          			results[data.matchNumber].push(data);
+          			scoutcount[data.scoutId]+=1;
           			createFile("data-collect/stand-scouting/"+manifestArray[team],JSON.stringify(data));
 				}
 			}
 			$("#impStand").addClass("disabled");
-			createFile("data-collect/results.json",JSON.stringify(results));
 			createFile("data-collect/stand-scouting/manifest.json",JSON.stringify(manifest_stand));
 			dialogs.alert('Done importing data!');
-			checkForI();
 			updateTable();
 		} else {
 			dialogs.alert('The USB not inserted properly');
@@ -464,51 +227,6 @@ function importStand() {
 function exportData() {
 	//alexander code
 	if (fs.existsSync('/Volumes/1540')) {
-		var robo = {
-			"98": 0,
-			"50": 0,
-			"60": 0,
-			"64": 0,
-			"66": 0,
-			"81": 0,
-			"24": 0,
-			"25": 0,
-			"20": 0,
-			"21": 0,
-			"22": 0,
-			"23": 0,
-			"44": 0,
-			"40": 0,
-			"41": 0,
-			"96": 0,
-			"77": 0,
-			"76": 0,
-			"72": 0,
-			"97": 0,
-			"58": 0,
-			"99": 0,
-			"13": 0,
-			"12": 0,
-			"15": 0,
-			"14": 0,
-			"17": 0,
-			"16": 0,
-			"19": 0,
-			"18": 0,
-			"30": 0,
-			"37": 0,
-			"36": 0,
-			"34": 0,
-			"33": 0,
-			"55": 0,
-			"48": 0
-		}
-		var keys = Object.keys(scoutcount);	
-		for (x in keys) {
-			var id = keys[x];
-			robo[id]=scoutcount[id][1].toString();
-		}
-		createFile("/Volumes/1540/companal/stand-scouting/robobucks.json",JSON.stringify(robo));
 		$("#export").addClass("disabled");
 		$("#impStand").addClass("disabled");
 		$("#impPit").addClass("disabled");
@@ -520,7 +238,7 @@ function exportData() {
 	}
 }
 
-//Creates The Table
+//Creates The Tables
 function createTable() {
 	var keys = Object.keys(accounts);
 	for (x in keys) {
@@ -541,20 +259,87 @@ function createTable() {
 		td3.setAttribute("id",id+"num");
 		$("#"+id+"row").append(td3);
 		$("#"+id+"num").text(scoutcount[id][0]);
-		var td4 = document.createElement("td");
-		td4.setAttribute("id",id+"bet");
-		$("#"+id+"row").append(td4);
-		$("#"+id+"bet").text(scoutcount[id][1]);
+	}
+	for (match=1;match<=80;match+=1) {
+		var tr = document.createElement("tr");
+		tr.setAttribute("id","m"+match+"row");
+		$("#matchBody").append(tr);
+		var tnum = document.createElement("td");
+		tnum.setAttribute("id","m"+match+"num");
+		$("#m"+match+"row").append(tnum);
+		$("#m"+match+"num").text(match);
+		var r1 = document.createElement("td");
+		r1.setAttribute("id","m"+match+"r1");
+		$("#m"+match+"row").append(r1);
+		$("#m"+match+"r1").text("0");
+		var r2 = document.createElement("td");
+		r2.setAttribute("id","m"+match+"r2");
+		$("#m"+match+"row").append(r2);
+		$("#m"+match+"r2").text("0");
+		var r3 = document.createElement("td");
+		r3.setAttribute("id","m"+match+"r3");
+		$("#m"+match+"row").append(r3);
+		$("#m"+match+"r3").text("0");
+		var b1 = document.createElement("td");
+		b1.setAttribute("id","m"+match+"b1");
+		$("#m"+match+"row").append(b1);
+		$("#m"+match+"b1").text("0");
+		var b2 = document.createElement("td");
+		b2.setAttribute("id","m"+match+"b2");
+		$("#m"+match+"row").append(b2);
+		$("#m"+match+"b2").text("0");
+		var b3 = document.createElement("td");
+		b3.setAttribute("id","m"+match+"b3");
+		$("#m"+match+"row").append(b3);
+		$("#m"+match+"b3").text("0");
+	}
+	for (x in teams) {
+		var team = teams[x];
+		var tr = document.createElement("tr");
+		tr.setAttribute("id","r"+team+"row");
+		$("#robotBody").append(tr);
+		var name = document.createElement("td");
+		name.setAttribute("id","r"+team+"bot");
+		$("#r"+team+"row").append(name);
+		$("#r"+team+"bot").text(team);
+		var pit = document.createElement("td");
+		pit.setAttribute("id","r"+team+"pit");
+		$("#r"+team+"row").append(pit);
+		$("#r"+team+"pit").text("False");
+		var stand = document.createElement("td");
+		stand.setAttribute("id","r"+team+"stand");
+		$("#r"+team+"row").append(stand);
+		$("#r"+team+"stand").text("0");
 	}
 }
 
-//Updates The Table
+//Updates The Tables
 function updateTable() {
 	var keys = Object.keys(accounts);
 	for (x in keys) {
 		var id = keys[x];
-		$("#"+id+"bet").text(scoutcount[id][1]);
-		$("#"+id+"num").text(scoutcount[id][0]);
+		$("#"+id+"num").text(scoutcount[id]);
+	}
+	for (x in manifest_stand) {
+		var match = manifest_stand[x];
+		if (fs.existsSync("data-collect/stand-scouting/"+match)) {
+			var file = JSON.parse(fs.readFileSync("data-collect/stand-scouting/"+match));
+			var scout = file.matchNumber;
+			var role = file.role;
+			var team = file.teamNumber;
+			var text = $("#m"+scout+role).text();
+			var num = $("#r"+team+"stand").text();
+			$("#m"+scout+role).text(parseInt(text)+1);
+			$("#r"+team+"stand").text(parseInt(num)+1);
+		}
+	}
+	for (x in manifest_pit) {
+		var pit = manifest_pit[x];
+		if (fs.existsSync("data-collect/pit-scouting/"+pit)) {
+			var file = JSON.parse(fs.readFileSync("data-collect/pit-scouting/"+pit));
+			var team = file.teamNumber;
+			$("#r"+team+"pit").text("True");
+		}
 	}
 }
 
@@ -587,32 +372,14 @@ $("#new").click(function(){
 		newFlash();
 	}
 });
-$("#addRB").click(function(){
-	var keys = Object.keys(scoutcount);
-	var values = Object.keys(accounts).map(function(key){return accounts[key]});
-	var id = $("#idRB").val();
-	var rb = integer($("#numRB").val());
-	$("#idRB").val("");
-	$("#numRB").val("");
-	if (contains(keys,id)) {
-		scoutcount[id][1]+=rb;
-		additional[id]=(integer(additional[id])+rb).toString();
-		createFile("data-collect/additional.json",JSON.stringify(additional));
-	} else if (contains(values,id)) {
-		id = getKeyByValue(accounts, id);
-		scoutcount[id][1]+=rb;
-		additional[id]=(integer(additional[id])+rb).toString();
-		createFile("data-collect/additional.json",JSON.stringify(additional));
-	}
-	updateTable();
-	$("#aos").hide();
-	$("#hide").hide();
-	$("#addOrSub").show();
+$("#scrollToIds").click(function(){
+	window.scrollTo(0,0);
 });
-$("#addOrSub").click(function(){
-	$("#aos").show();
-	$("#hide").show();
-	$("#addOrSub").hide();
+$("#scrollToTeams").click(function(){
+	window.scrollTo(0,1605);
+});
+$("#scrollToMatches").click(function(){
+	window.scrollTo(0,3210);
 });
 
 //Runs At Start
@@ -657,92 +424,4 @@ var scores = {
 	"33": 0,
 	"55": 0,
 	"48": 0
-}
-var defResults = {
-	"1":[],
-	"2":[],
-	"3":[],
-	"4":[],
-	"5":[],
-	"6":[],
-	"7":[],
-	"8":[],
-	"9":[],
-	"10":[],
-	"11":[],
-	"12":[],
-	"13":[],
-	"14":[],
-	"15":[],
-	"16":[],
-	"17":[],
-	"18":[],
-	"19":[],
-	"20":[],
-	"21":[],
-	"22":[],
-	"23":[],
-	"24":[],
-	"25":[],
-	"26":[],
-	"27":[],
-	"28":[],
-	"29":[],
-	"30":[],
-	"31":[],
-	"32":[],
-	"33":[],
-	"34":[],
-	"35":[],
-	"36":[],
-	"37":[],
-	"38":[],
-	"39":[],
-	"40":[],
-	"41":[],
-	"42":[]
-}
-var finalResults = {
-	"1":"",
-	"2":"",
-	"3":"",
-	"4":"",
-	"5":"",
-	"6":"",
-	"7":"",
-	"8":"",
-	"9":"",
-	"10":"",
-	"11":"",
-	"12":"",
-	"13":"",
-	"14":"",
-	"15":"",
-	"16":"",
-	"17":"",
-	"18":"",
-	"19":"",
-	"20":"",
-	"21":"",
-	"22":"",
-	"23":"",
-	"24":"",
-	"25":"",
-	"26":"",
-	"27":"",
-	"28":"",
-	"29":"",
-	"30":"",
-	"31":"",
-	"32":"",
-	"33":"",
-	"34":"",
-	"35":"",
-	"36":"",
-	"37":"",
-	"38":"",
-	"39":"",
-	"40":"",
-	"41":"",
-	"42":""
 }

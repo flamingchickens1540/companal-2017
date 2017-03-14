@@ -175,6 +175,28 @@
 			<input id="roboweight" type="text" style="color:white;background-color:#F89406"/>
 			<br />
 			<br />
+			<strong class="cooltext">What language do you use?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning deselect-ln">
+	    			<input name="lang" value="C++" type="radio" autocomplete="off"> C++
+	  			</label>
+	  			<label class="btn btn-warning deselect-ln">
+	    			<input name="lang" value="Java" type="radio" autocomplete="off"> Java
+	  			</label>
+	  			<label class="btn btn-warning deselect-ln">
+	    			<input name="lang" value="LabVIEW" type="radio" autocomplete="off"> LabVIEW
+	  			</label>
+	  			<label class="btn btn-warning deselect-ln">
+	    			<input name="lang" value="Python" type="radio" autocomplete="off"> Python
+	  			</label>
+	  			<label id="otherlang" class="btn btn-warning">
+	    			<input name="lang" value="other" type="radio" autocomplete="off"> other
+	  			</label>
+			</div>
+			<br />
+			<input hidden=true type="text" id="langoptions" style="color:white;background-color:#F89406"/>
+			<br />
 			<strong class="cooltext">What is your preferred role for the robot (check all that apply)?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
@@ -193,7 +215,6 @@
 			</div>
 			<br />
 			<input hidden=true type="text" id="roletext" style="color:white;background-color:#F89406"/>
-			<br />
 <!-- 
 			<br />
 			<br />
@@ -282,6 +303,21 @@
 	  			</label>
 	  			<label id="gearhuman" class="btn btn-warning">
 	    			<input type="checkbox" autocomplete="off"> human
+	  			</label>
+			</div>
+			<br />
+			<br />
+			<strong class="cooltext">Is your gear mechanism active or passive?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label class="btn btn-warning">
+	    			<input name="gearmech" value="true" type="radio" autocomplete="off"> active
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="gearmech" value="false" type="radio" autocomplete="off"> passive
+	  			</label>
+	  			<label class="btn btn-warning">
+	    			<input name="gearmech" value="none" type="radio" autocomplete="off"> no gear mechanism
 	  			</label>
 			</div>
 			<br />
