@@ -2,7 +2,11 @@
 	<h1 align="center" style="font-family: robotoBlack">Omega Suite</h1>
     <h1 align="center" style="font-family: roboto; font-size: 4em;">Ω🏁</h1>
     <br><br><br><br><br><br><br><br>
-	<center><button type="button" class="btn btn-lg btn-success" id="importButton">Import Data</button></center>
+	<center><div class="btn-group" role="group">
+        <button type="button" class="btn btn-lg btn-default" id="importButton">Import Data</button>
+        <button type="button" class="btn btn-lg btn-default" id="openConfigFolderButton">Open Config</button>
+        <button type="button" class="btn btn-lg btn-default" onclick="if (confirm('Are you sure?')) {window.location.reload()}">Reload</button>
+    </div></center>
 </div>
 
 <script type="text/javascript">
@@ -17,6 +21,13 @@
     if (!fs.existsSync(`${dataDir}/stand-scouting/manifest.json`)) {
         fs.writeFileSync(`${dataDir}/stand-scouting/manifest.json`, JSON.stringify([]))
     }
+
+    $("#openConfigFolderButton").click(function () {
+        console.log(dataDir)
+        var exec = require('child_process').exec
+        var cmd = `open "${dataDir}"`
+        exec(cmd, function(error, stdout, stderr) {});
+    })
      
 	$("#importButton").click(function() {
 		var flashDir
