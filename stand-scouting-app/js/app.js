@@ -99,7 +99,7 @@ function fillOut(){
 						$('#post-login').fadeOut(500);
 						$('#teleop').delay(500).fadeIn(500);
 					} else if ($('#teleop').is(':visible')) {
-						if ($('#auto-gear').is(':checked') || $('#auto-no-gear').is(':checked') || (teleopFuel.length > 0)) {
+						if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
 							$('#teleop').fadeOut(500);
 							$('#fuel-end').delay(500).fadeIn(500);
 						} else {
@@ -767,10 +767,14 @@ $('#auto-next').click(function(){
 // Tele-Op
 var teleopFuel = [];
 $('#teleop-fuel-submit').click(function(){
-	teleopFuel.push($('input[name="teleop-radio-fuel"]:checked').val());
-	$('.badge-hide').show();
-	$('.badge-replace').replaceWith("<span class=\"badge-replace\">" + teleopFuel.length + "</span>");
-	$('#teleop-fuel').replaceWith('<div id="teleop-fuel" class="btn-group" data-toggle="buttons"><span id="teleop-fuelcycle-lt10" class="btn btn-danger"><input type="radio" name="teleop-radio-fuel" value="<10" autocomplete="off">&lt;10</span><span id="teleop-fuelcycle-1025" class="btn btn-warning"><input type="radio" name="teleop-radio-fuel" value="10-25" autocomplete="off">10-25</span><span id="teleop-fuelcycle-2540" class="btn btn-primary"><input type="radio" name="teleop-radio-fuel" value="25-40" autocomplete="off">25-40</span><span id="teleop-fuelcycle-gt40" class="btn btn-success"><input type="radio" name="teleop-radio-fuel" value=">40" autocomplete="off">&gt;40</span</div>')
+	if ($('input[name="teleop-radio-fuel"]').is(':checked')) {
+		teleopFuel.push($('input[name="teleop-radio-fuel"]:checked').val());
+		$('.badge-hide').show();
+		$('.badge-replace').replaceWith("<span class=\"badge-replace\">" + teleopFuel.length + "</span>");
+		$('#teleop-fuel').replaceWith('<div id="teleop-fuel" class="btn-group" data-toggle="buttons"><span id="teleop-fuelcycle-lt10" class="btn btn-danger"><input type="radio" name="teleop-radio-fuel" value="<10" autocomplete="off">&lt;10</span><span id="teleop-fuelcycle-1025" class="btn btn-warning"><input type="radio" name="teleop-radio-fuel" value="10-25" autocomplete="off">10-25</span><span id="teleop-fuelcycle-2540" class="btn btn-primary"><input type="radio" name="teleop-radio-fuel" value="25-40" autocomplete="off">25-40</span><span id="teleop-fuelcycle-gt40" class="btn btn-success"><input type="radio" name="teleop-radio-fuel" value=">40" autocomplete="off">&gt;40</span</div>')
+	} else {
+		dialogs.alert('Nothing was selected!');
+	}
 });
 function teleopgearnum(val) {
     var qty = document.getElementById('teleop-gear').value;
@@ -829,7 +833,7 @@ $('#teleop-next').click(function(){
 	if (!$('input[name=teleop-radio-climb]:checked').val()) {
 		fillOut();
 	} else {
-		if ($('#auto-gear').is(':checked') || $('#auto-no-gear').is(':checked') || (teleopFuel.length > 0)) {
+		if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
 			$('#teleop').fadeOut(500);
 			$('#fuel-end').delay(500).fadeIn(500);
 		} else {
@@ -879,7 +883,7 @@ var gradesDefense;
 var gradesClimbing;
 // Pie
 var slider = document.getElementById('slider-color');
-if ($('#auto-gear').is(':checked') || $('#auto-no-gear').is(':checked') || (teleopFuel.length > 0)) {
+if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
 	noUiSlider.create(slider, {
 		start: [20, 40, 60, 80],
 		tooltips: [true, true, true, true],
@@ -909,109 +913,111 @@ for (var i = 0; i < connect.length; i++) {
 };
 var bool = false;
 $('#repel').click(function(){
-	bool = !bool;
-	if (bool) {
-		var slider = document.getElementById('slider-color');
-		slider.noUiSlider.on('update', function(){
-			var arr = slider.noUiSlider.get();
-			var results = [];
-			var sorted_arr = arr.slice().sort();
-			for (var i = 0; i < arr.length - 1; i++) {
-				if (sorted_arr[i + 1] == sorted_arr[i]) {
-					 results.push(parseInt(sorted_arr[i]));
+	if (!$('#repel').hasClass('disabled')) {
+		bool = !bool;
+		if (bool) {
+			var slider = document.getElementById('slider-color');
+			slider.noUiSlider.on('update', function(){
+				var arr = slider.noUiSlider.get();
+				var results = [];
+				var sorted_arr = arr.slice().sort();
+				for (var i = 0; i < arr.length - 1; i++) {
+					if (sorted_arr[i + 1] == sorted_arr[i]) {
+						 results.push(parseInt(sorted_arr[i]));
+					}
+				};
+				if (results.length > 0) {
+					if (parseInt(arr[0]) == results[0]) {
+						if ($('.noUi-handle-lower').hasClass('noUi-active')) {
+							slider.noUiSlider.set([results[0], results[0] + 10, null, null]);
+						} else {
+							slider.noUiSlider.set([0, results[0], null, null]);
+						}
+					} else if (parseInt(arr[1]) == results[0]) {
+						if ($('.noUi-origin:nth-child(4) > .noUi-handle').hasClass('noUi-active')) {
+							slider.noUiSlider.set([null, results[0], results[0] + 10, null]);
+						} else {
+							slider.noUiSlider.set([null, results[0] - 10, results[0], null]);
+						}
+					} else if (parseInt(arr[2]) == results[0]) {
+						if ($('.noUi-origin:nth-child(6) > .noUi-handle').hasClass('noUi-active')) {
+							slider.noUiSlider.set([null, null, results[0], 100]);
+						} else {
+							slider.noUiSlider.set([null, null, results[0] - 10, results[0]]);
+						}
+					}
 				}
+			});
+			slider.noUiSlider.on('set', function(){
+				var sliderArray = slider.noUiSlider.get();
+				var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
+				var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
+				var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
+				var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
+				var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
+				$('#myChart').replaceWith("<canvas id='myChart'></canvas>");
+				var ctx = document.getElementById("myChart").getContext('2d');
+				var myChart = new Chart(ctx, {
+					type: 'pie',
+					data: {
+						datasets: [{
+							backgroundColor: [
+								"#2ecc71",
+								"#3498db",
+								"#95a5a6",
+								"#9b59b6",
+								"#f1c40f"
+							],
+							data: [sliderShoot, sliderGear, sliderDefense, sliderClimb, sliderFutz]
+						}]
+					}
+				});
+			});
+		} else if (!bool) {
+			var slider = document.getElementById('slider-color');
+			var sliderStuff = slider.noUiSlider.get();
+			slider.noUiSlider.destroy();
+			noUiSlider.create(slider, {
+				start: [sliderStuff[0], sliderStuff[1], sliderStuff[2], sliderStuff[3]],
+				tooltips: [true, true, true, true],
+				behavior: 'tap',
+				connect: [true, true, true, true, true],
+				range: {
+					'min': [0],
+					'max': [100]
+				}
+			});
+			var connect = slider.querySelectorAll('.noUi-connect');
+			var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
+			for (var i = 0; i < connect.length; i++) {
+				connect[i].classList.add(classes[i]);
 			};
-			if (results.length > 0) {
-				if (parseInt(arr[0]) == results[0]) {
-					if ($('.noUi-handle-lower').hasClass('noUi-active')) {
-						slider.noUiSlider.set([results[0], results[0] + 10, null, null]);
-					} else {
-						slider.noUiSlider.set([0, results[0], null, null]);
+			slider.noUiSlider.on('set', function(){
+				var sliderArray = slider.noUiSlider.get();
+				var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
+				var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
+				var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
+				var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
+				var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
+				$('#myChart').replaceWith("<canvas id='myChart'></canvas>");
+				var ctx = document.getElementById("myChart").getContext('2d');
+				var myChart = new Chart(ctx, {
+					type: 'pie',
+					data: {
+						datasets: [{
+							backgroundColor: [
+								"#2ecc71",
+								"#3498db",
+								"#95a5a6",
+								"#9b59b6",
+								"#f1c40f"
+							],
+							data: [sliderShoot, sliderGear, sliderDefense, sliderClimb, sliderFutz]
+						}]
 					}
-				} else if (parseInt(arr[1]) == results[0]) {
-					if ($('.noUi-origin:nth-child(4) > .noUi-handle').hasClass('noUi-active')) {
-						slider.noUiSlider.set([null, results[0], results[0] + 10, null]);
-					} else {
-						slider.noUiSlider.set([null, results[0] - 10, results[0], null]);
-					}
-				} else if (parseInt(arr[2]) == results[0]) {
-					if ($('.noUi-origin:nth-child(6) > .noUi-handle').hasClass('noUi-active')) {
-						slider.noUiSlider.set([null, null, results[0], 100]);
-					} else {
-						slider.noUiSlider.set([null, null, results[0] - 10, results[0]]);
-					}
-				}
-			}
-		});
-		slider.noUiSlider.on('set', function(){
-			var sliderArray = slider.noUiSlider.get();
-			var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
-			var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
-			var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
-			var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
-			var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
-			$('#myChart').replaceWith("<canvas id='myChart'></canvas>");
-			var ctx = document.getElementById("myChart").getContext('2d');
-			var myChart = new Chart(ctx, {
-				type: 'pie',
-				data: {
-					datasets: [{
-						backgroundColor: [
-							"#2ecc71",
-							"#3498db",
-							"#95a5a6",
-							"#9b59b6",
-							"#f1c40f"
-						],
-						data: [sliderShoot, sliderGear, sliderDefense, sliderClimb, sliderFutz]
-					}]
-				}
+				});
 			});
-		});
-	} else if (!bool) {
-		var slider = document.getElementById('slider-color');
-		var sliderStuff = slider.noUiSlider.get();
-		slider.noUiSlider.destroy();
-		noUiSlider.create(slider, {
-			start: [sliderStuff[0], sliderStuff[1], sliderStuff[2], sliderStuff[3]],
-			tooltips: [true, true, true, true],
-			behavior: 'tap',
-			connect: [true, true, true, true, true],
-			range: {
-				'min': [0],
-				'max': [100]
-			}
-		});
-		var connect = slider.querySelectorAll('.noUi-connect');
-		var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
-		for (var i = 0; i < connect.length; i++) {
-		  connect[i].classList.add(classes[i]);
-		};
-		slider.noUiSlider.on('set', function(){
-			var sliderArray = slider.noUiSlider.get();
-			var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
-			var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
-			var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
-			var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
-			var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
-			$('#myChart').replaceWith("<canvas id='myChart'></canvas>");
-			var ctx = document.getElementById("myChart").getContext('2d');
-			var myChart = new Chart(ctx, {
-				type: 'pie',
-				data: {
-					datasets: [{
-						backgroundColor: [
-							"#2ecc71",
-							"#3498db",
-							"#95a5a6",
-							"#9b59b6",
-							"#f1c40f"
-						],
-						data: [sliderShoot, sliderGear, sliderDefense, sliderClimb, sliderFutz]
-					}]
-				}
-			});
-		});
+		}
 	}
 	// if ($("input[name=repel-box]:checked").val() != 'on') {
 	// 	slider.noUiSlider.on(/*'update'*/'change', function(){
@@ -1147,7 +1153,7 @@ $('#repel').click(function(){
 // });
 $('#pie-label').hide();
 $('#pie-back').click(function(){
-	if ($('#auto-gear').is(':checked') || $('#auto-no-gear').is(':checked') || (teleopFuel.length > 0)) {
+	if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
 		$('.pie').fadeOut(500);
 		$('#fuel-end').delay(500).fadeIn(500);
 	} else {
