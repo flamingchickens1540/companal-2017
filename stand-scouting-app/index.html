@@ -664,7 +664,7 @@
     <div id="last-textarea" class="container">
       <br>
       <p style="text-align: left;">Things to think about:
-        <ol style="text-align: left;">
+        <ol style="text-align: left;" class="ta-ol">
           <li>Reliability</li>
           <li>Consistency</li>
           <li>Driver Skill/Defense</li>
@@ -672,6 +672,9 @@
           <li><b style="color: red;">NB: If the robot shot, where did they shoot from?</b></li>
         </ol>
       </p>
+      <ol style="display: none;" class="ta-ol-nb">
+        <li style="text-align: left;"><b style="color: red;">NB: If the robot shot, where did they shoot from?</b></li>
+      </ol>
       <br>
       <textarea class="comments form-control" rows="8" cols="80" placeholder="Comments"></textarea>
       <br>
@@ -781,7 +784,7 @@
       </div>
     </div> -->
     <!-- Match Number -->
-    <nav class="navbar navbar-fixed-bottom">
+    <nav class="navbar navbar-fixed-bottom info-bar">
       <hr>
       <a href="#" data-toggle="popover" title="CHECK MATCH NUMBER" data-content="Check to make sure match number is right!" data-placement="top" style="display: block; margin: auto;"></a>
       <div class="row nav-row">

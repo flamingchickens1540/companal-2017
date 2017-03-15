@@ -99,8 +99,13 @@ function fillOut(){
 						$('#post-login').fadeOut(500);
 						$('#teleop').delay(500).fadeIn(500);
 					} else if ($('#teleop').is(':visible')) {
-						$('#teleop').fadeOut(500);
-						$('#fuel-end').delay(500).fadeIn(500);
+						if ($('#auto-gear').is(':checked') || $('#auto-no-gear').is(':checked') || (teleopFuel.length > 0)) {
+							$('#teleop').fadeOut(500);
+							$('#fuel-end').delay(500).fadeIn(500);
+						} else {
+							$('#teleop').fadeOut(500);
+							$('.pie').delay(500).fadeIn(500);
+						}
 					} else if ($('#fuel-end').is(':visible')) {
 						$('#fuel-end').fadeOut(500);
 						$('.pie').delay(500).fadeIn(500);
@@ -386,6 +391,35 @@ createTable();
 var roleAlert = $('.choose-role');
 var loggedIn = false;
 var act = "none";
+$('#login-input-number').focus(function(){
+	$('#login-input-number').keypress(function(){
+		if (event.which == 13) {
+			event.preventDefault();
+			var num = $('input[name=login-number]').val();
+			if (accounts.hasOwnProperty(num)) {
+				act = num;
+				logged = true;
+				$('.name').text("Welcome, " + accounts[act] + "!");
+				$('.name-div').fadeIn(250);
+				$('#cont-btn').delay(250).fadeIn(250);
+				$('.chicken').animate({height: "100px"});
+				$('.chicken').animate({marginTop: '-2.5%'});
+				$('.jumbotron-big-title').replaceWith('<h2 class="jumbotron-big-title" style="margin-top: 5px;">Stand Scouting App</h2>');
+				$('.jumbotron').animate({height: "200px"}, 750);
+				$('.login-info').delay(250).fadeIn(500);
+				$('.login-info-replace').replaceWith('<h3 class="login-info-replace">' + num + " | " + accounts[act] + "</h3>");
+				$('#login-input-number').css("border", "3px solid #5cb85c");
+				$('[data-toggle="popover"]').popover();
+				$('[data-toggle="popover"]').click();
+			} else if (!accounts.hasOwnProperty(num) && parseInt($('#login-input-number').val()) != 69) {
+				$('#no-login').show();
+				$('#login-input-number').css("border", "3px solid #d9534f");
+			} else if (parseInt($('#login-input-number').val()) == 69) {
+				$('.password').fadeIn(500);
+			}
+		}
+	});
+});
 $('#login-button').click(function(){
 	var num = $('input[name=login-number]').val();
 	if (accounts.hasOwnProperty(num)) {
@@ -731,18 +765,6 @@ $('#auto-next').click(function(){
 // 	$('.betting').delay(500).fadeIn(500);
 // });
 // Tele-Op
-$('#teleop-next').click(function(){
-	if (!$('input[name=teleop-radio-climb]:checked').val()) {
-		fillOut();
-	} else {
-		$('#teleop').fadeOut(500);
-		$('#fuel-end').delay(500).fadeIn(500);
-	}
-});
-$('#teleop-back').click(function(){
-	$('#teleop').fadeOut(500);
-	$('#post-login').delay(500).fadeIn(500);
-});
 var teleopFuel = [];
 $('#teleop-fuel-submit').click(function(){
 	teleopFuel.push($('input[name="teleop-radio-fuel"]:checked').val());
@@ -803,6 +825,23 @@ $('#teleop-fuelload-human').click(function(){
 $('#teleop-fuelload-floor').click(function(){
 	fuelEndFloor = !fuelEndFloor;
 });
+$('#teleop-next').click(function(){
+	if (!$('input[name=teleop-radio-climb]:checked').val()) {
+		fillOut();
+	} else {
+		if ($('#auto-gear').is(':checked') || $('#auto-no-gear').is(':checked') || (teleopFuel.length > 0)) {
+			$('#teleop').fadeOut(500);
+			$('#fuel-end').delay(500).fadeIn(500);
+		} else {
+			$('#teleop').fadeOut(500);
+			$('.pie').delay(500).fadeIn(500);
+		}
+	}
+});
+$('#teleop-back').click(function(){
+	$('#teleop').fadeOut(500);
+	$('#post-login').delay(500).fadeIn(500);
+});
 // Pie
 $('.pie-100-btn').click(function(){
 	$('.pie-100-btn').css('color', 'white');
@@ -840,16 +879,29 @@ var gradesDefense;
 var gradesClimbing;
 // Pie
 var slider = document.getElementById('slider-color');
-noUiSlider.create(slider, {
-	start: [20, 40, 60, 80],
-	tooltips: [true, true, true, true],
-	behavior: 'tap',
-	connect: [true, true, true, true, true],
-	range: {
-		'min': [0],
-		'max': [100]
-	}
-});
+if ($('#auto-gear').is(':checked') || $('#auto-no-gear').is(':checked') || (teleopFuel.length > 0)) {
+	noUiSlider.create(slider, {
+		start: [20, 40, 60, 80],
+		tooltips: [true, true, true, true],
+		behavior: 'tap',
+		connect: [true, true, true, true, true],
+		range: {
+			'min': [0],
+			'max': [100]
+		}
+	});
+} else {
+	noUiSlider.create(slider, {
+		start: [0, 33, 67, 100],
+		tooltips: [true, true, true, true],
+		behavior: 'tap',
+		connect: [true, true, true, true, true],
+		range: {
+			'min': [0],
+			'max': [100]
+		}
+	});
+}
 var connect = slider.querySelectorAll('.noUi-connect');
 var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
 for (var i = 0; i < connect.length; i++) {
@@ -1095,8 +1147,13 @@ $('#repel').click(function(){
 // });
 $('#pie-label').hide();
 $('#pie-back').click(function(){
-	$('.pie').fadeOut(500);
-	$('#fuel-end').delay(500).fadeIn(500);
+	if ($('#auto-gear').is(':checked') || $('#auto-no-gear').is(':checked') || (teleopFuel.length > 0)) {
+		$('.pie').fadeOut(500);
+		$('#fuel-end').delay(500).fadeIn(500);
+	} else {
+		$('.pie').fadeOut(500);
+		$('#teleop').delay(500).fadeIn(500);
+	}
 });
 $('#pie-next').click(function(){
 	$('.pie').fadeOut(500);
@@ -1204,6 +1261,16 @@ $('#textarea-next').click(function(){
 	// $('.betting-end').delay(500).fadeIn(500);
 	$('.finish').delay(500).fadeIn(500);
 });
+$('.comments').click(function(){
+	if ($('.comments').is(':focus')) {
+		$('.ta-ol').hide();
+		$('.ta-ol-nb').show();
+	}
+});
+if (!$('.comments').is(':focus')) {
+	$('.ta-ol-nb').hide();
+	$('.ta-ol').show();
+}
 // // Betting End
 // $('#betting-end-back').click(function(){
 // 	$('.betting-end').fadeOut(500);
@@ -1247,11 +1314,11 @@ $('.edit-match').click(function(){
 // 	fs.writeFileSync('login.txt', $('input[name=login-number]').val(), {overwrite: true});
 // 	window.location.reload();
 // });
-$('#sign-out').click(function(){
+// $('#sign-out').click(function(){
 	// if (fs.existsSync('login.txt')) {
 	// 	fs.unlinkSync('login.txt');
 	// }
-	window.location.reload();
+	// window.location.reload();
 	// $('#the-whole-login').fadeIn(500);
 	// $('input[name=login-number]').val("");
 	// $('.login-info-replace').replaceWith('<div class="login-info-replace"><br><br><br></div>');
@@ -1263,10 +1330,10 @@ $('#sign-out').click(function(){
 	// $('.jumbotron').animate({height: "348px"});
 	// $('.jumbotron-big-title').replaceWith('<h1 class="jumbotron-big-title">Stand Scouting App</h1>');
 	/*$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');*/
-});
+// });
 // $('#save-file').hide();
 $('#save-file').click(function(){
-	$('#last-textarea').fadeOut(500);
+	// $('#last-textarea').fadeOut(500);
 	// // getmac
 	// require('getmac').getMac(function(err,macAddress){
 	// 	if (err)  throw err
@@ -1666,7 +1733,21 @@ $('#save-file').click(function(){
 	manifestParse.push(filepath);
 	var mStringify = JSON.stringify(manifestParse);
 	fs.writeFileSync('json/manifest.json', mStringify);
-	window.location.reload();
+  function fullscreen(){
+		$('.jumbotron').css('z-index', '-998');
+		$('.info-bar').css('z-index', '-999');
+		$(".finish").removeClass('container');
+		$("#save-file").css('border-radius', '0%');
+    $("#save-file").animate({
+				width: String($(document).width() + 'px'),
+				height: String($(document).height() + 'px'),
+				marginTop: '-230px'
+			}, 5000, function () {
+    	window.location.reload();
+    });
+  }
+	fullscreen();
+	// $('#save-file').animate({height: '10000px', width: "10000px"}, 5000, 'swing');
 });
 // function add_match(val) {
 //     var qty = document.getElementById('match-number-number').value;
