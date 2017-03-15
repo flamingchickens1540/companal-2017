@@ -99,7 +99,7 @@ function fillOut(){
 						$('#post-login').fadeOut(500);
 						$('#teleop').delay(500).fadeIn(500);
 					} else if ($('#teleop').is(':visible')) {
-						if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
+						if ($('#auto-shoot').hasClass('active') || (teleopFuel.length > 0)) {
 							$('#teleop').fadeOut(500);
 							$('#fuel-end').delay(500).fadeIn(500);
 						} else {
@@ -833,7 +833,7 @@ $('#teleop-next').click(function(){
 	if (!$('input[name=teleop-radio-climb]:checked').val()) {
 		fillOut();
 	} else {
-		if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
+		if ($('#auto-shoot').hasClass('active') || (teleopFuel.length > 0)) {
 			$('#teleop').fadeOut(500);
 			$('#fuel-end').delay(500).fadeIn(500);
 		} else {
@@ -882,8 +882,19 @@ var gradesGearing;
 var gradesDefense;
 var gradesClimbing;
 // Pie
-var slider = document.getElementById('slider-color');
-if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
+// var slider = document.getElementById('slider-color');
+// if ($('#auto-shoot').hasClass('active') || (teleopFuel.length > 0)) {
+// 	noUiSlider.create(slider, {
+// 		start: [0, 25, 50, 75],
+// 		tooltips: [true, true, true, true],
+// 		behavior: 'tap',
+// 		connect: [true, true, true, true, true],
+// 		range: {
+// 			'min': [0],
+// 			'max': [100]
+// 		}
+// 	});
+// } else {
 	noUiSlider.create(slider, {
 		start: [20, 40, 60, 80],
 		tooltips: [true, true, true, true],
@@ -894,18 +905,7 @@ if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
 			'max': [100]
 		}
 	});
-} else {
-	noUiSlider.create(slider, {
-		start: [0, 33, 67, 100],
-		tooltips: [true, true, true, true],
-		behavior: 'tap',
-		connect: [true, true, true, true, true],
-		range: {
-			'min': [0],
-			'max': [100]
-		}
-	});
-}
+// }
 var connect = slider.querySelectorAll('.noUi-connect');
 var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
 for (var i = 0; i < connect.length; i++) {
@@ -1153,7 +1153,7 @@ $('#repel').click(function(){
 // });
 $('#pie-label').hide();
 $('#pie-back').click(function(){
-	if ($('#auto-gear').is(':checked') || (teleopFuel.length > 0)) {
+	if ($('#auto-shoot').hasClass('active') || (teleopFuel.length > 0)) {
 		$('.pie').fadeOut(500);
 		$('#fuel-end').delay(500).fadeIn(500);
 	} else {
@@ -1749,7 +1749,8 @@ $('#save-file').click(function(){
 				height: String($(document).height() + 'px'),
 				marginTop: '-230px'
 			}, 5000, function () {
-    	window.location.reload();
+			window.open('index.html');
+    	// window.close();
     });
   }
 	fullscreen();
