@@ -69,14 +69,6 @@
 		gradesHidden = !gradesHidden
 	}
 
-	for (var teamNumber in pitRecords) {
-		if (pitRecords[teamNumber].gears.canDeposit === "false") {
-			console.log(teamNumber)
-		} else {
-			console.log(pitRecords[teamNumber].gears.canDeposit)
-		}
-	}
-
 	var averagesForMatch = {}
 	for (var teamNumber in standRecords) {
 		averagesForMatch[teamNumber] = {
@@ -148,6 +140,7 @@
 
 		for (var role = 0; role < 2; role++) {
 			var gearSum = 0, climbSum = 0, scoreSum = 0
+			var ptsSum = 0
 			for (var position = 1; position <= 3; position++) {
 				var teamNumber = schedule[matchNumber][(role)*3+position-1]
 				var avgs = averagesForMatch[teamNumber]
@@ -158,6 +151,8 @@
 				if (avgs.climb4 > 50)
 					climbSum ++
 				scoreSum += avgs.gradeOverall
+
+				ptsSum += expectedScoreByTeam[teamNumber]
 
 				if (pitRecords.hasOwnProperty(teamNumber)) {
 					var loads = []
@@ -184,7 +179,7 @@
 			scoreSum /= 3.0
 			var html = `<tr>`
 			html += `<td><p style="font-size: 1.5em;" align="center">${gearSum} Gears</p></td>`
-			html += `<td><h3>Totals</h3></td>`
+			html += `<td><p style="font-size: 1.5em;" align="center">${ptsSum}pts</p></td>`
 			html += `<td><p style="font-size: 1.5em;" align="center">${climbSum} Climbs</p></td>`
 			html += `<td><h1 align="center"><span class="label label-default mylabel gradehide" id="gradeOverall" style="background-color: #551A8B;">${scoreSum.toFixed(1)}</span></h1></td>`
 			html += `</tr>`

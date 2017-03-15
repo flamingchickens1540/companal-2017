@@ -1,0 +1,100 @@
+<div id="page-ranking" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Ranking</h1>
+	<table class="table" align="center" style="width: 80%">
+		<thead>
+			<tr>
+				<td>Rank</td>
+				<td>#</td>
+				<td>Auto</td>
+				<td>Gears</td>
+				<td>Climb</td>
+				<td>Pts</td>
+			</tr>
+			<tr>
+				<td>---</td>
+				<td>---</td>
+				<td><span style="font-size: 0.75em;">Only those with 2+ successes</span></td>
+				<td><span style="font-size: 0.75em;">4NZ Avg</span></td>
+				<td><span style="font-size: 0.75em;">at least twice in last 4</span></td>
+				<td>---</td>
+			</tr>
+		</thead>
+		<tbody id="rankingTbody"></tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+	
+	var teams = []
+	var expectedScoreByTeam = {}
+	for (var index in allTeamNumbers) {
+		var teamNumber = allTeamNumbers[index]
+		var avgs = averagesForMatch[teamNumber]
+		var auto = {
+			crossedLine: 0,
+			gear: 0,
+			shot: 0
+		}
+		var shootCounter = 0
+		for (var i in standRecords[teamNumber]) {
+			var match = standRecords[teamNumber][i]
+			if (match.auto.crossedLine)
+				auto.crossedLine++
+			if (match.auto.depositedGear)
+				auto.gear++
+			if (match.auto.shotCycle)
+				auto.shot++
+			if (match.teleop.balls.cycles.length > 0) {
+				shootCounter++
+			}
+		}
+		var team = {pts: 0}
+		var myAuto = []
+		if (auto.crossedLine >= 2 || auto.gear >= 2) {
+			team.pts += 5
+			myAuto.push("line")
+		}
+		if (auto.gear >= 2) {
+			team.pts += 20
+			myAuto.push("gear")
+		}
+		if (auto.shot >= 2 && auto.gear < 2) {
+			team.pts += 5
+		}
+		if (auto.shot >= 2) {
+			myAuto.push("shot")
+		}
+		team.auto = myAuto
+		team.gear = avgs.gears4NZ
+		team.climb = avgs.climb4
+		team.pts += 15*(avgs.gears4NZ)
+		team.pts += (avgs.climb4/100.0)*50
+		if (shootCounter >= 2) {
+			team.isShooter = true
+		} else {
+			team.isShooter = false
+		}
+		team.teamNumber = teamNumber
+		teams.push(team)
+		expectedScoreByTeam[teamNumber] = team.pts
+	}
+	teams.sort(function(a, b) {
+		return b.pts - a.pts
+	})
+	for (var index in teams) {
+		var team = teams[index]
+		var html = `<tr>`
+		html += `<td>${parseInt(index)+1}</td>`
+		if (team.isShooter)
+			html += `<td>${team.teamNumber}<i class="fa fa-futbol-o" style="color: green;"></i></td>`
+		else
+			html += `<td>${team.teamNumber}</td>`
+		html += `<td>[${team.auto}]</td>`
+		html += `<td>${team.gear}</td>`
+		html += `<td>${team.climb}%</td>`
+		html += `<td>${team.pts}</td>`
+		html += `</tr>`
+		$("#rankingTbody").append(html)
+	}
+
+</script>
