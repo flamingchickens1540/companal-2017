@@ -57,6 +57,7 @@
 							<th>Gears</th>
 							<th>Climb</th>
 							<th>Cycle Count</th>
+							<th>Scouting Success</th>
 						</tr>
 					</thead>
 					<tbody id="teamAveragesTbody">
@@ -231,13 +232,13 @@
 				if (length > 0)
 					averages.grades[gradeCategories[j]] /= length
 			}
-			var html = `<tr><td>${averages.gears.toFixed(2)}</td><td>${(averages.climbs*100).toFixed(2)}%</td><td>${averages.cycleCount.toFixed(2)}</td></tr>`
+			var html = `<tr><td>${averages.gears.toFixed(2)}</td><td>${(averages.climbs*100).toFixed(2)}%</td><td>${averages.cycleCount.toFixed(2)}</td><td>${allScoutSuccess[teamNumber].toFixed(0)}%</td></tr>`
 			$("#teamAveragesTbody").html(html)
-			$("#gradeOverall").html(averages.grades.overall.toFixed(2))
-			$("#gradeShooting").html(averages.grades.shooting.toFixed(2))
-			$("#gradeGearing").html(averages.grades.gearing.toFixed(2))
-			$("#gradeClimbing").html(averages.grades.climbing.toFixed(2))
-			$("#gradeDefense").html(averages.grades.defense.toFixed(2))
+			$("#gradeOverall").html(averages.grades.overall.toFixed(1))
+			$("#gradeShooting").html(averages.grades.shooting.toFixed(1))
+			$("#gradeGearing").html(averages.grades.gearing.toFixed(1))
+			$("#gradeClimbing").html(averages.grades.climbing.toFixed(1))
+			$("#gradeDefense").html(averages.grades.defense.toFixed(1))
 			var data = {
 			    datasets: [
 			        {
