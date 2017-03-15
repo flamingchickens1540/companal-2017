@@ -37,6 +37,7 @@
 			flashDir = 'R:/companal'
         if (!fs.existsSync(flashDir)) {
             alert("Wait for flashdrive...")
+            return
         }
         var newPitManifest = JSON.parse(fs.readFileSync(`${flashDir}/output/pit-scouting/manifest.json`, 'utf8'))
         var currentPitManifest = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/manifest.json`, 'utf8'))
