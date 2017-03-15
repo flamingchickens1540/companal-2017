@@ -6,6 +6,27 @@
 		$('#lookupButton').click()
 	}
 
+	function switchToMatch(matchNumber) {
+		$("#tab-match").click()
+		$("#matchLookupMatchNumber").val(matchNumber)
+		$("matchLookupButton").click()
+	}
+
+	function hideMatch(matchNumber) {
+		if (!confirm("Are you sure?"))
+			return
+		$(`#matchScheduleMatch${matchNumber}`).hide()
+		hiddenMatchNumbers.push(matchNumber)
+		fs.writeFileSync(`${dataDir}/hiddenMatchNumbers.json`, JSON.stringify(hiddenMatchNumbers))
+	}
+
+	function unhideMatches() {
+		if (!confirm("Are you sure? Will reload."))
+			return
+		fs.writeFileSync(`${dataDir}/hiddenMatchNumbers.json`, JSON.stringify([]))
+		window.location.reload()
+	}
+
 	const AppDirectory = require('appdirectory')
 	var fs = require('fs-extra')
 	const dataDir = new AppDirectory("companal-2017-analysis-simple").userData()
@@ -24,19 +45,35 @@
 		b.push(matchNumbers[i+1])
 		c.push(matchNumbers[i+2])
 	}
+	if (!(fs.existsSync(`${dataDir}/hiddenMatchNumbers.json`))) {
+		fs.writeFileSync(`${dataDir}/hiddenMatchNumbers.json`, JSON.stringify([]))
+	}
+	var hiddenMatchNumbers;
+	try {
+		hiddenMatchNumbers = JSON.parse(fs.readFileSync(`${dataDir}/hiddenMatchNumbers.json`, 'utf8'))
+	} catch (err) {
+		hiddenMatchNumbers = []
+		fs.unlinkSync(`${dataDir}/hiddenMatchNumbers.json`)
+	}
+
 	for (var ii = 0; ii < 3; ii++) {
 		var l = [a, b, c][ii]
 		for (var i = 0; i < l.length; i++) {
 			var match = schedule[String(l[i])]
+			if (hiddenMatchNumbers.indexOf(String(l[i])) > -1) {
+				continue
+			}
 			if (typeof(match) !== 'undefined') {
-				var html = `<h1 align="center" style="font-family: robotoBlack">${l[i]}&nbsp;</h1><h2 align="center">`
+				var html = `<div id="matchScheduleMatch${l[i]}"><h1 align="center" style="font-family: robotoBlack"><span class="label label-success" onclick="switchToMatch('${l[i]}')">${l[i]}</span>&nbsp;`
+				html += `<span class="label label-warning" onclick="hideMatch('${l[i]}')"><i class="fa fa-compress"></i></span>`
+				html += `</h1><h2 align="center">`
 				html += `<span class="label label-danger" onclick="switchToTeam('${match[0]}');">${match[0]}</span>&nbsp;`
 				html += `<span class="label label-danger" onclick="switchToTeam('${match[1]}');">${match[1]}</span>&nbsp;`
 				html += `<span class="label label-danger" onclick="switchToTeam('${match[2]}');">${match[2]}</span>&nbsp;<br><br>`
 				html += `<span class="label label-primary" onclick="switchToTeam('${match[3]}');">${match[3]}</span>&nbsp;`
 				html += `<span class="label label-primary" onclick="switchToTeam('${match[4]}');">${match[4]}</span>&nbsp;`
 				html += `<span class="label label-primary" onclick="switchToTeam('${match[5]}');">${match[5]}</span>&nbsp;`
-				html += `</h2>`
+				html += `</h2><br><br><br></div>`
 				$(`#msC${ii+1}`).append(html)
 			}
 		}
@@ -45,7 +82,7 @@
 </script>
 
 <div id="page-match-schedule" style="display: none;">
-	<h1 align="center" style="font-family: robotoBlack">Match Schedule</h1>
+	<h1 align="center" style="font-family: robotoBlack">Match Schedule&nbsp;<span class="label label-info" onclick="unhideMatches()"><i class="fa fa-expand"></i></span></h1>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-4" id="msC1">
