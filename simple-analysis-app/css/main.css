@@ -5,3 +5,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
 	font-family: robotoBlack !important;
 }
+
+.gradehide {
+	display: none; /*this is used by match.html to show and hide grades when using the app with other teams. For individual elements it may be overturned by JQuery*/
+}

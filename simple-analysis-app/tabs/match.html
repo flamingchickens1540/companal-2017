@@ -1,5 +1,5 @@
 <div id="page-match" style="display: none;">
-	<h1 align="center" style="font-family: robotoBlack">Match</h1>
+	<h1 align="center" style="font-family: robotoBlack">Match&nbsp;<span class="label label-default mylabel" onclick="showHideGrades()" style="background-color: #551A8B; font-size: .6em !important;"><i id="gradeHideButtonI" class="fa fa-expand"></i></span></h1>
 	<center>
 		<div class="input-group" style="width: 30%;">
 	    	<input type="text" class="form-control" id="matchLookupMatchNumber" placeholder="Match Number...">
@@ -56,6 +56,19 @@
 </div>
 
 <script type="text/javascript">
+
+	var gradesHidden = true;
+	function showHideGrades() {
+		if (gradesHidden) {
+			$(".gradehide").show()
+			document.getElementById('gradeHideButtonI').className = "fa fa-compress"
+		} else {
+			$(".gradehide").hide()
+			document.getElementById('gradeHideButtonI').className = "fa fa-expand"
+		}
+		gradesHidden = !gradesHidden
+	}
+
 	for (var teamNumber in pitRecords) {
 		if (pitRecords[teamNumber].gears.canDeposit === "false") {
 			console.log(teamNumber)
@@ -162,7 +175,7 @@
 				}
 
 				html += `<td><p style="font-size: 1.5em;" align="center">${avgs.climb4.toFixed(0)}%, ${avgs.climbTotal.toFixed(0)}%</p></td>`
-				html += `<td><h1 align="center"><span class="label label-default mylabel" id="gradeOverall" style="background-color: #551A8B;">${avgs.gradeOverall.toFixed(1)}</span></h1></td>`
+				html += `<td><h1 align="center"><span class="label label-default mylabel gradehide" id="gradeOverall" style="background-color: #551A8B;">${avgs.gradeOverall.toFixed(1)}</span></h1></td>`
 
 				html += `</tr>`
 
@@ -173,12 +186,10 @@
 			html += `<td><p style="font-size: 1.5em;" align="center">${gearSum} Gears</p></td>`
 			html += `<td><h3>Totals</h3></td>`
 			html += `<td><p style="font-size: 1.5em;" align="center">${climbSum} Climbs</p></td>`
-			html += `<td><h1 align="center"><span class="label label-default mylabel" id="gradeOverall" style="background-color: #551A8B;">${scoreSum.toFixed(1)}</span></h1></td>`
+			html += `<td><h1 align="center"><span class="label label-default mylabel gradehide" id="gradeOverall" style="background-color: #551A8B;">${scoreSum.toFixed(1)}</span></h1></td>`
 			html += `</tr>`
 			$(`#${["r", "b"][role]}Tbody`).append(html)
 		}
 	})
-
-	$("#tab-match").click()
 
 </script>
