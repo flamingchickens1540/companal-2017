@@ -47,6 +47,9 @@ $.get("tabs/match-schedule.html", function(data) {
 $.get("tabs/team.html", function(data) {
 	$("#pages").append(data)
 })
+$.get("tabs/teams.html", function(data) {
+	$("#pages").append(data)
+})
 
 function loadMatchSchedule() {
 	

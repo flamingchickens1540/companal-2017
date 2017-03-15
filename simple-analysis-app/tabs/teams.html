@@ -1,0 +1,126 @@
+<div id="page-teams" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Teams</h1>
+	<table class="table" style="width: 75%;" align="center">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Pit</th>
+				<th>Scouted</th>
+				<th>Scheduled</th>
+				<th>Missed</th>
+				<th>Success</th>
+			</tr>
+		</thead>
+		<tbody id="teamsTbody"></tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+
+	var allTeamNumbers = []
+	for (var teamNumber in pitRecords) {
+		if (allTeamNumbers.indexOf(String(teamNumber)) === -1)
+			allTeamNumbers.push(String(teamNumber))
+	}
+	for (var teamNumber in standRecords) {
+		if (allTeamNumbers.indexOf(String(teamNumber)) === -1)
+			allTeamNumbers.push(String(teamNumber))
+	}
+	for (var matchNumber in schedule) {
+		for (var i = 0; i < 6; i++) {
+			if (allTeamNumbers.indexOf(String(schedule[matchNumber][i])) === -1)
+				allTeamNumbers.push(String(schedule[matchNumber][i]))
+		}
+	}
+	allTeamNumbers.sort(function(a,b) {
+		return parseInt(a) - parseInt(b)
+	})
+	var scheduled = {}
+	for (var matchNumber in schedule) {
+		for (var i = 0; i < 6; i++) {
+			var teamNumber = schedule[matchNumber][i]
+			if (!(scheduled.hasOwnProperty(teamNumber)))
+				scheduled[teamNumber] = 0
+			scheduled[teamNumber]++
+		}
+	}
+	var scoutedTo = 0
+	for (var teamNumber in standRecords) {
+		for (var index in standRecords[teamNumber]) {
+			var match = standRecords[teamNumber][index]
+			if (match.matchNumber > scoutedTo) {
+				scoutedTo = match.matchNumber
+			}
+		}
+	}
+	
+	var allScoutSuccess = {}
+
+	for (var index in allTeamNumbers) {
+		var teamNumber = allTeamNumbers[index]
+		
+		if (typeof(scheduled[teamNumber]) === "undefined")
+			scheduled[teamNumber] = 0
+
+		var scoutedMatchNumbers = []
+		for (var index in standRecords[teamNumber]) {
+			var match = standRecords[teamNumber][index]
+			scoutedMatchNumbers.push(match.matchNumber)
+		}
+		var nonScouted = 0
+		for (var matchNumber in schedule) {
+			if (schedule[matchNumber].indexOf(teamNumber) > -1) {
+				if (scoutedMatchNumbers.indexOf(parseInt(matchNumber)) === -1 && parseInt(matchNumber) < parseInt(scoutedTo))
+					nonScouted++
+			}
+		}
+
+		var html = `<tr>`
+
+		html += `<td><button class="btn btn-info" onclick="switchToTeam('${teamNumber}');">${teamNumber}</button></td>`
+
+		if (pitRecords.hasOwnProperty(teamNumber))
+			html += `<td><i class="fa fa-2x fa-check" style="color: green;"></i></td>`
+		else
+			html += `<td><i class="fa fa-2x fa-times" style="color: red;"></i></td>`
+
+		html += `<td>${standRecords[teamNumber].length}</td>`
+		html += `<td>${scheduled[teamNumber]}</td>`
+		html += `<td>${nonScouted}</td>`
+
+		var success = (parseFloat(scheduled[teamNumber]) - parseFloat(nonScouted))*100 / parseFloat(scheduled[teamNumber])
+		if (isNaN(success))
+			success = 0
+		allScoutSuccess[teamNumber] = success
+		html += `<td>${success.toFixed(0)}%</td>`
+
+		html += `</tr>`
+		$("#teamsTbody").append(html)
+
+	}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
