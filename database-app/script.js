@@ -50,48 +50,49 @@ var manifest_stand = [];
 
 //List of Teams
 var teams = [753,847,955,957,997,1425,1510,1540,1571,2002,2374,2521,2550,2811,2898,2990,3131,3673,3674,4043,4051,4057,4110,4127,4132,4488,4662,4692,5085,5198,5468,5956,5970,6442,6445,6456,6696]
+var teams_names = ["High Desert Droids","PHRED","CV ROBOTICS","SWARM","Spartan Robotics","Error Code Xero","Wildcats","Flaming Chickens","CALibrate Robotics","Tualatin Robotics","Crusader Bots","SERT","Skynet","StormBots","Flying Hedgehogs","Hotwire","Gladiators","C.Y.B.O.R.G. Seagulls","4-H Clover Bots","NerdHerd","Sabin-Sharks","STEAMPUNK","DEEP SPACE NINERS","LoggerBots","Scotbots","Shockwave","Byte Sized Robotics","Metal Mallards","LakerBots","Knight Tech","Chaos Theory","Falcons","BeaverTronics","Modern Americans","CTEC Robotics","Oregon Trail Academy Wi-Fires","Cardinal Dynamics"]
 
 //Stores:
 //Member ID
 //Total Number of Matches Scoutes
 var scoutcount = {
-	"98": 0,
-	"50": 0,
-	"60": 0,
-	"64": 0,
-	"66": 0,
-	"81": 0,
-	"24": 0,
-	"25": 0,
-	"20": 0,
-	"21": 0,
-	"22": 0,
-	"23": 0,
-	"44": 0,
-	"40": 0,
-	"41": 0,
-	"96": 0,
-	"77": 0,
-	"76": 0,
-	"72": 0,
-	"97": 0,
-	"58": 0,
-	"99": 0,
-	"13": 0,
-	"12": 0,
-	"15": 0,
-	"14": 0,
-	"17": 0,
-	"16": 0,
-	"19": 0,
-	"18": 0,
-	"30": 0,
-	"37": 0,
-	"36": 0,
-	"34": 0,
-	"33": 0,
-	"55": 0,
-	"48": 0
+	"98": [0,0],
+	"50": [0,0],
+	"60": [0,0],
+	"64": [0,0],
+	"66": [0,0],
+	"81": [0,0],
+	"24": [0,0],
+	"25": [0,0],
+	"20": [0,0],
+	"21": [0,0],
+	"22": [0,0],
+	"23": [0,0],
+	"44": [0,0],
+	"40": [0,0],
+	"41": [0,0],
+	"96": [0,0],
+	"77": [0,0],
+	"76": [0,0],
+	"72": [0,0],
+	"97": [0,0],
+	"58": [0,0],
+	"99": [0,0],
+	"13": [0,0],
+	"12": [0,0],
+	"15": [0,0],
+	"14": [0,0],
+	"17": [0,0],
+	"16": [0,0],
+	"19": [0,0],
+	"18": [0,0],
+	"30": [0,0],
+	"37": [0,0],
+	"36": [0,0],
+	"34": [0,0],
+	"33": [0,0],
+	"55": [0,0],
+	"48": [0,0]
 };
 
 //Stores:
@@ -150,16 +151,16 @@ function start() {
 	for (x in manifest_stand) {
 		if (fs.existsSync('data-collect/stand-scouting/'+manifest_stand[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/stand-scouting/'+manifest_stand[x]));
-			scoutcount[data.scoutId]+=1;
+			scoutcount[data.scoutId][1]+=1;
 		}
 	}
 	//Load Pit
 	for (x in manifest_pit) {
 		if (fs.existsSync('data-collect/pit-scouting/'+manifest_pit[x])) {
 			var data = JSON.parse(fs.readFileSync('data-collect/pit-scouting/'+manifest_pit[x]));
-			scoutcount[data.scoutIds[0]]+=1;
+			scoutcount[data.scoutIds[0]][0]+=1;
           	if (data.scoutIds[1]!="-") {
-				scoutcount[data.scoutIds[1]]+=1;
+				scoutcount[data.scoutIds[1]][0]+=1;
 			}
 		}
 	}
@@ -176,9 +177,9 @@ function importPit() {
 				if (!fs.existsSync('data-collect/pit-scouting/'+manifestArray[team]) && fs.existsSync('/Volumes/1540/companal/pit-scouting/' + manifestArray[team])) {
 					var txt = fs.readFileSync('/Volumes/1540/companal/pit-scouting/' + manifestArray[team]);
 					var teamData = JSON.parse(txt);
-					scoutcount[teamData.scoutIds[0]]+=1;
+					scoutcount[teamData.scoutIds[0]][0]+=1;
 					if (teamData.scoutIds[1]!="-") {
-						scoutcount[teamData.scoutIds[1]]+=1;
+						scoutcount[teamData.scoutIds[1]][0]+=1;
 					}
 					manifest_pit.push(manifestArray[team]);
 					createFile("data-collect/pit-scouting/manifest.json",JSON.stringify(manifest_pit));
@@ -207,7 +208,7 @@ function importStand() {
 					var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team]);
 					var data = JSON.parse(txt);
 					manifest_stand.push(manifestArray[team]);
-          			scoutcount[data.scoutId]+=1;
+          			scoutcount[data.scoutId][1]+=1;
           			createFile("data-collect/stand-scouting/"+manifestArray[team],JSON.stringify(data));
 				}
 			}
@@ -259,6 +260,14 @@ function createTable() {
 		td3.setAttribute("id",id+"num");
 		$("#"+id+"row").append(td3);
 		$("#"+id+"num").text(scoutcount[id][0]);
+		var td4 = document.createElement("td");
+		td4.setAttribute("id",id+"num2");
+		$("#"+id+"row").append(td4);
+		$("#"+id+"num2").text(scoutcount[id][1]);
+		var td5 = document.createElement("td");
+		td5.setAttribute("id",id+"num3");
+		$("#"+id+"row").append(td5);
+		$("#"+id+"num3").text(parseInt(scoutcount[id][2])+parseInt(scoutcount[id][2]));
 	}
 	for (match=1;match<=80;match+=1) {
 		var tr = document.createElement("tr");
@@ -318,7 +327,9 @@ function updateTable() {
 	var keys = Object.keys(accounts);
 	for (x in keys) {
 		var id = keys[x];
-		$("#"+id+"num").text(scoutcount[id]);
+		$("#"+id+"num").text(scoutcount[id][0]);
+		$("#"+id+"num2").text(scoutcount[id][1]);
+		$("#"+id+"num3").text(parseInt(scoutcount[id][0])+parseInt(scoutcount[id][1]));
 	}
 	for (x in manifest_stand) {
 		var match = manifest_stand[x];
@@ -376,18 +387,27 @@ $("#toggleMembers").click(function(){
 	$("#members").show();
 	$("#matches").hide();
 	$("#teams").hide();
+	$("#toggleMembers").addClass("act");
+	$("#toggleTeams").removeClass("act");
+	$("#toggleMatches").removeClass("act");
 // 	window.scrollTo(0,0);
 });
 $("#toggleTeams").click(function(){
 	$("#teams").show();
 	$("#matches").hide();
 	$("#members").hide();
+	$("#toggleTeams").addClass("act");
+	$("#toggleMatches").removeClass("act");
+	$("#toggleMembers").removeClass("act");
 // 	window.scrollTo(0,1605);
 });
 $("#toggleMatches").click(function(){
 	$("#matches").show();
 	$("#teams").hide();
 	$("#members").hide();
+	$("#toggleMatches").addClass("act");
+	$("#toggleTeams").removeClass("act");
+	$("#toggleMembers").removeClass("act");
 // 	window.scrollTo(0,3210);
 });
 
