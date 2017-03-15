@@ -50,6 +50,9 @@ $.get("tabs/team.html", function(data) {
 $.get("tabs/teams.html", function(data) {
 	$("#pages").append(data)
 })
+$.get("tabs/match.html", function(data) {
+	$("#pages").append(data)
+})
 
 function loadMatchSchedule() {
 	

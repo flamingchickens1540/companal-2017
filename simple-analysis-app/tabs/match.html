@@ -1,0 +1,184 @@
+<div id="page-match" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Match</h1>
+	<center>
+		<div class="input-group" style="width: 30%;">
+	    	<input type="text" class="form-control" id="matchLookupMatchNumber" placeholder="Match Number...">
+	    	<span class="input-group-btn">
+	    		<button class="btn btn-success" id="matchLookupButton">Lookup</button>
+	    	</span>
+	    </div>
+	</center>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6">
+				<h2 align="center" style="font-family: robotoBlack" id="rTeamsButtons"></h2>
+				<table class="table">
+					<thead>
+						<tr>
+							<th><h4 align="center">Gears</h4></th>
+							<th><h4 align="center">Pit Gear</h4></th>
+							<th><h4 align="center">Climb</h4></th>
+							<th><h4 align="center">Grade</h4></th>
+						</tr>
+						<tr>
+							<td><p style="font-size: 1em;" align="center">A-NZ, 4-NZ, A-T</p></td>
+							<td></td>
+							<td><p style="font-size: 1em;" align="center">A-4, A-T</p></td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody id="rTbody"></tbody>
+				</table>
+			</div>
+			<div class="col-xs-6">
+				<h2 align="center" style="font-family: robotoBlack" id="bTeamsButtons"></h2>
+				<table class="table">
+					<thead>
+						<tr>
+							<th><h4 align="center">Gears</h4></th>
+							<th><h4 align="center">Pit Gear</h4></th>
+							<th><h4 align="center">Climb</h4></th>
+							<th><h4 align="center">Grade</h4></th>
+						</tr>
+						<tr>
+							<td><p style="font-size: 1em;" align="center">A-NZ, 4-NZ, A-T</p></td>
+							<td></td>
+							<td><p style="font-size: 1em;" align="center">A-4, A-T</p></td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody id="bTbody"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	for (var teamNumber in pitRecords) {
+		if (pitRecords[teamNumber].gears.canDeposit === "false") {
+			console.log(teamNumber)
+		} else {
+			console.log(pitRecords[teamNumber].gears.canDeposit)
+		}
+	}
+
+	var averagesForMatch = {}
+	for (var teamNumber in standRecords) {
+		averagesForMatch[teamNumber] = {
+			"gearsNZ": [],
+			"gearsTotal": [],
+			"gears4NZ": [],
+			"climb4": [],
+			"climbTotal": [],
+			"gradeOverall": []
+		}
+		var myMatchNumbers = []
+		for (var index in standRecords[teamNumber]) {
+			myMatchNumbers.push(standRecords[teamNumber][index].matchNumber)
+		}
+		myMatchNumbers.sort(function(a, b) {
+			return parseInt(b) - parseInt(a)
+		})
+		for (var index in standRecords[teamNumber]) {
+			var match = standRecords[teamNumber][index]
+			if (match.teleop.gearsDeposited > 0)
+				averagesForMatch[teamNumber].gearsNZ.push(match.teleop.gearsDeposited)
+			averagesForMatch[teamNumber].gearsTotal.push(match.teleop.gearsDeposited)
+			if (myMatchNumbers.indexOf(match.matchNumber) < 4 && match.teleop.gearsDeposited > 0) {
+				averagesForMatch[teamNumber].gears4NZ.push(match.teleop.gearsDeposited)
+			}
+			if (myMatchNumbers.indexOf(match.matchNumber) < 4) {
+				if (match.teleop.climbed)
+					averagesForMatch[teamNumber].climb4.push(1)
+				else
+					averagesForMatch[teamNumber].climb4.push(0)
+			}
+			if (match.teleop.climbed)
+				averagesForMatch[teamNumber].climbTotal.push(1)
+			else
+				averagesForMatch[teamNumber].climbTotal.push(0)
+			averagesForMatch[teamNumber].gradeOverall.push(parseInt(match.strategy.grades.overall))
+		}
+		for (var prop in averagesForMatch[teamNumber]) {
+			if (averagesForMatch[teamNumber][prop].length === 0)
+				averagesForMatch[teamNumber][prop].push(0)
+		}
+		averagesForMatch[teamNumber].gears4NZ = averagesForMatch[teamNumber].gears4NZ.reduce(function(a,b) {return a+b}) / 4.0
+		averagesForMatch[teamNumber].climb4 = averagesForMatch[teamNumber].climb4.reduce(function(a,b) {return a+b})*100 / 4.0
+		var total = averagesForMatch[teamNumber].gearsTotal.length * 1.0
+		averagesForMatch[teamNumber].gearsTotal = averagesForMatch[teamNumber].gearsTotal.reduce(function(a,b) {return a+b}) / total
+		averagesForMatch[teamNumber].climbTotal = averagesForMatch[teamNumber].climbTotal.reduce(function(a,b) {return a+b})*100 / total
+		averagesForMatch[teamNumber].gradeOverall = averagesForMatch[teamNumber].gradeOverall.reduce(function(a,b) {return a+b}) / total
+		var n = averagesForMatch[teamNumber].gearsNZ.length
+		averagesForMatch[teamNumber].gearsNZ = averagesForMatch[teamNumber].gearsNZ.reduce(function(a,b) {return a+b}) / n
+
+	}
+
+	$("#matchLookupButton").click(function() {
+		$("#rTbody").html('')
+		$("#bTbody").html('')
+		var matchNumber = $("#matchLookupMatchNumber").val()
+		if (!(schedule.hasOwnProperty(matchNumber))) {
+			alert("Not in the schedule!")
+			return;
+		}
+		$("#rTeamsButtons").html('')
+		$("#bTeamsButtons").html('')
+		for (var i = 0; i < 3; i++) {
+			$("#rTeamsButtons").append(`<span class="label label-danger" onclick="switchToTeam('${schedule[matchNumber][i]}')">${schedule[matchNumber][i]}</span>&nbsp;`)
+		}
+		for (var i = 3; i < 6; i++) {
+			$("#bTeamsButtons").append(`<span class="label label-primary" onclick="switchToTeam('${schedule[matchNumber][i]}')">${schedule[matchNumber][i]}</span>&nbsp;`)
+		}
+
+		for (var role = 0; role < 2; role++) {
+			var gearSum = 0, climbSum = 0, scoreSum = 0
+			for (var position = 1; position <= 3; position++) {
+				var teamNumber = schedule[matchNumber][(role)*3+position-1]
+				var avgs = averagesForMatch[teamNumber]
+				var html = `<tr>`
+				html += `<td><p style="font-size: 1.5em;" align="center">${avgs.gearsNZ.toFixed(1)}, ${avgs.gears4NZ.toFixed(1)}, ${avgs.gearsTotal.toFixed(1)}</p></td>`
+
+				gearSum += avgs.gears4NZ
+				if (avgs.climb4 > 50)
+					climbSum ++
+				scoreSum += avgs.gradeOverall
+
+				if (pitRecords.hasOwnProperty(teamNumber)) {
+					var loads = []
+					if (String(pitRecords[teamNumber].gears.floorLoading) === "true")
+						loads.push("floor")
+					if (String(pitRecords[teamNumber].gears.humanLoading) === "true")
+						loads.push("human")
+					if (String(pitRecords[teamNumber].gears.canDeposit) === "true") {
+						html += `<td><p style="font-size: 1.25em;" align="center"><span style="color: green;">Yes</span><br>[${loads}]</p></td>`
+					} else {
+						html += `<td><p style="font-size: 1.25em;" align="center"><span style="color: red;">No</span><br>[${loads}]</p></td>`
+					}
+				} else {
+					html += `<td>N/A</td>`
+				}
+
+				html += `<td><p style="font-size: 1.5em;" align="center">${avgs.climb4.toFixed(0)}%, ${avgs.climbTotal.toFixed(0)}%</p></td>`
+				html += `<td><h1 align="center"><span class="label label-default mylabel" id="gradeOverall" style="background-color: #551A8B;">${avgs.gradeOverall.toFixed(1)}</span></h1></td>`
+
+				html += `</tr>`
+
+				$(`#${["r", "b"][role]}Tbody`).append(html)
+			}
+			scoreSum /= 3.0
+			var html = `<tr>`
+			html += `<td><p style="font-size: 1.5em;" align="center">${gearSum} Gears</p></td>`
+			html += `<td><h3>Totals</h3></td>`
+			html += `<td><p style="font-size: 1.5em;" align="center">${climbSum} Climbs</p></td>`
+			html += `<td><h1 align="center"><span class="label label-default mylabel" id="gradeOverall" style="background-color: #551A8B;">${scoreSum.toFixed(1)}</span></h1></td>`
+			html += `</tr>`
+			$(`#${["r", "b"][role]}Tbody`).append(html)
+		}
+	})
+
+	$("#tab-match").click()
+
+</script>
