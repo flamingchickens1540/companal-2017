@@ -882,7 +882,7 @@ var gradesGearing;
 var gradesDefense;
 var gradesClimbing;
 // Pie
-// var slider = document.getElementById('slider-color');
+var slider = document.getElementById('slider-color');
 // if ($('#auto-shoot').hasClass('active') || (teleopFuel.length > 0)) {
 // 	noUiSlider.create(slider, {
 // 		start: [0, 25, 50, 75],
