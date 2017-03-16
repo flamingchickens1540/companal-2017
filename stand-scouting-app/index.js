@@ -4,6 +4,12 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const {ipcMain} = require('electron')
+
+ipcMain.on('quit', function (event, args) {
+  event.returnValue = ''
+  process.exit(0)
+})
 
 let mainWindow
 

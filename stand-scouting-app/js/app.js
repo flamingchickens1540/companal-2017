@@ -1739,21 +1739,19 @@ $('#save-file').click(function(){
 	manifestParse.push(filepath);
 	var mStringify = JSON.stringify(manifestParse);
 	fs.writeFileSync('json/manifest.json', mStringify);
-  function fullscreen(){
-		$('.jumbotron').css('z-index', '-998');
-		$('.info-bar').css('z-index', '-999');
-		$(".finish").removeClass('container');
-		$("#save-file").css('border-radius', '0%');
-    $("#save-file").animate({
-				width: String($(document).width() + 'px'),
-				height: String($(document).height() + 'px'),
-				marginTop: '-230px'
-			}, 5000, function () {
-			window.open('index.html');
-    	// window.close();
-    });
-  }
-	fullscreen();
+	$('.jumbotron').css('z-index', '-998');
+	$('.info-bar').css('z-index', '-999');
+	$(".finish").removeClass('container');
+	$("#save-file").css('border-radius', '0%');
+  $("#save-file").animate({
+			width: String($(document).width() + 'px'),
+			height: String($(document).height() + 'px'),
+			marginTop: '-230px'
+		}, 500, function () {
+		const {ipcRenderer} = require('electron')
+		ipcRenderer.send('quit');
+		console.log('lol lol');
+  });
 	// $('#save-file').animate({height: '10000px', width: "10000px"}, 5000, 'swing');
 });
 // function add_match(val) {
