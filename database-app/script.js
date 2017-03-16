@@ -275,30 +275,37 @@ function createTable() {
 		$("#matchBody").append(tr);
 		var tnum = document.createElement("td");
 		tnum.setAttribute("id","m"+match+"num");
+		tnum.setAttribute("class","first");
 		$("#m"+match+"row").append(tnum);
 		$("#m"+match+"num").text(match);
 		var r1 = document.createElement("td");
 		r1.setAttribute("id","m"+match+"r1");
+		r1.setAttribute("class","red1");
 		$("#m"+match+"row").append(r1);
 		$("#m"+match+"r1").text("0");
 		var r2 = document.createElement("td");
 		r2.setAttribute("id","m"+match+"r2");
+		r2.setAttribute("class","red2");
 		$("#m"+match+"row").append(r2);
 		$("#m"+match+"r2").text("0");
 		var r3 = document.createElement("td");
 		r3.setAttribute("id","m"+match+"r3");
+		r3.setAttribute("class","red1");
 		$("#m"+match+"row").append(r3);
 		$("#m"+match+"r3").text("0");
 		var b1 = document.createElement("td");
 		b1.setAttribute("id","m"+match+"b1");
+		b1.setAttribute("class","blue1");
 		$("#m"+match+"row").append(b1);
 		$("#m"+match+"b1").text("0");
 		var b2 = document.createElement("td");
 		b2.setAttribute("id","m"+match+"b2");
+		b2.setAttribute("class","blue2");
 		$("#m"+match+"row").append(b2);
 		$("#m"+match+"b2").text("0");
 		var b3 = document.createElement("td");
 		b3.setAttribute("id","m"+match+"b3");
+		b3.setAttribute("class","blue1");
 		$("#m"+match+"row").append(b3);
 		$("#m"+match+"b3").text("0");
 	}
@@ -311,10 +318,15 @@ function createTable() {
 		name.setAttribute("id","r"+team+"bot");
 		$("#r"+team+"row").append(name);
 		$("#r"+team+"bot").text(team);
+		var aname = document.createElement("td");
+		aname.setAttribute("id","r"+team+"nm");
+		$("#r"+team+"row").append(aname);
+		$("#r"+team+"nm").text(teams_names[x]);
 		var pit = document.createElement("td");
 		pit.setAttribute("id","r"+team+"pit");
 		$("#r"+team+"row").append(pit);
 		$("#r"+team+"pit").text("False");
+		$("#r"+team+"pit").css("background-color","#ffdad1");
 		var stand = document.createElement("td");
 		stand.setAttribute("id","r"+team+"stand");
 		$("#r"+team+"row").append(stand);
@@ -350,6 +362,7 @@ function updateTable() {
 			var file = JSON.parse(fs.readFileSync("data-collect/pit-scouting/"+pit));
 			var team = file.teamNumber;
 			$("#r"+team+"pit").text("True");
+			$("#r"+team+"pit").css("background-color","#d1ffde");
 		}
 	}
 }

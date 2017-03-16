@@ -24,24 +24,51 @@
     		.bttn:hover {
     			background-color:#e8eaef;
     		}
-    		.act, .btn:hover, .btn:active:focus, .btn:focus {
+    		.act, .sect:hover, .sect:active:focus, .sect:focus {
     			background-color:darkblue;
     		}
+    		.red1 {
+    			background-color:#ff9a8e;
+    		}
+    		.red2 {
+    			background-color:#ffb8af;
+    		}
+    		.blue1 {
+    			background-color:#afc4ff;
+    		}
+    		.blue2 {
+    			background-color:#8eacff;
+    		}
+    		.first {
+    			background-color:#e2e2e2;
+    		}
+    		.table3 {
+    			background-color:#f2f2f2;
+    		}
+    		.table td, .table th{
+				border: black solid 1px !important;
+			}
+			.table1 {
+				background-color:#f7f7f7;
+			}
+			.table2 {
+				background-color:#d1d1d1;
+			}
     	</style>
     </head>
 	<body>
 		<nav class="center box" style="background-color:#ededed;z-index:1;width:100%" data-spy="affix">
 			<h2>Database App</h2>
 			<br />
-			<button class="bttn btn" id="impPit" type="button" class="btn-primary btn.lg">Import Pit Data</button>
-			<button class="bttn btn" id="impStand" type="button" class="btn-primary btn.lg">Import Stand Data</button>
-			<button class="bttn btn" id="export" type="button" class="btn-primary btn.lg">Export Data</button>
+			<button class="btn-warning btn" id="impPit" type="button" class="btn-primary btn.lg">Import Pit Data</button>
+			<button class="btn-warning btn" id="impStand" type="button" class="btn-primary btn.lg">Import Stand Data</button>
+			<button class="btn-warning btn" id="export" type="button" class="btn-primary btn.lg">Export Data</button>
 			<button class="disabled btn btn-success" id="new" type="button">New Flashdrive</button>
 			<br />
 			<br />
-			<button class="act btn-primary btn" id="toggleMembers" type="button">Members</button>
-			<button class="btn-primary btn" id="toggleTeams" type="button">Teams</button>
-			<button class="btn-primary btn" id="toggleMatches" type="button">Matches</button>
+			<button class="sect act btn-primary btn" id="toggleMembers" type="button">Members</button>
+			<button class="sect btn-primary btn" id="toggleTeams" type="button">Teams</button>
+			<button class="sect btn-primary btn" id="toggleMatches" type="button">Matches</button>
 		</nav>
 		<br />
 		<br />
@@ -73,9 +100,10 @@
 			<table style="width:80%;border:3px black solid" id='robotTable' border="1" class="center-block table table-hover table-bordered">
 				<thead>
 					<tr>
-						<th>Robot</th>
-						<th>Pit Scouted</th>
-    					<th>Scouted Matches</th>
+						<th class="first">#</th>
+						<th class="first">Robot</th>
+						<th class="first">Pit Scouted</th>
+    					<th class="first">Scouted Matches</th>
 					</tr>
 				</thead>
 				<tbody id="robotBody">
@@ -87,13 +115,13 @@
 			<table style="width:80%;border:3px black solid" id='matchTable' border="1" class="center-block table table-hover table-bordered">
 				<thead>
 					<tr>
-						<th>Match Number</th>
-						<th>Red 1</th>
-    					<th>Red 2</th>
-    					<th>Red 3</th>
-    					<th>Blue 1</th>
-    					<th>Blue 2</th>
-    					<th>Blue 3</th>
+						<th class="first">Match Number</th>
+						<th class="red1">Red 1</th>
+    					<th class="red2">Red 2</th>
+    					<th class="red1">Red 3</th>
+    					<th class="blue1">Blue 1</th>
+    					<th class="blue2">Blue 2</th>
+    					<th class="blue1">Blue 3</th>
 					</tr>
 				</thead>
 				<tbody id="matchBody">
