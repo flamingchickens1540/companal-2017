@@ -82,6 +82,44 @@
 
 	var scouts = JSON.parse(fs.readFileSync('scouts.json', 'utf8'))
 
+	var allGrades = {
+		"overall": [], 
+		"shooting": [], 
+		"gearing": [], 
+		"defense": [],
+		"climbing": []
+	}
+	for (var teamNumber in standRecords) {
+		var myGrades = {
+			"overall": [], 
+			"shooting": [], 
+			"gearing": [], 
+			"defense": [],
+			"climbing": []
+		}
+		for (var index in standRecords[teamNumber]) {
+			var match = standRecords[teamNumber][index]
+			for (var cat in match.strategy.grades) {
+				if (parseInt(match.strategy.grades[cat]) !== 0)
+					myGrades[cat].push(parseInt(match.strategy.grades[cat]))
+			}
+		}
+		for (var cat in myGrades) {
+			var l = myGrades[cat].length
+			myGrades[cat] = myGrades[cat].reduce((a, b) => a + b, 0)
+			if (l > 0)
+				myGrades[cat] /= l
+			else
+				myGrades[cat] = 0
+			allGrades[cat].push(myGrades[cat])
+		}
+	}
+	for (var cat in allGrades) {
+		allGrades[cat].sort(function(a, b) {
+			return parseInt(a) - parseInt(b)
+		})
+	} //sorted where index=0 is the bottom (0) and index=length is the top (5)
+
 	$('#lookupButton').click(function() {
 		$("#teamAveragesTbody").html('')
 		$("#teamTbody").html('')
@@ -160,7 +198,6 @@
 				averages.cycleCount += match.teleop.balls.cycles.length
 				var gradeCategories = ["overall", "shooting", "gearing", "defense", "climbing"]
 				for (var i = 0; i < gradeCategories.length; i++) {
-					console.log(averages.grades[gradeCategories[i]])
 					if (match.strategy.grades[gradeCategories[i]] !== 0)
 						averages.grades[gradeCategories[i]].push(match.strategy.grades[gradeCategories[i]])
 				}
@@ -227,18 +264,27 @@
 			gradeCategories = ["overall", "shooting", "gearing", "defense", "climbing"]
 			for (var j = 0; j < gradeCategories.length; j++) {
 				var length = averages.grades[gradeCategories[j]].length
-				console.log(averages.grades)
 				averages.grades[gradeCategories[j]] = averages.grades[gradeCategories[j]].reduce((a, b) => a + b, 0)
 				if (length > 0)
 					averages.grades[gradeCategories[j]] /= length
 			}
 			var html = `<tr><td>${averages.gears.toFixed(2)}</td><td>${(averages.climbs*100).toFixed(2)}%</td><td>${averages.cycleCount.toFixed(2)}</td><td>${allScoutSuccess[teamNumber].toFixed(0)}%</td></tr>`
 			$("#teamAveragesTbody").html(html)
-			$("#gradeOverall").html(averages.grades.overall.toFixed(1))
-			$("#gradeShooting").html(averages.grades.shooting.toFixed(1))
-			$("#gradeGearing").html(averages.grades.gearing.toFixed(1))
-			$("#gradeClimbing").html(averages.grades.climbing.toFixed(1))
-			$("#gradeDefense").html(averages.grades.defense.toFixed(1))
+			var normalizedGrades = {
+				"overall": 0,
+				"shooting": 0,
+				"gearing": 0,
+				"defense": 0,
+				"climbing": 0
+			}
+			for (var cat in normalizedGrades) {
+				normalizedGrades[cat] = (allGrades[cat].indexOf(averages.grades[cat]) / allGrades[cat].length) * 5.0
+			}
+			$("#gradeOverall").html(`${averages.grades.overall.toFixed(1)}, ${normalizedGrades.overall.toFixed(1)}`)
+			$("#gradeShooting").html(`${averages.grades.shooting.toFixed(1)}, ${normalizedGrades.shooting.toFixed(1)}`)
+			$("#gradeGearing").html(`${averages.grades.gearing.toFixed(1)}, ${normalizedGrades.gearing.toFixed(1)}`)
+			$("#gradeClimbing").html(`${averages.grades.climbing.toFixed(1)}, ${normalizedGrades.climbing.toFixed(1)}`)
+			$("#gradeDefense").html(`${averages.grades.defense.toFixed(1)}, ${normalizedGrades.defense.toFixed(1)}`)
 			var data = {
 			    datasets: [
 			        {
