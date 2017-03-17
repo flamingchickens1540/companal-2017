@@ -1747,10 +1747,9 @@ $('#save-file').click(function(){
 			width: String($(document).width() + 'px'),
 			height: String($(document).height() + 'px'),
 			marginTop: '-230px'
-		}, 500, function () {
+		}, 1000, function () {
 		const {ipcRenderer} = require('electron')
 		ipcRenderer.send('quit');
-		console.log('lol lol');
   });
 	// $('#save-file').animate({height: '10000px', width: "10000px"}, 5000, 'swing');
 });
