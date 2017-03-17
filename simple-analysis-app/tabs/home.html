@@ -95,6 +95,30 @@
     	   standRecords[team].push(JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8')))
     }
 
+    var scoutMatches = {}
+    for (var teamNumber in standRecords) {
+        for (var index in standRecords[teamNumber]) {
+            if (!scoutMatches.hasOwnProperty(standRecords[teamNumber][index].scoutId))
+                scoutMatches[standRecords[teamNumber][index].scoutId] = 0
+            scoutMatches[standRecords[teamNumber][index].scoutId]++
+        }
+    }
+    var scouts = JSON.parse(fs.readFileSync('scouts.json', 'utf8'))
+    for (var scoutId in scouts) {
+        if (!scoutMatches.hasOwnProperty(scoutId))
+            scoutMatches[scoutId] = 0
+    }
+    for (var scoutId in scoutMatches) {
+        console.log(`${scouts[scoutId]} scouted ${scoutMatches[scoutId]} matches.`)
+    }
+
 
 
 </script>
+
+
+
+
+
+
+
