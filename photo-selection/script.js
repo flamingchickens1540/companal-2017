@@ -98,6 +98,8 @@ var images = []
 var teams_wilsonville = [568,753,847,955,957,997,1359,1425,1432,2411,2471,2521,2550,2635,2733,2811,2915,2990,3024,3574,3636,3673,3674,3711,4043,4051,4057,4060,4110,4488,5085,5198,5977,6343,6437,6443,6445,6456,6465]
 var teams = [753,847,955,957,997,1425,1510,1571,2002,2374,2521,2550,2811,2898,2990,3131,3673,3674,4043,4051,4057,4110,4127,4132,4488,4662,4692,5085,5198,5468,5956,5970,6442,6445,6456,6696]
 var teams_notes = {753:"",847:"",955:"On our alliance at Wilsonville.",957:"",997:"",1425:"",1510:"",1571:"",2002:"",2374:"",2521:"",2550:"The top ranked robot at Wilsonville.",2811:"",2898:"",2990:"",3131:"",3673:"",3674:"On our alliance at Wilsonville.",4043:"",4051:"",4057:"",4110:"",4127:"",4132:"",4488:"",4662:"",4692:"",5085:"",5198:"Can attach a climber.",5468:"",5956:"",5970:"",6442:"",6445:"",6456:"",6696:""}
+var teams_pnw = [1318,1595,2550,2930,2990,3238,3674,4513,4915];
+var teams_pnwnotes = {1318:"",1595:"",2550:"",2930:"",2990:"",3238:"",3674:"",4513:"",4915:""}
 fs.readdir("../../../Dropbox/1540_Photos/", (err, files) => {
 	files.forEach(file => {
 		images.push(file);
@@ -128,7 +130,7 @@ $(document).ready(function(){
 		if ($("#"+it).length) {
 		 	newimg.className="removal";
 		 	newimg.setAttribute("src","../../../Dropbox/1540_Photos/"+images[x]);
-			newimg.setAttribute("width","300px");
+			newimg.setAttribute("width",$(window).width()-200);
 			newimg.setAttribute("id",images[x]);
 			rotate("../../../Dropbox/1540_Photos/"+images[x],newimg,it);
 			$("#"+it).append(newimg);
@@ -153,5 +155,8 @@ $(document).ready(function(){
 				}
 			});
 		}
+	});
+	$(window).resize(function(){
+		$("img").css("width",$(window).width()-200);
 	});
 });
