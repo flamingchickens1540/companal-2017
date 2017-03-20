@@ -1,0 +1,89 @@
+<div id="page-projections" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Projections</h1>
+
+	<table class="table" style="width: 85%;" align="center">
+		<thead>
+			<tr>
+				<th>Rank by Expected RS</th>
+				<th>Team #</th>
+				<th>Rank Difference</th>
+				<th>Rank by Expected Pts</th>
+				<th>Expected RS</th>
+				<th>Expected Pts</th>
+			</tr>
+		</thead>
+		<tbody id="predictiveTbody"></tbody>
+	</table>
+
+</div>
+
+<script type="text/javascript">
+	
+	var matchOutcomes = {} //key: matchNumber, val: [redrankingpts, bluerankingpts]
+	var rankingPts = {}
+	for (var index in allTeamNumbers) {
+		rankingPts[allTeamNumbers[index]] = []
+	}
+	for (var matchNumber in schedule) {
+		var red = 0, blue = 0
+		for (var index in schedule[matchNumber]) {
+			var teamNumber = schedule[matchNumber][index]
+			if (index < 3)
+				red += expectedScoreByTeam[teamNumber]
+			else if (index >= 3)
+				blue += expectedScoreByTeam[teamNumber]
+		}
+		if (red > blue) {
+			matchOutcomes[matchNumber] = [2, 0]
+			var rs = 2, bs = 0
+		}
+		else if (red < blue) {
+			matchOutcomes[matchNumber] = [0, 2]
+			var rs = 0, bs = 2
+		}
+		else if (red === blue) {
+			matchOutcomes[matchNumber] = [1, 1]
+			var rs = 1, bs = 1
+		}
+		for (var index in schedule[matchNumber]) {
+			var teamNumber = schedule[matchNumber][index]
+			if (index < 3)
+				rankingPts[teamNumber].push(rs)
+			else
+				rankingPts[teamNumber].push(bs)
+
+		} 
+	}
+	for (var teamNumber in rankingPts) {
+		var l = rankingPts[teamNumber].length
+		if (l > 0) {
+			rankingPts[teamNumber] = rankingPts[teamNumber].reduce((a, b) => parseInt(a) + parseInt(b), 0)
+			rankingPts[teamNumber] /= l
+		} else {
+			rankingPts[teamNumber] = 0
+		}
+	}
+	allTeamNumbers.sort(function(a, b) {
+		return rankingPts[b] - rankingPts[a]
+	})
+	for (var index in allTeamNumbers) {
+		var html = `<tr>`
+		html += `<td>${parseInt(index)+1}</td>`
+		html += `<td>${allTeamNumbers[index]}</td>`
+		var scoreDifferential = expectedScoreByTeamRank[allTeamNumbers[index]] - (parseInt(index)+1)
+		if (scoreDifferential > 0) {
+			html += `<td style="color: #74B566; font-size: 1.5em !important;"><i class="fa fa-angle-double-up"></i>&nbsp;&nbsp;${scoreDifferential}</td>`
+		} else if (scoreDifferential < 0) {
+			html += `<td style="color: #C95C54; font-size: 1.5em !important;"><i class="fa fa-angle-double-down"></i>&nbsp;&nbsp;${scoreDifferential}</td>`
+		} else {
+			html += `<td style="color: #EFAF5F; font-size: 1.5em !important;">${scoreDifferential}</td>`
+		}
+		html += `<td>${expectedScoreByTeamRank[allTeamNumbers[index]]}</td>`
+		html += `<td>${rankingPts[allTeamNumbers[index]].toFixed(1)}</td>`
+		html += `<td>${expectedScoreByTeam[allTeamNumbers[index]]}</td>`
+		html += `</tr>`
+		$("#predictiveTbody").append(html)
+	}
+
+
+</script>

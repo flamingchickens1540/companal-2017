@@ -27,6 +27,7 @@
 	
 	var teams = []
 	var expectedScoreByTeam = {}
+	var expectedScoreByTeamRank = {}
 	for (var index in allTeamNumbers) {
 		var teamNumber = allTeamNumbers[index]
 		var avgs = averagesForMatch[teamNumber]
@@ -83,6 +84,7 @@
 	})
 	for (var index in teams) {
 		var team = teams[index]
+		expectedScoreByTeamRank[team.teamNumber] = parseInt(index) + 1
 		var html = `<tr>`
 		html += `<td>${parseInt(index)+1}</td>`
 		if (team.isShooter)
