@@ -94,10 +94,14 @@
 			html += `<td style="color: #C95C54;">${m.redScore.toFixed(1)}</td>`
 			html += `<td style="color: #4679B2;">${m.blueScore.toFixed(1)}</td>`
 			html += `<td style="color: #74B566;">${m.totalScore.toFixed(1)}</td>`
-			html += `<td>${m.redTeams[0]}</td><td>${m.redTeams[1]}</td><td>${m.redTeams[2]}</td>`
+			html += `<td onclick="switchToTeam('${m.redTeams[0]}')">${m.redTeams[0]}</td>`
+			html += `<td onclick="switchToTeam('${m.redTeams[1]}')">${m.redTeams[1]}</td>`
+			html += `<td onclick="switchToTeam('${m.redTeams[2]}')">${m.redTeams[2]}</td>`
 			html += `<td style="color: #C95C54;">${m.redGears.toFixed(1)}</td>`
 			html += `<td><span class="label label-default" style="background-color: #551A8B;">${m.redGrade.toFixed(1)}</span></td>`
-			html += `<td>${m.blueTeams[0]}</td><td>${m.blueTeams[1]}</td><td>${m.blueTeams[2]}</td>`
+			html += `<td onclick="switchToTeam('${m.blueTeams[0]}')">${m.blueTeams[0]}</td>`
+			html += `<td onclick="switchToTeam('${m.blueTeams[1]}')">${m.blueTeams[1]}</td>`
+			html += `<td onclick="switchToTeam('${m.blueTeams[2]}')">${m.blueTeams[2]}</td>`
 			html += `<td style="color: #4679B2;">${m.blueGears.toFixed(1)}</td>`
 			html += `<td><span class="label label-default" style="background-color: #551A8B;">${m.blueGrade.toFixed(1)}</span></td>`
 			html += `</tr>`
