@@ -139,7 +139,7 @@
 		else {
 			$("#pitModalTeamNumber").html(teamNumber)
 			var pit = pitRecords[teamNumber]
-			var text = `Scouted by ${scouts[pit.scoutIds[0]]} and ${scouts[pit.scoutIds[1]]}. They have a ${pit.drivetrain.drivetrainType} drivetrain that ${does(pit.drivetrain.drivetrainShifts)} shift. They have ${pit.drivetrain.motorCount} motors in the 'train with ${pit.drivetrain.wheelType} wheels that ${are(pit.drivetrain.allWheelsDriven)} all driven.`
+			var text = `Scouted by ${scouts[pit.scoutIds[0]]} and ${scouts[pit.scoutIds[1]]}. They have a ${pit.drivetrain.drivetrainType} drivetrain that ${does(pit.drivetrain.drivetrainShifts)} shift.`
 			text += ` They ${doo(pit.shooting.hasHigh)} have a high shooter, and ${doo(pit.shooting.hasLow)} have a low shooter. They hold ${pit.shooting.ballCapacity} balls and `
 			var loadZoneKey = String(pit.shooting.floorLoading)+String(pit.shooting.hopperLoading)+String(pit.shooting.humanLoading)
 			var loadZoneText = {
@@ -160,7 +160,13 @@
 				"falsetrue": "the human.",
 				"truetrue": "the floor or human."
 			}
-			text += ` They ${can(pit.gears.canDeposit)} deposit gears which they load from ${gearZoneText[gearZoneKey]}` 
+			text += ` They ${can(pit.gears.canDeposit)} deposit gears with an `
+			if (pit.gears.active) {
+				text += 'active '
+			} else {
+				text += 'passive '
+			}
+			text += ` mechanism, and they load from ${gearZoneText[gearZoneKey]}` 
 			text += ` They ${can(pit.canClimb)} climb. Weight: ${pit.weight} (should be lbs). They prefer the roles of ${pit.roles}. The scout said this about them: ${pit.notes} END PIT SCOUT DATA.`
 			$("#pitModalP").html(text)
 		}
