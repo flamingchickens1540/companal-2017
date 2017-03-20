@@ -30,19 +30,31 @@
 	const AppDirectory = require('appdirectory')
 	var fs = require('fs-extra')
 	const dataDir = new AppDirectory("companal-2017-analysis-simple").userData()
+
 	var matchNumbers = []
+
+	if (!(fs.existsSync(`${dataDir}/manualAddedMatchSchedule.json`))) {
+		fs.writeFileSync(`${dataDir}/manualAddedMatchSchedule.json`, JSON.stringify({}))
+	}
+	var manualAddedMatchSchedule;
+	try {
+		manualAddedMatchSchedule = JSON.parse(fs.readFileSync(`${dataDir}/manualAddedMatchSchedule.json`, 'utf8'))
+	} catch (err) {
+		manualAddedMatchSchedule = {}
+		fs.unlinkSync(`${dataDir}/manualAddedMatchSchedule.json`)
+	}
+
 	for (var strMatchNum in schedule) {
 		if (schedule[strMatchNum].indexOf("1540") !== -1) {
 			matchNumbers.push(parseInt(strMatchNum))
 		}
 	}
-	matchNumbers.sort()
-	var a = [], b = [], c = []
-	for (var i = 0; i < matchNumbers.length; i += 3) {
-		a.push(matchNumbers[i])
-		b.push(matchNumbers[i+1])
-		c.push(matchNumbers[i+2])
+	for (var strMatchNum in manualAddedMatchSchedule) {
+		if (manualAddedMatchSchedule[strMatchNum].indexOf("1540") !== -1) {
+			matchNumbers.push(parseInt(strMatchNum))
+		}
 	}
+
 	if (!(fs.existsSync(`${dataDir}/hiddenMatchNumbers.json`))) {
 		fs.writeFileSync(`${dataDir}/hiddenMatchNumbers.json`, JSON.stringify([]))
 	}
@@ -54,10 +66,23 @@
 		fs.unlinkSync(`${dataDir}/hiddenMatchNumbers.json`)
 	}
 
+	matchNumbers.sort(function(a, b) {
+		return parseInt(a) - parseInt(b)
+	})
+	var a = [], b = [], c = []
+	for (var i = 0; i < matchNumbers.length; i += 3) {
+		a.push(matchNumbers[i])
+		b.push(matchNumbers[i+1])
+		c.push(matchNumbers[i+2])
+	}
+
 	for (var ii = 0; ii < 3; ii++) {
 		var l = [a, b, c][ii]
 		for (var i = 0; i < l.length; i++) {
-			var match = schedule[String(l[i])]
+			if (schedule.hasOwnProperty(String(l[i])))
+				var match = schedule[String(l[i])]
+			else
+				var match = manualAddedMatchSchedule[String(l[i])]
 			if (hiddenMatchNumbers.indexOf(String(l[i])) > -1) {
 				continue
 			}
@@ -77,10 +102,56 @@
 		}
 	}
 
+	$("#addMatchShowButton").click(function() {
+		$("#addMatchSection").show()
+	})
+
+	$("#addMatchHideButton").click(function() {
+		$("#addMatchSection").hide()
+	})
+
+	$("#addMatchClearButton").click(function() {
+		fs.writeFileSync(`${dataDir}/manualAddedMatchSchedule.json`, JSON.stringify({}))
+		window.location.reload()
+	})
+
+	$("#addMatchButton").click(function() {
+		var teams = [
+			$("#addMatchR1").val(),
+			$("#addMatchR2").val(),
+			$("#addMatchR3").val(),
+			$("#addMatchB1").val(),
+			$("#addMatchB2").val(),
+			$("#addMatchB3").val()
+		]
+		var matchNumber = $("#addMatchMatchNumber").val()
+		manualAddedMatchSchedule[String(matchNumber)] = teams
+		fs.writeFileSync(`${dataDir}/manualAddedMatchSchedule.json`, JSON.stringify(manualAddedMatchSchedule))
+		window.location.reload()
+	})
+
 </script>
 
 <div id="page-match-schedule" style="display: none;">
-	<h1 align="center" style="font-family: robotoBlack">Match Schedule&nbsp;<span class="label label-info" onclick="unhideMatches()"><i class="fa fa-expand"></i></span></h1>
+	<h1 align="center" style="font-family: robotoBlack">
+		Match Schedule&nbsp;
+		<span class="label label-info" onclick="unhideMatches()"><i class="fa fa-expand"></i></span>
+		<span class="label label-info" id="addMatchShowButton"><i class="fa fa-plus"></i></span>
+	</h1>
+	<center><div id="addMatchSection" style="display: none;">
+		<hr style="width: 80%;">
+			<input type="text" class="form-control" style="width: 20%;" placeholder="Match Number..." id="addMatchMatchNumber">
+			<input type="text" class="form-control" style="width: 20%;" placeholder="Red 1" id="addMatchR1">
+			<input type="text" class="form-control" style="width: 20%;" placeholder="Red 2" id="addMatchR2">
+			<input type="text" class="form-control" style="width: 20%;" placeholder="Red 3" id="addMatchR3">
+			<input type="text" class="form-control" style="width: 20%;" placeholder="Blue 1" id="addMatchB1">
+			<input type="text" class="form-control" style="width: 20%;" placeholder="Blue 2" id="addMatchB2">
+			<input type="text" class="form-control" style="width: 20%;" placeholder="Blue 3" id="addMatchB3">
+			<button type="button" class="btn btn-default btn-lg" id="addMatchButton">Add</button>
+			<button type="button" class="btn btn-danger" id="addMatchHideButton"><i class="fa fa-times"></i></button>
+			<button type="button" class="btn btn-danger" id="addMatchClearButton">Clear</button>
+		<hr style="width: 80%;">
+	</div></center>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-4" id="msC1">
