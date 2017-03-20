@@ -88,9 +88,9 @@
 		var html = `<tr>`
 		html += `<td>${parseInt(index)+1}</td>`
 		if (team.isShooter)
-			html += `<td>${team.teamNumber}<i class="fa fa-futbol-o" style="color: green;"></i></td>`
+			html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}<i class="fa fa-futbol-o" style="color: green;"></i></td>`
 		else
-			html += `<td>${team.teamNumber}</td>`
+			html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}</td>`
 		html += `<td>[${team.auto}]</td>`
 		html += `<td>${team.gear}</td>`
 		html += `<td>${team.climb}%</td>`
