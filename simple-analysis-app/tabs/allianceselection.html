@@ -1,0 +1,80 @@
+<div id="page-alliance-selection" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Alliance Selection&nbsp;&nbsp;<span class="label label-info" id="showAllAllianceSelectionButton"><i class="fa fa-expand"></i></span></h1>
+	<center><table class="table" style="width: 80%;">
+		<thead>
+			<tr>
+				<th>Rank</th>
+				<th>Team</th>
+				<th><i class="fa fa-times"></i></th>
+				<th>Notes</th>
+			</tr>
+		</thead>
+		<tbody id="allianceTbody"></tbody>
+	</table></center>
+</div>
+
+<script type="text/javascript">
+	
+	if (!(fs.existsSync(`${dataDir}/allianceSelection.json`))) {
+		fs.writeFileSync(`${dataDir}/allianceSelection.json`, JSON.stringify([]))
+	}
+	var allianceSelection
+	try {
+		allianceSelection = JSON.parse(fs.readFileSync(`${dataDir}/allianceSelection.json`, 'utf8'))
+	} catch (err) {
+		allianceSelection = []
+		fs.unlinkSync(`${dataDir}/allianceSelection.json`)
+	}
+	if (!(fs.existsSync(`${dataDir}/allianceSelectionHidden.json`))) {
+		fs.writeFileSync(`${dataDir}/allianceSelectionHidden.json`, JSON.stringify([]))
+	}
+	var allianceSelectionHidden
+	try {
+		allianceSelectionHidden = JSON.parse(fs.readFileSync(`${dataDir}/allianceSelectionHidden.json`, 'utf8'))
+	} catch (err) {
+		allianceSelectionHidden = []
+		fs.unlinkSync(`${dataDir}/allianceSelectionHidden.json`)
+	}
+
+	/*the allianceSelection file should be a JSON list, where each element is as such:
+	{
+		"rank": 1, (to number of teams)
+		"teamNumber": "1540",
+		"notes": "this is why we should pick them, or why we shouldn't"
+	}
+	*/
+
+	allianceSelection.sort(function(a, b) {
+		return parseInt(a.rank) - parseInt(b.rank)
+	})
+
+	for (var index in allianceSelection) {
+		var team = allianceSelection[index]
+		var html = `<tr id="allianceSelectionRow${team.teamNumber}">`
+		html += `<td>${team.rank}</td>`
+		html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}</td>`
+		html += `<td><button class="btn btn-danger" onclick="hideAllianceSelectionTeam('${team.teamNumber}')"><i class="fa fa-times"></i></button></td>`
+		html += `<td>${team.notes}</td>`
+		html += `</tr>`
+		$("#allianceTbody").append(html)
+	}
+
+	function hideAllianceSelectionTeam(teamNumber) {
+		document.getElementById(`allianceSelectionRow${teamNumber}`).style.color = "red"
+		document.getElementById(`allianceSelectionRow${teamNumber}`).style.fontSize = "0.5em"
+		if (allianceSelectionHidden.indexOf(teamNumber) === -1) {
+			allianceSelectionHidden.push(teamNumber)
+			fs.writeFileSync(`${dataDir}/allianceSelectionHidden.json`, JSON.stringify(allianceSelectionHidden))
+		}
+	}
+
+	for (var index in allianceSelectionHidden) {
+		hideAllianceSelectionTeam(allianceSelectionHidden[index])
+	}
+
+	$("#showAllAllianceSelectionButton").click(function() {
+		fs.writeFileSync(`${dataDir}/allianceSelectionHidden.json`, JSON.stringify([]))
+		window.location.reload()
+	})
+
+</script>

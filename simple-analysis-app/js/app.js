@@ -62,3 +62,6 @@ $.get("tabs/matches.html", function(data) {
 $.get("tabs/alexander.html", function(data) {
 	$("#pages").append(data)
 })
+$.get("tabs/allianceselection.html", function(data) {
+	$("#pages").append(data)
+})
