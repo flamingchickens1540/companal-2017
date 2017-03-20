@@ -32,9 +32,6 @@ $(".tab").click(function() {
 	$("#page-"+currentTab.substr(5)).hide()
 	currentTab = "#"+$(this).attr('id')
 	$("#page-"+currentTab.substr(5)).show()
-	if (currentTab === "#tab-match-schedule") {
-		loadMatchSchedule()
-	}
 })
 
 //init tabs
@@ -44,10 +41,10 @@ $.get("tabs/home.html", function(data) {
 $.get("tabs/match-schedule.html", function(data) {
 	$("#pages").append(data)
 })
-$.get("tabs/team.html", function(data) {
+$.get("tabs/teams.html", function(data) {
 	$("#pages").append(data)
 })
-$.get("tabs/teams.html", function(data) {
+$.get("tabs/team.html", function(data) {
 	$("#pages").append(data)
 })
 $.get("tabs/match.html", function(data) {
@@ -59,7 +56,6 @@ $.get("tabs/ranking.html", function(data) {
 $.get("tabs/projections.html", function(data) {
 	$("#pages").append(data)
 })
-
-function loadMatchSchedule() {
-	
-}
+$.get("tabs/matches.html", function(data) {
+	$("#pages").append(data)
+})

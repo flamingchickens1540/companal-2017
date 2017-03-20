@@ -112,6 +112,25 @@
         console.log(`${scouts[scoutId]} scouted ${scoutMatches[scoutId]} matches.`)
     }
 
+    var scheduleJson = fs.readFileSync(`${dataDir}/matchSchedule.json`, 'utf8')
+    var schedule = JSON.parse(scheduleJson)
+
+    var allTeamNumbers = []
+    for (var teamNumber in pitRecords) {
+        if (allTeamNumbers.indexOf(String(teamNumber)) === -1)
+            allTeamNumbers.push(String(teamNumber))
+    }
+    for (var teamNumber in standRecords) {
+        if (allTeamNumbers.indexOf(String(teamNumber)) === -1)
+            allTeamNumbers.push(String(teamNumber))
+    }
+    for (var matchNumber in schedule) {
+        for (var i = 0; i < 6; i++) {
+            if (allTeamNumbers.indexOf(String(schedule[matchNumber][i])) === -1)
+                allTeamNumbers.push(String(schedule[matchNumber][i]))
+        }
+    }
+
 
 
 </script>

@@ -30,8 +30,6 @@
 	const AppDirectory = require('appdirectory')
 	var fs = require('fs-extra')
 	const dataDir = new AppDirectory("companal-2017-analysis-simple").userData()
-	var scheduleJson = fs.readFileSync(`${dataDir}/matchSchedule.json`, 'utf8')
-	var schedule = JSON.parse(scheduleJson)
 	var matchNumbers = []
 	for (var strMatchNum in schedule) {
 		if (schedule[strMatchNum].indexOf("1540") !== -1) {
