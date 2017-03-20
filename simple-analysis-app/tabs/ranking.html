@@ -1,5 +1,15 @@
 <div id="page-ranking" style="display: none;">
 	<h1 align="center" style="font-family: robotoBlack">Ranking</h1>
+	<center><select id="sortRankingField">
+		<option>pts</option>
+		<option>autoPts</option>
+		<option>gear</option>
+		<option>climb</option>
+		<option>isShooter</option>
+		<option>teamNumber</option>
+	</select>
+	<button type="button" class="btn btn-info" id="sortRankingButton">Sort</button>
+	</center>
 	<table class="table" align="center" style="width: 80%">
 		<thead>
 			<tr>
@@ -31,6 +41,8 @@
 	for (var index in allTeamNumbers) {
 		var teamNumber = allTeamNumbers[index]
 		var avgs = averagesForMatch[teamNumber]
+		if (typeof(avgs) === "undefined")
+			continue
 		var auto = {
 			crossedLine: 0,
 			gear: 0,
@@ -45,22 +57,24 @@
 				auto.gear++
 			if (match.auto.shotCycle)
 				auto.shot++
-			if (match.teleop.balls.cycles.length > 0) {
+			if (typeof(match.teleop.balls.cycles !== 'undefined') && match.teleop.balls.cycles.length > 0)
 				shootCounter++
-			}
 		}
-		var team = {pts: 0}
+		var team = {pts: 0, autoPts: 0}
 		var myAuto = []
 		if (auto.crossedLine >= 2 || auto.gear >= 2) {
 			team.pts += 5
+			team.autoPts += 5
 			myAuto.push("line")
 		}
 		if (auto.gear >= 2) {
+			team.autoPts += 20
 			team.pts += 20
 			myAuto.push("gear")
 		}
 		if (auto.shot >= 2 && auto.gear < 2) {
 			team.pts += 5
+			team.autoPts += 5
 		}
 		if (auto.shot >= 2) {
 			myAuto.push("shot")
@@ -79,24 +93,38 @@
 		teams.push(team)
 		expectedScoreByTeam[teamNumber] = team.pts
 	}
-	teams.sort(function(a, b) {
-		return b.pts - a.pts
-	})
-	for (var index in teams) {
-		var team = teams[index]
-		expectedScoreByTeamRank[team.teamNumber] = parseInt(index) + 1
-		var html = `<tr>`
-		html += `<td>${parseInt(index)+1}</td>`
-		if (team.isShooter)
-			html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}<i class="fa fa-futbol-o" style="color: green;"></i></td>`
-		else
-			html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}</td>`
-		html += `<td>[${team.auto}]</td>`
-		html += `<td>${team.gear}</td>`
-		html += `<td>${team.climb}%</td>`
-		html += `<td>${team.pts}</td>`
-		html += `</tr>`
-		$("#rankingTbody").append(html)
+	function drawRankingTable(sortBy) { //sort by is ["pts", "autoPts", "gear", "climb", "isShooter", "teamNumber"]
+		teams.sort(function(a, b) {
+			if (sortBy === "teamNumber")
+				return a[sortBy] - b[sortBy]
+			else
+				return b[sortBy] - a[sortBy]
+		})
+		$("#rankingTbody").html('')
+		for (var index in teams) {
+			var team = teams[index]
+			expectedScoreByTeamRank[team.teamNumber] = parseInt(index) + 1
+			var html = `<tr>`
+			html += `<td>${parseInt(index)+1}</td>`
+			if (team.isShooter)
+				html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}<i class="fa fa-futbol-o" style="color: green;"></i></td>`
+			else
+				html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}</td>`
+			html += `<td>[${team.auto}]</td>`
+			html += `<td>${team.gear}</td>`
+			html += `<td>${team.climb}%</td>`
+			html += `<td>${team.pts}</td>`
+			html += `</tr>`
+			$("#rankingTbody").append(html)
+		}
 	}
+
+	$("#sortRankingButton").click(function() {
+		var sortBy = $("#sortRankingField").val()
+		drawRankingTable(sortBy)
+	})
+
+	drawRankingTable('pts')
+	
 
 </script>
