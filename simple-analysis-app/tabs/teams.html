@@ -69,7 +69,10 @@
 		else
 			html += `<td><i class="fa fa-2x fa-times" style="color: red;"></i></td>`
 
-		html += `<td>${standRecords[teamNumber].length}</td>`
+		if (standRecords.hasOwnProperty(teamNumber))
+			html += `<td>${standRecords[teamNumber].length}</td>`
+		else
+			html += `<td>N/A</td>`
 		html += `<td>${scheduled[teamNumber]}</td>`
 		html += `<td>${nonScouted}</td>`
 
