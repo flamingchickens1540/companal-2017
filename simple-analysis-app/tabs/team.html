@@ -286,6 +286,13 @@
 			$("#gradeClimbing").html(`${averages.grades.climbing.toFixed(1)}, ${normalizedGrades.climbing.toFixed(1)}`)
 			$("#gradeDefense").html(`${averages.grades.defense.toFixed(1)}, ${normalizedGrades.defense.toFixed(1)}`)
 			var data = {
+				labels: [
+			        "Shooting",
+			        "Gearing",
+			        "Climbing",
+			        "Defense",
+			        "Futzing"
+			    ],
 			    datasets: [
 			        {
 			            data: [averages.strategy.shooting, averages.strategy.gearing, averages.strategy.climbing, averages.strategy.defense, averages.strategy.futzing],
