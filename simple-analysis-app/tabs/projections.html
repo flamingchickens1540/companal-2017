@@ -69,7 +69,7 @@
 	for (var index in allTeamNumbers) {
 		var html = `<tr>`
 		html += `<td>${parseInt(index)+1}</td>`
-		html += `<td>${allTeamNumbers[index]}</td>`
+		html += `<td onclick="switchToTeam('${allTeamNumbers[index]}')">${allTeamNumbers[index]}</td>`
 		var scoreDifferential = expectedScoreByTeamRank[allTeamNumbers[index]] - (parseInt(index)+1)
 		if (scoreDifferential > 0) {
 			html += `<td style="color: #74B566; font-size: 1.5em !important;"><i class="fa fa-angle-double-up"></i>&nbsp;&nbsp;${scoreDifferential}</td>`
