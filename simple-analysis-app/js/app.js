@@ -59,3 +59,6 @@ $.get("tabs/projections.html", function(data) {
 $.get("tabs/matches.html", function(data) {
 	$("#pages").append(data)
 })
+$.get("tabs/alexander.html", function(data) {
+	$("#pages").append(data)
+})
