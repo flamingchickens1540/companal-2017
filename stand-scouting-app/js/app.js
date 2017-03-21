@@ -1275,6 +1275,7 @@ $('.comments').click(function(){
 });
 $('.ta-ol-nb').click(function(){
 	$('.ta-ol').show();
+	$('.ta-ol-nb').hide();
 });
 // // Betting End
 // $('#betting-end-back').click(function(){
