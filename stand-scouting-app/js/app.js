@@ -1302,6 +1302,16 @@ $('#match-number-number').click(function(){
 		$('.edit-match-btn').fadeIn(500);
 	}
 });
+$('#match-number-number').keypress(function(){
+	if (event.which == 13) {
+		if ($('#match-number-number').val() != fs.readFileSync('matchNum.txt')) {
+			fs.writeFileSync('matchNum.txt', parseInt($("#match-number-number").val()), {overwrite: true});
+			window.location.reload();
+		} else {
+			window.location.reload();
+		}
+	}
+});
 $('.edit-match').click(function(){
 	if ($('#match-number-number').val() != fs.readFileSync('matchNum.txt')) {
 		fs.writeFileSync('matchNum.txt', parseInt($("#match-number-number").val()), {overwrite: true});
