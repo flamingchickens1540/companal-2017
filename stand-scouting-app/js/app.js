@@ -1273,10 +1273,9 @@ $('.comments').click(function(){
 		$('.ta-ol-nb').show();
 	}
 });
-if (!$('.comments').is(':focus')) {
-	$('.ta-ol-nb').hide();
+$('.ta-ol-nb').click(function(){
 	$('.ta-ol').show();
-}
+});
 // // Betting End
 // $('#betting-end-back').click(function(){
 // 	$('.betting-end').fadeOut(500);
