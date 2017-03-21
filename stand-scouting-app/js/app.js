@@ -554,7 +554,7 @@ for (i in schedule) {
 		}
 	}
 }
-$('.team-color').append("<h3 style=\"text-align: center;\">Color: <span class='color-number'>" + teamColorName + "</span>, Team Number: <span style='color: purple;'>" + teamNum + "</span>");
+$('.team-color').append("<h3 style=\"text-align: center;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color: <span class='color-number'>" + teamColorName + "</span>, Team Number: <span style='color: purple;'>" + teamNum + "</span>");
 switch (teamColor) {
 	case "r1":
 		$('.color-number').css('color', 'red');
