@@ -521,14 +521,14 @@ for (i in ePeople) {
 	// $('.err-no-ten-' + ePeople[i]).replaceWith('<p style="color: lightgreen; line-height: 1.75">&#10004;</p>');
 	$('.' + ePeople[i] + 'alert').css('opacity', '0');
 }
-for (x in keys) {
-	if (accounts.hasOwnProperty(x)) {
-				$('.err-no-ten-' + x).click(function () {
-			dialogs.confirm('Exempt ' + accounts[x] + ' from the minimum requirement?', function (ok) {
-				if (ok) {
-					$('.' + x + 'alert').empty();
-				}
-			});
-		});
-	}
-}
+// for (x in keys) {
+// 	if (accounts.hasOwnProperty(x)) {
+// 				$('.err-no-ten-' + x).click(function () {
+// 			dialogs.confirm('Exempt ' + accounts[x] + ' from the minimum requirement?', function (ok) {
+// 				if (ok) {
+// 					$('.' + x + 'alert').empty();
+// 				}
+// 			});
+// 		});
+// 	}
+// }
