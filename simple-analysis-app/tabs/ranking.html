@@ -1,32 +1,23 @@
 <div id="page-ranking" style="display: none;">
 	<h1 align="center" style="font-family: robotoBlack">Ranking</h1>
-	<center><select id="sortRankingField">
-		<option>pts</option>
-		<option>autoPts</option>
-		<option>gear</option>
-		<option>climb</option>
-		<option>isShooter</option>
-		<option>teamNumber</option>
-	</select>
-	<button type="button" class="btn btn-info" id="sortRankingButton">Sort</button>
-	</center>
+	<p align="center"><i>Click a header to sort the table...</i></p>
 	<table class="table" align="center" style="width: 80%">
 		<thead>
 			<tr>
-				<td>Rank</td>
-				<td>#</td>
-				<td>Auto</td>
-				<td>Gears</td>
-				<td>Climb</td>
-				<td>Pts</td>
+				<th onclick="drawRankingTable('pts')">Rank</th>
+				<th onclick="drawRankingTable('teamNumber')">#</th>
+				<th onclick="drawRankingTable('autoPts')">Auto</th>
+				<th onclick="drawRankingTable('gear')">Gears</th>
+				<th onclick="drawRankingTable('climb')">Climb</th>
+				<th onclick="drawRankingTable('pts')">Pts</th>
 			</tr>
 			<tr>
-				<td>---</td>
-				<td>---</td>
-				<td><span style="font-size: 0.75em;">Only those with 2+ successes</span></td>
-				<td><span style="font-size: 0.75em;">4NZ Avg</span></td>
-				<td><span style="font-size: 0.75em;">at least twice in last 4</span></td>
-				<td>---</td>
+				<th>---</th>
+				<th>---</th>
+				<th><span style="font-size: 0.75em;">Only those with 2+ successes</span></th>
+				<th><span style="font-size: 0.75em;">4NZ Avg</span></th>
+				<th><span style="font-size: 0.75em;">at least twice in last 4</span></th>
+				<th>---</th>
 			</tr>
 		</thead>
 		<tbody id="rankingTbody"></tbody>
@@ -93,19 +84,27 @@
 		teams.push(team)
 		expectedScoreByTeam[teamNumber] = team.pts
 	}
+	teams.sort(function(a, b) {
+		return b.pts - a.pts
+	})
+	for (var index in teams) {
+		teams[index].rank = parseInt(index) + 1
+	}
+	var rankingSortReverse = false
 	function drawRankingTable(sortBy) { //sort by is ["pts", "autoPts", "gear", "climb", "isShooter", "teamNumber"]
 		teams.sort(function(a, b) {
-			if (sortBy === "teamNumber")
+			if (rankingSortReverse)
 				return a[sortBy] - b[sortBy]
 			else
 				return b[sortBy] - a[sortBy]
 		})
+		rankingSortReverse = !rankingSortReverse
 		$("#rankingTbody").html('')
 		for (var index in teams) {
 			var team = teams[index]
 			expectedScoreByTeamRank[team.teamNumber] = parseInt(index) + 1
 			var html = `<tr>`
-			html += `<td>${parseInt(index)+1}</td>`
+			html += `<td>${team.rank}</td>`
 			if (team.isShooter)
 				html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}<i class="fa fa-futbol-o" style="color: green;"></i></td>`
 			else

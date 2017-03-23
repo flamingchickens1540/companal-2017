@@ -1,36 +1,24 @@
 <div id="page-matches" style="display: none;">
 	<h1 align="center" style="font-family: robotoBlack">Matches</h1>
-	<center><select id="sortMatchesField">
-		<option>matchNumber</option>
-		<option>redScore</option>
-		<option>blueScore</option>
-		<option>totalScore</option>
-		<option>redGears</option>
-		<option>blueGears</option>
-		<option>totalGears</option>
-		<option>redGrade</option>
-		<option>blueGrade</option>
-		<option>totalGrade</option>
-	</select>
-	<button type="button" class="btn btn-info" id="sortMatchesButton">Sort</button>
-	</center>
+	<p align="center"><i>Click a header to sort the table...</i></p>	
 	<table class="table" align="center" style="width: 85%;">
 		<thead>
 			<tr>
-				<th>#</th>
-				<th>Red</th>
-				<th>Blue</th>
-				<th>Total</th>
+				<th onclick="drawTable('matchNumber')">#</th>
+				<th onclick="drawTable('redScore')">Red</th>
+				<th onclick="drawTable('blueScore')">Blue</th>
+				<th onclick="drawTable('totalScore')">Total</th>
 				<th>R1</th>
 				<th>R2</th>
 				<th>R3</th>
-				<th>RGears</th>
-				<th>RGrade</th>
+				<th onclick="drawTable('redGears')">RGears</th>
+				<th onclick="drawTable('redGrade')">RGrade</th>
 				<th>B1</th>
 				<th>B2</th>
 				<th>B3</th>
-				<th>BGears</th>
-				<th>BGrade</th>
+				<th onclick="drawTable('blueGears')">BGears</th>
+				<th onclick="drawTable('blueGrade')">BGrade</th>
+				<th onclick="drawTable('totalGrade')">TGrade</th>
 			</tr>
 		</thead>
 		<tbody id="matchesTbody"></tbody>
@@ -79,13 +67,15 @@
 		allMatches.push(match)
 	}
 
+	var matchesSortReverse = true
 	function drawTable(sortBy) { // sortBy is ["matchNumber", "redScore", "blueScore", "totalScore", "redGears", "blueGears", "totalGears", "redGrade", "blueGrade", "totalGrade"]
 		allMatches.sort(function(a, b) {
-			if (sortBy === "matchNumber")
+			if (matchesSortReverse)
 				return parseInt(a[sortBy]) - parseInt(b[sortBy])
 			else
 				return parseInt(b[sortBy]) - parseInt(a[sortBy])
 		})
+		matchesSortReverse = !matchesSortReverse
 		$("#matchesTbody").html('')
 		for (var index in allMatches) {
 			var m = allMatches[index]
@@ -104,6 +94,7 @@
 			html += `<td onclick="switchToTeam('${m.blueTeams[2]}')">${m.blueTeams[2]}</td>`
 			html += `<td style="color: #4679B2;">${m.blueGears.toFixed(1)}</td>`
 			html += `<td><span class="label label-default" style="background-color: #551A8B;">${m.blueGrade.toFixed(1)}</span></td>`
+			html += `<td><span class="label label-default" style="background-color: #551A8B;">${((m.redGrade + m.blueGrade) / 2).toFixed(1)}</span></td>`
 			html += `</tr>`
 			$("#matchesTbody").append(html)
 		}
