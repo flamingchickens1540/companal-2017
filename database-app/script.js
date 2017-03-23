@@ -203,7 +203,7 @@ function importPit() {
 			updateTable();
 			dialogs.alert('Done importing data!');
 		} else {
-			dialogs.alert('The USB not inserted properly');
+			dialogs.alert('The USB is not inserted properly');
 		}
 	} else {
 		dialogs.alert('Oops! Something went wrong');
