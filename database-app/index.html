@@ -66,9 +66,10 @@
 			<button class="disabled btn btn-success" id="new" type="button">New Flashdrive</button>
 			<br />
 			<br />
-			<button class="sect act btn-primary btn" id="toggleMembers" type="button">Members</button>
-			<button class="sect btn-primary btn" id="toggleTeams" type="button">Teams</button>
-			<button class="sect btn-primary btn" id="toggleMatches" type="button">Matches</button>
+			<button class="sect act btn-primary btn" id="toggleMembers" type="button" style="margin-bottom: 10px;">Members</button>
+			<button class="sect btn-primary btn" id="toggleTeams" type="button" style="margin-bottom: 10px;">Teams</button>
+			<button class="sect btn-primary btn" id="toggleMatches" type="button" style="margin-bottom: 10px;">Matches</button>
+			<button class="candy btn-info btn" type="checkbox" style="margin-bottom: 10px; margin-left: 50px;">Remind for Candy</button>
 		</nav>
 		<br />
 		<br />
@@ -81,6 +82,13 @@
 		<br />
 		<div id="members" class="center">
 			<h3>Members</h3>
+			<table style="position: absolute; margin-left: 8%; line-height: 2.45; margin-top: 3%;">
+				<thead>
+					<th></th>
+				</thead>
+				<tbody class="err-table">
+				</tbody>
+			</table>
 			<table style="width:80%;border:3px black solid" id='scoutingTable' border="1" class="center-block table table-hover table-bordered">
 				<thead>
 					<tr>

@@ -100,43 +100,56 @@ var scoutcount = {
 //Member Name
 var accounts = {
 	"98": "Adolfo",
-	"50": "Noor", 
-	"60": "Nicholas", 
-	"64": "David", 
-	"66": "Alexander Y", 
-	"81": "Holly", 
-	"24": "Zack", 
-	"25": "Ruby", 
-	"20": "Lauren Mei", 
-	"21": "Hammad", 
-	"22": "Robin", 
-	"23": "Claire", 
-	"44": "Hannah", 
-	"40": "Fin", 
-	"41": "Amber", 
-	"96": "Liam B", 
-	"77": "Bailey", 
-	"76": "Spencer", 
-	"72": "Aarushi", 
-	"97": "Marti", 
-	"58": "Quinn", 
-	"99": "Jake", 
-	"13": "Andrei", 
-	"12": "Alexander M", 
-	"15": "Tristan", 
-	"14": "Jonathan", 
-	"17": "Avery", 
-	"16": "Tyler", 
-	"19": "Kobi", 
-	"18": "Ryan", 
-	"30": "Josephine", 
-	"37": "Kean", 
+	"50": "Noor",
+	"60": "Nicholas",
+	"64": "David",
+	"66": "Alexander Y",
+	"81": "Holly",
+	"24": "Zack",
+	"25": "Ruby",
+	"20": "Lauren Mei",
+	"21": "Hammad",
+	"22": "Robin",
+	"23": "Claire",
+	"44": "Hannah",
+	"40": "Fin",
+	"41": "Amber",
+	"96": "Liam B",
+	"77": "Bailey",
+	"76": "Spencer",
+	"72": "Aarushi",
+	"97": "Marti",
+	"58": "Quinn",
+	"99": "Jake",
+	"13": "Andrei",
+	"12": "Alexander M",
+	"15": "Tristan",
+	"14": "Jonathan",
+	"17": "Avery",
+	"16": "Tyler",
+	"19": "Kobi",
+	"18": "Ryan",
+	"30": "Josephine",
+	"37": "Kean",
 	"36": "Liam W",
-	"34": "Ben J", 
-	"33": "Culla", 
-	"55": "Dylan", 
+	"34": "Ben J",
+	"33": "Culla",
+	"55": "Dylan",
 	"48": "Natalie"
 };
+
+// Tristan's Edits
+var candyBool = false;
+$('.candy').click(function () {
+	candyBool = !candyBool;
+	if (candyBool) {
+		$('.candy').css('background', 'pink');
+		$('.candy').css('border', '1px solid pink');
+	} else if (!candyBool) {
+		$('.candy').css('background', '');
+		$('.candy').css('border', '');
+	}
+});
 
 //Imports Previous Files
 function start() {
@@ -217,7 +230,7 @@ function importStand() {
 			dialogs.alert('Done importing data!');
 			updateTable();
 		} else {
-			dialogs.alert('The USB not inserted properly');
+			dialogs.alert('The USB is not inserted properly');
 		}
 	} else {
 		dialogs.alert('Oops! Something went wrong');
@@ -268,6 +281,15 @@ function createTable() {
 		td5.setAttribute("id",id+"num3");
 		$("#"+id+"row").append(td5);
 		$("#"+id+"num3").text(parseInt(scoutcount[id][2])+parseInt(scoutcount[id][2]));
+		if (candyBool) {
+			for (x in keys) {
+				var id = keys[x];
+				if (parseInt($("#" + id + "num2").val()) % 10 == 0) {
+					$('.' + id + 'row').css('background', 'pink');
+					$('.' + id + 'row').addClass('pinkCandy')
+				}
+			}
+		}
 	}
 	for (match=1;match<=80;match+=1) {
 		var tr = document.createElement("tr");
@@ -466,4 +488,47 @@ var scores = {
 	"33": 0,
 	"55": 0,
 	"48": 0
+}
+
+// Tristan's Edits
+var keys = Object.keys(accounts);
+var id;
+for (x in keys) {
+	id = keys[x];
+	if ($("#" + id + "num2").val() < 10) {
+		$('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
+	}
+	$('.' + id + 'row').click(function () {
+		if ($('.' + id + 'row').hasClass('pinkCandy')) {
+			$('.' + id + 'row').css('background', '');
+		}
+	});
+	// $('.err-no-ten-' + id).click(function () {
+	// 	$('.err-no-ten-' + id).data('clicked', true);
+	// 	if ($('.err-no-ten-' + id).data('clicked')) {
+	// 		dialogs.confirm('Exempt ' + accounts[id] + ' from the minimum requirement?', function (ok) {
+	// 			if (ok) {
+	// 				$('.' + id + 'alert').empty();
+	// 			}
+	// 		});
+	// 	}
+	// });
+}
+$('[data-toggle="tooltip"]').tooltip();
+var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
+var ePeople = Object.keys(exempt);
+for (i in ePeople) {
+	// $('.err-no-ten-' + ePeople[i]).replaceWith('<p style="color: lightgreen; line-height: 1.75">&#10004;</p>');
+	$('.' + ePeople[i] + 'alert').css('opacity', '0');
+}
+for (x in keys) {
+	if (accounts.hasOwnProperty(x)) {
+				$('.err-no-ten-' + x).click(function () {
+			dialogs.confirm('Exempt ' + accounts[x] + ' from the minimum requirement?', function (ok) {
+				if (ok) {
+					$('.' + x + 'alert').empty();
+				}
+			});
+		});
+	}
 }
