@@ -161,7 +161,7 @@
 				"truetrue": "the floor or human."
 			}
 			text += ` They ${can(pit.gears.canDeposit)} deposit gears with an `
-			if (pit.gears.active) {
+			if (parseBool(pit.gears.active)) {
 				text += 'active '
 			} else {
 				text += 'passive '
