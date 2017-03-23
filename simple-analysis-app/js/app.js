@@ -1,23 +1,34 @@
 
+function parseBool(x) {
+	if (x === "true")
+		return true
+	else
+		return false
+}
+
 function does(a) {
+	if (typeof(a) !== "boolean") {a = parseBool(a)}
 	if (a)
 		return "does"
 	else
 		return "does not"
 }
 function are(a) {
+	if (typeof(a) !== "boolean") {a = parseBool(a)}
 	if (a) 
 		return "are"
 	else
 		return "are not"
 }
 function doo(a) {
+	if (typeof(a) !== "boolean") {a = parseBool(a)}
 	if (a)
 		return "do"
 	else
 		return "do not"
 }
 function can(a) {
+	if (typeof(a) !== "boolean") {a = parseBool(a)}
 	if (a)
 		return "can"
 	else
@@ -63,5 +74,8 @@ $.get("tabs/alexander.html", function(data) {
 	$("#pages").append(data)
 })
 $.get("tabs/allianceselection.html", function(data) {
+	$("#pages").append(data)
+})
+$.get("tabs/pit.html", function(data) {
 	$("#pages").append(data)
 })
