@@ -1,0 +1,105 @@
+<div id="page-pit" style="display: none;">
+	<h1 align="center" style="font-family: robotoBlack">Pit Data</h1>
+
+	<table class="table" align="center" style="width: 85%;">
+		<thead>
+			<tr>
+				<th>Team</th>
+				<th>Scouts</th>
+				<th>Drivetrain</th>
+				<th>Shooter</th>
+				<th>Gearer</th>
+				<th>Climb</th>
+				<th>Weight/Language</th>
+				<th>Role</th>
+				<th>Notes</th>
+			</tr>
+		</thead>
+		<tbody id="pitTbody"></tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+	
+	var pitTeams = []
+	for (var teamNumber in pitRecords) {
+		var team = pitRecords[teamNumber]
+		pitTeams.push(team)
+	}
+
+	function parseBool(x) {
+		if (x === "true")
+			return true
+		else
+			return false
+		
+	}
+
+	function drawPitTable(sortBy) {
+		$("#pitTbody").html('')
+		pitTeams.sort(function(a, b) {
+			if (sortBy === "teamNumber")
+				return parseInt(a.teamNumber) - parseInt(b.teamNumber)
+
+		})
+
+		for (var index in pitTeams) {
+			var team = pitTeams[index]
+			html = `<tr>`
+			html += `<td>${team.teamNumber}</td>`
+			if (team.scoutIds[1] === '-')
+				html += `<td>${scouts[team.scoutIds[0]]}</td>`
+			else
+				html += `<td>${scouts[team.scoutIds[0]]} and ${scouts[team.scoutIds[1]]}</td>`
+			if (parseBool(team.drivetrain.drivetrainShifts))
+				html += `<td>shifting ${team.drivetrain.drivetrainType}</td>`
+			else
+				html += `<td>single-speed ${team.drivetrain.drivetrainType}</td>`
+			var loadZoneText = {
+				"falsefalsefalse": "no stations.",
+				"truefalsefalse": "the floor only.",
+				"falsetruefalse": "the hopper only.",
+				"falsefalsetrue": "the human only.",
+				"truetruefalse": "the floor or hopper.",
+				"falsetruetrue": "the hopper or human.",
+				"truefalsetrue": "the floor or human.",
+				"truetruetrue": "the floor, hopper, or human."
+			}
+			var loadZoneKey = String(team.shooting.floorLoading)+String(team.shooting.hopperLoading)+String(team.shooting.humanLoading)
+			if (parseBool(team.shooting.hasHigh) && parseBool(team.shooting.hasLow)) {
+				html += `<td>${team.shooting.efficiency}% eff, ${team.shooting.ballCapacity} ball high and low, loading from ${loadZoneText[loadZoneKey]}</td>`
+			} else if (parseBool(team.shooting.hasHigh)) {
+				html += `<td>${team.shooting.efficiency}% eff, ${team.shooting.ballCapacity} ball high goal, loading from ${loadZoneText[loadZoneKey]}</td>`
+			} else if (parseBool(team.shooting.hasHigh)) {
+				html += `<td>${team.shooting.efficiency}% eff, ${team.shooting.ballCapacity} ball low goal, loading from ${loadZoneText[loadZoneKey]}</td>`
+			} else {
+				html += `<td>None</td>`
+			}
+			var gearZoneKey = String(team.gears.floorLoading)+String(team.gears.humanLoading)
+			var gearZoneText = {
+				"falsefalse": "nowhere.",
+				"truefalse": "the floor.",
+				"falsetrue": "the human.",
+				"truetrue": "the floor or human."
+			}
+			if (parseBool(team.gears.canDeposit)) {
+				if (team.gears.active) {
+					html += `<td>Active loading from ${gearZoneText[gearZoneKey]}</td>`
+				} else {
+					html += `<td>Passive loading from ${gearZoneText[gearZoneKey]}</td>`
+				}
+			} else {
+				html += `<td>None</td>`
+			}
+			html += `<td>${team.canClimb}</td>`
+			html += `<td>${team.weight}lbs, ${team.language}</td>`
+			html += `<td>[${team.roles}]</td>`
+			html += `<td>${team.notes}</td>`
+			html += `</tr>`
+			$("#pitTbody").append(html)
+		}
+	}
+
+	drawPitTable('teamNumber')
+
+</script>
