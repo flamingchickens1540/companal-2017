@@ -496,7 +496,8 @@ var id;
 for (x in keys) {
 	id = keys[x];
 	if ($("#" + id + "num2").val() < 10) {
-		$('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
+		$('#' + id + 'name').prepend('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a>&nbsp;&nbsp;');
+		// $('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
 	}
 	$('.' + id + 'row').click(function () {
 		if ($('.' + id + 'row').hasClass('pinkCandy')) {
@@ -514,13 +515,18 @@ for (x in keys) {
 	// 	}
 	// });
 }
-$('[data-toggle="tooltip"]').tooltip();
 var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
 var ePeople = Object.keys(exempt);
 for (i in ePeople) {
-	// $('.err-no-ten-' + ePeople[i]).replaceWith('<p style="color: lightgreen; line-height: 1.75">&#10004;</p>');
-	$('.' + ePeople[i] + 'alert').css('opacity', '0');
+	$('.err-no-ten-' + ePeople[i]).css('opacity', '0');
 }
+$('[data-toggle="tooltip"]').tooltip();
+// var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
+// var ePeople = Object.keys(exempt);
+// for (i in ePeople) {
+// 	// $('.err-no-ten-' + ePeople[i]).replaceWith('<p style="color: lightgreen; line-height: 1.75">&#10004;</p>');
+// 	$('.' + ePeople[i] + 'alert').css('opacity', '0');
+// }
 // for (x in keys) {
 // 	if (accounts.hasOwnProperty(x)) {
 // 				$('.err-no-ten-' + x).click(function () {
