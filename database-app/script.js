@@ -285,7 +285,6 @@ function createTable() {
 			for (x in keys) {
 				var id = keys[x];
 				if (parseInt($("#" + id + "num2").val()) % 10 == 0) {
-					$('.' + id + 'row').css('background', 'pink');
 					$('.' + id + 'row').addClass('pinkCandy')
 				}
 			}
@@ -501,7 +500,7 @@ for (x in keys) {
 	}
 	$('.' + id + 'row').click(function () {
 		if ($('.' + id + 'row').hasClass('pinkCandy')) {
-			$('.' + id + 'row').css('background', '');
+			$('.' + id + 'row').removeClass('pinkCandy');
 		}
 	});
 	// $('.err-no-ten-' + id).click(function () {
@@ -518,7 +517,7 @@ for (x in keys) {
 var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
 var ePeople = Object.keys(exempt);
 for (i in ePeople) {
-	$('.err-no-ten-' + ePeople[i]).css('opacity', '0');
+	$('.err-no-ten-' + ePeople[i]).replaceWith('&nbsp;&nbsp;');
 }
 $('[data-toggle="tooltip"]').tooltip();
 // var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
