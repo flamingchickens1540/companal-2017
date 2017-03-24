@@ -139,17 +139,17 @@ var accounts = {
 };
 
 // Tristan's Edits
-var candyBool = false;
-$('.candy').click(function () {
-	candyBool = !candyBool;
-	if (candyBool) {
-		$('.candy').css('background', 'pink');
-		$('.candy').css('border', '1px solid pink');
-	} else if (!candyBool) {
-		$('.candy').css('background', '');
-		$('.candy').css('border', '');
-	}
-});
+// var candyBool = false;
+// $('.candy').click(function () {
+// 	candyBool = !candyBool;
+// 	if (candyBool) {
+// 		$('.candy').css('background', 'pink');
+// 		$('.candy').css('border', '1px solid pink');
+// 	} else if (!candyBool) {
+// 		$('.candy').css('background', '');
+// 		$('.candy').css('border', '');
+// 	}
+// });
 
 //Imports Previous Files
 function start() {
@@ -281,14 +281,15 @@ function createTable() {
 		td5.setAttribute("id",id+"num3");
 		$("#"+id+"row").append(td5);
 		$("#"+id+"num3").text(parseInt(scoutcount[id][2])+parseInt(scoutcount[id][2]));
-		if (candyBool) {
-			for (x in keys) {
-				var id = keys[x];
-				if (parseInt($("#" + id + "num2").val()) % 10 == 0) {
-					$('.' + id + 'row').addClass('pinkCandy')
-				}
-			}
-		}
+		$('#' + id + 'name').prepend('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a>&nbsp;&nbsp;');
+// 		if (candyBool) {
+// 			for (x in keys) {
+// 				var id = keys[x];
+// 				if (parseInt($("#" + id + "num2").val()) % 10 == 0) {
+// 					$('.' + id + 'row').addClass('pinkCandy')
+// 				}
+// 			}
+// 		}
 	}
 	for (match=1;match<=80;match+=1) {
 		var tr = document.createElement("tr");
@@ -364,25 +365,11 @@ function updateTable() {
 		$("#"+id+"num2").text(scoutcount[id][1]);
 		$("#"+id+"num3").text(parseInt(scoutcount[id][0])+parseInt(scoutcount[id][1]));
 		// Tristan's Edits
-		if ($("#" + id + "num2").val() < 10) {
-			$('#' + id + 'name').prepend('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a>&nbsp;&nbsp;');
+		if ($("#" + id + "num2").text() < 10) {
 			// $('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
+		} else {
+			$(".err-no-ten-"+id).hide();
 		}
-		$('.' + id + 'row').click(function () {
-			if ($('.' + id + 'row').hasClass('pinkCandy')) {
-				$('.' + id + 'row').removeClass('pinkCandy');
-			}
-		});
-		// $('.err-no-ten-' + id).click(function () {
-		// 	$('.err-no-ten-' + id).data('clicked', true);
-		// 	if ($('.err-no-ten-' + id).data('clicked')) {
-		// 		dialogs.confirm('Exempt ' + accounts[id] + ' from the minimum requirement?', function (ok) {
-		// 			if (ok) {
-		// 				$('.' + id + 'alert').empty();
-		// 			}
-		// 		});
-		// 	}
-		// });
 	}
 	for (x in manifest_stand) {
 		var match = manifest_stand[x];
@@ -516,20 +503,3 @@ for (i in ePeople) {
 	$('.err-no-ten-' + ePeople[i]).replaceWith('&nbsp;&nbsp;');
 }
 $('[data-toggle="tooltip"]').tooltip();
-// var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
-// var ePeople = Object.keys(exempt);
-// for (i in ePeople) {
-// 	// $('.err-no-ten-' + ePeople[i]).replaceWith('<p style="color: lightgreen; line-height: 1.75">&#10004;</p>');
-// 	$('.' + ePeople[i] + 'alert').css('opacity', '0');
-// }
-// for (x in keys) {
-// 	if (accounts.hasOwnProperty(x)) {
-// 				$('.err-no-ten-' + x).click(function () {
-// 			dialogs.confirm('Exempt ' + accounts[x] + ' from the minimum requirement?', function (ok) {
-// 				if (ok) {
-// 					$('.' + x + 'alert').empty();
-// 				}
-// 			});
-// 		});
-// 	}
-// }
