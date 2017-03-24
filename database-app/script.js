@@ -363,6 +363,26 @@ function updateTable() {
 		$("#"+id+"num").text(scoutcount[id][0]);
 		$("#"+id+"num2").text(scoutcount[id][1]);
 		$("#"+id+"num3").text(parseInt(scoutcount[id][0])+parseInt(scoutcount[id][1]));
+		// Tristan's Edits
+		if ($("#" + id + "num2").val() < 10) {
+			$('#' + id + 'name').prepend('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a>&nbsp;&nbsp;');
+			// $('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
+		}
+		$('.' + id + 'row').click(function () {
+			if ($('.' + id + 'row').hasClass('pinkCandy')) {
+				$('.' + id + 'row').removeClass('pinkCandy');
+			}
+		});
+		// $('.err-no-ten-' + id).click(function () {
+		// 	$('.err-no-ten-' + id).data('clicked', true);
+		// 	if ($('.err-no-ten-' + id).data('clicked')) {
+		// 		dialogs.confirm('Exempt ' + accounts[id] + ' from the minimum requirement?', function (ok) {
+		// 			if (ok) {
+		// 				$('.' + id + 'alert').empty();
+		// 			}
+		// 		});
+		// 	}
+		// });
 	}
 	for (x in manifest_stand) {
 		var match = manifest_stand[x];
@@ -490,30 +510,6 @@ var scores = {
 }
 
 // Tristan's Edits
-var keys = Object.keys(accounts);
-var id;
-for (x in keys) {
-	id = keys[x];
-	if ($("#" + id + "num2").val() < 10) {
-		$('#' + id + 'name').prepend('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a>&nbsp;&nbsp;');
-		// $('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
-	}
-	$('.' + id + 'row').click(function () {
-		if ($('.' + id + 'row').hasClass('pinkCandy')) {
-			$('.' + id + 'row').removeClass('pinkCandy');
-		}
-	});
-	// $('.err-no-ten-' + id).click(function () {
-	// 	$('.err-no-ten-' + id).data('clicked', true);
-	// 	if ($('.err-no-ten-' + id).data('clicked')) {
-	// 		dialogs.confirm('Exempt ' + accounts[id] + ' from the minimum requirement?', function (ok) {
-	// 			if (ok) {
-	// 				$('.' + id + 'alert').empty();
-	// 			}
-	// 		});
-	// 	}
-	// });
-}
 var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
 var ePeople = Object.keys(exempt);
 for (i in ePeople) {
