@@ -35,91 +35,84 @@
             flashDir = '/Volumes/1540/companal'
         else if (platform.isWin32)
             flashDir = 'R:/companal'
-        if (!fs.existsSync(flashDir)) {
-            alert("Wait for flashdrive...")
+        else {
+            alert("This platform is not supported...")
             return
         }
+
+        if (!fs.existsSync(flashDir)) {
+            alert("I can't see a flashdrive...")
+            return
+        }
+
         if (platform.isDarwin)
             fs.copySync(`${dataDir}`, `${process.env.HOME}/Desktop/companalanalysisbackup`)
-        if (true) {
-            /*var newPitManifest = JSON.parse(fs.readFileSync(`${flashDir}/output/pit-scouting/manifest.json`, 'utf8'))
-            var currentPitManifest = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/manifest.json`, 'utf8'))
-            for (var pitIndex in newPitManifest) {
-                var newPitFile = newPitManifest[pitIndex]
 
-                if (!fs.existsSync(`${dataDir}/pit-scouting/${newPitFile}`) && fs.existsSync(`${flashDir}/output/pit-scouting/${newPitFile}`)) {
-                    fs.copySync(`${flashDir}/output/pit-scouting/${newPitFile}`, `${dataDir}/pit-scouting/${newPitFile}`)
-                    currentPitManifest.push(newPitFile)
+        var pitFiles = fs.readdirSync(`${flashDir}/output/pit-scouting/`)
+        for (var index in pitFiles) {
+            var filename = pitFiles[index]
+            if (filename.split('.')[1] === 'json' && !isNaN(filename.split('.')[0])) { //check that the file is 1234.json
+                if (!fs.existsSync(`${dataDir}/pit-scouting/${filename}`)) {
+                    //check to make sure we haven't copied it yet
+                    fs.copySync(`${flashDir}/output/pit-scouting/${filename}`, `${dataDir}/pit-scouting/${filename}`)
                 }
             }
-            fs.writeFileSync(`${dataDir}/pit-scouting/manifest.json`, JSON.stringify(currentPitManifest))*/
-
-            var newStandManifest = JSON.parse(fs.readFileSync(`${flashDir}/output/stand-scouting/manifest.json`, 'utf8'))
-            var currentStandManifest = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/manifest.json`, 'utf8'))
-            for (var standIndex in newStandManifest) {
-                var newStandFile = newStandManifest[standIndex]
-
-                if (!fs.existsSync(`${dataDir}/stand-scouting/${newStandFile}`) && fs.existsSync(`${flashDir}/output/stand-scouting/${newStandFile}`)) {
-                    fs.copySync(`${flashDir}/output/stand-scouting/${newStandFile}`, `${dataDir}/stand-scouting/${newStandFile}`)
-                    currentStandManifest.push(newStandFile)
-                }
-            }
-            fs.writeFileSync(`${dataDir}/stand-scouting/manifest.json`, JSON.stringify(currentStandManifest))
-
-            //fs.copySync(`${flashDir}/output/pit-scouting`, `${dataDir}/pit-scouting`, {overwrite: true})
-            fs.copySync(`${flashDir}/output/stand-scouting`, `${dataDir}/stand-scouting`, {overwrite: true})
-            fs.copySync(`${flashDir}/output/tournament`, `${dataDir}/tournament`, {overwrite: true})
-            if (fs.existsSync(`${flashDir}/output/tournament/matchSchedule.json`)) {
-                fs.copySync(`${flashDir}/output/tournament/matchSchedule.json`, `${dataDir}/matchSchedule.json`, {overwrite: true})
-            }
-            alert("Done!")
-            window.location.reload()
-        } else {
-            alert("Issue importing. Revert manually using the dir on your desktop.")
         }
+
+        var standFiles = fs.readdirSync(`${flashDir}/output/stand-scouting/`)
+        for (var index in standFiles) {
+            var filename = standFiles[index]
+            if (filename.split('.')[1] === 'json' && filename.count('-') === 2) { //check that the file is m12-r1-1234.json
+                if (!fs.existsSync(`${dataDir}/stand-scouting/${filename}`)) {
+                    //check to make sure we haven't copied it yet
+                    fs.copySync(`${flashDir}/output/stand-scouting/${filename}`, `${dataDir}/stand-scouting/${filename}`)
+                }
+            }
+        }
+
+        alert("Finished importing data...")
+        window.location.reload()
     })
 
-	var standRecords = {}
 	var pitRecords = {}
-    var pitManifest = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/manifest.json`, 'utf8'))
-    var standManifest = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/manifest.json`, 'utf8'))
-    for (var i in pitManifest) {
-    	var filename = pitManifest[i]
-    	var team = filename.split('.')[0]
-        if (fs.existsSync(`${dataDir}/pit-scouting/${filename}`)) {
-            pitRecords[team] = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/${filename}`, 'utf8'))
-        }
-    	
-    }
-    for (var j in standManifest) {
-    	var filename = standManifest[j]
-    	var team = filename.split('-')[2].split('.')[0]
-    	if (!standRecords.hasOwnProperty(team)) {
-    		standRecords[team] = []
-    	}
-        if (fs.existsSync(`${dataDir}/stand-scouting/${filename}`))
-    	   standRecords[team].push(JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8')))
-    }
+    var standRecords = {}
 
-    var scoutMatches = {}
-    for (var teamNumber in standRecords) {
-        for (var index in standRecords[teamNumber]) {
-            if (!scoutMatches.hasOwnProperty(standRecords[teamNumber][index].scoutId))
-                scoutMatches[standRecords[teamNumber][index].scoutId] = 0
-            scoutMatches[standRecords[teamNumber][index].scoutId]++
+    var pitFiles = fs.readdirSync(`${dataDir}/pit-scouting/`)
+    for (var index in pitFiles) {
+        var filename = pitFiles[index]
+        if (filename.split('.')[1] === 'json' && !isNaN(filename.split('.')[0])) { //check that the file is 1234.json
+            try {
+                var data = JSON.parse(fs.readFileSync(`${dataDir}/pit-scouting/${filename}`, 'utf8'))
+            }
+            catch (err) {
+                console.log(`Could not process pit-scouting/${filename}`)
+                continue
+            }
+
+            pitRecords[data.teamNumber] = data
         }
     }
-    var scouts = JSON.parse(fs.readFileSync('scouts.json', 'utf8'))
-    for (var scoutId in scouts) {
-        if (!scoutMatches.hasOwnProperty(scoutId))
-            scoutMatches[scoutId] = 0
-    }
-    for (var scoutId in scoutMatches) {
-        console.log(`${scouts[scoutId]} scouted ${scoutMatches[scoutId]} matches.`)
+
+    var standFiles = fs.readdirSync(`${dataDir}/stand-scouting/`)
+    for (var index in standFiles) {
+        var filename = standFiles[index]
+        if (filename.split('.')[1] === 'json' && filename.count('-') === 2) { //check that the file is m12-r1-1234.json
+            try {
+                var data = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8'))
+            }
+            catch (err) {
+                console.log(`Could not process stand-scouting/${filename}`)
+                continue
+            }
+
+            if (!(standRecords.hasOwnProperty(data.teamNumber)))
+                standRecords[data.teamNumber] = []
+
+            standRecords[data.teamNumber].push(data)
+        }
     }
 
-    var scheduleJson = fs.readFileSync(`${dataDir}/matchSchedule.json`, 'utf8')
-    var schedule = JSON.parse(scheduleJson)
+    var schedule = JSON.parse(fs.readFileSync(`${dataDir}/matchSchedule.json`, 'utf8'))
 
     var allTeamNumbers = []
     for (var teamNumber in pitRecords) {
@@ -137,7 +130,63 @@
         }
     }
 
-
+    var scoutMatches = {}
+    for (var teamNumber in standRecords) {
+        for (var index in standRecords[teamNumber]) {
+            if (!scoutMatches.hasOwnProperty(standRecords[teamNumber][index].scoutId))
+                scoutMatches[standRecords[teamNumber][index].scoutId] = 0
+            scoutMatches[standRecords[teamNumber][index].scoutId]++
+        }
+    }
+    var scouts = {
+    "98": "Adolfo",
+    "50": "Noor", 
+    "60": "Nicholas", 
+    "64": "David", 
+    "66": "Alexander Y", 
+    "81": "Holly", 
+    "24": "Zack", 
+    "25": "Ruby", 
+    "20": "Lauren Mei", 
+    "21": "Hammad", 
+    "22": "Robin", 
+    "23": "Claire", 
+    "44": "Hannah", 
+    "40": "Fin", 
+    "41": "Amber", 
+    "96": "Liam B", 
+    "77": "Bailey", 
+    "76": "Spencer", 
+    "72": "Aarushi", 
+    "97": "Marti", 
+    "58": "Quinn", 
+    "99": "Jake", 
+    "13": "Andrei", 
+    "12": "Alexander M", 
+    "15": "Tristan", 
+    "14": "Jonathan", 
+    "17": "Ava", 
+    "16": "Tyler", 
+    "19": "Kobi", 
+    "18": "Ryan", 
+    "30": "Josephine", 
+    "37": "Kean", 
+    "36": "Liam W", 
+    "34": "Ben J", 
+    "33": "Culla", 
+    "55": "Dylan", 
+    "48": "Natalie"
+}
+    for (var scoutId in scouts) {
+        if (!scoutMatches.hasOwnProperty(scoutId))
+            scoutMatches[scoutId] = 0
+    }
+    var csv = ''
+    for (var scoutId in scoutMatches) {
+        console.log(`${scouts[scoutId]} scouted ${scoutMatches[scoutId]} matches.`)
+        csv += `${scouts[scoutId]},${scoutMatches[scoutId]}\n`
+    }
+    fs.writeFileSync(`${dataDir}/scoutCount.csv`, csv)
 
 </script>
 
