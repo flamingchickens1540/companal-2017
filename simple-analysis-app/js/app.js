@@ -1,4 +1,13 @@
 
+String.prototype.count = function(char) {
+    var count = 0
+    for (var index in this) {
+        if (this[index] === char)
+            count++
+    }
+    return count
+}
+
 function parseBool(x) {
 	if (x === "true")
 		return true
