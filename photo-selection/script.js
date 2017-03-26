@@ -125,10 +125,10 @@ function addImage(name) {
 var progress = 0;
 var images = []
 var teams_wilsonville = [568,753,847,955,957,997,1359,1425,1432,2411,2471,2521,2550,2635,2733,2811,2915,2990,3024,3574,3636,3673,3674,3711,4043,4051,4057,4060,4110,4488,5085,5198,5977,6343,6437,6443,6445,6456,6465]
-var teams = [753,847,955,957,997,1425,1510,1571,2002,2374,2521,2550,2811,2898,2990,3131,3673,3674,4043,4051,4057,4110,4127,4132,4488,4662,4692,5085,5198,5468,5956,5970,6442,6445,6456,6696]
-var teams_notes = {753:"",847:"",955:"On our alliance at Wilsonville.",957:"",997:"",1425:"",1510:"",1571:"",2002:"",2374:"",2521:"",2550:"The top ranked robot at Wilsonville.",2811:"",2898:"",2990:"",3131:"",3673:"",3674:"On our alliance at Wilsonville.",4043:"",4051:"",4057:"",4110:"",4127:"",4132:"",4488:"",4662:"",4692:"",5085:"",5198:"Can attach a climber.",5468:"",5956:"",5970:"",6442:"",6445:"",6456:"",6696:""}
-var teams_pnw = [1318,1595,2046,2550,2930,2980,2990,3238,4125,4513,4915,5803];
-var teams_pnwnotes = {1318:"2nd Round 1st Pick/Chairman's at Auburn Mountainview",1595:"#1 at Central Washington, #2/Chairman's at West Valley",2046:"#3 at Central Washington, #7 at Auburn Mountainview.",2550:"#1 at Wilsonville.",2930:"#2 at Auburn Mountainview",2980:"2nd Round 5th Pick/Chairman's at Mount Vernon",2990:"#2 at Wilsonville",3238:"#2 at Mount Vernon",4125:"#4/Chairman's at Central Washington",4513:"#1 at West Valley",4915:"#1 at Auburn Mountainview",5803:"#1 at Mount Vernon, #2 at Auburn Mountainview"}
+var teams_oc = [753,847,955,957,997,1425,1510,1571,2002,2374,2521,2550,2811,2898,2990,3131,3673,3674,4043,4051,4057,4110,4127,4132,4488,4662,4692,5085,5198,5468,5956,5970,6442,6445,6456,6696]
+var teams_ocnotes = {753:"",847:"",955:"On our alliance at Wilsonville.",957:"",997:"",1425:"",1510:"",1571:"",2002:"",2374:"",2521:"",2550:"The top ranked robot at Wilsonville.",2811:"",2898:"",2990:"",3131:"",3673:"",3674:"On our alliance at Wilsonville.",4043:"",4051:"",4057:"",4110:"",4127:"",4132:"",4488:"",4662:"",4692:"",5085:"",5198:"Can attach a climber.",5468:"",5956:"",5970:"",6442:"",6445:"",6456:"",6696:""}
+var teams = [955,1318,1425,1595,2046,2521,2550,2907,2930,2980,2990,3238,3674,4061,4125,4488,4513,4915,5198,5803,5920,6445];
+var teams_notes = {955:"On alliance at Wilsonville",1318:"2nd Round 1st Pick/Chairman's at Auburn Mountainview",1425:"#1 at Oregon City",1595:"#1 at Central Washington, #2/Chairman's at West Valley",2046:"#3 at Central Washington, #7 at Auburn Mountainview.",2521:"#22/Chairman's at Oregon City",2550:"#1 at Wilsonville.",2907:"#6 at Auburn Mountainview, #4 at Mount Vernon",2930:"#2 at Auburn Mountainview",2980:"2nd Round 5th Pick/Chairman's at Mount Vernon",2990:"#2 at Wilsonville",3238:"#2 at Mount Vernon",3674:"Alliance partners twice, #7 at Wilsonville, #2 at Oregon City",4061:"",4125:"#4/Chairman's at Central Washington",4488:"",4513:"#1 at West Valley",4915:"#1 at Auburn Mountainview",5198:"Amazing defense bot.",5803:"#1 at Mount Vernon, #2 at Auburn Mountainview",5920:"",6445:"Last Pick at Oregon City"}
 fs.readdir("../../../Dropbox/1540_Photos/", (err, files) => {
 	files.forEach(file => {
 		images.push(file);
@@ -147,10 +147,10 @@ $(document).ready(function(){
 		$("#"+teams[x]).css("background-color","white");
 		$("#"+teams[x]).css("border","solid 1px black");
 		$("#"+teams[x]).attr("value",0);
-		// var notes = document.createElement("h4");
-// 		notes.setAttribute("id",teams[x]+"notes");
-// 		$("#"+teams[x]).append(notes);
-// 		$("#"+teams[x]+"notes").text(teams_notes[teams[x]]);
+		var notes = document.createElement("h4");
+		notes.setAttribute("id",teams[x]+"notes");
+		$("#"+teams[x]).append(notes);
+		$("#"+teams[x]+"notes").text(teams_notes[teams[x]]);
 	}
 	images.shift();
 	for (x in images) {

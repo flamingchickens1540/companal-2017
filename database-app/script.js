@@ -47,6 +47,7 @@ function isKey(obj, key) {
 //Files In Data-Collect
 var manifest_pit = [];
 var manifest_stand = [];
+var matchSchedule = {}
 
 //List of Teams
 var teams = [753,847,955,957,997,1425,1510,1540,1571,2002,2374,2521,2550,2811,2898,2990,3131,3673,3674,4043,4051,4057,4110,4127,4132,4488,4662,4692,5085,5198,5468,5956,5970,6442,6445,6456,6696]
@@ -153,13 +154,16 @@ var accounts = {
 
 //Imports Previous Files
 function start() {
-	createTable();
 	if (fs.existsSync('data-collect/stand-scouting/manifest.json')) {
 		manifest_stand = JSON.parse(fs.readFileSync('data-collect/stand-scouting/manifest.json'));
  	}
  	if (fs.existsSync('data-collect/pit-scouting/manifest.json')) {
 		manifest_pit = JSON.parse(fs.readFileSync('data-collect/pit-scouting/manifest.json'));
 	}
+	if (fs.existsSync('matchSched.json')) {
+		matchSchedule = JSON.parse(fs.readFileSync('matchSched.json'));
+	}
+	createTable();
 	//Load Stand
 	for (x in manifest_stand) {
 		if (fs.existsSync('data-collect/stand-scouting/'+manifest_stand[x])) {
@@ -184,19 +188,17 @@ function start() {
 function importPit() {
 	if (navigator.appVersion.indexOf('Mac') != -1) {
 		if (fs.existsSync('/Volumes/1540/')) {
-			jsonTxt = fs.readFileSync('/Volumes/1540/companal/pit-scouting/manifest.json');
-			manifestArray = JSON.parse(jsonTxt);
-			for (var team in manifestArray) {
-				if (!fs.existsSync('data-collect/pit-scouting/'+manifestArray[team]) && fs.existsSync('/Volumes/1540/companal/pit-scouting/' + manifestArray[team])) {
-					var txt = fs.readFileSync('/Volumes/1540/companal/pit-scouting/' + manifestArray[team]);
+			for (var team in manifest_pit) {
+				if (!fs.existsSync('data-collect/pit-scouting/'+manifest_pit[team]) && fs.existsSync('/Volumes/1540/companal/pit-scouting/' + manifest_pit[team])) {
+					var txt = fs.readFileSync('/Volumes/1540/companal/pit-scouting/' + manifest_pit[team]);
 					var teamData = JSON.parse(txt);
 					scoutcount[teamData.scoutIds[0]][0]+=1;
 					if (teamData.scoutIds[1]!="-") {
 						scoutcount[teamData.scoutIds[1]][0]+=1;
 					}
-					manifest_pit.push(manifestArray[team]);
+					manifest_pit.push(manifest_pit[team]);
 					createFile("data-collect/pit-scouting/manifest.json",JSON.stringify(manifest_pit));
-					createFile("data-collect/pit-scouting/"+manifestArray[team],txt);
+					createFile("data-collect/pit-scouting/"+manifest_pit[team],txt);
 				}
 			}
 			$("#impPit").addClass("disabled");
@@ -214,15 +216,13 @@ function importPit() {
 function importStand() {
 	if (navigator.appVersion.indexOf('Mac') != -1) {
 		if (fs.existsSync('/Volumes/1540/')) {
-			var jsonTxt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/manifest.json');
-			var manifestArray = JSON.parse(jsonTxt);
-			for (var team in manifestArray) {
-				if (!fs.existsSync('data-collect/stand-scouting/'+manifestArray[team]) && fs.existsSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team])) {
-					var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/'+manifestArray[team]);
+			for (var team in manifest_stand) {
+				if (!fs.existsSync('data-collect/stand-scouting/'+manifest_stand[team]) && fs.existsSync('/Volumes/1540/companal/stand-scouting/'+manifest_stand[team])) {
+					var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/'+manifest_stand[team]);
 					var data = JSON.parse(txt);
-					manifest_stand.push(manifestArray[team]);
+					manifest_stand.push(manifest_stand[team]);
           			scoutcount[data.scoutId][1]+=1;
-          			createFile("data-collect/stand-scouting/"+manifestArray[team],JSON.stringify(data));
+          			createFile("data-collect/stand-scouting/"+manifest_stand[team],JSON.stringify(data));
 				}
 			}
 			$("#impStand").addClass("disabled");
@@ -291,45 +291,45 @@ function createTable() {
 // 			}
 // 		}
 	}
-	for (match=1;match<=80;match+=1) {
+	for (match=1;match<=Object.keys(matchSchedule).length;match+=1) {
 		var tr = document.createElement("tr");
 		tr.setAttribute("id","m"+match+"row");
 		$("#matchBody").append(tr);
 		var tnum = document.createElement("td");
 		tnum.setAttribute("id","m"+match+"num");
-		tnum.setAttribute("class","first");
+// 		tnum.setAttribute("class","first");
 		$("#m"+match+"row").append(tnum);
 		$("#m"+match+"num").text(match);
 		var r1 = document.createElement("td");
 		r1.setAttribute("id","m"+match+"r1");
-		r1.setAttribute("class","red1");
+// 		r1.setAttribute("class","red1");
 		$("#m"+match+"row").append(r1);
-		$("#m"+match+"r1").text("0");
+		$("#m"+match+"r1").text("False");
 		var r2 = document.createElement("td");
 		r2.setAttribute("id","m"+match+"r2");
-		r2.setAttribute("class","red2");
+// 		r2.setAttribute("class","red2");
 		$("#m"+match+"row").append(r2);
-		$("#m"+match+"r2").text("0");
+		$("#m"+match+"r2").text("False");
 		var r3 = document.createElement("td");
 		r3.setAttribute("id","m"+match+"r3");
-		r3.setAttribute("class","red1");
+// 		r3.setAttribute("class","red1");
 		$("#m"+match+"row").append(r3);
-		$("#m"+match+"r3").text("0");
+		$("#m"+match+"r3").text("False");
 		var b1 = document.createElement("td");
 		b1.setAttribute("id","m"+match+"b1");
-		b1.setAttribute("class","blue1");
+// 		b1.setAttribute("class","blue1");
 		$("#m"+match+"row").append(b1);
-		$("#m"+match+"b1").text("0");
+		$("#m"+match+"b1").text("False");
 		var b2 = document.createElement("td");
 		b2.setAttribute("id","m"+match+"b2");
-		b2.setAttribute("class","blue2");
+// 		b2.setAttribute("class","blue2");
 		$("#m"+match+"row").append(b2);
-		$("#m"+match+"b2").text("0");
+		$("#m"+match+"b2").text("False");
 		var b3 = document.createElement("td");
 		b3.setAttribute("id","m"+match+"b3");
-		b3.setAttribute("class","blue1");
+// 		b3.setAttribute("class","blue1");
 		$("#m"+match+"row").append(b3);
-		$("#m"+match+"b3").text("0");
+		$("#m"+match+"b3").text("False");
 	}
 	for (x in teams) {
 		var team = teams[x];
@@ -354,6 +354,22 @@ function createTable() {
 		$("#r"+team+"row").append(stand);
 		$("#r"+team+"stand").text("0");
 	}
+	keys = Object.keys(matchSchedule);
+	for (match=1;match<keys.length+1;match+=1) {
+		var tr = document.createElement("tr");
+		tr.setAttribute("id","s"+match);
+		$("#scheduleBody").append(tr);
+		var mnum = document.createElement("td");
+		mnum.setAttribute("id","s"+match+"title");
+		$("#s"+match).append(mnum);
+		$("#s"+match+"title").text(match);
+		for (x=0;x<6;x+=1) {
+			var td = document.createElement("td");
+			td.setAttribute("id","s"+match+"spot"+(x+1));
+			$("#s"+match).append(td);
+			$("#s"+match+"spot"+(x+1)).text(matchSchedule[match][x]);
+		}
+	}
 }
 
 //Updates The Tables
@@ -371,6 +387,9 @@ function updateTable() {
 			$(".err-no-ten-"+id).hide();
 		}
 	}
+	for (x in teams) {
+		$("#r"+teams[x]+"stand").text(0);
+	}
 	for (x in manifest_stand) {
 		var match = manifest_stand[x];
 		if (fs.existsSync("data-collect/stand-scouting/"+match)) {
@@ -380,7 +399,7 @@ function updateTable() {
 			var team = file.teamNumber;
 			var text = $("#m"+scout+role).text();
 			var num = $("#r"+team+"stand").text();
-			$("#m"+scout+role).text(parseInt(text)+1);
+			$("#m"+scout+role).text("True");
 			$("#r"+team+"stand").text(parseInt(num)+1);
 		}
 	}
@@ -428,26 +447,43 @@ $("#toggleMembers").click(function(){
 	$("#members").show();
 	$("#matches").hide();
 	$("#teams").hide();
+	$("#matchSched").hide();
 	$("#toggleMembers").addClass("act");
 	$("#toggleTeams").removeClass("act");
 	$("#toggleMatches").removeClass("act");
+	$("#toggleSchedule").removeClass("act");
 // 	window.scrollTo(0,0);
 });
 $("#toggleTeams").click(function(){
 	$("#teams").show();
 	$("#matches").hide();
 	$("#members").hide();
+	$("#matchSched").hide();
 	$("#toggleTeams").addClass("act");
 	$("#toggleMatches").removeClass("act");
 	$("#toggleMembers").removeClass("act");
+	$("#toggleSchedule").removeClass("act");
 // 	window.scrollTo(0,1605);
 });
 $("#toggleMatches").click(function(){
 	$("#matches").show();
 	$("#teams").hide();
 	$("#members").hide();
+	$("#matchSched").hide();
 	$("#toggleMatches").addClass("act");
 	$("#toggleTeams").removeClass("act");
+	$("#toggleMembers").removeClass("act");
+	$("#toggleSchedule").removeClass("act");
+// 	window.scrollTo(0,3210);
+});
+$("#toggleSchedule").click(function(){
+	$("#matchSched").show();
+	$("#teams").hide();
+	$("#members").hide();
+	$("#matches").hide();
+	$("#toggleSchedule").addClass("act");
+	$("#toggleTeams").removeClass("act");
+	$("#toggleMatches").removeClass("act");
 	$("#toggleMembers").removeClass("act");
 // 	window.scrollTo(0,3210);
 });
