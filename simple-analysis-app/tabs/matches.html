@@ -34,16 +34,20 @@
 		var redGears = 0, blueGears = 0
 		var redGrade = 0, blueGrade = 0
 		for (var index in redTeams) {
-			redScore += expectedScoreByTeam[redTeams[index]]
-			redGears += averagesForMatch[redTeams[index]].gears4NZ
-			redGrade += averagesForMatch[redTeams[index]].gradeOverall
+			if (averagesForMatch.hasOwnProperty(redTeams[index])) {
+				redScore += expectedScoreByTeam[redTeams[index]]
+				redGears += averagesForMatch[redTeams[index]].gears4NZ
+				redGrade += averagesForMatch[redTeams[index]].gradeOverall
+			}
 			//redGrade += normalizedGradesByTeam[redTeams[index]].overall
 			//you could use normalized grades, but you'd have to reenable going through all the teams one by one in a loop in teams.html to process their normalized grades early
 		}
 		for (var index in blueTeams) {
-			blueScore += expectedScoreByTeam[blueTeams[index]]
-			blueGears += averagesForMatch[blueTeams[index]].gears4NZ
-			blueGrade += averagesForMatch[blueTeams[index]].gradeOverall
+			if (averagesForMatch.hasOwnProperty(blueTeams[index])) {
+				blueScore += expectedScoreByTeam[blueTeams[index]]
+				blueGears += averagesForMatch[blueTeams[index]].gears4NZ
+				blueGrade += averagesForMatch[blueTeams[index]].gradeOverall
+			}
 			//blueGrade += normalizedGradesByTeam[blueTeams[index]].overall
 
 		}

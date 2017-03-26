@@ -162,9 +162,9 @@
 			}
 			text += ` They ${can(pit.gears.canDeposit)} deposit gears with an `
 			if (parseBool(pit.gears.active)) {
-				text += 'active '
+				text += '<span style="font-family: robotoBlack;">active</span> '
 			} else {
-				text += 'passive '
+				text += '<span style="font-family: robotoBlack;">passive</span> '
 			}
 			text += ` mechanism, and they load from ${gearZoneText[gearZoneKey]}` 
 			text += ` They ${can(pit.canClimb)} climb. Weight: ${pit.weight} (should be lbs). They prefer the roles of ${pit.roles}. The scout said this about them: ${pit.notes} END PIT SCOUT DATA.`
