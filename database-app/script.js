@@ -302,34 +302,34 @@ function createTable() {
 		$("#m"+match+"num").text(match);
 		var r1 = document.createElement("td");
 		r1.setAttribute("id","m"+match+"r1");
-// 		r1.setAttribute("class","red1");
 		$("#m"+match+"row").append(r1);
 		$("#m"+match+"r1").text("False");
+		$("#m"+match+"r1").css("background-color","#F5FFBF");
 		var r2 = document.createElement("td");
 		r2.setAttribute("id","m"+match+"r2");
-// 		r2.setAttribute("class","red2");
 		$("#m"+match+"row").append(r2);
 		$("#m"+match+"r2").text("False");
+		$("#m"+match+"r2").css("background-color","#F5FFBF");
 		var r3 = document.createElement("td");
 		r3.setAttribute("id","m"+match+"r3");
-// 		r3.setAttribute("class","red1");
 		$("#m"+match+"row").append(r3);
 		$("#m"+match+"r3").text("False");
+		$("#m"+match+"r3").css("background-color","#F5FFBF");
 		var b1 = document.createElement("td");
 		b1.setAttribute("id","m"+match+"b1");
-// 		b1.setAttribute("class","blue1");
 		$("#m"+match+"row").append(b1);
 		$("#m"+match+"b1").text("False");
+		$("#m"+match+"b1").css("background-color","#F5FFBF");
 		var b2 = document.createElement("td");
 		b2.setAttribute("id","m"+match+"b2");
-// 		b2.setAttribute("class","blue2");
 		$("#m"+match+"row").append(b2);
 		$("#m"+match+"b2").text("False");
+		$("#m"+match+"b2").css("background-color","#F5FFBF");
 		var b3 = document.createElement("td");
 		b3.setAttribute("id","m"+match+"b3");
-// 		b3.setAttribute("class","blue1");
 		$("#m"+match+"row").append(b3);
 		$("#m"+match+"b3").text("False");
+		$("#m"+match+"b3").css("background-color","#F5FFBF");
 	}
 	for (x in teams) {
 		var team = teams[x];
@@ -368,6 +368,9 @@ function createTable() {
 			td.setAttribute("id","s"+match+"spot"+(x+1));
 			$("#s"+match).append(td);
 			$("#s"+match+"spot"+(x+1)).text(matchSchedule[match][x]);
+			if (parseInt(matchSchedule[match][x])==1540) {
+				$("#s"+match+"spot"+(x+1)).css("background-color","#B6FF9E");
+			}
 		}
 	}
 }
@@ -400,6 +403,7 @@ function updateTable() {
 			var text = $("#m"+scout+role).text();
 			var num = $("#r"+team+"stand").text();
 			$("#m"+scout+role).text("True");
+			$("#m"+scout+role).css("background-color","#CFFFBF");
 			$("#r"+team+"stand").text(parseInt(num)+1);
 		}
 	}

@@ -70,6 +70,11 @@
 		span {
 			font-family:'Varela Round';
 		}
+		#extratext {
+			width:96%;
+			margin-left:auto;
+			margin-right:auto;
+		}
 	</style>
   </head>
   <body>
@@ -78,14 +83,14 @@
 		<span style="font-size:45px" id="teamdisplay"></span>
 		<br />
 		<br />
-		<div id="roundone">
+		<div id="round1">
 	  		<strong class="cooltext">Does the drive train shift?</strong>
 	  		<br />
 	  		<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning">
+	  			<label name="drivetrainShifts" value="true" class="btn btn-warning">
 	    			<input name="drivetrainShifts" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label name="drivetrainShifts" value="false" class="btn btn-warning">
 	    			<input name="drivetrainShifts" value="false" type="radio" autocomplete="off"> no
 	  			</label>
 			</div>
@@ -119,16 +124,16 @@
 			<strong class="cooltext">Can your robot climb?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning">
+	  			<label name="canClimb" value="true" class="btn btn-warning">
 	    			<input name="canClimb" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label name="canClimb" value="false" class="btn btn-warning">
 	    			<input name="canClimb" value="false" type="radio" autocomplete="off"> no
 	  			</label>
 			</div>
 			<br />
 		</div>
-		<div hidden=true id="roundtwo">
+		<div hidden=true id="round2">
 			<strong class="cooltext">What is your robot's weight in pounds?</strong>
 			<br />
 			<input id="roboweight" type="text" style="color:white;background-color:#F89406"/>
@@ -137,19 +142,19 @@
 			<strong class="cooltext">What language do you use?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning deselect-ln">
+	  			<label name="lang" value="C++" class="btn btn-warning deselect-ln">
 	    			<input name="lang" value="C++" type="radio" autocomplete="off"> C++
 	  			</label>
-	  			<label class="btn btn-warning deselect-ln">
+	  			<label name="lang" value="Java" class="btn btn-warning deselect-ln">
 	    			<input name="lang" value="Java" type="radio" autocomplete="off"> Java
 	  			</label>
-	  			<label class="btn btn-warning deselect-ln">
+	  			<label name="lang" value="LabVIEW" class="btn btn-warning deselect-ln">
 	    			<input name="lang" value="LabVIEW" type="radio" autocomplete="off"> LabVIEW
 	  			</label>
-	  			<label class="btn btn-warning deselect-ln">
+	  			<label name="lang" value="Python" class="btn btn-warning deselect-ln">
 	    			<input name="lang" value="Python" type="radio" autocomplete="off"> Python
 	  			</label>
-	  			<label id="otherlang" class="btn btn-warning">
+	  			<label name="lang" value="other" id="otherlang" class="btn btn-warning">
 	    			<input name="lang" value="other" type="radio" autocomplete="off"> other
 	  			</label>
 			</div>
@@ -159,17 +164,17 @@
 			<strong class="cooltext">What is your preferred role for the robot (check all that apply)?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label id="shootingrole" class="btn btn-warning">
-	    			<input type="checkbox" autocomplete="off"> shooting
+	  			<label name="role" value="shooting" id="shootingrole" class="btn btn-warning">
+	    			<input name="role" value="shooting" type="checkbox" autocomplete="off"> shooting
 	  			</label>
-	  			<label id="gearsrole" class="btn btn-warning">
-	    			<input type="checkbox" autocomplete="off"> gears
+	  			<label name="role" value="gears" id="gearsrole" class="btn btn-warning">
+	    			<input name="role" value="gears" type="checkbox" autocomplete="off"> gears
 	  			</label>
-	  			<label id="defendrole" class="btn btn-warning">
-	    			<input type="checkbox" autocomplete="off"> defend
+	  			<label name="role" value="defending" id="defendrole" class="btn btn-warning">
+	    			<input name="role" value="defending" type="checkbox" autocomplete="off"> defend
 	  			</label>
 	  			<label id="otherrole" class="btn btn-warning">
-	    			<input type="checkbox" autocomplete="off"> other
+	    			<input id="otherRoleInput" type="checkbox" autocomplete="off"> other
 	  			</label>
 			</div>
 			<br />
@@ -190,14 +195,14 @@
  -->
 			<br />
 		</div>
-		<div hidden=true id="roundthree">
+		<div hidden=true id="round3">
 	  		<strong class="cooltext">Can your robot shoot in the high goal?</strong>
 	  		<br />
 	  		<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning">
+	  			<label name="hasHigh" value="true" class="btn btn-warning">
 	    			<input name="hasHigh" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label name="hasHigh" value="false" class="btn btn-warning">
 	    			<input name="hasHigh" value="false" type="radio" autocomplete="off"> no
 	  			</label>
 			</div>
@@ -206,10 +211,10 @@
 			<strong class="cooltext">Can your robot shoot in the low goal?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning">
+	  			<label name="hasLow" value="true" class="btn btn-warning">
 	    			<input name="hasLow" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label name="hasLow" value="false" class="btn btn-warning">
 	    			<input name="hasLow" value="false" type="radio" autocomplete="off"> no
 	  			</label>
 			</div>
@@ -220,7 +225,7 @@
 			<input id="ballCapacity" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="color:white;background-color:#F89406"/>
 			<br />
 		</div>
-		<div hidden=true id="roundfour">
+		<div hidden=true id="round4">
 	  		<strong class="cooltext">What is your robot's estimated shooting efficiency?</strong>
 	  		<br />
 	  		<input id="accuracy" type="text" style="color:white;background-color:#F89406"/>
@@ -241,14 +246,14 @@
 			</div>
 			<br />
 		</div>
-		<div hidden=true id="roundfive">
+		<div hidden=true id="round5">
 	  		<strong class="cooltext">Can your robot deposit gears?</strong>
 	  		<br />
 	  		<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning">
+	  			<label name="gears" value="true" class="btn btn-warning">
 	    			<input name="gears" value="true" type="radio" autocomplete="off"> yes
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label name="gears" value="false" class="btn btn-warning">
 	    			<input name="gears" value="false" type="radio" autocomplete="off"> no
 	  			</label>
 			</div>
@@ -269,19 +274,30 @@
 			<strong class="cooltext">Is your gear mechanism active or passive?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label class="btn btn-warning">
+	  			<label name="gearmech" value="true" class="btn btn-warning">
 	    			<input name="gearmech" value="true" type="radio" autocomplete="off"> active
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label name="gearmech" value="false" class="btn btn-warning">
 	    			<input name="gearmech" value="false" type="radio" autocomplete="off"> passive
 	  			</label>
-	  			<label class="btn btn-warning">
+	  			<label name="gearmech" value="none" class="btn btn-warning">
 	    			<input name="gearmech" value="none" type="radio" autocomplete="off"> no gear mechanism
 	  			</label>
 			</div>
 			<br />
 		</div>
-		<div hidden=true id="roundsix">
+		<div hidden=true id="round6">
+			<br />
+			<br />
+			<br />
+			<h4>Remember to take a photo of the robot!</h4>
+			<br />
+			<h4>Any last notes you want to take?</h4>
+			<br />
+			<br />
+			<br />
+		</div>
+		<div hidden=true id="round7">
 			<br />
 			<br />
 			<br />

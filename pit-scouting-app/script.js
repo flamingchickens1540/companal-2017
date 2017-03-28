@@ -36,6 +36,209 @@ function contains(a, obj) {
 	return false;
 }
 
+function createTemp() {
+	var z = roles.indexOf("other");
+	if (z!=-1) {
+		roles.splice(z,1);
+		roles.push($("#roletext").val());
+	}
+	json["teamNumber"]=team;
+	json["round"]=round;
+	json["scoutIds"]=[act,secact];
+	json["notes"]=$("#extratext").val();
+	json["drivetrain"]["drivetrainShifts"]=$("input[name='drivetrainShifts']:checked").val();
+	json["gears"]["active"]=$("input[name='gearmech']:checked").val();
+	if ($("input[name='drivetrainType']:checked").val()!="other") {
+		json["drivetrain"]["drivetrainType"]=$("input[name='drivetrainType']:checked").val();
+	} else {
+		json["drivetrain"]["drivetrainType"]=$("#driveoptions").val();
+	}
+	if ($("input[name='lang']:checked").val()!="other") {
+		json["language"]=$("input[name='lang']:checked").val();
+	} else {
+		json["language"]=$("#langoptions").val();
+	}
+	json["canClimb"]=$("input[name='canClimb']:checked").val();
+	json["hasDefended"]=false;
+	//json["hasDefended"]=$("input[name='hasDefended']:checked").val();
+	json["weight"]=$("#roboweight").val();
+	json["shooting"]["hasHigh"]=$("input[name='hasHigh']:checked").val();
+	json["shooting"]["hasLow"]=$("input[name='hasLow']:checked").val();
+	json["shooting"]["ballCapacity"]=$("#ballCapacity").val();
+	json["shooting"]["floorLoading"]=ballFloor;
+	json["shooting"]["humanLoading"]=ballHuman;
+	json["shooting"]["hopperLoading"]=ballHopper;
+	json["shooting"]["efficiency"]=$("#accuracy").val();
+	json["gears"]["canDeposit"]=$("input[name='gears']:checked").val();
+	json["gears"]["floorLoading"]=gearFloor;
+	json["gears"]["humanLoading"]=gearHuman;
+	json["roles"]=roles;
+	var spotify = JSON.stringify(json);
+ 	createFile("tempFile.json",spotify);
+}
+
+function isTemp() {
+	if (fs.existsSync("tempFile.json")) {
+		$("#top").hide();
+		$("#round1").hide();
+		$("#teamsel").css("opacity","1.0");
+		$("#scouting").css("opacity","1.0");
+		$("#scouting").css("top","120");
+		$("#teamsel").css("top","0");
+		var backup = JSON.parse(fs.readFileSync("tempFile.json"));
+		round=backup["round"];
+		team=backup["teamNumber"];
+		act=backup["scoutIds"][0];
+		secact=backup["scoutIds"][1];
+		var climb = backup["canClimb"];
+		$("label[name='canClimb']").each(function(){
+			if (climb==$(this).attr("value")) {
+				this.setAttribute("class","btn btn-warning active");
+				$("input[value="+climb+"][name='canClimb']").attr("checked",true);
+			}
+		});
+		var low = backup["shooting"]["hasLow"];
+		$("label[name='hasLow']").each(function(){
+			if (low==$(this).attr("value")) {
+				this.setAttribute("class","btn btn-warning active");
+				$("input[value="+low+"][name='hasLow']").attr("checked",true);
+			}
+		});
+		var high = backup["shooting"]["hasHigh"];
+		$("label[name='hasHigh']").each(function(){
+			if (high==$(this).attr("value")) {
+				this.setAttribute("class","btn btn-warning active");
+				$("input[value="+high+"][name='hasHigh']").attr("checked",true);
+			}
+		});
+		var shift = backup["drivetrain"]["drivetrainShifts"];
+		$("label[name='drivetrainShifts']").each(function(){
+			if (shift==$(this).attr("value")) {
+				this.setAttribute("class","btn btn-warning active");
+				$("input[value="+shift+"][name='drivetrainShifts']").attr("checked",true);
+			}
+		});
+		var active = backup["gears"]["active"];
+		$("label[name='gearmech']").each(function(){
+			if (active==$(this).attr("value")) {
+				this.setAttribute("class","btn btn-warning active");
+				$("input[value="+active+"][name='gearmech']").attr("checked",true);
+			}
+		});
+		var deposit = backup["gears"]["canDeposit"];
+		$("label[name='gears']").each(function(){
+			if (deposit==$(this).attr("value")) {
+				this.setAttribute("class","btn btn-warning active");
+				$("input[value="+deposit+"][name='gears']").attr("checked",true);
+			}
+		});
+		var language = backup["language"];
+		var found = false;
+		$("label[name='lang']").each(function(){
+			if (language==$(this).attr("value")) {
+				found=true;
+				this.setAttribute("class","btn btn-warning deselect-ln active");
+				$("input[value="+language+"][name='lang']").attr("checked",true);
+			}
+		});
+		if (language!=null && language!=null && !found) {
+			$("#otherlang").attr("class","btn btn-warning active");
+			$("input[value='other'][name='lang']").attr("checked",true);
+			$("#langoptions").show();
+			$("#langoptions").val(language);
+		}
+		var dt = backup["drivetrain"]["drivetrainType"];
+		found = false;
+		$("label[name='drivetrainType']").each(function(){
+			if (dt==$(this).attr("value")) {
+				found=true;
+				this.setAttribute("class","btn btn-warning deselect-dt active");
+				$("input[value="+dt+"][name='drivetrainType']").attr("checked",true);
+			}
+		});
+		if (dt!=null && dt!=null && !found) {
+			$("#otherdrive").attr("class","btn btn-warning active");
+			$("input[value='other'][name='drivetrainType']").attr("checked",true);
+			$("#driveoptions").show();
+			$("#driveoptions").val(dt);
+		}
+		roles = backup["roles"];
+		for (x in roles) {
+			found=false;
+			$("label[name='role']").each(function(){
+				if (roles[x]==$(this).attr("value")) {
+					found=true;
+					this.setAttribute("class","btn btn-warning active");
+					$("input[value="+roles[x]+"][name='role']").attr("checked",true);
+				}
+			});
+			if (!found) {
+				$("#otherrole").attr("class","btn btn-warning active");
+				$("#otherRoleInput").attr("checked",true);
+				$("#roletext").show();
+				$("#roletext").val(roles[x]);
+				roles.splice(x,1);
+				roles.push("other");
+			}
+		}
+		gearHuman=backup["gears"]["humanLoading"];
+		if (gearHuman) {
+			$("#gearhuman").addClass("active");
+		}
+		gearFloor=backup["gears"]["floorLoading"];
+		if (gearFloor) {
+			$("#gearfloor").addClass("active");
+		}
+		ballFloor=backup["shooting"]["floorLoading"];
+		if (ballFloor) {
+			$("#ballsfloor").addClass("active");
+		}
+		ballHopper=backup["shooting"]["hopperLoading"];
+		if (ballHopper) {
+			$("#ballshopper").addClass("active");
+		}
+		ballHuman=backup["shooting"]["humanLoading"];
+		if (ballHuman) {
+			$("#ballshuman").addClass("active");
+		}
+		$("#teaminput").attr("disabled", true);
+		$("#teamsubmit").attr("disabled", true);
+		$("#round"+round).show();
+		if (secact=="-") {
+			$(".title").text(accounts[act]);
+		} else {
+			$(".title").text(accounts[act]+", "+accounts[secact]);
+		}
+		if (round==7) {
+			$("#next").hide();
+		}
+		if (round==1) {
+			$("#previous").hide();
+		}
+		$("#teamdisplay").text(team);
+		$("#extratext").val(backup["notes"]);
+		$("#roboweight").val(backup["weight"]);
+		$("#accuracy").val(backup["shooting"]["efficiency"]);
+		$("#ballCapacity").val(backup["shooting"]["ballCapacity"]);
+	}
+}
+
+function removeTemp() {
+	if (fs.existsSync("tempFile.json")) {
+		console.log("yep");
+		fs.unlink("tempFile.json");
+	} else {
+		console.log("nope");
+	}
+}
+
+function noShooting() {
+	if (!hasLow && !hasHigh) {
+		$("#ballCapacity").val("0");
+		$("#accuracy").val("0%");
+	}
+}
+
 var accounts = {
 	"98": "Adolfo",
 	"50": "Noor", 
@@ -76,33 +279,34 @@ var accounts = {
 	"48": "Natalie"
 };
 var json = {
-	teamNumber: "0000",
-	scoutIds: [00,00],
+	teamNumber: "0000", //
+	scoutIds: [00,00], //
 	roles: [],
-	language: "Java",
+	round: 0, //only for crashplan //
+	language: "Java", //
 	drivetrain: {
-		drivetrainShifts:true,
+		drivetrainShifts:true, //
 		drivetrainType:"mecanum",
 	},
-	hasDefended: false,
-	shooting: {
-		hasHigh: false,
-		hasLow: false,
-		ballCapacity: 50,
-		floorLoading: true,
-		humanLoading: false,
-		efficiency: 95, //estimate, %
-		hopperLoading: false
-	},
-	gears: {
-		canDeposit: true,
-		humanLoading: false,
-		floorLoading: true,
-		active: false
-	},
-	canClimb: true,
-	weight: 100, //pounds
-	notes: ""
+	hasDefended: false, //
+	shooting: { //
+		hasHigh: false, //
+		hasLow: false, //
+		ballCapacity: 50, //
+		floorLoading: true, //
+		humanLoading: false, //
+		efficiency: 95, //estimate, % //
+		hopperLoading: false //
+	}, //
+	gears: { //
+		canDeposit: true, //
+		humanLoading: false, //
+		floorLoading: true, //
+		active: false //
+	}, //
+	canClimb: true, //
+	weight: 100, //pounds //
+	notes: "" //
 }
 var def = json;
 var logged = false;
@@ -111,6 +315,8 @@ var roles = [];
 var secact = "none";
 var team = "none";
 var round = 1;
+var hasLow = true;
+var hasHigh = true;
 var gearHuman = false;
 var gearFloor = false;
 var ballFloor = false;
@@ -126,6 +332,7 @@ $(document).on('keydown',function(e) {
 
 $(document).ready(function(){
 	createTable();
+	isTemp();
 // 	$("body").css("overflow", "hidden");
 	$("#savetoflash").click(function(){
 		var array;
@@ -201,50 +408,59 @@ $(document).ready(function(){
 	$("#next").click(function(){
 		round+=1;
 		if (round==2) {
-			$("#roundtwo").show();
-			$("#roundone").hide();
+			$("#round2").show();
+			$("#round1").hide();
 			$("#previous").show();
 		} else if (round==3) {
-			$("#roundthree").show();
-			$("#roundtwo").hide();
+			$("#round3").show();
+			$("#round2").hide();
 		} else if (round==4) {
-			$("#roundfour").show();
-			$("#roundthree").hide();
+			$("#round4").show();
+			$("#round3").hide();
 		} else if (round==5) {
-			$("#roundfive").show();
-			$("#roundfour").hide();
+			$("#round5").show();
+			$("#round4").hide();
 		} else if (round==6) {
-			$("#roundsix").show();
-			$("#roundfive").hide();
+			$("#round6").show();
+			$("#round5").hide();
+		} else if (round==7) {
+			$("#round7").show();
+			$("#round6").hide();
 			$("#next").hide();
 		}
-		if (round>6) {
-			round=6;
-		} 
+		if (round>7) {
+			round=7;
+		}
+		createTemp();
 	});
 	$("#previous").click(function(){
 		round-=1;
 		if (round==1) {
-			$("#roundtwo").hide();
-			$("#roundone").show();
+			$("#round2").hide();
+			$("#round1").show();
 			$("#previous").hide();
 		} else if (round==2) {
-			$("#roundtwo").show();
-			$("#roundthree").hide();
+			$("#round2").show();
+			$("#round3").hide();
 		} else if (round==3) {
-			$("#roundthree").show();
-			$("#roundfour").hide();
+			$("#round3").show();
+			$("#round4").hide();
 		} else if (round==4) {
-			$("#roundfour").show();
-			$("#roundfive").hide();
+			$("#round4").show();
+			$("#round5").hide();
 		} else if (round==5) {
-			$("#roundfive").show();
-			$("#roundsix").hide();
+			$("#round5").show();
+			$("#round6").hide();
+			$("#next").show();
+		} else if (round==6) {
+			$("#round6").show();
+			$("#round7").hide();
 			$("#next").show();
 		}
 		if (round<1) {
 			round=1;
 		}
+		createTemp();
 	});
 	$("#yes").click(function(){
 		$("#top").animate({top:'-300px',opacity:'0.0'},1600);
@@ -262,10 +478,36 @@ $(document).ready(function(){
 		act="none";
 		secact="none";
 	});
+	$("label[value='false'][name='gears']").click(function(){
+		console.log("hi");
+		$("label[name='gearmech'][value='none']").attr("class","btn btn-warning active");
+		$("input[name='gearmech'][value='none']").attr("checked","true");
+	});
+	$("label[value='false'][name='hasHigh']").click(function(){
+		hasHigh=false;
+		noShooting();
+	});
+	$("label[value='true'][name='hasHigh']").click(function(){
+		hasHigh=true;
+		noShooting();
+	});
+	$("label[value='false'][name='hasLow']").click(function(){
+		hasLow=false;
+		noShooting();
+	});
+	$("label[value='false'][name='hasLow']").click(function(){
+		hasLow=true;
+		noShooting();
+	});
 	$(".signout").click(function(){
-		dialogs.alert("You have been signed out.", function(ok) {
-			remote.getCurrentWindow().reload();
-		 });
+		dialogs.confirm("Do you want to sign out?", function(ok) {
+			if (ok) {
+				dialogs.alert("You have been signed out.", function(ok) {
+					removeTemp();
+					remote.getCurrentWindow().reload();
+				});
+			}
+		});
 	});
 	$("#gearfloor").click(function(){
 		gearFloor = !gearFloor;
@@ -364,6 +606,7 @@ $(document).ready(function(){
 				roles.push($("#roletext").val());
 			}
 			json["teamNumber"]=team;
+			json["round"]=0;
 			json["scoutIds"]=[act,secact];
 			json["notes"]=$("#extratext").val();
 			json["drivetrain"]["drivetrainShifts"]=$("input[name='drivetrainShifts']:checked").val();
@@ -405,6 +648,7 @@ $(document).ready(function(){
 		 	array.push(team+".json");
 		 	var stringed = JSON.stringify(array);
 		 	createFile("manifest.json",stringed);
+		 	removeTemp();
 		 	dialogs.alert("The data has been saved", function(ok) {
 			 	remote.getCurrentWindow().reload();
 		 	});
@@ -429,14 +673,15 @@ $(document).ready(function(){
 			$("#scouting").animate({opacity:'1.0',top:'120'},1600);
 			$("#teamdisplay").text(team);
 			$("#teaminput").val("");
-			$("#roundone").show();
-			$("#roundtwo").hide();
-			$("#roundthree").hide();
-			$("#roundfour").hide();
-			$("#roundfive").hide();
-			$("#roundsix").hide();
-			$("#roundseven").hide();
+			$("#round1").show();
+			$("#round2").hide();
+			$("#round3").hide();
+			$("#round4").hide();
+			$("#round5").hide();
+			$("#round6").hide();
+			$("#round7").hide();
 			$("#previous").hide();
+			createTemp();
 		} else {
 			dialogs.alert("I'm pretty sure the team your scouting has a number.");
 		}
