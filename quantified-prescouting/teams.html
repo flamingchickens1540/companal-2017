@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quantified Prescouting</title>
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <span id="teamsData" style="display: none;">DATAGOESHERE</span>
+  </head>
+  <body>
+  	<h1 align="center">Quantified Prescouting</h1>
+  	<h3 align="center">Data Source: The Blue Alliance</h3>
+    <table class="table" style="width: 80%;" align="center">
+			<thead>
+				<tr>
+					<th onclick="drawTable('teamNumber')">Team</th>
+					<th onclick="drawTable('autoCrosses')">Cross Line</th>
+					<th onclick="drawTable('autoRotors')">Auto Rotor</th>
+					<th onclick="drawTable('autoFuelHigh')">Auto Balls</th>
+					<th onclick="drawTable('teleFuelHigh')">Tele Balls</th>
+					<th onclick="drawTable('totalRotors')">Total Rotors</th>
+					<th onclick="drawTable('allianceClimbs')">Climbs/Match</th>
+				</tr>
+			</thead>
+			<tbody id="tbody">
+			</tbody>
+		</table>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script type="text/javascript">
+    	
+    var teams = JSON.parse($("#teamsData")[0].innerHTML)
+    var teamNumbers = []
+    for (var teamNumber in teams)
+    	teamNumbers.push(teamNumber)
+
+    function drawTable(sortBy) {
+    	$("#tbody").html('')
+
+    	teamNumbers.sort(function(a, b) {
+    		if (sortBy === "teamNumber")
+    			return teams[a][sortBy] - teams[b][sortBy]
+    		else
+	    		return teams[b][sortBy] - teams[a][sortBy]
+	    })
+
+	    for (var index in teamNumbers) {
+	    	var teamNumber = teamNumbers[index]
+	    	var t = teams[teamNumber]
+	    	var html = `<tr>`
+	    	html += `<td>${teamNumber}</td>`
+	    	html += `<td>${(t.autoCrosses * 100).toFixed(0)}%</td>`
+	    	html += `<td>${(t.autoRotors * 100).toFixed(0)}%</td>`
+	    	html += `<td>${t.autoFuelHigh.toFixed(2)}</td>`
+	    	html += `<td>${t.teleFuelHigh.toFixed(2)}</td>`
+	    	html += `<td>${t.totalRotors.toFixed(1)}</td>`
+	    	html += `<td>${t.allianceClimbs.toFixed(2)}</td>`
+	    	html += `</tr>`
+	    	$("#tbody").append(html)
+	    }
+    }
+
+    drawTable("teamNumber")
+
+    </script>
+  </body>
+</html>
