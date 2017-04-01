@@ -99,6 +99,12 @@
         if (filename.split('.')[1] === 'json' && filename.count('-') === 2) { //check that the file is m12-r1-1234.json
             try {
                 var data = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8'))
+
+                //March 31st 2017
+                //If they get a gear in auto, they absolutely must have crossed the line to do it
+                //some of the scouts don't mark this, so do it for them!
+                if (data.auto.depositedGear)
+                    data.auto.crossedLine = true
             }
             catch (err) {
                 console.log(`Could not process stand-scouting/${filename}`)
