@@ -170,6 +170,7 @@
 		}
 		if (!standRecords.hasOwnProperty(teamNumber)) {
 			alert("No stand records for that team!")
+			$("#chartWrapper").html('')
 		}
 		else {
 			var averages = {
@@ -193,7 +194,8 @@
 			}
 			var averageCount = 0
 			$('#teamAveragesTbody').html('')
-			$('#teamTbody').html()
+			$('#teamTbody').html('')
+			$("#chartWrapper").html('')
 			var matches = standRecords[teamNumber]
 			for (var i in matches) {
 				var match = matches[i]
