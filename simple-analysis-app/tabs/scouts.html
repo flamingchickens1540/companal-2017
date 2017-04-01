@@ -1,0 +1,79 @@
+<div id="page-scouts" style="display: none;">
+
+	<h1 align="center">Scouts</h1>
+
+	<table class="table" align="center" style="width: 80%;">
+		<thead>
+			<tr>
+				<th onclick="drawScoutTable('scoutId')">ScoutID</th>
+				<th onclick="drawScoutTable('name')">Name</th>
+				<th onclick="drawScoutTable('stands')">Stands</th>
+				<th onclick="drawScoutTable('pits')">Pits</th>
+			</tr>
+		</thead>
+		<tbody id="scoutsTbody"></tbody>
+	</table>
+
+</div>
+
+<script type="text/javascript">
+	
+	var scoutTotals = {}
+	var scoutIds = []
+	for (var scoutId in scouts) {
+		scoutTotals[scoutId] = {
+			"scoutId": scoutId,
+			"name": scouts[scoutId],
+			"stands": 0,
+			"pits": 0
+		}
+		scoutIds.push(scoutId)
+	}
+
+	for (var teamNumber in pitRecords) {
+		scoutTotals[pitRecords[teamNumber].scoutIds[0]].pits++
+		if (pitRecords[teamNumber].scoutIds[1] !== '-')
+			scoutTotals[pitRecords[teamNumber].scoutIds[1]].pits++
+	}
+
+	for (var teamNumber in standRecords) {
+		for (var index in standRecords[teamNumber]) {
+			scoutTotals[standRecords[teamNumber][index].scoutId].stands++
+		}
+	}
+
+	var reverse = true
+	function drawScoutTable(sortBy) {
+		scoutIds.sort(function(a, b) {
+			if (sortBy === 'name') {
+				alert("To be fixed later (on a plane, can't look up documentation...")
+				return 0
+			} else {
+				if (reverse) {
+					return scoutTotals[a][sortBy] - scoutTotals[b][sortBy]
+				} else {
+					return scoutTotals[b][sortBy] - scoutTotals[a][sortBy]
+				}
+			}
+		})
+		reverse = !reverse
+
+		$("#scoutsTbody").html('')
+
+		for (var index in scoutIds) {
+			var totals = scoutTotals[scoutIds[index]]
+
+			var html = `<tr>`
+			html += `<td>${totals.scoutId}</td>`
+			html += `<td>${totals.name}</td>`
+			html += `<td>${totals.stands}</td>`
+			html += `<td>${totals.pits}</td>`
+			html += `</tr>`
+
+			$("#scoutsTbody").append(html)
+		}
+	}
+
+	drawScoutTable('scoutId')
+
+</script>

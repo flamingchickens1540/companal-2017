@@ -91,3 +91,6 @@ $.get("tabs/pit.html", function(data) {
 $.get("tabs/grades.html", function(data) {
 	$("#pages").append(data)
 })
+$.get("tabs/scouts.html", function(data) {
+	$("#pages").append(data)
+})
