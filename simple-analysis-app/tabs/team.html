@@ -81,6 +81,7 @@
 <script type="text/javascript">
 
 	var normalizedGradesByTeam = {}
+	var gradesByTeam = {}
 
 	var allGrades = {
 		"overall": [], 
@@ -289,11 +290,16 @@
 				normalizedGrades[cat] = (allGrades[cat].indexOf(averages.grades[cat]) / allGrades[cat].length) * 5.0
 			}
 			normalizedGradesByTeam[teamNumber] = normalizedGrades
+			normalizedGradesByTeam[teamNumber].teamNumber = teamNumber
 			$("#gradeOverall").html(`${averages.grades.overall.toFixed(1)}, ${normalizedGrades.overall.toFixed(1)}`)
 			$("#gradeShooting").html(`${averages.grades.shooting.toFixed(1)}, ${normalizedGrades.shooting.toFixed(1)}`)
 			$("#gradeGearing").html(`${averages.grades.gearing.toFixed(1)}, ${normalizedGrades.gearing.toFixed(1)}`)
 			$("#gradeClimbing").html(`${averages.grades.climbing.toFixed(1)}, ${normalizedGrades.climbing.toFixed(1)}`)
 			$("#gradeDefense").html(`${averages.grades.defense.toFixed(1)}, ${normalizedGrades.defense.toFixed(1)}`)
+
+			gradesByTeam[teamNumber] = averages.grades
+			gradesByTeam[teamNumber].teamNumber = teamNumber
+
 			var data = {
 				labels: [
 			        "Shooting",

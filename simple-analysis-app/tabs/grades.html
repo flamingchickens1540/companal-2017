@@ -1,0 +1,54 @@
+<div id="page-grades" style="display: none;">
+
+	<h1 align="center">Grades</h1>
+
+	<table class="table" align="center" style="width: 80%;">
+		<thead>
+			<tr>
+				<th onclick="drawGradesTable('teamNumber')">Team</th>
+				<th onclick="drawGradesTable('overall')">Overall</th>
+				<th onclick="drawGradesTable('shooting')">Shooting</th>
+				<th onclick="drawGradesTable('gearing')">Gearing</th>
+				<th onclick="drawGradesTable('climbing')">Climbing</th>
+				<th onclick="drawGradesTable('defense')">Defense</th>
+			</tr>
+		</thead>
+		<tbody id="gradesTbody"></tbody>
+	</table>
+
+</div>
+
+<script type="text/javascript">
+	
+	var gradedTeamNumbers = []
+	for (var teamNumber in gradesByTeam) {
+		gradedTeamNumbers.push(teamNumber)
+	}
+
+	function drawGradesTable(sortBy) {
+		gradedTeamNumbers.sort(function(a, b) {
+			if (sortBy === 'teamNumber')
+				return parseFloat(gradesByTeam[a][sortBy]) - parseFloat(gradesByTeam[b][sortBy])
+			else
+				return parseFloat(gradesByTeam[b][sortBy]) - parseFloat(gradesByTeam[a][sortBy])
+		})
+
+		$("#gradesTbody").html('')
+
+		for (var index in gradedTeamNumbers) {
+			var grades = gradesByTeam[gradedTeamNumbers[index]]
+			var html = `<tr>`
+			html += `<td>${gradedTeamNumbers[index]}</td>`
+			html += `<td>${grades.overall.toFixed(2)}</td>`
+			html += `<td>${grades.shooting.toFixed(2)}</td>`
+			html += `<td>${grades.gearing.toFixed(2)}</td>`
+			html += `<td>${grades.climbing.toFixed(2)}</td>`
+			html += `<td>${grades.defense.toFixed(2)}</td>`
+			html += `</tr>`
+			$("#gradesTbody").append(html)
+		}
+	}
+
+	drawGradesTable('teamNumber')
+
+</script>

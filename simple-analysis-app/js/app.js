@@ -88,3 +88,6 @@ $.get("tabs/allianceselection.html", function(data) {
 $.get("tabs/pit.html", function(data) {
 	$("#pages").append(data)
 })
+$.get("tabs/grades.html", function(data) {
+	$("#pages").append(data)
+})
