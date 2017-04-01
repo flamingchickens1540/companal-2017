@@ -46,8 +46,10 @@
 	function drawScoutTable(sortBy) {
 		scoutIds.sort(function(a, b) {
 			if (sortBy === 'name') {
-				alert("To be fixed later (on a plane, can't look up documentation...")
-				return 0
+				if (scouts[a] < scouts[b])
+					return -1
+				else if (scouts[b] < scouts[a])
+					return 1
 			} else {
 				if (reverse) {
 					return scoutTotals[a][sortBy] - scoutTotals[b][sortBy]
