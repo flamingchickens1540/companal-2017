@@ -116,11 +116,69 @@ function fillOut(){
 	}
 };
 $(document).ready(function(){
+	$('#match-number-number').val(fs.readFileSync('matchNum.txt', 'utf-8'));
+	$('.login-info').hide();
+	$('#no-login').hide();
+	$("#forgot-id").hide();
+	$('#cont-btn').hide();
+	// $('.betting').hide();
+	$('#post-login').hide();
+	$('#success').hide();
+	$('#last-textarea').hide();
+	$('#teleop').hide();
+	$('#fuel-end').hide();
+	$('.pie').hide();
+	$('.grades').hide();
+	$('.badge-hide').hide();
+	$('.edit-match-btn').hide();
+	$('.choose-role').hide();
+	$('.password').hide();
+	$('.finish').hide();
+	$('.name-div').hide();
+	// $('.betting-2').hide();
+	// $('.betting-end').hide();
+	var readMNum = fs.readFileSync('matchNum.txt', 'utf-8');
+	var readRole = fs.readFileSync('role.txt', 'utf-8');
+	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
+	var teamNum;
+	for (i in schedule) {
+		if (i == parseInt(readMNum)) {
+			switch (readRole) {
+				case "r1":
+					teamNum = schedule[i][0];
+					break;
+				case "r2":
+					teamNum = schedule[i][1];
+					break;
+				case "r3":
+					teamNum = schedule[i][2];
+					break;
+				case "b1":
+					teamNum = schedule[i][3];
+					break;
+				case "b2":
+					teamNum = schedule[i][4];
+					break;
+				case "b3":
+					teamNum = schedule[i][5];
+					break;
+				default:
+					teamNum = ":(";
+			}
+		}
+	}
+	var parsedData = JSON.parse(fs.readFileSync('data/m' + parseInt(readMNum) + '-' + readRole + '-' + teamNum +'.json'));
+	if (parsedData.crashed) {
+		$('#login-input-number').val(parsedData.scoutId);
+		$('#login-button').click();
+		$('#the-whole-login').hide();
+		$('#last-textarea').show();
+		$('[data-toggle="popover"]').popover('hide');
+	}
 	if (fs.existsSync('matchNum.txt') == false) {
 		fs.writeFileSync('matchNum.txt', 1);
 		window.location.reload();
 	};
-	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
 	if (!schedule.hasOwnProperty(fs.readFileSync('matchNum.txt', 'utf-8'))) {
 		dialogs.prompt('No match number!', '1',
 		function(num) {
@@ -228,27 +286,6 @@ $(document).ready(function(){
 	// } else {
 	// 	$('.name-div').hide();
 	// }
-	$('#match-number-number').val(fs.readFileSync('matchNum.txt', 'utf-8'));
-	$('.login-info').hide();
-	$('#no-login').hide();
-	$("#forgot-id").hide();
-	$('#cont-btn').hide();
-	// $('.betting').hide();
-	$('#post-login').hide();
-	$('#success').hide();
-	$('#last-textarea').hide();
-	$('#teleop').hide();
-	$('#fuel-end').hide();
-	$('.pie').hide();
-	$('.grades').hide();
-	$('.badge-hide').hide();
-	$('.edit-match-btn').hide();
-	$('.choose-role').hide();
-	$('.password').hide();
-	$('.finish').hide();
-	$('.name-div').hide();
-	// $('.betting-2').hide();
-	// $('.betting-end').hide();
 });
 // // FS
 // function createFile(fileName, text){
@@ -695,8 +732,9 @@ $('.flashdrive-save').click(function(){
 	fs.unlinkSync('json/manifest.json');
 	fs.writeFileSync('json/manifest.json', '[]')
 	$('.flashdrive-save').addClass('disabled');
-	dialogs.alert("Done!");
-	window.location.reload();
+	dialogs.alert("Done!", function (ok) {
+		window.location.reload();
+	});
 });
 // // OPR
 // if (!(fs.existsSync('json/opr.json'))) {
@@ -1348,176 +1386,7 @@ $('.edit-match').click(function(){
 	/*$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');*/
 // });
 // $('#save-file').hide();
-$('#save-file').click(function(){
-	// $('#last-textarea').fadeOut(500);
-	// // getmac
-	// require('getmac').getMac(function(err,macAddress){
-	// 	if (err)  throw err
-	// 	macAddress = macAddress.replace(/-/g, '').replace(/:/g, '');
-	// 	switch (macAddress) {
-	// 		case addressArray[0].macAddress:
-	// 			teamColor = addressArray[0].role;
-	// 			break;
-	// 		case "9801a7cb4b19":
-	// 			teamColor = "g1";
-	// 			break;
-	// 		case addressArray[1].macAddress:
-	// 			teamColor = addressArray[1].role;
-	// 			break;
-	// 		case addressArray[2].macAddress:
-	// 			teamColor = addressArray[2].role;
-	// 			break;
-	// 		case addressArray[3].macAddress:
-	// 			teamColor = addressArray[3].role;
-	// 			break;
-	// 		case addressArray[4].macAddress:
-	// 			teamColor = addressArray[4].role;
-	// 			break;
-	// 		case addressArray[5].macAddress:
-	// 			teamColor = addressArray[5].role;
-	// 			break;
-	// 		default:
-	// 			teamColor = "r1";
-	// 	}
-	// 	// Too lazy to name this section
-	// 	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
-	// 	for (i in schedule) {
-	// 		if (i == $("#match-number-number").val()) {
-	// 			switch (teamColor) {
-	// 				case "r1":
-	// 					teamNum = schedule[i][0];
-	// 					break;
-	// 				case "r2":
-	// 					teamNum = schedule[i][1];
-	// 					break;
-	// 				case "r3":
-	// 					teamNum = schedule[i][2];
-	// 					break;
-	// 				case "b1":
-	// 					teamNum = schedule[i][3];
-	// 					break;
-	// 				case "b2":
-	// 					teamNum = schedule[i][4];
-	// 					break;
-	// 				case "b3":
-	// 					teamNum = schedule[i][5];
-	// 					break;
-	// 				case "g1":
-	// 					teamNum = schedule[i][0];
-	// 					break;
-	// 				default:
-	// 					teamNum = false;
-	// 			}
-	// 		}
-	// 	}
-	// 	// Autonomous
-	// 	var autoCross = false;
-	// 	autoCross = $('input[name="auto-radio-cross"]:checked').val();
-	// 	// autoCross = JSON.parse(autoCross);
-	// 	if (autoCross == "true"){
-	// 		autoCross = true;
-	// 	} else if (autoCross == "false") {
-	// 		autoCross = false;
-	// 	}
-	// 	var autoCross = false;
-	// 	autoGear = $('input[name="auto-radio-gear"]:checked').val();
-	// 	// autoGear = JSON.parse(autoGear);
-	// 	if (autoGear == "true"){
-	// 		autoGear = true;
-	// 	} else if (autoGear == "false") {
-	// 		autoGear = false;
-	// 	}
-	// 	var autoShoot = false;
-	// 	autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
-	// 	// autoShoot = JSON.parse(autoShoot);
-	// 	if (autoShoot == "true"){
-	// 		autoShoot = true;
-	// 	} else if (autoShoot == "false") {
-	// 		autoShoot = false;
-	// 	}
-	// 	// Tele-Op
-	// 	var teleopGear = parseInt($('#teleop-gear').val());
-	// 	var teleopClimb = $('input[name="teleop-radio-climb"]:checked').val();
-	// 	if (teleopClimb == "true"){
-	// 		teleopClimb = true;
-	// 	} else if (teleopClimb == "false") {
-	// 		teleopClimb = false;
-	// 	}
-	// 	// Fuel End
-	// 	var fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
-	// 	var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
-	// 	var fuelEndLoad = [];
-	// 	if (fuelEndHopper == true){
-	// 		fuelEndLoad.push("hopper");
-	// 	}
-	// 	if (fuelEndHuman == true){
-	// 		fuelEndLoad.push("human");
-	// 	}
-	// 	if (fuelEndFloor == true){
-	// 		fuelEndLoad.push("floor");
-	// 	}
-	// 	// Grades
-	// 	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
-	// 	var gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
-	// 	var gradesGearing = parseInt($('input[name="grades-gearing"]:checked').val());
-	// 	var gradesDefense = parseInt($('input[name="grades-defense"]:checked').val());
-	// 	var gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
-	// 	// File
-	// 	var json = {
-	// 		scoutId: $('input[name=login-number]').val(),
-	// 		bettingPick: jsonBet,
-	// 		auto: {
-	// 			crossedLine: autoCross,
-	// 			depositedGear: autoGear,
-	// 			shotCycle: autoShoot
-	// 		},
-	// 		teleop: {
-	// 			balls: {
-	// 				cycles:  teleopFuel,
-	// 				accuracy: fuelEndAccuracy,
-	// 				shotRate: fuelEndRate,
-	// 				loadingZones: fuelEndLoad
-	// 			},
-	// 			gearsDeposited: teleopGear,
-	// 			climbed: teleopClimb
-	// 		},
-	// 		notes: $('.comments').val(),
-	// 		strategy: {
-	// 			pieChart: {
-	// 				// shooting: parseInt($("#pie-shooting").val()),
-	// 				// gearing: parseInt($("#pie-gearing").val()),
-	// 				// defense: parseInt($("#pie-defense").val()),
-	// 				// climbing: parseInt($("#pie-climbing").val()),
-	// 				// futzing: parseInt($("#pie-futzing").val())
-	// 				shooting: Math.round(sliderShoot),
-	// 				gearing:  Math.round(sliderGear),
-	// 				defense:  Math.round(sliderDefense),
-	// 				climbing:  Math.round(sliderClimb),
-	// 				futzing:  Math.round(sliderFutz)
-	// 			},
-	// 			grades: {
-	// 				overall: gradesOverall,
-	// 				shooting: gradesShooting,
-	// 				gearing: gradesGearing,
-	// 				defense: gradesDefense,
-	// 				climbing: gradesClimbing
-	// 			}
-	// 		}
-	// 	};
-	// 	var stringify = JSON.stringify(json);
-	// 	var filepath = "m" + $("#match-number-number").val() + "-" + teamColor + "-" + teamNum + ".json"
-	// 	createFile(__dirname + "/data/" + filepath, stringify);
-	// 	deleteFile('matchNum.txt');
-	// 	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
-	// 	if (fs.existsSync('manifest.json') == false) {
-	// 		fs.writeFileSync('manifest.json', "[]")
-	// 	}
-	// 	var manifestRead = fs.readFileSync('manifest.json', 'utf-8');
-	// 	var manifestParse = JSON.parse(manifestRead);
-	// 	manifestParse.push(filepath);
-	// 	var mStringify = JSON.stringify(manifestParse);
-	// 	fs.writeFileSync('manifest.json', mStringify);
-	// });
+$('#grades-next').click(function () {
 	// Autonomous
 	var autoCross = false;
 	autoCross = $('input[name="auto-radio-cross"]:checked').val();
@@ -1563,130 +1432,6 @@ $('#save-file').click(function(){
 	}
 	// Grades
 	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
-	// // transaction.json
-	// var addedValue;
-	// var tStringify;
-	// function betOver(max, min, points) {
-	// 	if ((jsonBet == "red" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min)) || (jsonBet == "blue" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min))) {
-	// 		// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 		addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
-	// 		if (addedValue < 1) {
-	// 			addedValue = 1.1;
-	// 		}
-	// 		transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
-	// 	}
-	// };
-	// function betUnder(max, min, points) {
-	// 	if ((jsonBet == "red" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || (jsonBet == "blue" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
-	// 		// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-	// 		addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
-	// 		if (addedValue < 1) {
-	// 			addedValue = 1.1;
-	// 		}
-	// 		transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
-	// 	}
-	// };
-	// if (transaction.hasOwnProperty($('input[name=login-number]').val())) {
-	// 	if (opr.hasOwnProperty(teamNum)) {
-	// 		if (jsonBet == win) {
-	// 			if ((jsonBet == "red" && redOpr > blueOpr) || (jsonBet == "blue" && blueOpr > redOpr)) {
-	// 				for (i = 1; i < 2000; i++) {
-	// 					betOver(10 * i, (10 * i) - 10, (20 - i) / 10);
-	// 				};
-	// 			} else if ((jsonBet == "red" && redOpr < blueOpr) || (jsonBet == "blue" && blueOpr < redOpr)) {
-	// 				for (i = 1; i < 2000; i++) {
-	// 					betUnder(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
-	// 				};
-	// 			}
-	// 			if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
-	// 				// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 				addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
-	// 				transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
-	// 			};
-	// 			// if ((jsonBet == "red" && 10 >= redOpr - blueOpr > 0) || (jsonBet == "blue" && 10 >= blueOpr - redOpr > 0)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (9 / 10));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 20 >= redOpr - blueOpr > 10) || (jsonBet == "blue" && 20 >= blueOpr - redOpr > 10)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 30 >= redOpr - blueOpr > 20) || (jsonBet == "blue" && 30 >= blueOpr - redOpr > 20)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (7 / 10));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 40 >= redOpr - blueOpr > 30) || (jsonBet == "blue" && 40 >= blueOpr - redOpr > 30)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 50 >= redOpr - blueOpr > 40) || (jsonBet == "blue" && 50 >= blueOpr - redOpr > 40)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (5 / 10));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 60 >= redOpr - blueOpr > 50) || (jsonBet == "blue" && 60 >= blueOpr - redOpr > 50)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 70 >= redOpr - blueOpr > 60) || (jsonBet == "blue" && 70 >= blueOpr - redOpr > 60)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 10));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 10));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 10 >= blueOpr - redOpr > 0) || (jsonBet == "blue" && 10 >= redOpr - blueOpr > 0)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-	// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
-	// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 20 >= blueOpr - redOpr > 10) || (jsonBet == "blue" && 20 >= redOpr - blueOpr > 10)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-	// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 30 >= blueOpr - redOpr > 20) || (jsonBet == "blue" && 30 >= redOpr - blueOpr > 20)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-	// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 40 >= blueOpr - redOpr > 30) || (jsonBet == "blue" && 40 >= redOpr - blueOpr > 30)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-	// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 50 >= blueOpr - redOpr > 40) || (jsonBet == "blue" && 50 >= redOpr - blueOpr > 40)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-	// 			// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get());
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// } else if ((jsonBet == "red" && 60 >= blueOpr - redOpr > 50) || (jsonBet == "blue" && 60 >= redOpr - blueOpr > 50)) {
-	// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
-	// 			// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
-	// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
-	// 			// }
-	// 		} else if (jsonBet != win) {
-	// 			addedValue = parseInt(pipsRange.noUiSlider.get()) * -1;
-	// 			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
-	// 		}
-	// 	}
-	// }
-	// tStringify = String(JSON.stringify(transaction));
-	// fs.writeFileSync('json/transactions.json', tStringify);
-	// // Editing robobucks.json
-	// var robobucksEdit = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
-	// robobucksEdit[$('input[name=login-number]').val()] = String(parseInt(robobucksEdit[$('input[name=login-number]').val()]) + parseInt(transaction[$('input[name=login-number]').val()]));
-	// rStringify = JSON.stringify(robobucksEdit);
-	// fs.writeFileSync('json/robobucks.json', rStringify);
-	// // Modal
-	// if (addedValue > 0) {
-	// 	$('.modal-body').append('<h1 style="text-align: center;"><b>Congratulations!</b>&nbsp;You won&nbsp;' + Math.round(addedValue) + '&nbsp;Robobucks!</h1>');
-	// } else if (addedValue < 0) {
-	// 	$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + Math.round((addedValue * -1)) + '&nbsp;Robobucks.</h1>');
-	// }
 	// File
 	var json = {
 		matchNumber: parseInt(fs.readFileSync('matchNum.txt', 'utf-8')),
@@ -1696,6 +1441,7 @@ $('#save-file').click(function(){
 		// bettingPick: jsonBet,
 		// win: win,
 		// robobucks: addedValue,
+		crashed: true,
 		auto: {
 			crossedLine: autoCross,
 			depositedGear: autoGear,
@@ -1712,7 +1458,7 @@ $('#save-file').click(function(){
 			gearsDeposited: teleopGear,
 			climbed: teleopClimb
 		},
-		notes: $('.comments').val(),
+		notes: 'app crashed',
 		strategy: {
 			pieChart: {
 				// shooting: parseInt($("#pie-shooting").val()),
@@ -1738,9 +1484,441 @@ $('#save-file').click(function(){
 	var stringify = JSON.stringify(json);
 	var match = parseInt(fs.readFileSync('matchNum.txt', 'utf-8'));
 	var filepath = "m" + match + "-" + teamColor + "-" + teamNum + ".json";
-	fs.writeFileSync(__dirname + "/data/" + filepath, stringify);
-	fs.unlinkSync('matchNum.txt');
-	fs.writeFileSync('matchNum.txt', match + 1);
+	fs.writeFileSync(__dirname + "/data/" + filepath, stringify, {flag: 'w'});
+});
+$('#save-file').click(function(){
+	var readMNum = fs.readFileSync('matchNum.txt', 'utf-8');
+	var readRole = fs.readFileSync('role.txt', 'utf-8');
+	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
+	var teamNum;
+	for (i in schedule) {
+		if (i == parseInt(readMNum)) {
+			switch (readRole) {
+				case "r1":
+					teamNum = schedule[i][0];
+					break;
+				case "r2":
+					teamNum = schedule[i][1];
+					break;
+				case "r3":
+					teamNum = schedule[i][2];
+					break;
+				case "b1":
+					teamNum = schedule[i][3];
+					break;
+				case "b2":
+					teamNum = schedule[i][4];
+					break;
+				case "b3":
+					teamNum = schedule[i][5];
+					break;
+				default:
+					teamNum = ":(";
+			}
+		}
+	}
+	var parsedData = JSON.parse(fs.readFileSync('data/m' + parseInt(readMNum) + '-' + readRole + '-' + teamNum +'.json'));
+	var stringData;
+	if (parsedData.crashed) {
+		parsedData.crashed = false;
+		parsedData.notes = '';
+		parsedData.notes = $('.comments').val();
+		stringData = JSON.stringify(parsedData);
+		fs.writeFileSync('data/m' + parseInt(readMNum) + '-' + readRole + '-' + teamNum +'.json', stringData);
+	} else {
+		// $('#last-textarea').fadeOut(500);
+		// // getmac
+		// require('getmac').getMac(function(err,macAddress){
+		// 	if (err)  throw err
+		// 	macAddress = macAddress.replace(/-/g, '').replace(/:/g, '');
+		// 	switch (macAddress) {
+		// 		case addressArray[0].macAddress:
+		// 			teamColor = addressArray[0].role;
+		// 			break;
+		// 		case "9801a7cb4b19":
+		// 			teamColor = "g1";
+		// 			break;
+		// 		case addressArray[1].macAddress:
+		// 			teamColor = addressArray[1].role;
+		// 			break;
+		// 		case addressArray[2].macAddress:
+		// 			teamColor = addressArray[2].role;
+		// 			break;
+		// 		case addressArray[3].macAddress:
+		// 			teamColor = addressArray[3].role;
+		// 			break;
+		// 		case addressArray[4].macAddress:
+		// 			teamColor = addressArray[4].role;
+		// 			break;
+		// 		case addressArray[5].macAddress:
+		// 			teamColor = addressArray[5].role;
+		// 			break;
+		// 		default:
+		// 			teamColor = "r1";
+		// 	}
+		// 	// Too lazy to name this section
+		// 	var schedule = JSON.parse(fs.readFileSync('json/matchSched.json', "utf-8"));
+		// 	for (i in schedule) {
+		// 		if (i == $("#match-number-number").val()) {
+		// 			switch (teamColor) {
+		// 				case "r1":
+		// 					teamNum = schedule[i][0];
+		// 					break;
+		// 				case "r2":
+		// 					teamNum = schedule[i][1];
+		// 					break;
+		// 				case "r3":
+		// 					teamNum = schedule[i][2];
+		// 					break;
+		// 				case "b1":
+		// 					teamNum = schedule[i][3];
+		// 					break;
+		// 				case "b2":
+		// 					teamNum = schedule[i][4];
+		// 					break;
+		// 				case "b3":
+		// 					teamNum = schedule[i][5];
+		// 					break;
+		// 				case "g1":
+		// 					teamNum = schedule[i][0];
+		// 					break;
+		// 				default:
+		// 					teamNum = false;
+		// 			}
+		// 		}
+		// 	}
+		// 	// Autonomous
+		// 	var autoCross = false;
+		// 	autoCross = $('input[name="auto-radio-cross"]:checked').val();
+		// 	// autoCross = JSON.parse(autoCross);
+		// 	if (autoCross == "true"){
+		// 		autoCross = true;
+		// 	} else if (autoCross == "false") {
+		// 		autoCross = false;
+		// 	}
+		// 	var autoCross = false;
+		// 	autoGear = $('input[name="auto-radio-gear"]:checked').val();
+		// 	// autoGear = JSON.parse(autoGear);
+		// 	if (autoGear == "true"){
+		// 		autoGear = true;
+		// 	} else if (autoGear == "false") {
+		// 		autoGear = false;
+		// 	}
+		// 	var autoShoot = false;
+		// 	autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
+		// 	// autoShoot = JSON.parse(autoShoot);
+		// 	if (autoShoot == "true"){
+		// 		autoShoot = true;
+		// 	} else if (autoShoot == "false") {
+		// 		autoShoot = false;
+		// 	}
+		// 	// Tele-Op
+		// 	var teleopGear = parseInt($('#teleop-gear').val());
+		// 	var teleopClimb = $('input[name="teleop-radio-climb"]:checked').val();
+		// 	if (teleopClimb == "true"){
+		// 		teleopClimb = true;
+		// 	} else if (teleopClimb == "false") {
+		// 		teleopClimb = false;
+		// 	}
+		// 	// Fuel End
+		// 	var fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
+		// 	var fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
+		// 	var fuelEndLoad = [];
+		// 	if (fuelEndHopper == true){
+		// 		fuelEndLoad.push("hopper");
+		// 	}
+		// 	if (fuelEndHuman == true){
+		// 		fuelEndLoad.push("human");
+		// 	}
+		// 	if (fuelEndFloor == true){
+		// 		fuelEndLoad.push("floor");
+		// 	}
+		// 	// Grades
+		// 	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
+		// 	var gradesShooting = parseInt($('input[name="grades-shooting"]:checked').val());
+		// 	var gradesGearing = parseInt($('input[name="grades-gearing"]:checked').val());
+		// 	var gradesDefense = parseInt($('input[name="grades-defense"]:checked').val());
+		// 	var gradesClimbing = parseInt($('input[name="grades-climbing"]:checked').val());
+		// 	// File
+		// 	var json = {
+		// 		scoutId: $('input[name=login-number]').val(),
+		// 		bettingPick: jsonBet,
+		// 		auto: {
+		// 			crossedLine: autoCross,
+		// 			depositedGear: autoGear,
+		// 			shotCycle: autoShoot
+		// 		},
+		// 		teleop: {
+		// 			balls: {
+		// 				cycles:  teleopFuel,
+		// 				accuracy: fuelEndAccuracy,
+		// 				shotRate: fuelEndRate,
+		// 				loadingZones: fuelEndLoad
+		// 			},
+		// 			gearsDeposited: teleopGear,
+		// 			climbed: teleopClimb
+		// 		},
+		// 		notes: $('.comments').val(),
+		// 		strategy: {
+		// 			pieChart: {
+		// 				// shooting: parseInt($("#pie-shooting").val()),
+		// 				// gearing: parseInt($("#pie-gearing").val()),
+		// 				// defense: parseInt($("#pie-defense").val()),
+		// 				// climbing: parseInt($("#pie-climbing").val()),
+		// 				// futzing: parseInt($("#pie-futzing").val())
+		// 				shooting: Math.round(sliderShoot),
+		// 				gearing:  Math.round(sliderGear),
+		// 				defense:  Math.round(sliderDefense),
+		// 				climbing:  Math.round(sliderClimb),
+		// 				futzing:  Math.round(sliderFutz)
+		// 			},
+		// 			grades: {
+		// 				overall: gradesOverall,
+		// 				shooting: gradesShooting,
+		// 				gearing: gradesGearing,
+		// 				defense: gradesDefense,
+		// 				climbing: gradesClimbing
+		// 			}
+		// 		}
+		// 	};
+		// 	var stringify = JSON.stringify(json);
+		// 	var filepath = "m" + $("#match-number-number").val() + "-" + teamColor + "-" + teamNum + ".json"
+		// 	createFile(__dirname + "/data/" + filepath, stringify);
+		// 	deleteFile('matchNum.txt');
+		// 	createFile('matchNum.txt', parseInt($("#match-number-number").val()) + 1);
+		// 	if (fs.existsSync('manifest.json') == false) {
+		// 		fs.writeFileSync('manifest.json', "[]")
+		// 	}
+		// 	var manifestRead = fs.readFileSync('manifest.json', 'utf-8');
+		// 	var manifestParse = JSON.parse(manifestRead);
+		// 	manifestParse.push(filepath);
+		// 	var mStringify = JSON.stringify(manifestParse);
+		// 	fs.writeFileSync('manifest.json', mStringify);
+		// });
+		// Autonomous
+		var autoCross = false;
+		autoCross = $('input[name="auto-radio-cross"]:checked').val();
+		// autoCross = JSON.parse(autoCross);
+		if (autoCross == "true"){
+			autoCross = true;
+		} else if (autoCross == "false") {
+			autoCross = false;
+		}
+		var autoGear = false;
+		autoGear = $('input[name="auto-radio-gear"]:checked').val();
+		// autoGear = JSON.parse(autoGear);
+		if (autoGear == "true"){
+			autoGear = true;
+		} else if (autoGear == "false") {
+			autoGear = false;
+		}
+		var autoShoot = false;
+		autoShoot = $('input[name="auto-radio-shoot"]:checked').val();
+		// autoShoot = JSON.parse(autoShoot);
+		if (autoShoot == "true"){
+			autoShoot = true;
+		} else if (autoShoot == "false") {
+			autoShoot = false;
+		}
+		// Tele-Op
+		var teleopGear = parseInt($('#teleop-gear').val());
+		var teleopClimb = $('input[name="teleop-radio-climb"]:checked').val();
+		if (teleopClimb == "true"){
+			teleopClimb = true;
+		} else if (teleopClimb == "false") {
+			teleopClimb = false;
+		}
+		// Fuel End
+		if (fuelEndHopper == true){
+			fuelEndLoad.push("hopper");
+		}
+		if (fuelEndHuman == true){
+			fuelEndLoad.push("human");
+		}
+		if (fuelEndFloor == true){
+			fuelEndLoad.push("floor");
+		}
+		// Grades
+		var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
+		// // transaction.json
+		// var addedValue;
+		// var tStringify;
+		// function betOver(max, min, points) {
+		// 	if ((jsonBet == "red" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min)) || (jsonBet == "blue" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min))) {
+		// 		// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 		addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
+		// 		if (addedValue < 1) {
+		// 			addedValue = 1.1;
+		// 		}
+		// 		transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
+		// 	}
+		// };
+		// function betUnder(max, min, points) {
+		// 	if ((jsonBet == "red" && (max >= (blueOpr - redOpr) && (blueOpr - redOpr) > min)) || (jsonBet == "blue" && (max >= (redOpr - blueOpr) && (redOpr - blueOpr) > min))) {
+		// 		// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+		// 		addedValue = parseInt(pipsRange.noUiSlider.get()) * points;
+		// 		if (addedValue < 1) {
+		// 			addedValue = 1.1;
+		// 		}
+		// 		transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
+		// 	}
+		// };
+		// if (transaction.hasOwnProperty($('input[name=login-number]').val())) {
+		// 	if (opr.hasOwnProperty(teamNum)) {
+		// 		if (jsonBet == win) {
+		// 			if ((jsonBet == "red" && redOpr > blueOpr) || (jsonBet == "blue" && blueOpr > redOpr)) {
+		// 				for (i = 1; i < 2000; i++) {
+		// 					betOver(10 * i, (10 * i) - 10, (20 - i) / 10);
+		// 				};
+		// 			} else if ((jsonBet == "red" && redOpr < blueOpr) || (jsonBet == "blue" && blueOpr < redOpr)) {
+		// 				for (i = 1; i < 2000; i++) {
+		// 					betUnder(10 * i, (10 * i) - 10, (20 + (2 * i)) / 10);
+		// 				};
+		// 			}
+		// 			if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
+		// 				// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 				addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
+		// 				transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
+		// 			};
+		// 			// if ((jsonBet == "red" && 10 >= redOpr - blueOpr > 0) || (jsonBet == "blue" && 10 >= blueOpr - redOpr > 0)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (9 / 10));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 20 >= redOpr - blueOpr > 10) || (jsonBet == "blue" && 20 >= blueOpr - redOpr > 10)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 30 >= redOpr - blueOpr > 20) || (jsonBet == "blue" && 30 >= blueOpr - redOpr > 20)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (7 / 10));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 40 >= redOpr - blueOpr > 30) || (jsonBet == "blue" && 40 >= blueOpr - redOpr > 30)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 50 >= redOpr - blueOpr > 40) || (jsonBet == "blue" && 50 >= blueOpr - redOpr > 40)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (5 / 10));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 60 >= redOpr - blueOpr > 50) || (jsonBet == "blue" && 60 >= blueOpr - redOpr > 50)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 70 >= redOpr - blueOpr > 60) || (jsonBet == "blue" && 70 >= blueOpr - redOpr > 60)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 10));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 80 >= redOpr - blueOpr > 70) || (jsonBet == "blue" && 80 >= blueOpr - redOpr > 70)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 10));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 10 >= blueOpr - redOpr > 0) || (jsonBet == "blue" && 10 >= redOpr - blueOpr > 0)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+		// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && redOpr - blueOpr == 0) || (jsonBet == "blue" && blueOpr - redOpr == 0)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 10);
+		// 			// 	addedValue = parseInt(pipsRange.noUiSlider.get()) * 2;
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 20 >= blueOpr - redOpr > 10) || (jsonBet == "blue" && 20 >= redOpr - blueOpr > 10)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+		// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (2 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 30 >= blueOpr - redOpr > 20) || (jsonBet == "blue" && 30 >= redOpr - blueOpr > 20)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+		// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (3 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 40 >= blueOpr - redOpr > 30) || (jsonBet == "blue" && 40 >= redOpr - blueOpr > 30)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+		// 			// 	addedValue = 2 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (4 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 50 >= blueOpr - redOpr > 40) || (jsonBet == "blue" && 50 >= redOpr - blueOpr > 40)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+		// 			// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get());
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// } else if ((jsonBet == "red" && 60 >= blueOpr - redOpr > 50) || (jsonBet == "blue" && 60 >= redOpr - blueOpr > 50)) {
+		// 			// 	// transaction[$('input[name=login-number]').val()] + (transaction[$('input[name=login-number]').val()] / 2);
+		// 			// 	addedValue = 3 * parseInt(pipsRange.noUiSlider.get()) + (parseInt(pipsRange.noUiSlider.get()) * (1 / 5));
+		// 			// 	transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)));
+		// 			// }
+		// 		} else if (jsonBet != win) {
+		// 			addedValue = parseInt(pipsRange.noUiSlider.get()) * -1;
+		// 			transaction[$('input[name=login-number]').val()] = String(Math.round(parseInt(transaction[$('input[name=login-number]').val()]) + parseInt(addedValue)) + 10);
+		// 		}
+		// 	}
+		// }
+		// tStringify = String(JSON.stringify(transaction));
+		// fs.writeFileSync('json/transactions.json', tStringify);
+		// // Editing robobucks.json
+		// var robobucksEdit = JSON.parse(fs.readFileSync('json/robobucks.json', 'utf-8'));
+		// robobucksEdit[$('input[name=login-number]').val()] = String(parseInt(robobucksEdit[$('input[name=login-number]').val()]) + parseInt(transaction[$('input[name=login-number]').val()]));
+		// rStringify = JSON.stringify(robobucksEdit);
+		// fs.writeFileSync('json/robobucks.json', rStringify);
+		// // Modal
+		// if (addedValue > 0) {
+		// 	$('.modal-body').append('<h1 style="text-align: center;"><b>Congratulations!</b>&nbsp;You won&nbsp;' + Math.round(addedValue) + '&nbsp;Robobucks!</h1>');
+		// } else if (addedValue < 0) {
+		// 	$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + Math.round((addedValue * -1)) + '&nbsp;Robobucks.</h1>');
+		// }
+		// File
+		var json = {
+			matchNumber: parseInt(fs.readFileSync('matchNum.txt', 'utf-8')),
+			teamNumber: teamNum,
+			role: fs.readFileSync('role.txt', 'utf-8'),
+			scoutId: $('input[name=login-number]').val(),
+			// bettingPick: jsonBet,
+			// win: win,
+			// robobucks: addedValue,
+			crashed: false,
+			auto: {
+				crossedLine: autoCross,
+				depositedGear: autoGear,
+				shotCycle: autoShoot
+			},
+			teleop: {
+				balls: {
+					lowGoal: $(".low-goal:checked").val(),
+					cycles:  teleopFuel,
+					accuracy: fuelEndAccuracy,
+					shotRate: fuelEndRate,
+					loadingZones: fuelEndLoad
+				},
+				gearsDeposited: teleopGear,
+				climbed: teleopClimb
+			},
+			notes: $('.comments').val(),
+			strategy: {
+				pieChart: {
+					// shooting: parseInt($("#pie-shooting").val()),
+					// gearing: parseInt($("#pie-gearing").val()),
+					// defense: parseInt($("#pie-defense").val()),
+					// climbing: parseInt($("#pie-climbing").val()),
+					// futzing: parseInt($("#pie-futzing").val())
+					shooting: Math.round(sliderShoot),
+					gearing:  Math.round(sliderGear),
+					defense:  Math.round(sliderDefense),
+					climbing:  Math.round(sliderClimb),
+					futzing:  Math.round(sliderFutz)
+				},
+				grades: {
+					overall: gradesOverall,
+					shooting: gradesShooting,
+					gearing: gradesGearing,
+					defense: gradesDefense,
+					climbing: gradesClimbing
+				}
+			}
+		};
+		var stringify = JSON.stringify(json);
+		var match = parseInt(fs.readFileSync('matchNum.txt', 'utf-8'));
+		var filepath = "m" + match + "-" + teamColor + "-" + teamNum + ".json";
+		fs.writeFileSync(__dirname + "/data/" + filepath, stringify);
+	}
+	fs.writeFileSync('matchNum.txt', parseInt(fs.readFileSync('matchNum.txt', 'utf-8')) + 1);
 	if (!fs.existsSync('json/manifest.json')) {
 		fs.writeFileSync('json/manifest.json', "[]");
 	}
@@ -1759,7 +1937,7 @@ $('#save-file').click(function(){
 			marginTop: '-230px'
 		}, 1000, function () {
 		const {ipcRenderer} = require('electron')
-		ipcRenderer.send('quit');
+		// ipcRenderer.send('quit');
   });
 	// $('#save-file').animate({height: '10000px', width: "10000px"}, 5000, 'swing');
 });
