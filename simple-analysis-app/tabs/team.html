@@ -132,7 +132,7 @@
 		$("#teamNotes").html('')
 		var teamNumber = $('#teamLookupMatchNumber').val()
 		if (!pitRecords.hasOwnProperty(teamNumber)) {
-			alert("No pit records for that team!")
+			//alert("No pit records for that team!")
 		}
 		else {
 			$("#pitModalTeamNumber").html(teamNumber)
@@ -169,7 +169,7 @@
 			$("#pitModalP").html(text)
 		}
 		if (!standRecords.hasOwnProperty(teamNumber)) {
-			alert("No stand records for that team!")
+			//alert("No stand records for that team!")
 			$("#chartWrapper").html('')
 		}
 		else {
@@ -332,10 +332,10 @@
 		
 	})
 
-	/*for (var index in allTeamNumbers) {
+	for (var index in allTeamNumbers) {
 		$('#teamLookupMatchNumber').val(allTeamNumbers[index])
 		$('#lookupButton').click()
-	}*/
+	}
 	//if you want to process each team for some reason, in order to get normalized grades early or something, uncomment this
 
 </script>
