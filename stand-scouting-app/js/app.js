@@ -174,6 +174,7 @@ $(document).ready(function(){
 		$('#the-whole-login').hide();
 		$('#last-textarea').show();
 		$('[data-toggle="popover"]').popover('hide');
+		$('#textarea-back').hide();
 	}
 	if (fs.existsSync('matchNum.txt') == false) {
 		fs.writeFileSync('matchNum.txt', 1);
