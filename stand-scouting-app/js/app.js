@@ -1938,7 +1938,7 @@ $('#save-file').click(function(){
 			marginTop: '-230px'
 		}, 1000, function () {
 		const {ipcRenderer} = require('electron')
-		// ipcRenderer.send('quit');
+		ipcRenderer.send('quit');
   });
 	// $('#save-file').animate({height: '10000px', width: "10000px"}, 5000, 'swing');
 });
