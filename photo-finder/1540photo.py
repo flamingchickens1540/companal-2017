@@ -10,7 +10,7 @@ def login(g):
     try:
         g.login("1540photo","robotics1540")
     except:
-        time.sleep(50)
+        time.sleep(10)
         login(g)
 def run():
     g = Gmail()
