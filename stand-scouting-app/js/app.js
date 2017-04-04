@@ -1919,15 +1919,17 @@ $('#save-file').click(function(){
 		var filepath = "m" + match + "-" + teamColor + "-" + teamNum + ".json";
 		fs.writeFileSync(__dirname + "/data/" + filepath, stringify);
 	}
-	fs.writeFileSync('matchNum.txt', parseInt(fs.readFileSync('matchNum.txt', 'utf-8')) + 1);
 	if (!fs.existsSync('json/manifest.json')) {
 		fs.writeFileSync('json/manifest.json', "[]");
 	}
 	var manifestRead = fs.readFileSync('json/manifest.json', 'utf-8');
 	var manifestParse = JSON.parse(manifestRead);
+	var match = parseInt(fs.readFileSync('matchNum.txt', 'utf-8'));
+	var filepath = "m" + match + "-" + teamColor + "-" + teamNum + ".json";
 	manifestParse.push(filepath);
 	var mStringify = JSON.stringify(manifestParse);
 	fs.writeFileSync('json/manifest.json', mStringify);
+	fs.writeFileSync('matchNum.txt', parseInt(fs.readFileSync('matchNum.txt', 'utf-8')) + 1);
 	$('.jumbotron').css('z-index', '-998');
 	$('.info-bar').css('z-index', '-999');
 	$(".finish").removeClass('container');
