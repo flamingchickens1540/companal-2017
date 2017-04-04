@@ -140,17 +140,17 @@ var accounts = {
 };
 
 // Tristan's Edits
-// var candyBool = false;
-// $('.candy').click(function () {
-// 	candyBool = !candyBool;
-// 	if (candyBool) {
-// 		$('.candy').css('background', 'pink');
-// 		$('.candy').css('border', '1px solid pink');
-// 	} else if (!candyBool) {
-// 		$('.candy').css('background', '');
-// 		$('.candy').css('border', '');
-// 	}
-// });
+var candyBool = false;
+$('.candy').click(function () {
+	candyBool = !candyBool;
+	if (candyBool) {
+		$('.candy').css('background', 'pink');
+		$('.candy').css('border', '1px solid pink');
+	} else if (!candyBool) {
+		$('.candy').css('background', '');
+		$('.candy').css('border', '');
+	}
+});
 
 //Imports Previous Files
 function start() {
@@ -282,14 +282,14 @@ function createTable() {
 		$("#"+id+"row").append(td5);
 		$("#"+id+"num3").text(parseInt(scoutcount[id][2])+parseInt(scoutcount[id][2]));
 		$('#' + id + 'name').prepend('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a>&nbsp;&nbsp;');
-// 		if (candyBool) {
-// 			for (x in keys) {
-// 				var id = keys[x];
-// 				if (parseInt($("#" + id + "num2").val()) % 10 == 0) {
-// 					$('.' + id + 'row').addClass('pinkCandy')
-// 				}
-// 			}
-// 		}
+		if (candyBool) {
+			for (x in keys) {
+				var id = keys[x];
+				if (parseInt($("#" + id + "num2").val()) % 10 == 0) {
+					$('.' + id + 'row').addClass('pinkCandy');
+				}
+			}
+		}
 	}
 	for (match=1;match<=Object.keys(matchSchedule).length;match+=1) {
 		var tr = document.createElement("tr");
@@ -387,7 +387,7 @@ function updateTable() {
 		if ($("#" + id + "num2").text() < 10) {
 			// $('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
 		} else {
-			$(".err-no-ten-"+id).hide();
+			$(".err-no-ten-" + id).replaceWith('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; cursor: pointer;" title="' + accounts[id] + ' has scouted 10 matches">👍</a>&nbsp;&nbsp;');
 		}
 	}
 	for (x in teams) {
@@ -540,6 +540,6 @@ var scores = {
 var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
 var ePeople = Object.keys(exempt);
 for (i in ePeople) {
-	$('.err-no-ten-' + ePeople[i]).replaceWith('&nbsp;&nbsp;');
+	$('.err-no-ten-' + ePeople[i]).replaceWith('<a class="exempted-' + ePeople + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: green; cursor: pointer;" title="' + exempt[ePeople[i]] + ' is exempted">&#10003;</a>');
 }
 $('[data-toggle="tooltip"]').tooltip();
