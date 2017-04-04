@@ -387,7 +387,7 @@ function updateTable() {
 		if ($("#" + id + "num2").text() < 10) {
 			// $('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
 		} else {
-			$(".err-no-ten-" + id).replaceWith('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; cursor: pointer;" title="' + accounts[id] + ' has scouted 10 matches">👍</a>&nbsp;&nbsp;');
+			$(".err-no-ten-" + id).replaceWith('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; cursor: pointer;" title="' + accounts[id] + ' has scouted 10 matches">&#x1F44D;</a>');
 		}
 	}
 	for (x in teams) {
