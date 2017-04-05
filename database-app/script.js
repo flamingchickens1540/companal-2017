@@ -281,7 +281,7 @@ function createTable() {
 		td5.setAttribute("id",id+"num3");
 		$("#"+id+"row").append(td5);
 		$("#"+id+"num3").text(parseInt(scoutcount[id][2])+parseInt(scoutcount[id][2]));
-		$('#' + id + 'name').prepend('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a>&nbsp;&nbsp;');
+		$('#' + id + 'name').prepend('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 24 matches">&#215;</a>&nbsp;&nbsp;');
 		if (candyBool) {
 			for (x in keys) {
 				var id = keys[x];
@@ -382,12 +382,23 @@ function updateTable() {
 		var id = keys[x];
 		$("#"+id+"num").text(scoutcount[id][0]);
 		$("#"+id+"num2").text(scoutcount[id][1]);
-		$("#"+id+"num3").text(parseInt(scoutcount[id][0])+parseInt(scoutcount[id][1]));
+		$("#"+id+"num3").text((parseInt(scoutcount[id][0]) / 2)+parseInt(scoutcount[id][1]));
 		// Tristan's Edits
-		if ($("#" + id + "num2").text() < 10) {
+		if ($("#" + id + "num3").text() < 24) {
 			// $('.err-table').append('<tr><td class="' + id + 'alert" style="color: red; font-weight: bold;"><!--<i class="fa fa-exclamation-triangle" style="color: red;"></i>--><a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: red; cursor: pointer;" title="' + accounts[id] + ' has not scouted 10 matches">&#215;</a></td></tr>');
 		} else {
-			$(".err-no-ten-" + id).replaceWith('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; cursor: pointer;" title="' + accounts[id] + ' has scouted 10 matches">&#x1F44D;</a>');
+			$(".err-no-ten-" + id).replaceWith('<a class="err-no-ten-' + id + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; cursor: pointer;" title="' + accounts[id] + ' has scouted 24 matches">&#x1F44D;</a>');
+		}
+		var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
+		var ePeople = Object.keys(exempt);
+		for (i in ePeople) {
+			if (id == ePeople[i]) {
+				if (exempt[ePeople[i]][1] == 0) {} else {
+					if ($("#" + id + "num3").text() < exempt[ePeople[i]][1]) {
+						$('#' + ePeople[i] + 'name').prepend('<span style="color: red;">&#215;</span>&nbsp;');
+					}
+				}
+			}
 		}
 	}
 	for (x in teams) {
@@ -540,6 +551,10 @@ var scores = {
 var exempt = JSON.parse(fs.readFileSync('exempt.json', 'utf-8'));
 var ePeople = Object.keys(exempt);
 for (i in ePeople) {
-	$('.err-no-ten-' + ePeople[i]).replaceWith('<a class="exempted-' + ePeople + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: green; cursor: pointer;" title="' + exempt[ePeople[i]] + ' is exempted">&#10003;</a>');
+	if (exempt[ePeople[i]][1] == 0) {
+		$('.err-no-ten-' + ePeople[i]).replaceWith('<a class="exempted-' + ePeople[i] + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: green; cursor: pointer;" title="' + exempt[ePeople[i]][0] + ' is exempted">&#10003;</a>');
+	} else {
+		$('.err-no-ten-' + ePeople[i]).replaceWith('<a class="exempted-' + ePeople[i] + '" data-toggle="tooltip" data-placement="right auto" style="text-decoration: none; color: green; cursor: pointer;" title="' + exempt[ePeople[i]][0] + ' is exempted but has to scout ' + exempt[ePeople[i]][1] + ' matches">&#10003;</a>');
+	}
 }
 $('[data-toggle="tooltip"]').tooltip();
