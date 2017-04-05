@@ -395,7 +395,9 @@ function updateTable() {
 			if (id == ePeople[i]) {
 				if (exempt[ePeople[i]][1] == 0) {} else {
 					if ($("#" + id + "num3").text() < exempt[ePeople[i]][1]) {
-						$('#' + ePeople[i] + 'name').prepend('<span style="color: red;">&#215;</span>&nbsp;');
+						$('#' + ePeople[i] + 'name').prepend('<span style="color: red; cursor: pointer;" data-toggle="tooltip" data-placement="right auto" title="' + exempt[ePeople[i]][0] + ' has not scouted ' + exempt[ePeople[i]][1] + ' matches">&#215;</span>&nbsp;');
+					} else {
+						$('#' + ePeople[i] + 'name').prepend('<span style="cursor: pointer;" data-toggle="tooltip" data-placement="right auto" title="' + exempt[ePeople[i]][0] + ' has met the minimum requirement">&#x1F44D;</span>&nbsp;');
 					}
 				}
 			}
