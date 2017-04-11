@@ -1,0 +1,32 @@
+span.btn.active{
+	background: #a200ed !important;
+	border: 1px solid #a200ed !important;
+}
+.center{
+  text-align: center;
+  display: block;
+  margin: auto;
+}
+.info-bar-match-number{
+  background: transparent;
+  font-size: 24pt;
+  text-align: center;
+  border: none;
+  box-shadow: none;
+  display: block;
+  margin: auto;
+}
+.m-font{
+  font-family: 'Montserrat';
+}
+.no-border, .no-border:focus{
+  border: none;
+  box-shadow: none;
+}
+.tab{
+  cursor: default;
+  border-bottom: 5px solid #eee;
+}
+.tab:hover{
+  border-bottom: 5px solid #ddd;
+}

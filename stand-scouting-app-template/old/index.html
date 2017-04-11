@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/fa-animation.css" rel="stylesheet">
+    <link href="Montserrat/stylesheet.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/nouislider/distribute/nouislider.css">
+    <!-- <link rel="stylesheet" href="node_modules/bootstrap-slider/dist/css/bootstrap-slider.css"> -->
+    <!-- <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>if (window.module) module = window.module;</script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script> -->
+    <title>Stand Scouting App</title>
+  </head>
+  <body>
+    <div id="no-login" class="alert alert-danger alert-dismissable fade in" style="margin: 0;">
+      <a href="#" class="close" aria-label="close">&times;</a>
+      <strong>Warning!</strong> There is no one with this login number.
+    </div>
+    <div class="jumbotron" style="height: 348px;">
+      <img class="chicken" src="imgs/logo.png"/>
+      <h1 class="jumbotron-big-title">Stand Scouting App</h1>
+      <div class="login-info">
+        <div class="login-info-replace">
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- Login -->
+    <div id="the-whole-login" class="container">
+      <form class="login">
+        <div class="input-group">
+          <!-- <input type="text" maxlength="2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="login-number" id="login-input-number" class="form-control" placeholder="Ex: 21"> -->
+          <input type="number" min="10" max="99" name="login-number" id="login-input-number" class="form-control" placeholder="Ex: 15">
+          <div class="input-group-btn">
+            <button id="login-button" class="btn btn-success" type="button">
+              <i class="fa fa-sign-in"></i>&nbsp;Sign In
+            </button>
+          </div>
+        </div>
+      </form>
+      <br>
+      <div style="text-align: center;">
+        <button id="forgot-id-button" class="btn btn-warning" type="button">Forgot my ID</button>
+      </div>
+      <br>
+      <div class="name-div">
+        <h1 class="name" style="text-align: center;"></h1>
+      </div>
+      <br>
+      <button id="cont-btn" type="button" class="btn btn-success">Continue!</button>
+    </div>
+    <!-- Password -->
+    <div class="password container">
+      <input type="password" class="form-control pass-input">
+      <br>
+      <button type="button" class="btn btn-success pass-submit">Submit</button>
+    </div>
+    <!-- Choose Role -->
+    <div class="choose-role">
+      <div class="btn-group" data-toggle="buttons">
+        <span class="btn btn-danger">
+          <input type="radio" class="role-btn" name="role-btn" autocomplete="off" value="r1">Red 1
+        </span>
+        <span class="btn btn-danger">
+          <input type="radio" class="role-btn" name="role-btn" autocomplete="off" value="r2">Red 2
+        </span>
+        <span class="btn btn-danger">
+          <input type="radio" class="role-btn" name="role-btn" autocomplete="off" value="r3">Red 3
+        </span>
+        <span class="btn btn-blue">
+          <input type="radio" class="role-btn" name="role-btn" autocomplete="off" value="b1">Blue 1
+        </span>
+        <span class="btn btn-blue">
+          <input type="radio" class="role-btn" name="role-btn" autocomplete="off" value="b2">Blue 2
+        </span>
+        <span class="btn btn-blue">
+          <input type="radio" class="role-btn" name="role-btn" autocomplete="off" value="b3">Blue 3
+        </span>
+      </div>
+      <br>
+      <br>
+      <button type="button" class="btn btn-success role-submit">Submit</button>
+    </div>
+    <!-- Forgot ID -->
+    <div id="forgot-id" class="container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody class='login-stuff'></tbody>
+      </table>
+      <br>
+      <button type="button" id="forgot-id-back" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+    <!-- Betting -->
+    <!-- <div class="betting">
+      <h3 style="text-align: center;">
+        <div class="expected" style="text-align: center;"></div>
+      </h3>
+      <br>
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+          <button type="button" id="bet-red-win" class="btn btn-danger">Red</button>
+        </div>
+        <div class="col-sm-3">
+          <button type="button" id="bet-blue-win" class="btn btn-default">Blue</button>
+        </div>
+        <div class="col-sm-3"></div>
+      </div>
+      <br>
+      <div>
+        <button type="button" class="btn btn-danger skip-bet" style="display: block; margin: auto;">Skip Betting</button>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div> -->
+    <!-- Betting 2 -->
+    <!-- <div class="betting-2">
+      <div class="betting-2-buttons">
+        <button id="betting-2-back" type="button" class="btn btn-warning">
+          <i class="fa fa-chevron-left"></i>&nbsp;Back
+        </button>
+        <button id="betting-2-next" type="button" class="btn btn-warning">
+          Next&nbsp;<i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+      <br>
+      <h2 style="text-align: center;">How much do you want to bet?</h2>
+      <hr>
+      <div id="pips-range"></div>
+    </div> -->
+    <!-- Post-Login/Auto -->
+    <div id="post-login" class="container">
+      <!-- <button id="auto-back" type="button" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button> -->
+      <button id="auto-next" type="button" class="btn btn-warning">
+        Next&nbsp;<i class="fa fa-chevron-right"></i>
+      </button>
+      <br>
+      <h2 style="text-align: center;">Autonomous</h2>
+      <hr>
+      <div class="row">
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Crossed Line</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="auto-cross" class="btn btn-success">
+              <input type="radio" name="auto-radio-cross" value="true" autocomplete="off">Crossed
+            </span>
+            <span id="auto-no-cross" class="btn btn-danger">
+              <input type="radio" name="auto-radio-cross" value="false" autocomplete="off">Not Crossed
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Gear Placed</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="auto-gear" class="btn btn-success">
+              <input type="radio" name="auto-radio-gear" value="true" autocomplete="off">Placed
+            </span>
+            <span id="auto-no-gear" class="btn btn-danger">
+              <input type="radio" name="auto-radio-gear" value="false" autocomplete="off">Not Placed
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Balls Shot</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="auto-shoot" class="btn btn-success">
+              <input type="radio" name="auto-radio-shoot" value="true" autocomplete="off">Shot Balls
+            </span>
+            <span id="auto-no-shoot" class="btn btn-danger">
+              <input type="radio" name="auto-radio-shoot" value="false" autocomplete="off">Did Not Shoot Balls
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Tele-Op -->
+    <div id="teleop" class="container">
+      <button id="teleop-back" type="button" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <button id="teleop-next" type="button" class="btn btn-warning">
+        Next&nbsp;<i class="fa fa-chevron-right"></i>
+      </button>
+      <br>
+      <h2 style="text-align: center;">Tele-Op</h2>
+      <hr>
+      <div class="row">
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Fuel <span class="badge badge-hide"><span class="badge-replace"></span></span></h3>
+          <br>
+          <h4>Fuel Carried This Cycle</h4>
+          <div id="teleop-fuel" class="btn-group" data-toggle="buttons">
+            <span id="teleop-fuelcycle-lt10" class="btn btn-danger">
+              <input type="radio" name="teleop-radio-fuel" value="<10" autocomplete="off">&lt;10
+            </span>
+            <span id="teleop-fuelcycle-1025" class="btn btn-warning">
+              <input type="radio" name="teleop-radio-fuel" value="10-25" autocomplete="off">10-25
+            </span>
+            <span id="teleop-fuelcycle-2540" class="btn btn-primary">
+              <input type="radio" name="teleop-radio-fuel" value="25-40" autocomplete="off">25-40
+            </span>
+            <span id="teleop-fuelcycle-gt40" class="btn btn-success">
+              <input type="radio" name="teleop-radio-fuel" value=">40" autocomplete="off">&gt;40
+            </span>
+          </div>
+          <br>
+          <br>
+          <button id="teleop-fuel-submit" type="button" class="btn btn-success">Submit This Cycle</button>
+        </div>
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Gears Deposited</h3>
+          <input id="teleop-gear" value="0" readonly="readonly">
+          <br>
+          <br>
+          <button type="button" id="teleop-down" class="btn btn-danger" onclick="teleopgearnum(-1)" style="width: 25%;">-1</button>
+          <button type="button" id="teleop-up" class="btn btn-success" onclick="teleopgearnum(1)" style="width: 25%;">+1</button>
+        </div>
+        <div class="col-sm-4">
+          <h3 style="text-align: center;">Climbed Rope Successfully</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="teleop-climb" class="btn btn-success">
+              <input type="radio" name="teleop-radio-climb" value="true" autocomplete="off">Climbed Successfully
+            </span>
+            <span id="teleop-no-climb" class="btn btn-danger">
+              <input type="radio" name="teleop-radio-climb" value="false" autocomplete="off">Failed to Climb
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Other Fuel Stuff -->
+    <div id="fuel-end" class="container">
+      <div class="row">
+        <button id="fuel-back" type="button" class="btn btn-warning">
+          <i class="fa fa-chevron-left"></i>&nbsp;Back
+        </button>
+        <button id="fuel-next" type="button" class="btn btn-warning">
+          Next&nbsp;<i class="fa fa-chevron-right"></i>
+        </button>
+        <br>
+        <h3 style="text-align: center;">Fuel</h3>
+        <br>
+        <!-- <button type="button" class="btn btn-warning no-fuel">Did not shoot fuel</button> -->
+        <div class="btn-group" data-toggle="buttons">
+          <label id="low-goal" class="btn btn-info">
+            <input type="checkbox" autocomplete="off">Low Goal
+          </label>
+        </div>
+        <hr>
+        <div class="col-sm-4">
+          <h4>Accuracy of High Goal Shooter</h4>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="teleop-fuelaccuracy-lt50" class="btn btn-danger">
+              <input type="radio" name="fuel-end-accuracy" value="<50" autocomplete="off">&lt;50
+            </span>
+            <span id="teleop-fuelaccuracy-5070" class="btn btn-warning">
+              <input type="radio" name="fuel-end-accuracy" value="50-70" autocomplete="off">50-70
+            </span>
+            <span id="teleop-fuelaccuracy-7090" class="btn btn-primary">
+              <input type="radio" name="fuel-end-accuracy" value="70-90" autocomplete="off">70-90
+            </span>
+            <span id="teleop-fuelaccuracy-gt90" class="btn btn-success">
+              <input type="radio" name="fuel-end-accuracy" value=">90" autocomplete="off">&gt;90
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h4>High Goal Rate (Balls/Second)</h4>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="teleop-fuelrate-lt1" class="btn btn-danger">
+              <input type="radio" name="fuel-end-rate" value="<1" autocomplete="off">&lt;1
+            </span>
+            <span id="teleop-fuelrate-13" class="btn btn-warning">
+              <input type="radio" name="fuel-end-rate" value="1-3" autocomplete="off">1-3
+            </span>
+            <span id="teleop-fuelrate-35" class="btn btn-primary">
+              <input type="radio" name="fuel-end-rate" value="3-5" autocomplete="off">3-5
+            </span>
+            <span id="teleop-fuelrate-gt5" class="btn btn-success">
+              <input type="radio" name="fuel-end-rate" value=">5" autocomplete="off">&gt;5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h4>Loaded From</h4>
+          <p class="help-block">If they shot in auto but not in tele-op, skip this</p>
+          <div class="btn-group" data-toggle="buttons">
+            <label id="teleop-fuelload-hopper" class="btn btn-info">
+              <input type="checkbox" name="fuel-end-load" value="hopper" autocomplete="off">Hopper
+            </label>
+            <label id="teleop-fuelload-human" class="btn btn-info">
+              <input type="checkbox" name="fuel-end-load" value="human" autocomplete="off">Human
+            </label>
+            <label id="teleop-fuelload-floor" class="btn btn-info">
+              <input type="checkbox" name="fuel-end-load" value="floor" autocomplete="off">Floor
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pie Chart -->
+    <div class="container pie">
+      <div class="pie-nav">
+        <button id="pie-back" type="button" class="btn btn-warning">
+          <i class="fa fa-chevron-left"></i>&nbsp;Back
+        </button>
+        <button id="pie-next" type="button" class="btn btn-warning">
+          Next&nbsp;<i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+      <br>
+      <!-- <div class="pie-hide-button">
+        <button id="pie-show-editor" type="button" class="btn btn-warning">Show Pie Editor</button>
+      </div> -->
+      <div class="pie-hide">
+        <h2 style="text-align: center;">Strategy</h2>
+        <button type="button" class="btn btn-info time-cat-btn" data-toggle="collapse" data-target=".useful-time" style="display: block; margin: auto;">Useful Time Categories</button>
+        <br>
+        <div class="well useful-time collapse container">
+          <div class="well-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Time (seconds)</th>
+                  <th>Percent (out of 100%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2 minutes 30 seconds</td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td>2 minutes</td>
+                  <td>80%</td>
+                </tr>
+                <tr>
+                  <td>1 minute 30 seconds</td>
+                  <td>60%</td>
+                </tr>
+                <tr>
+                  <td>1 minute</td>
+                  <td>40%</td>
+                </tr>
+                <tr>
+                  <td>45 seconds</td>
+                  <td>30%</td>
+                </tr>
+                <tr>
+                  <td>30 seconds</td>
+                  <td>20%</td>
+                </tr>
+                <tr>
+                  <td>15 seconds</td>
+                  <td>10%</td>
+                </tr>
+                <tr>
+                  <td>0 seconds</td>
+                  <td>0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <div style="text-align: center;">
+              <div class="btn-group" data-toggle="buttons">
+                <label id="repel" class="btn btn-info disabled">
+                  <input type="checkbox" name="repel-box" autocomplete="off">Enable Repel Mode (Beta)
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #2ecc71;">Shooting</h3>
+            <!-- <button type="button" class="btn shoot-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button> -->
+            <!-- <br>
+            <button type="button" class="btn shoot-0-btn pie-100-btn" style="display: block; margin: auto;">Set to 0%</button> -->
+            <br>
+            <!-- <input id="pie-shooting" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
+            <!-- <input type="number" id="pie-shooting" style="color: #2ecc71; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
+          </div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #3498db;">Gearing</h3>
+            <!-- <button type="button" class="btn gear-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button> -->
+            <!-- <br>
+            <button type="button" class="btn gear-0-btn pie-100-btn" style="display: block; margin: auto;">Set to 0%</button> -->
+            <br>
+            <!-- <input id="pie-gearing" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
+            <!-- <input type="number" id="pie-gearing" style="color: #3498db; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
+          </div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #95a5a6;">Defense</h3>
+            <!-- <button type="button" class="btn defense-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button> -->
+            <!-- <br>
+            <button type="button" class="btn defense-0-btn pie-100-btn" style="display: block; margin: auto;">Set to 0%</button> -->
+            <br>
+            <!-- <input id="pie-defense" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
+            <!-- <input type="number" id="pie-defense" style="color: #95a5a6; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
+          </div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #9b59b6;">Climbing</h3>
+            <!-- <button type="button" class="btn climb-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button> -->
+            <!-- <br>
+            <button type="button" class="btn climb-0-btn pie-100-btn" style="display: block; margin: auto;">Set to 0%</button> -->
+            <br>
+            <!-- <input id="pie-climbing" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
+            <!-- <input type="number" id="pie-climbing" style="color: #9b59b6; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
+          </div>
+          <div class="col-sm-2">
+            <h3 style="text-align: center; color: #f1c40f;">Futzing/Doing Nothing</h3>
+            <!-- <button type="button" class="btn futz-100-btn pie-100-btn" style="display: block; margin: auto;">Set to 100%</button> -->
+            <!-- <br>
+            <button type="button" class="btn futz-0-btn pie-100-btn" style="display: block; margin: auto;">Set to 0%</button> -->
+            <br>
+            <!-- <input id="pie-futzing" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="20" type="text"> -->
+            <!-- <input type="number" id="pie-futzing" style="color: #f1c40f; border: none; text-align: center;" placeholder="Ex: 20" min="0" max="100"> -->
+          </div>
+          <div class="col-sm-1"></div>
+          <div class="col-sm-12" id="pie-slider">
+            <div id="slider-color"></div>
+          </div>
+          <!-- <div class="col-sm-12" style="text-align: center;">
+            <br>
+            <br>
+            <button type="button" id="pie-submit" class="btn btn-success">See Pie Chart</button>
+            <br>
+            <br> -->
+          </div>
+        </div>
+      </div>
+      <div class="pie">
+        <!-- <div id="pie-label" class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-2">
+            <h3 style="color: #2ecc71;">Shooting</h3>
+          </div>
+          <div class="col-sm-2">
+            <h3 style="color: #3498db;">Gearing</h3>
+          </div>
+          <div class="col-sm-2">
+            <h3 style="color: #95a5a6;">Defense</h3>
+          </div>
+          <div class="col-sm-2">
+            <h3 style="color: #9b59b6;">Climbing</h3>
+          </div>
+          <div class="col-sm-2">
+            <h3 style="color: #f1c40f;">Futzing/Doing Nothing</h3>
+          </div>
+        </div> -->
+        <canvas id="myChart"></canvas>
+        <script type="text/javascript">
+          window.$ = window.jQuery = require('jquery');
+          $(document).ready(function(){
+            // $('#pie-submit').click(function(){
+              // var pieSum = parseInt($("#pie-shooting").val()) + parseInt($("#pie-gearing").val()) + parseInt($("#pie-defense").val()) + parseInt($("#pie-climbing").val()) + parseInt($("#pie-futzing").val());
+              // var pieShootPecent = parseInt($("#pie-shooting").val()) / pieSum;
+              // var pieGearPercent = parseInt($("#pie-gearing").val()) / pieSum;
+              // var pieDefensePercent = parseInt($("#pie-defense").val()) / pieSum;
+              // var pieClimbPercent = parseInt($("#pie-climbing").val()) / pieSum;
+              // var pieFutzPercent = parseInt($("#pie-futzing").val()) / pieSum;
+              // if(pieSum != 100){
+              //
+              // }
+              // if(parseInt($("#pie-shooting").val()) + parseInt($("#pie-gearing").val()) + parseInt($("#pie-defense").val()) + parseInt($("#pie-climbing").val()) + parseInt($("#pie-futzing").val()) == 100){
+                $('#myChart').replaceWith('<canvas id="myChart"></canvas>');
+                // $('.pie-hide').fadeOut(500);
+                // $('.pie-hide-button').delay(500).fadeIn(500);
+                // $('#pie-label').fadeIn(500);
+                // $('#myChart').fadeIn(500);
+                var slider = document.getElementById('slider-color');
+                slider.noUiSlider.on('set', function(){
+                  var sliderArray = slider.noUiSlider.get();
+                  var sliderShoot = parseInt(parseFloat(sliderArray[0]).toFixed(2));
+                  var sliderGear = parseFloat(sliderArray[1]).toFixed(2) - sliderShoot;
+                  var sliderDefense = parseFloat(sliderArray[2]).toFixed(2) - sliderGear - sliderShoot;
+                  var sliderClimb = parseFloat(sliderArray[3]).toFixed(2) - sliderDefense - sliderGear - sliderShoot;
+                  var sliderFutz = 100 - sliderClimb - sliderDefense - sliderGear - sliderShoot;
+                  $('#myChart').replaceWith("<canvas id='myChart'></canvas>");
+                  var ctx = document.getElementById("myChart").getContext('2d');
+                  var myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        backgroundColor: [
+                          "#2ecc71",
+                          "#3498db",
+                          "#95a5a6",
+                          "#9b59b6",
+                          "#f1c40f"
+                        ],
+                        data: [sliderShoot, sliderGear, sliderDefense, sliderClimb, sliderFutz]
+                      }]
+                    }
+                  });
+                });
+            // } else{
+                // alert("NOT EQUAL TO 100!!!");
+            // }
+          // });
+        });
+      </script>
+    </div>
+    <!-- Grades -->
+    <div class="grades container">
+      <div class="grades-nav">
+        <button id="grades-back" type="button" class="btn btn-warning">
+          <i class="fa fa-chevron-left"></i>&nbsp;Back
+        </button>
+        <button id="grades-next" type="button" class="btn btn-warning">
+          Next&nbsp;<i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+      <h2 style="text-align: center;">Grades</h2>
+      <hr>
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2 grades-overall">
+          <h3>Overall</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-overall-1" class="btn btn-danger">
+              <input type="radio" name="grades-overall" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-overall-2" class="btn btn-warning">
+              <input type="radio" name="grades-overall" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-overall-3" class="btn btn-primary">
+              <input type="radio" name="grades-overall" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-overall-4" class="btn btn-info">
+              <input type="radio" name="grades-overall" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-overall-5" class="btn btn-success">
+              <input type="radio" name="grades-overall" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-2 grades-shooting">
+          <h3>Shooting</h3>
+          <div class="btn-group grades-shooting-btn" data-toggle="buttons">
+            <span id="grades-shooting-1" class="btn btn-danger">
+              <input type="radio" name="grades-shooting" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-shooting-2" class="btn btn-warning">
+              <input type="radio" name="grades-shooting" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-shooting-3" class="btn btn-primary">
+              <input type="radio" name="grades-shooting" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-shooting-4" class="btn btn-info">
+              <input type="radio" name="grades-shooting" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-shooting-5" class="btn btn-success">
+              <input type="radio" name="grades-shooting" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-2 grades-gearing">
+          <h3>Gearing</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-gearing-1" class="btn btn-danger">
+              <input type="radio" name="grades-gearing" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-gearing-2" class="btn btn-warning">
+              <input type="radio" name="grades-gearing" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-gearing-3" class="btn btn-primary">
+              <input type="radio" name="grades-gearing" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-gearing-4" class="btn btn-info">
+              <input type="radio" name="grades-gearing" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-gearing-5" class="btn btn-success">
+              <input type="radio" name="grades-gearing" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-2 grades-defense">
+          <h3>Defense</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-defense-1" class="btn btn-danger">
+              <input type="radio" name="grades-defense" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-defense-2" class="btn btn-warning">
+              <input type="radio" name="grades-defense" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-defense-3" class="btn btn-primary">
+              <input type="radio" name="grades-defense" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-defense-4" class="btn btn-info">
+              <input type="radio" name="grades-defense" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-defense-5" class="btn btn-success">
+              <input type="radio" name="grades-defense" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-2 grades-climbing">
+          <h3>Climbing</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span id="grades-climbing-1" class="btn btn-danger">
+              <input type="radio" name="grades-climbing" value="1" autocomplete="off">1
+            </span>
+            <span id="grades-climbing-2" class="btn btn-warning">
+              <input type="radio" name="grades-climbing" value="2" autocomplete="off">2
+            </span>
+            <span id="grades-climbing-3" class="btn btn-primary">
+              <input type="radio" name="grades-climbing" value="3" autocomplete="off">3
+            </span>
+            <span id="grades-climbing-4" class="btn btn-info">
+              <input type="radio" name="grades-climbing" value="4" autocomplete="off">4
+            </span>
+            <span id="grades-climbing-5" class="btn btn-success">
+              <input type="radio" name="grades-climbing" value="5" autocomplete="off">5
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+    </div>
+    <!-- Textarea -->
+    <div id="last-textarea" class="container">
+      <br>
+      <p style="text-align: left;">Things to think about:
+        <ol style="text-align: left;" class="ta-ol">
+          <li>Reliability</li>
+          <li>Consistency</li>
+          <li>Driver Skill/Defense</li>
+          <li>Robot Dying</li>
+          <li><b style="color: red;">NB: If the robot shot, where did they shoot from?</b></li>
+        </ol>
+      </p>
+      <ol style="display: none;" class="ta-ol-nb">
+        <li style="text-align: left;"><b style="color: red;">NB: If the robot shot, where did they shoot from?</b></li>
+      </ol>
+      <br>
+      <textarea class="comments form-control" rows="8" cols="80" placeholder="Comments"></textarea>
+      <br>
+      <button id="textarea-back" type="button" class="btn btn-warning">
+        <i class="fa fa-chevron-left"></i>&nbsp;Back
+      </button>
+      <button id="textarea-next" type="button" class="btn btn-warning">
+        Next&nbsp;<i class="fa fa-chevron-right"></i>
+      </button>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+    <!-- Betting End -->
+    <!-- <div class="betting-end">
+      <h3 style="text-align: center;">Who won?</h3>
+      <br>
+      <br>
+      <div class="row end-result">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+          <button type="button" id="red-win" class="btn btn-danger red-win-class">Red</button>
+        </div>
+        <div class="col-sm-3">
+          <button type="button" id="blue-win" class="btn btn-default blue-win-class">Blue</button>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10" style="text-align: center;">
+          <br>
+          <button type="button" id="tie" class="btn btn-info" style="height: 50px; width: 500px; border-radius: 10%; font-size: 28pt;">Tie</button>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+      <br>
+      <br>
+      <div class="betting-end-nav">
+        <button id="betting-end-back" type="button" class="btn btn-warning">
+          <i class="fa fa-chevron-left"></i>&nbsp;Back
+        </button>
+        <a data-toggle="modal" data-target="#success">
+          <button id="save-file" type="button" class="btn btn-success">
+            <i class="fa fa-flag-checkered"></i>&nbsp;Finish
+          </button>
+        </a>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div> -->
+    <!-- Finish -->
+    <!-- <a data-toggle="modal" data-target="#success"> -->
+    <div class="container finish" style="text-align: center;">
+      <button id="save-file" type="button" class="btn btn-success" style="text-align: center; height: 500px; width: 500px; line-height: 500px; font-size: 69pt; border-radius: 50%;">
+        <i class="fa fa-flag-checkered"></i>&nbsp;Finish
+      </button>
+    </div>
+    <!-- </a> -->
+    <!-- Success -->
+    <!-- <div id="success" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content" style="background: #00C851 !important;">
+          <div class="modal-header">
+            <h4 class="modal-title">Success</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button id="continue" type="button" data-dismiss="modal" class="btn btn-default">
+              <i class="fa fa-repeat"></i>&nbsp;Continue
+            </button>
+            <button id="sign-out" type="button" data-dismiss="modal" class="btn btn-danger">
+              <i class="fa fa-sign-out"></i>&nbsp;Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div id="success" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content" style="background: #00C851 !important;">
+          <div class="modal-header">
+            <h2 class="modal-title" style="text-align: center;">Success!</h2>
+          </div>
+          <div class="modal-body" style="text-align: center;">
+            <h3>That was exciting! Scout some more!</h3>
+          </div>
+          <div class="modal-footer" style="text-align: center;">
+            <button id="sign-out" type="button" data-dismiss="modal" class="btn btn-danger">
+              <i class="fa fa-sign-out"></i>&nbsp;Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- Match Number -->
+    <nav class="navbar navbar-fixed-bottom info-bar">
+      <hr>
+      <a href="#" data-toggle="popover" title="CHECK MATCH NUMBER" data-content="Check to make sure match number is right!" data-placement="top" style="display: block; margin: auto;"></a>
+      <div class="row nav-row">
+        <div class="col-sm-4 team-color"></div>
+        <div class="col-sm-4">
+          <div class="match-number" style="text-align: center;">
+            <h4 class="match-number-title">Match Number: </h4>
+            <input id="match-number-number" class="form-control">
+            <!-- <input id="match-number-number" readonly="readonly" style="width: 90px;" value="1"> -->
+            <div class="edit-match-btn">
+              <br>
+              <button type="button" class="btn btn-warning edit-match">Edit Match Number</button>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3" style="margin-top: 20px;">
+          <button type="button" class="btn btn-warning flashdrive-save">Save to Flashdrive&nbsp;&nbsp;&nbsp;<i class="fa fa-usb"></i></button>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+    </nav>
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="node_modules/nouislider/distribute/nouislider.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

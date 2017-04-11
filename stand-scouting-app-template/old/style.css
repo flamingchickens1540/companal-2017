@@ -1,0 +1,173 @@
+body{
+	font-family: 'Montserrat';
+}
+span.btn.active, label.btn.active{
+	/*background: #dab420 !important;
+	border: 1px solid #dab420 !important;*/
+	/*background: #69dab1 !important;
+	border: 1px solid #69dab1 !important;*/
+	/*background: #eda200 !important;
+	border: 1px solid #eda200 !important;*/
+	background: #a200ed !important;
+	border: 1px solid #a200ed !important;
+}
+.password{
+	text-align: center;
+}
+.jumbotron{
+	text-align: center;
+	position: relative;
+}
+.login{
+	width: 30%;
+	display: block;
+	margin: auto;
+}
+.login-info{
+	text-align: center;
+}
+.pie-nav{
+	text-align: center;
+}
+.grades{
+	text-align: center;
+}
+.pie-hide-button{
+	text-align: center;
+}
+/*.slider{
+	width: 150px !important;
+	display: block !important;
+	margin: auto !important;
+}*/
+.c-1-color{
+	background: #2ecc71 !important;
+}
+.c-2-color{
+	background: #3498db !important;
+}
+.c-3-color{
+	background: #95a5a6 !important;
+}
+.c-4-color{
+	background: #9b59b6 !important;
+}
+.c-5-color{
+	background: #f1c40f !important;
+}
+.btn-blue{
+	background: #4286f4 !important;
+	color: white !important;
+}
+.btn-blue:hover{
+	background: #356fce !important;
+	color: white !important;
+}
+.choose-role{
+	text-align: center;
+}
+.betting-2-buttons{
+	text-align: center;
+}
+.betting-end-nav{
+	text-align: center;
+}
+.nav-row{
+	margin-top: -20px;
+}
+.shoot-100-btn{
+	background: #2ecc71;
+	color: white;
+}
+.gear-100-btn{
+	background: #3498db;
+	color: white;
+}
+.defense-100-btn{
+	background: #95a5a6;
+	color: white;
+}
+.climb-100-btn{
+	background: #9b59b6;
+	color: white;
+}
+.futz-100-btn{
+	background: #f1c40f;
+	color: white;
+}
+.pie-100-btn:hover{
+	color: white;
+}
+#pie-shooting, #pie-gearing, #pie-defense, #pie-climbing, #pie-futzing{
+	display: block;
+	margin: auto;
+	width: 100px;
+}
+#match-number-number{
+	background: transparent;
+	font-size: 24pt;
+	text-align: center;
+	border: none;
+	box-shadow: none;
+	display: block;
+	margin: auto;
+}
+#cont-btn{
+	display: block;
+	margin: auto;
+}
+#post-login, #teleop{
+	text-align: center;
+}
+#forgot-id{
+	display: block;
+	margin: auto;
+}
+#bet-blue-win, #bet-blue-win-intro, #blue-win{
+	background: #4286f4 !important;
+	color: white;
+}
+#bet-blue-win, #bet-red-win, #red-win, #blue-win{
+	padding: 100px;
+	border-radius: 10%;
+	font-size: 36pt;
+	display: block;
+	margin: auto;
+}
+#bet-blue-win:hover, #bet-blue-win-intro:hover, #blue-win:hover{
+	background: #356fce !important;
+}
+#last-textarea{
+	text-align: center;
+}
+#success{
+	color: white;
+}
+#teleop-gear{
+	text-align: center;
+	background: transparent;
+	border: transparent;
+	font-size: 18pt;
+}
+#fuel-end{
+	text-align: center;
+}
+#myChart{
+	height: 400px !important;
+	width: 400px !important;
+	display: block;
+	margin: auto;
+}
+#pie-label{
+	text-align: center;
+}
+#slider-color{
+	width: 80%;
+	display: block;
+	margin: auto;
+}
+#pips-range{
+	width: 80%;
+	display: block;
+	margin: auto;
+}

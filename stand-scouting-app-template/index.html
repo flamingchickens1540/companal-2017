@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/fa-animation.css" rel="stylesheet">
+    <link href="Montserrat/stylesheet.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/nouislider/distribute/nouislider.css">
+    <title>Stand Scouting App</title>
+  </head>
+  <body class="m-font">
+    <!-- Progress -->
+    <div class="progress-bar-div" style="background: #eee;">
+      <nav>
+        <ul class="nav nav-tabs progress-nav-tab no-border"></ul>
+      </nav>
+    </div>
+    <!-- Jumbotron -->
+    <div class="login-top jumbotron center" style="height: 348px;">
+      <img class="login-top-chicken" src="imgs/logo.png"/>
+      <h1 class="login-top-title">Stand Scouting App</h1>
+    </div>
+    <!-- Login -->
+    <div class="login center body-div b-d-1" id="Login">
+      <div class="alert alert-danger fade in alert-login hide" style="margin: 0;">
+        <strong>Warning!</strong>&nbsp;There is no one with this login number!
+      </div>
+      <br>
+      <br>
+      <br>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6 center">
+            <form>
+              <div class="input-group">
+                <input type="number" min="10" max="99"  class="form-control login-form" placeholder="Ex: 15">
+                <div class="input-group-btn">
+                  <button class="btn btn-success btn-login" type="button">
+                    <i class="fa fa-sign-in"></i>&nbsp;Sign In
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+        <br>
+        <div class="center">
+          <button class="btn btn-warning btn-forgot-id" type="button">Forgot my ID</button>
+        </div>
+        <br>
+        <div class="name-div hide">
+          <h1 class="name center"></h1>
+          <br>
+          <button type="button" class="btn btn-success btn-continue">Continue!</button>
+        </div>
+      </div>
+    </div>
+    <!-- Forgot ID -->
+    <div class="forgot-id container hide body-div">
+      <br>
+      <br>
+      <br>
+      <button type="button" class="btn btn-warning fi-back"><i class="fa fa-chevron-left"></i>&nbsp;Back</button>
+      <br>
+      <br>
+      <br>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody class='forgot-id-table'></tbody>
+      </table>
+      <br>
+      <br>
+      <br>
+      <button type="button" class="btn btn-warning fi-back"><i class="fa fa-chevron-left"></i>&nbsp;Back</button>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+    <!-- Role -->
+    <div class="role container hide body-div center">
+      <div class="role-password container center">
+        <input type="password" class="form-control role-password-input">
+        <br>
+        <button type="button" class="btn btn-success role-password-submit">Submit</button>
+      </div>
+      <div class="role-choose hide">
+        <div class="btn-group" data-toggle="buttons">
+          <span class="btn btn-danger">
+            <input type="radio" class="btn-role" autocomplete="off" value="r1">Red 1
+          </span>
+          <span class="btn btn-danger">
+            <input type="radio" class="btn-role" autocomplete="off" value="r2">Red 2
+          </span>
+          <span class="btn btn-danger">
+            <input type="radio" class="btn-role" autocomplete="off" value="r3">Red 3
+          </span>
+          <span class="btn btn-primary">
+            <input type="radio" class="btn-role" autocomplete="off" value="b1">Blue 1
+          </span>
+          <span class="btn btn-primary">
+            <input type="radio" class="btn-role" autocomplete="off" value="b2">Blue 2
+          </span>
+          <span class="btn btn-primary">
+            <input type="radio" class="btn-role" autocomplete="off" value="b3">Blue 3
+          </span>
+        </div>
+        <br>
+        <br>
+        <button type="button" class="btn btn-success role-submit">Submit</button>
+      </div>
+    </div>
+    <!-- Custom -->
+    <!-- Auto -->
+    <div class="auto container hide body-div b-d-1 center" id="Auto">
+      <br>
+      <button type="button" class="btn btn-warning next" id="auto"></button>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-sm-4 center">
+          <div class="center multiple-choice required" id="line-cross" data-title="Line Crossed" data-choice-1="Crossed" data-choice-2="Not Crossed" data-json="test"></div>
+        </div>
+        <div class="col-sm-4 center">
+          <div class="center multiple-choice" id="gear" data-title="Gear Placed" data-choice-1="Placed" data-choice-2="Not Placed"></div>
+        </div>
+        <div class="col-sm-4 center">
+          <div class="center multiple-choice" id="food" data-title="Favorite Food" data-choice-1="Bacon" data-choice-2="Ice Cream" data-choice-3="Steel"></div>
+        </div>
+        <div class="col-sm-12 center">
+          <br>
+          <div class="center multiple-choice" id="food-v2" data-title="Favorite Food" data-choice-1="Bacon" data-choice-2="Ice Cream" data-choice-3="Steel" data-choice-4="Hydrofluoric Acid"></div>
+        </div>
+        <div class="col-sm-12 center">
+          <br>
+          <div class="cycle-submit" id="test-demo" data-title="Demo" data-choice-1="One" data-choice-2="Two" data-submit-title="Submit"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Tele-Op -->
+    <div class="tele-op container hide body-div b-d-1 center" id="Tele-Op">
+      <br>
+      <button type="button" class="btn btn-warning back"></button>
+      <button type="button" class="btn btn-warning next" id="tele-op"></button>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-sm-6 center">
+          <div class="center checkbox" id="freshmen" data-title="Your Favorite Freshmen" data-choice-1="Tristan" data-choice-2="Tristan" data-choice-3="Tristan"></div>
+        </div>
+        <div class="col-sm-6 center">
+          <div class="increment-counter" id="increment" data-title="Click the Button"></div>
+        </div>
+        <div class="col-sm-12 center">
+          <br>
+          <div class="short-answer" id="comment" data-title="Comments" data-placeholder="Comments..."></div>
+        </div>
+      </div>
+    </div>
+    <!-- Randomness -->
+    <div class="randomness body-div-all" id="Randomness">
+      <br>
+      <button type="button" class="btn btn-warning back"></button>
+      <div class="center multiple-choice" data-title="🐍" data-choice-1="C++" data-choice-2="🐍"></div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div class="slider" id="lol-fail" data-sliders="3"></div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div class="slider" id="demo" data-sliders="4"></div>
+      <br>
+      <br>
+      <div class="multiple-choice" data-title="Demo" data-choice-1="Option 1" data-choice-2="👍" data-choice-3="Demo"></div>
+    </div>
+    <!-- Demo -->
+    <div class="demo body-div-all" id="Demo">
+      <div class="increment-counter" data-title="Demo"></div>
+      <br>
+      <br>
+      <br>
+      <div class="increment-counter" data-title="Zack">
+
+      </div>
+    </div>
+    <!-- Info Bar -->
+    <div class="bottom-nav">
+      <nav class="navbar navbar-fixed-bottom info-bar">
+        <hr>
+        <a href="#" data-toggle="popover" title="CHECK MATCH NUMBER" data-content="Check to make sure match number is right!" data-placement="top" style="display: block; margin: auto;"></a>
+        <div class="row">
+          <div class="col-sm-4 info-bar-team-info"></div>
+          <div class="col-sm-4">
+            <div class="info-bar-match-number-box" style="text-align: center;">
+              <h4 class="info-bar-match-number-title">Match Number: </h4>
+              <input class="form-control no-border info-bar-match-number input-lg" type="number" min="0">
+              <div class="btn-info-bar-edit-match hide">
+                <br>
+                <button type="button" class="btn btn-warning edit-match">Edit Match Number</button>
+                <br>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 center" style="margin-top: 20px;">
+            <button type="button" class="btn btn-warning btn-flashdrive">Save to Flashdrive&nbsp;&nbsp;&nbsp;<i class="fa fa-usb"></i></button>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="node_modules/nouislider/distribute/nouislider.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
