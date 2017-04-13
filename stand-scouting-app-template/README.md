@@ -11,7 +11,7 @@
 ## Question Types:
 
 * Multiple Choice:
-  * Includes a title with 2-5 choices, [bootstrapped] (http://getbootstrap.com/) buttons choices and button colors, and a json key of your choice
+  * Includes a title with 2-5 choices, [bootstrapped](http://getbootstrap.com/) buttons choices and button colors, and a json key of your choice
   * 2 Choices:
     * ```html <div class="multiple-choice" id="demo-mc-1" data-title="Multiple Choice Demo 1" data-choice-1="Option 1" data-choice-2="Option 2" data-json="demo-mc-1"></div>```
   * 3 Choices:
