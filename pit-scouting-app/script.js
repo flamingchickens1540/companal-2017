@@ -53,15 +53,9 @@ function createTemp() {
 	} else {
 		json["drivetrain"]["drivetrainType"]=$("#driveoptions").val();
 	}
-	if ($("input[name='lang']:checked").val()!="other") {
-		json["language"]=$("input[name='lang']:checked").val();
-	} else {
-		json["language"]=$("#langoptions").val();
-	}
-	json["canClimb"]=$("input[name='canClimb']:checked").val();
+	json["climbTime"]=$("#climbTime").val();
 	json["hasDefended"]=false;
 	//json["hasDefended"]=$("input[name='hasDefended']:checked").val();
-	json["weight"]=$("#roboweight").val();
 	json["shooting"]["hasHigh"]=$("input[name='hasHigh']:checked").val();
 	json["shooting"]["hasLow"]=$("input[name='hasLow']:checked").val();
 	json["shooting"]["ballCapacity"]=$("#ballCapacity").val();
@@ -69,9 +63,13 @@ function createTemp() {
 	json["shooting"]["humanLoading"]=ballHuman;
 	json["shooting"]["hopperLoading"]=ballHopper;
 	json["shooting"]["efficiency"]=$("#accuracy").val();
-	json["gears"]["canDeposit"]=$("input[name='gears']:checked").val();
 	json["gears"]["floorLoading"]=gearFloor;
 	json["gears"]["humanLoading"]=gearHuman;
+	if (autoleft) {auto.push("left-gear");}
+	if (autoshoot) {auto.push("shoot");}
+	if (autoright) {auto.push("right-gear");}
+	if (autocenter) {auto.push("center-gear");}
+	json["auto"]=auto;
 	json["roles"]=roles;
 	var spotify = JSON.stringify(json);
  	createFile("tempFile.json",spotify);
@@ -125,28 +123,6 @@ function isTemp() {
 				$("input[value="+active+"][name='gearmech']").attr("checked",true);
 			}
 		});
-		var deposit = backup["gears"]["canDeposit"];
-		$("label[name='gears']").each(function(){
-			if (deposit==$(this).attr("value")) {
-				this.setAttribute("class","btn btn-warning active");
-				$("input[value="+deposit+"][name='gears']").attr("checked",true);
-			}
-		});
-		var language = backup["language"];
-		var found = false;
-		$("label[name='lang']").each(function(){
-			if (language==$(this).attr("value")) {
-				found=true;
-				this.setAttribute("class","btn btn-warning deselect-ln active");
-				$("input[value="+language+"][name='lang']").attr("checked",true);
-			}
-		});
-		if (language!=null && language!=null && !found) {
-			$("#otherlang").attr("class","btn btn-warning active");
-			$("input[value='other'][name='lang']").attr("checked",true);
-			$("#langoptions").show();
-			$("#langoptions").val(language);
-		}
 		var dt = backup["drivetrain"]["drivetrainType"];
 		found = false;
 		$("label[name='drivetrainType']").each(function(){
@@ -189,6 +165,34 @@ function isTemp() {
 		if (gearFloor) {
 			$("#gearfloor").addClass("active");
 		}
+		console.log(backup["auto"]);
+		if (contains(backup["auto"],"shoot")) {
+			console.log("muy fun yay");
+			$("#autoshoot").addClass("active");
+			$("#autoS").attr("checked",true);
+			auto.push("shoot");
+			autoshoot=true;
+		} else {
+			console.log("not cool sad");
+		}
+		if (contains(backup["auto"],"right-gear")) {
+			$("#autoright").addClass("active");
+			$("#autoR").attr("checked",true);
+			auto.push("right-gear");
+			autoright=true;
+		}
+		if (contains(backup["auto"],"center-gear")) {
+			$("#autocenter").addClass("active");
+			$("#autoC").attr("checked",true);
+			auto.push("center-gear");
+			autocenter=true;
+		}
+		if (contains(backup["auto"],"left-gear")) {
+			$("#autoleft").addClass("active");
+			$("#autoL").attr("checked",true);
+			auto.push("left-gear");
+			autoleft=true;
+		}
 		ballFloor=backup["shooting"]["floorLoading"];
 		if (ballFloor) {
 			$("#ballsfloor").addClass("active");
@@ -217,9 +221,9 @@ function isTemp() {
 		}
 		$("#teamdisplay").text(team);
 		$("#extratext").val(backup["notes"]);
-		$("#roboweight").val(backup["weight"]);
 		$("#accuracy").val(backup["shooting"]["efficiency"]);
 		$("#ballCapacity").val(backup["shooting"]["ballCapacity"]);
+		$("#climbTime").val(backup["climbTime"]);
 	}
 }
 
@@ -283,7 +287,6 @@ var json = {
 	scoutIds: [00,00], //
 	roles: [],
 	round: 0, //only for crashplan //
-	language: "Java", //
 	drivetrain: {
 		drivetrainShifts:true, //
 		drivetrainType:"mecanum",
@@ -299,13 +302,12 @@ var json = {
 		hopperLoading: false //
 	}, //
 	gears: { //
-		canDeposit: true, //
 		humanLoading: false, //
 		floorLoading: true, //
 		active: false //
 	}, //
-	canClimb: true, //
-	weight: 100, //pounds //
+	auto: [],
+	climbTime: 4, //
 	notes: "" //
 }
 var def = json;
@@ -322,6 +324,11 @@ var gearFloor = false;
 var ballFloor = false;
 var ballHuman = false;
 var ballHopper = false;
+var autoshoot  = false;
+var autoright = false;
+var autoleft = false;
+var autocenter = false;
+var auto = [];
 
 $(document).on('keydown',function(e) { 
     var key = e.charCode || e.keyCode;
@@ -548,6 +555,19 @@ $(document).ready(function(){
 	$("#ballshuman").click(function(){
 		ballHuman = !ballHuman;
 	});
+	$("#autoleft").click(function(){
+		autoleft = !autoleft;
+		console.log(autoleft);
+	});
+	$("#autocenter").click(function(){
+		autocenter = !autocenter;
+	});
+	$("#autoright").click(function(){
+		autoright = !autoright;
+	});
+	$("#autoshoot").click(function(){
+		autoshoot = !autoshoot;
+	});
 	$("#otherdrive").click(function(){
 		$("#driveoptions").show();
 	});
@@ -567,9 +587,6 @@ $(document).ready(function(){
 			$("#roletext").show();
 		}
 	});
-	$("#otherlang").click(function() {
-		$("#langoptions").show();
-	});
 	$("input").keypress(function (evt) {
 		  var keycode = evt.charCode || evt.keyCode;
 		  if (keycode  == 9) { //Enter key's keycode
@@ -580,16 +597,13 @@ $(document).ready(function(){
 	$("#submit").click(function() {
 		var list = [];
 		list.push(["whether or not the drive train shifts",$("input[name='drivetrainShifts']:checked").val()]);
-		list.push(["if the robot can climb",$("input[name='canClimb']:checked").val()]);
+		list.push(["the robot's climb speed",$("#climbTime").val()]);
 		list.push(["the robot's ball capacity",$("#ballCapacity").val()]);
 		list.push(["if the robot has a high goal shooter",$("input[name='hasHigh']:checked").val()]);
 		list.push(["if the robot has a low goal shooter",$("input[name='hasLow']:checked").val()]);
 //		list.push(["Has Robot Defended",$("input[name='hasDefended']:checked").val()]);
-		list.push(["the robot's weight",$("#roboweight").val()]);
-		list.push(["whether the robot can deposit gears",$("input[name='gears']:checked").val()]);
 		list.push(["the robot's shooter efficiency",$("#accuracy").val()]);
 		list.push(["whether the gear mechanism is active or passive",$("input[name='gearmech']:checked").val()]);
-		list.push(["what language your robot uses",$("input[name='lang']:checked").val()])
 		var go = true;
 		var message = "";
 		for (x in list) {
@@ -616,15 +630,9 @@ $(document).ready(function(){
 			} else {
 				json["drivetrain"]["drivetrainType"]=$("#driveoptions").val();
 			}
-			if ($("input[name='lang']:checked").val()!="other") {
-				json["language"]=$("input[name='lang']:checked").val();
-			} else {
-				json["language"]=$("#langoptions").val();
-			}
 			json["canClimb"]=$("input[name='canClimb']:checked").val();
 			json["hasDefended"]=false;
 			//json["hasDefended"]=$("input[name='hasDefended']:checked").val();
-			json["weight"]=$("#roboweight").val();
 			json["shooting"]["hasHigh"]=$("input[name='hasHigh']:checked").val();
 			json["shooting"]["hasLow"]=$("input[name='hasLow']:checked").val();
 			json["shooting"]["ballCapacity"]=$("#ballCapacity").val();
@@ -632,10 +640,14 @@ $(document).ready(function(){
 			json["shooting"]["humanLoading"]=ballHuman;
 			json["shooting"]["hopperLoading"]=ballHopper;
 			json["shooting"]["efficiency"]=$("#accuracy").val();
-			json["gears"]["canDeposit"]=$("input[name='gears']:checked").val();
 			json["gears"]["floorLoading"]=gearFloor;
 			json["gears"]["humanLoading"]=gearHuman;
 			json["roles"]=roles;
+			if (autoleft) {auto.push("left-gear");}
+			if (autoshoot) {auto.push("shoot");}
+			if (autoright) {auto.push("right-gear");}
+			if (autocenter) {auto.push("center-gear");}
+			json["auto"]=auto;
 			var str = "pit_data/"+team+".json";
 			var spotify = JSON.stringify(json);
 		 	createFile(str,spotify);
@@ -661,9 +673,6 @@ $(document).ready(function(){
 	});
 	$(".deselect-wh").click(function(){
 		$("#wheeloptions").hide();
-	});
-	$(".deselect-ln").click(function(){
-		$("#langoptions").hide();
 	});
 	$("#teamsubmit").click(function(){
 		team = $("#teaminput").val();

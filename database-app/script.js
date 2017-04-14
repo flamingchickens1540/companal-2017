@@ -50,8 +50,8 @@ var manifest_stand = [];
 var matchSchedule = {}
 
 //List of Teams
-var teams = [753,847,955,957,997,1425,1510,1540,1571,2002,2374,2521,2550,2811,2898,2990,3131,3673,3674,4043,4051,4057,4110,4127,4132,4488,4662,4692,5085,5198,5468,5956,5970,6442,6445,6456,6696]
-var teams_names = ["High Desert Droids","PHRED","CV ROBOTICS","SWARM","Spartan Robotics","Error Code Xero","Wildcats","Flaming Chickens","CALibrate Robotics","Tualatin Robotics","Crusader Bots","SERT","Skynet","StormBots","Flying Hedgehogs","Hotwire","Gladiators","C.Y.B.O.R.G. Seagulls","4-H Clover Bots","NerdHerd","Sabin-Sharks","STEAMPUNK","DEEP SPACE NINERS","LoggerBots","Scotbots","Shockwave","Byte Sized Robotics","Metal Mallards","LakerBots","Knight Tech","Chaos Theory","Falcons","BeaverTronics","Modern Americans","CTEC Robotics","Oregon Trail Academy Wi-Fires","Cardinal Dynamics"]
+var teams = [488,492,753,948,955,957,997,1294,1318,1425,1595,1778,2046,2147,2374,2471,2521,2550,2557,2811,2907,2910,2928,2930,2980,2990,3024,3070,3219,3223,3238,3393,3663,3674,3693,3711,4061,4125,4131,4173,4450,4469,4488,4495,4513,4662,4911,4915,4918,5085,5198,5295,5450,5468,5588,5803,5827,5920,5970,5975,6343,6350,6445]
+var teams_names = ["Team XBot","Titan Robotics","High Desert Droids","NRG","CV Robotics","SWARM","Spartan Robotics","Top Gun","Issaquah Robotics Society","Error Code Xero", "The Dragons","Chill Out","Bear Metal","CHUCK","Crusader Bots","Mean Machine","SERT","Skynet","SOTAbots","StormBots","Lion Robotics","Jack in the Bot","Viking Robotics","Sonic Squirrels","Whidbey Island Wild Cats","Hotwire","My Favorite Team","Team Pronto","TREAD","Robotics of Central Kitsap","Cyborg Ferrets","Horns of Havoc","CPR","4-H Clover Bots","GearHead Pirates","Iron Mustang","SciBorgs","Confidential","Iron Patriots","Bulldogs","Olympia Robotics Federation","RAID","Shockwave","Haywire","Circuit Breakers","Byte Sized Robotics","CyberKnights","Spartronics","The Roboctopi","LakerBots","Knight Tech","Aldernating Current","SHREC","Chaos Theory","Holy Names Academy","Apex Robotics","Code Purple","VIKotics","BeaverTronics","Beta Blues","Steel Ridge Robotics","The Enumclaw Hornets","CTEC Robotics"]//["High Desert Droids","PHRED","CV ROBOTICS","SWARM","Spartan Robotics","Error Code Xero","Wildcats","Flaming Chickens","CALibrate Robotics","Tualatin Robotics","Crusader Bots","SERT","Skynet","StormBots","Flying Hedgehogs","Hotwire","Gladiators","C.Y.B.O.R.G. Seagulls","4-H Clover Bots","NerdHerd","Sabin-Sharks","STEAMPUNK","DEEP SPACE NINERS","LoggerBots","Scotbots","Shockwave","Byte Sized Robotics","Metal Mallards","LakerBots","Knight Tech","Chaos Theory","Falcons","BeaverTronics","Modern Americans","CTEC Robotics","Oregon Trail Academy Wi-Fires","Cardinal Dynamics"]
 
 //Stores:
 //Member ID
@@ -64,11 +64,11 @@ var scoutcount = {
 	"66": [0,0],
 	"81": [0,0],
 	"24": [0,0],
-	"25": [0,0],
+//	"25": [0,0],
 	"20": [0,0],
-	"21": [0,0],
+//	"21": [0,0],
 	"22": [0,0],
-	"23": [0,0],
+//	"23": [0,0],
 	"44": [0,0],
 	"40": [0,0],
 	"41": [0,0],
@@ -77,7 +77,7 @@ var scoutcount = {
 	"76": [0,0],
 	"72": [0,0],
 	"97": [0,0],
-	"58": [0,0],
+//	"58": [0,0],
 	"99": [0,0],
 	"13": [0,0],
 	"12": [0,0],
@@ -87,7 +87,7 @@ var scoutcount = {
 	"16": [0,0],
 	"19": [0,0],
 	"18": [0,0],
-	"30": [0,0],
+//	"30": [0,0],
 	"37": [0,0],
 	"36": [0,0],
 	"34": [0,0],
@@ -107,11 +107,11 @@ var accounts = {
 	"66": "Alexander Y",
 	"81": "Holly",
 	"24": "Zack",
-	"25": "Ruby",
+//	"25": "Ruby",
 	"20": "Lauren Mei",
-	"21": "Hammad",
+//	"21": "Hammad",
 	"22": "Robin",
-	"23": "Claire",
+//	"23": "Claire",
 	"44": "Hannah",
 	"40": "Fin",
 	"41": "Amber",
@@ -120,7 +120,7 @@ var accounts = {
 	"76": "Spencer",
 	"72": "Aarushi",
 	"97": "Marti",
-	"58": "Quinn",
+//	"58": "Quinn",
 	"99": "Jake",
 	"13": "Andrei",
 	"12": "Alexander M",
@@ -130,7 +130,7 @@ var accounts = {
 	"16": "Tyler",
 	"19": "Kobi",
 	"18": "Ryan",
-	"30": "Josephine",
+//	"30": "Josephine",
 	"37": "Kean",
 	"36": "Liam W",
 	"34": "Ben J",
@@ -188,17 +188,21 @@ function start() {
 function importPit() {
 	if (navigator.appVersion.indexOf('Mac') != -1) {
 		if (fs.existsSync('/Volumes/1540/')) {
-			for (var team in manifest_pit) {
-				if (!fs.existsSync('data-collect/pit-scouting/'+manifest_pit[team]) && fs.existsSync('/Volumes/1540/companal/pit-scouting/' + manifest_pit[team])) {
-					var txt = fs.readFileSync('/Volumes/1540/companal/pit-scouting/' + manifest_pit[team]);
+			var manifest = JSON.parse(fs.readFileSync("/Volumes/1540/companal/pit-scouting/manifest.json"));
+			console.log(manifest);
+			for (var team in manifest) {
+				if (!fs.existsSync('data-collect/pit-scouting/'+manifest[team]) && fs.existsSync('/Volumes/1540/companal/pit-scouting/' + manifest[team])) {
+					var txt = fs.readFileSync('/Volumes/1540/companal/pit-scouting/' + manifest[team]);
 					var teamData = JSON.parse(txt);
 					scoutcount[teamData.scoutIds[0]][0]+=1;
 					if (teamData.scoutIds[1]!="-") {
 						scoutcount[teamData.scoutIds[1]][0]+=1;
 					}
-					manifest_pit.push(manifest_pit[team]);
+					manifest_pit.push(manifest[team]);
 					createFile("data-collect/pit-scouting/manifest.json",JSON.stringify(manifest_pit));
-					createFile("data-collect/pit-scouting/"+manifest_pit[team],txt);
+					createFile("data-collect/pit-scouting/"+manifest[team],txt);
+				} else {
+					console.log(manifest[team]);
 				}
 			}
 			$("#impPit").addClass("disabled");
@@ -216,13 +220,14 @@ function importPit() {
 function importStand() {
 	if (navigator.appVersion.indexOf('Mac') != -1) {
 		if (fs.existsSync('/Volumes/1540/')) {
-			for (var team in manifest_stand) {
-				if (!fs.existsSync('data-collect/stand-scouting/'+manifest_stand[team]) && fs.existsSync('/Volumes/1540/companal/stand-scouting/'+manifest_stand[team])) {
-					var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/'+manifest_stand[team]);
+			var manifest = JSON.parse(fs.readFileSync("/Volumes/1540/companal/stand-scouting/manifest.json"));
+			for (var team in manifest) {
+				if (!fs.existsSync('data-collect/stand-scouting/'+manifest[team]) && fs.existsSync('/Volumes/1540/companal/stand-scouting/'+manifest[team])) {
+					var txt = fs.readFileSync('/Volumes/1540/companal/stand-scouting/'+ manifest[team]);
 					var data = JSON.parse(txt);
-					manifest_stand.push(manifest_stand[team]);
+					manifest_stand.push(manifest[team]);
           			scoutcount[data.scoutId][1]+=1;
-          			createFile("data-collect/stand-scouting/"+manifest_stand[team],JSON.stringify(data));
+          			createFile("data-collect/stand-scouting/"+manifest[team],JSON.stringify(data));
 				}
 			}
 			$("#impStand").addClass("disabled");
@@ -416,7 +421,8 @@ function updateTable() {
 			var text = $("#m"+scout+role).text();
 			var num = $("#r"+team+"stand").text();
 			$("#m"+scout+role).text("True");
-			$("#m"+scout+role).css("background-color","#CFFFBF");
+			$("#m"+scout+role).css("background-color","blue");//"#CFFFBF");
+			$("#m"+scout+role).css("color","white");//"#CFFFBF");
 			$("#r"+team+"stand").text(parseInt(num)+1);
 		}
 	}

@@ -120,46 +120,31 @@
 			</div>
 			<br />
 			<input hidden=true type="text" id="driveoptions" style="color:white;background-color:#F89406"/>
-			<br />
-			<strong class="cooltext">Can your robot climb?</strong>
-			<br />
-			<div class="btn-group" data-toggle="buttons">
-	  			<label name="canClimb" value="true" class="btn btn-warning">
-	    			<input name="canClimb" value="true" type="radio" autocomplete="off"> yes
-	  			</label>
-	  			<label name="canClimb" value="false" class="btn btn-warning">
-	    			<input name="canClimb" value="false" type="radio" autocomplete="off"> no
-	  			</label>
-			</div>
-			<br />
+
 		</div>
 		<div hidden=true id="round2">
-			<strong class="cooltext">What is your robot's weight in pounds?</strong>
-			<br />
-			<input id="roboweight" type="text" style="color:white;background-color:#F89406"/>
-			<br />
-			<br />
-			<strong class="cooltext">What language do you use?</strong>
+			<strong class="cooltext">What can you do in autonomous?</strong>
 			<br />
 			<div class="btn-group" data-toggle="buttons">
-	  			<label name="lang" value="C++" class="btn btn-warning deselect-ln">
-	    			<input name="lang" value="C++" type="radio" autocomplete="off"> C++
+	  			<label id="autoleft" class="btn btn-warning">
+	    			<input id="autoL" type="checkbox" autocomplete="off"> left gear
 	  			</label>
-	  			<label name="lang" value="Java" class="btn btn-warning deselect-ln">
-	    			<input name="lang" value="Java" type="radio" autocomplete="off"> Java
+	  			<label id="autocenter" class="btn btn-warning">
+	    			<input id="autoC" type="checkbox" autocomplete="off"> center gear
 	  			</label>
-	  			<label name="lang" value="LabVIEW" class="btn btn-warning deselect-ln">
-	    			<input name="lang" value="LabVIEW" type="radio" autocomplete="off"> LabVIEW
+	  			<label id="autoright" class="btn btn-warning">
+	    			<input id="autoR" type="checkbox" autocomplete="off"> right gear
 	  			</label>
-	  			<label name="lang" value="Python" class="btn btn-warning deselect-ln">
-	    			<input name="lang" value="Python" type="radio" autocomplete="off"> Python
-	  			</label>
-	  			<label name="lang" value="other" id="otherlang" class="btn btn-warning">
-	    			<input name="lang" value="other" type="radio" autocomplete="off"> other
+	  			<label id="autoshoot" class="btn btn-warning">
+	    			<input id="autoS" type="checkbox" autocomplete="off"> shoot
 	  			</label>
 			</div>
 			<br />
-			<input hidden=true type="text" id="langoptions" style="color:white;background-color:#F89406"/>
+			<br />
+			<strong class="cooltext">If your robot can climb, how long does it take (if they don't climb, put in 0)?</strong>
+			<br />
+			<input id="climbTime" type="text" style="color:white;background-color:#F89406"/>
+			<br />
 			<br />
 			<strong class="cooltext">What is your preferred role for the robot (check all that apply)?</strong>
 			<br />
@@ -247,14 +232,17 @@
 			<br />
 		</div>
 		<div hidden=true id="round5">
-	  		<strong class="cooltext">Can your robot deposit gears?</strong>
-	  		<br />
-	  		<div class="btn-group" data-toggle="buttons">
-	  			<label name="gears" value="true" class="btn btn-warning">
-	    			<input name="gears" value="true" type="radio" autocomplete="off"> yes
+			<strong class="cooltext">Is your gear mechanism active or passive?</strong>
+			<br />
+			<div class="btn-group" data-toggle="buttons">
+	  			<label name="gearmech" value="true" class="btn btn-warning">
+	    			<input name="gearmech" value="true" type="radio" autocomplete="off"> active
 	  			</label>
-	  			<label name="gears" value="false" class="btn btn-warning">
-	    			<input name="gears" value="false" type="radio" autocomplete="off"> no
+	  			<label name="gearmech" value="false" class="btn btn-warning">
+	    			<input name="gearmech" value="false" type="radio" autocomplete="off"> passive
+	  			</label>
+	  			<label name="gearmech" value="none" class="btn btn-warning">
+	    			<input name="gearmech" value="none" type="radio" autocomplete="off"> no gear mechanism
 	  			</label>
 			</div>
 			<br />
@@ -267,21 +255,6 @@
 	  			</label>
 	  			<label id="gearhuman" class="btn btn-warning">
 	    			<input type="checkbox" autocomplete="off"> human
-	  			</label>
-			</div>
-			<br />
-			<br />
-			<strong class="cooltext">Is your gear mechanism active or passive?</strong>
-			<br />
-			<div class="btn-group" data-toggle="buttons">
-	  			<label name="gearmech" value="true" class="btn btn-warning">
-	    			<input name="gearmech" value="true" type="radio" autocomplete="off"> active
-	  			</label>
-	  			<label name="gearmech" value="false" class="btn btn-warning">
-	    			<input name="gearmech" value="false" type="radio" autocomplete="off"> passive
-	  			</label>
-	  			<label name="gearmech" value="none" class="btn btn-warning">
-	    			<input name="gearmech" value="none" type="radio" autocomplete="off"> no gear mechanism
 	  			</label>
 			</div>
 			<br />
