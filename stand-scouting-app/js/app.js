@@ -99,13 +99,13 @@ function fillOut(){
 						$('#post-login').fadeOut(500);
 						$('#teleop').delay(500).fadeIn(500);
 					} else if ($('#teleop').is(':visible')) {
-						if ($('#auto-shoot').hasClass('active') || (teleopFuel.length > 0)) {
-							$('#teleop').fadeOut(500);
-							$('#fuel-end').delay(500).fadeIn(500);
-						} else {
+						// if ($('#auto-shoot').hasClass('active') || $('input[name=teleop-radio-fuel]').val() == 'true') {
+						// 	$('#teleop').fadeOut(500);
+						// 	$('#fuel-end').delay(500).fadeIn(500);
+						// } else {
 							$('#teleop').fadeOut(500);
 							$('.pie').delay(500).fadeIn(500);
-						}
+						// }
 					} else if ($('#fuel-end').is(':visible')) {
 						$('#fuel-end').fadeOut(500);
 						$('.pie').delay(500).fadeIn(500);
@@ -167,14 +167,16 @@ $(document).ready(function(){
 			}
 		}
 	}
-	var parsedData = JSON.parse(fs.readFileSync('data/m' + parseInt(readMNum) + '-' + readRole + '-' + teamNum +'.json'));
-	if (parsedData.crashed) {
-		$('#login-input-number').val(parsedData.scoutId);
-		$('#login-button').click();
-		$('#the-whole-login').hide();
-		$('#last-textarea').show();
-		$('[data-toggle="popover"]').popover('hide');
-		$('#textarea-back').hide();
+	if (fs.existsSync('data/m' + parseInt(readMNum) + '-' + readRole + '-' + teamNum +'.json')) {
+		var parsedData = JSON.parse(fs.readFileSync('data/m' + parseInt(readMNum) + '-' + readRole + '-' + teamNum +'.json'));
+		if (parsedData.crashed) {
+			$('#login-input-number').val(parsedData.scoutId);
+			$('#login-button').click();
+			$('#the-whole-login').hide();
+			$('#last-textarea').show();
+			$('[data-toggle="popover"]').popover('hide');
+			$('#textarea-back').hide();
+		}
 	}
 	if (fs.existsSync('matchNum.txt') == false) {
 		fs.writeFileSync('matchNum.txt', 1);
@@ -786,7 +788,7 @@ $('.flashdrive-save').click(function(){
 // });
 // Post-Login
 $('#auto-next').click(function(){
-	if (!$("input[name='auto-radio-cross']:checked").val() || !$("input[name='auto-radio-gear']:checked").val() || !$("input[name='auto-radio-shoot']:checked").val()) {
+	if (!$("input[name='auto-radio-cross']:checked").val() || !$("input[name='auto-gear']:checked").val() || !$("input[name='auto-shoot']:checked").val()) {
 	  fillOut();
 	} else {
 		$('#post-login').fadeOut(500);
@@ -833,9 +835,9 @@ $('#fuel-back').click(function(){
 	$('#teleop').delay(500).fadeIn(500);
 });
 $('#fuel-next').click(function(){
-	if (!$('input[name=fuel-end-accuracy]:checked').val() || !$('input[name=fuel-end-rate]:checked').val() || !$('input[name=fuel-end-load]:checked').val()) {
-		fillOut();
-	} else {
+	// if (!$('input[name=fuel-end-accuracy]:checked').val() || !$('input[name=fuel-end-rate]:checked').val() || !$('input[name=fuel-end-load]:checked').val()) {
+	// 	fillOut();
+	// } else {
 		$('#fuel-end').fadeOut(500);
 		$('.pie').delay(500).fadeIn(500);
 		$('.time-cat-btn').click();
@@ -843,7 +845,7 @@ $('#fuel-next').click(function(){
 		fuelEndAccuracy = $('input[name="fuel-end-accuracy"]:checked').val();
 		fuelEndRate = $('input[name="fuel-end-rate"]:checked').val();
 		fuelEndLoad = [];
-	}
+	// }
 });
 $('.no-fuel').click(function(){
 	dialogs.confirm("Really?!", function(ans) {
@@ -869,16 +871,16 @@ $('#teleop-fuelload-floor').click(function(){
 	fuelEndFloor = !fuelEndFloor;
 });
 $('#teleop-next').click(function(){
-	if (!$('input[name=teleop-radio-climb]:checked').val()) {
+	if (!$('input[name=teleop-climbtime]:checked').val() && !$('input[name=teleop-radio-fuel]:checked').val()) {
 		fillOut();
 	} else {
-		if ($('#auto-shoot').hasClass('active') || (teleopFuel.length > 0)) {
+		// if ($('input[name=auto-shoot]:checked').val() == 0 || /* (teleopFuel.length > 0) */ $('input[name=teleop-fuel]').val() == 'false') {
+		// 	$('#teleop').fadeOut(500);
+		// 	$('.pie').delay(500).fadeIn(500);
+		// } else {
 			$('#teleop').fadeOut(500);
 			$('#fuel-end').delay(500).fadeIn(500);
-		} else {
-			$('#teleop').fadeOut(500);
-			$('.pie').delay(500).fadeIn(500);
-		}
+		// }
 	}
 });
 $('#teleop-back').click(function(){
@@ -1387,6 +1389,7 @@ $('.edit-match').click(function(){
 	/*$("#auto-form").replaceWith('<form id="auto-form"><h3 style="text-align: center;">Crossed Line</h3><div class="btn-group" data-toggle="buttons"><label id="auto-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Crossed</label><label id="auto-no-cross" class="btn btn-info"><input type="radio" name="auto-radio-cross" autocomplete="off">Not Crossed</label></div><hr><h3 style="text-align: center;">Gear Placed</h3><div class="btn-group" data-toggle="buttons"><label id="auto-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Placed</label><label id="auto-no-gear" class="btn btn-info"><input type="radio" name="auto-radio-gear" autocomplete="off">Not Placed</label></div><hr><h3 style="text-align: center;">Balls Shot</h3><div class="btn-group" data-toggle="buttons"><label id="auto-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Shot Balls</label><label id="auto-no-shoot" class="btn btn-info"><input type="radio" name="auto-radio-shoot" autocomplete="off">Did Not Shoot Balls</label></div></form>');*/
 // });
 // $('#save-file').hide();
+$('.click').click();
 $('#grades-next').click(function () {
 	// Autonomous
 	var autoCross = false;
@@ -1434,6 +1437,9 @@ $('#grades-next').click(function () {
 	// Grades
 	var gradesOverall = parseInt($('input[name="grades-overall"]:checked').val());
 	// File
+	var autoShootNew = $('input[name=auto-shoot]:checked').val();
+	var autoGearNew = $('input[name=auto-gear]:checked').val();
+	var climbTime = $('input[name=teleop-climbtime]:checked').val();
 	var json = {
 		matchNumber: parseInt(fs.readFileSync('matchNum.txt', 'utf-8')),
 		teamNumber: teamNum,
@@ -1445,19 +1451,20 @@ $('#grades-next').click(function () {
 		crashed: true,
 		auto: {
 			crossedLine: autoCross,
-			depositedGear: autoGear,
-			shotCycle: autoShoot
+			depositedGear: /*autoGear*/ autoGearNew,
+			shotCycle: /*autoShoot*/ autoShootNew
 		},
 		teleop: {
 			balls: {
-				lowGoal: $(".low-goal:checked").val(),
-				cycles:  teleopFuel,
-				accuracy: fuelEndAccuracy,
-				shotRate: fuelEndRate,
-				loadingZones: fuelEndLoad
+				lowGoal: $("#low-goal:checked").val(),
+				// cycles:  $('input[name=teleop-radio-fuel]:checked').val(),
+				accuracy: /*fuelEndAccuracy*/ $('input[name=fuel-accuracy]:checked').val(),
+				// shotRate: fuelEndRate,
+				// loadingZones: fuelEndLoad
+				shotTime: $('input[name=fuel-time]:checked').val()
 			},
 			gearsDeposited: teleopGear,
-			climbed: teleopClimb
+			climbed: /*teleopClimb*/ climbTime
 		},
 		notes: 'app crashed',
 		strategy: {
@@ -1866,6 +1873,9 @@ $('#save-file').click(function(){
 		// 	$('.modal-body').append('<h1 style="text-align: center;"><b>Please accept my deepest condolences for your loss.</b>&nbsp;You lost&nbsp;' + Math.round((addedValue * -1)) + '&nbsp;Robobucks.</h1>');
 		// }
 		// File
+		var autoShootNew = $('input[name=auto-shoot]:checked').val();
+		var autoGearNew = $('input[name=auto-gear]:checked').val();
+		var climbTime = $('input[name=teleop-climbtime]:checked').val();
 		var json = {
 			matchNumber: parseInt(fs.readFileSync('matchNum.txt', 'utf-8')),
 			teamNumber: teamNum,
@@ -1874,24 +1884,25 @@ $('#save-file').click(function(){
 			// bettingPick: jsonBet,
 			// win: win,
 			// robobucks: addedValue,
-			crashed: false,
+			crashed: true,
 			auto: {
 				crossedLine: autoCross,
-				depositedGear: autoGear,
-				shotCycle: autoShoot
+				depositedGear: /*autoGear*/ autoGearNew,
+				shotCycle: /*autoShoot*/ autoShootNew
 			},
 			teleop: {
 				balls: {
-					lowGoal: $(".low-goal:checked").val(),
-					cycles:  teleopFuel,
-					accuracy: fuelEndAccuracy,
-					shotRate: fuelEndRate,
-					loadingZones: fuelEndLoad
+					lowGoal: $("#low-goal:checked").val(),
+					// cycles:  $('input[name=teleop-radio-fuel]:checked').val(),
+					accuracy: /*fuelEndAccuracy*/ $('input[name=fuel-accuracy]:checked').val(),
+					// shotRate: fuelEndRate,
+					// loadingZones: fuelEndLoad
+					shotTime: $('input[name=fuel-time]:checked').val()
 				},
 				gearsDeposited: teleopGear,
-				climbed: teleopClimb
+				climbed: /*teleopClimb*/ climbTime
 			},
-			notes: $('.comments').val(),
+			notes: 'app crashed',
 			strategy: {
 				pieChart: {
 					// shooting: parseInt($("#pie-shooting").val()),

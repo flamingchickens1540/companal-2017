@@ -184,28 +184,54 @@
             </span>
           </div>
         </div>
-        <div class="col-sm-4">
-          <h3 style="text-align: center;">Gear Placed</h3>
+        <div class="col-sm-4 center">
+          <h3 style="text-align: center;">Gear Placement</h3>
           <div class="btn-group" data-toggle="buttons">
-            <span id="auto-gear" class="btn btn-success">
-              <input type="radio" name="auto-radio-gear" value="true" autocomplete="off">Placed
+            <span class="btn btn-danger click">
+              <input type="radio" name="auto-gear" value="false" autocomplete="off">None &#128546;
             </span>
-            <span id="auto-no-gear" class="btn btn-danger">
-              <input type="radio" name="auto-radio-gear" value="false" autocomplete="off">Not Placed
+            <span class="btn btn-info">
+              <input type="radio" name="auto-gear" value="boiler" autocomplete="off">Boiler
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="auto-gear" value="center" autocomplete="off">Center
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="auto-gear" value="feeder" autocomplete="off">Feeder
             </span>
           </div>
         </div>
-        <div class="col-sm-4">
-          <h3 style="text-align: center;">Balls Shot</h3>
+        <div class="col-sm-4 center">
+          <h3 style="text-align: center;">Number of Balls Shot</h3>
           <div class="btn-group" data-toggle="buttons">
-            <span id="auto-shoot" class="btn btn-success">
-              <input type="radio" name="auto-radio-shoot" value="true" autocomplete="off">Shot Balls
+            <span class="btn btn-danger click">
+              <input type="radio" name="auto-shoot" value="0" autocomplete="off">0 &#128546;
             </span>
-            <span id="auto-no-shoot" class="btn btn-danger">
-              <input type="radio" name="auto-radio-shoot" value="false" autocomplete="off">Did Not Shoot Balls
+            <span class="btn btn-info">
+              <input type="radio" name="auto-shoot" value="3" autocomplete="off">3
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="auto-shoot" value="5" autocomplete="off">5
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="auto-shoot" value="8" autocomplete="off">8
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="auto-shoot" value="10" autocomplete="off">10
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="auto-shoot" value="20" autocomplete="off">20
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="auto-shoot" value="30" autocomplete="off">30
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="auto-shoot" value="40" autocomplete="off">40
             </span>
           </div>
         </div>
+        <br>
+        <br>
       </div>
     </div>
     <!-- Tele-Op -->
@@ -221,9 +247,17 @@
       <hr>
       <div class="row">
         <div class="col-sm-4">
-          <h3 style="text-align: center;">Fuel <span class="badge badge-hide"><span class="badge-replace"></span></span></h3>
+          <h3 style="text-align: center;">Fuel</h3>
           <br>
-          <h4>Fuel Carried This Cycle</h4>
+          <div id="teleop-fuel" class="btn-group" data-toggle="buttons">
+            <span class="btn btn-success">
+              <input type="radio" name="teleop-fuel" value="true" autocomplete="off">Shot
+            </span>
+            <span class="btn btn-danger">
+              <input type="radio" name="teleop-fuel" value="true" autocomplete="off">Did not shoot
+            </span>
+          </div>
+          <!-- <h4>Fuel Carried This Cycle</h4>
           <div id="teleop-fuel" class="btn-group" data-toggle="buttons">
             <span id="teleop-fuelcycle-lt10" class="btn btn-danger">
               <input type="radio" name="teleop-radio-fuel" value="<10" autocomplete="off">&lt;10
@@ -240,7 +274,7 @@
           </div>
           <br>
           <br>
-          <button id="teleop-fuel-submit" type="button" class="btn btn-success">Submit This Cycle</button>
+          <button id="teleop-fuel-submit" type="button" class="btn btn-success">Submit This Cycle</button> -->
         </div>
         <div class="col-sm-4">
           <h3 style="text-align: center;">Gears Deposited</h3>
@@ -251,6 +285,43 @@
           <button type="button" id="teleop-up" class="btn btn-success" onclick="teleopgearnum(1)" style="width: 25%;">+1</button>
         </div>
         <div class="col-sm-4">
+          <h3 style="text-align: center;">Climb Time</h3>
+          <div class="btn-group" data-toggle="buttons">
+            <span class="btn btn-danger click">
+              <input type="radio" name="teleop-climbtime" value="0" autocomplete="off">None
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="teleop-climbtime" value="3" autocomplete="off">3
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="teleop-climbtime" value="5" autocomplete="off">5
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="teleop-climbtime" value="10" autocomplete="off">10
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="teleop-climbtime" value="15" autocomplete="off">15
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="teleop-climbtime" value="20" autocomplete="off">20
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="teleop-climbtime" value="25" autocomplete="off">25
+            </span>
+            <span class="btn btn-info">
+              <input type="radio" name="teleop-climbtime" value="30" autocomplete="off">30
+            </span>
+          </div>
+          <!-- <div class="btn-group" data-toggle="buttons">
+            <span class="btn btn-success">
+              <input type="radio" name="teleop-climb" value="true" autocomplete="off">Climbed Successfully
+            </span>
+            <span class="btn btn-danger">
+              <input type="radio" name="teleop-climb" value="false" autocomplete="off">Failed to Climb
+            </span>
+          </div> -->
+        </div>
+        <!-- <div class="col-sm-4">
           <h3 style="text-align: center;">Climbed Rope Successfully</h3>
           <div class="btn-group" data-toggle="buttons">
             <span id="teleop-climb" class="btn btn-success">
@@ -260,7 +331,7 @@
               <input type="radio" name="teleop-radio-climb" value="false" autocomplete="off">Failed to Climb
             </span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- Other Fuel Stuff -->
@@ -276,13 +347,41 @@
         <h3 style="text-align: center;">Fuel</h3>
         <br>
         <!-- <button type="button" class="btn btn-warning no-fuel">Did not shoot fuel</button> -->
-        <div class="btn-group" data-toggle="buttons">
+        <!-- <div class="btn-group" data-toggle="buttons">
           <label id="low-goal" class="btn btn-info">
             <input type="checkbox" autocomplete="off">Low Goal
           </label>
-        </div>
+        </div> -->
         <hr>
-        <div class="col-sm-4">
+        <div class="col-sm-6 center">
+          <h4>How much went in?</h4>
+          <div class="btn-group" data-toggle="buttons">
+            <span class="btn btn-danger">
+              <input type="radio" name="fuel-accuracy" value="0" autocomplete="off">Basically none
+            </span>
+            <span class="btn btn-warning">
+              <input type="radio" name="fuel-accuracy" value="50" autocomplete="off">Some went in, some didn't
+            </span>
+            <span class="btn btn-success">
+              <input type="radio" name="fuel-accuracy" value="100" autocomplete="off">Nearly all
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-6 center">
+          <h4>How much time did they spend?</h4>
+          <div class="btn-group" data-toggle="buttons">
+            <span class="btn btn-danger">
+              <input type="radio" name="fuel-time" value="0" autocomplete="off">Barely Any
+            </span>
+            <span class="btn btn-warning">
+              <input type="radio" name="fuel-time" value="50" autocomplete="off">About half
+            </span>
+            <span class="btn btn-success">
+              <input type="radio" name="fuel-time" value="100" autocomplete="off">All of their time
+            </span>
+          </div>
+        </div>
+        <!-- <div class="col-sm-4">
           <h4>Accuracy of High Goal Shooter</h4>
           <div class="btn-group" data-toggle="buttons">
             <span id="teleop-fuelaccuracy-lt50" class="btn btn-danger">
@@ -330,7 +429,7 @@
               <input type="checkbox" name="fuel-end-load" value="floor" autocomplete="off">Floor
             </label>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- Pie Chart -->

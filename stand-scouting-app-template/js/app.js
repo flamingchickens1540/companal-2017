@@ -21,11 +21,12 @@ function show(className) {
   $(className).fadeIn(500).removeClass('hide');
 }
 function tabSwitch(className) {
-  $('.tab').removeClass('active');
-  $(className).addClass('active');
+  $('.tab').removeClass('active disabled');
+  $(className).addClass('active disabled');
   hide('.body-div');
   className = className.substring(5);
   show('.' + className);
+  $('.popover').remove();
 };
 function login() {
   for (i in scouts) {
@@ -39,7 +40,6 @@ function login() {
       $('[data-toggle="popover"]').popover();
       $('[data-toggle="popover"]').click();
       hide('.alert-login');
-      json.scoutId = $('.login-top-id').val();
     } else if (!scouts.hasOwnProperty($('.login-form').val())) {
       show('.alert-login');
     }
@@ -88,14 +88,28 @@ $('.required').each(function () {
 });
 $('.multiple-choice').each(function () {
   if ($(this).attr('data-choice-3') == undefined) {
-    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '"><input type="radio" value="true" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-danger ' + $(this).attr('id') + '"><input type="radio" value="false" autocomplete="off">' + $(this).attr('data-choice-2') + '</span></div>');
-    // eval('json.' + $(this).attr('data-json') + ' = ' + $('.' + $(this).attr('id') + ':checked').val());
+    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" value="true" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-danger  ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" value="false" autocomplete="off">' + $(this).attr('data-choice-2') + '</span></div>');
+    $('.' + $(this).attr('id')).click(function () {
+      console.log($(this).attr('data-class'));
+      console.log($('.' + $(this).attr('data-class')).is(':checked'));
+      console.log($(this).is(':checked'));
+      eval('json.' + $(this).attr('data-json') + ' = ' + $('.' + $(this).attr('data-class') + ':checked').val());
+    });
   } else if ($(this).attr('data-choice-4') == undefined) {
-    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-warning ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-2') + '</span><span class="btn btn-danger ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-3') + '</span></div>');
+    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-warning ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-2') + '</span><span class="btn btn-danger ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-3') + '</span></div>');
+    $('.' + $(this).attr('id')).click(function () {
+      eval('json.' + $(this).attr('data-json') + ' = ' + $('.' + $(this).attr('id') + ':checked').val());
+    });
   } else if ($(this).attr('data-choice-5') == undefined) {
-    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-info ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-2') + '</span><span class="btn btn-warning ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-3') + '</span><span class="btn btn-danger ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-4') + '</span></div>');
+    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-info ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-2') + '</span><span class="btn btn-warning ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-3') + '</span><span class="btn btn-danger ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-4') + '</span></div>');
+    $('.' + $(this).attr('id')).click(function () {
+      eval('json.' + $(this).attr('data-json') + ' = ' + $('.' + $(this).attr('id') + ':checked').val());
+    });
   } else if ($(this).attr('data-choice-6') == undefined) {
-    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-info ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-2') + '</span><span class="btn btn-primary ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-3') + '</span><span class="btn btn-warning ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-4') + '</span><span class="btn btn-danger ' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-5') + '</span></div>');
+    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-info ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-2') + '</span><span class="btn btn-primary ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-3') + '</span><span class="btn btn-warning ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-4') + '</span><span class="btn btn-danger ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-5') + '</span></div>');
+    $('.' + $(this).attr('id')).click(function () {
+      eval('json.' + $(this).attr('data-json') + ' = ' + $('.' + $(this).attr('id') + ':checked').val());
+    });
   }
 });
 $('.checkbox').each(function () {
@@ -254,5 +268,5 @@ $('.btn-forgot-id').click(function () {
 // Info Bar
 $('.info-bar-match-number').val(parseInt(matchNum));
 // JSON
-var json = {}
+var json = {};
 jsonStringify(json, 'data/m' + '1' + '-r' + '1' + '-' + '0001');

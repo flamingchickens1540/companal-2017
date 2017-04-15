@@ -40,6 +40,11 @@ span.btn.active, label.btn.active{
 	display: block !important;
 	margin: auto !important;
 }*/
+.center{
+	text-align: center;
+	display: block;
+	margin: auto;
+}
 .c-1-color{
 	background: #2ecc71 !important;
 }
