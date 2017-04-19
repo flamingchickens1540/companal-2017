@@ -112,7 +112,7 @@ pit-scouting 1540.json <-- self explanatory I hope
 	"teamNumber": "1540",
 	"scoutIds": ["50", "51"],
 	"roles": [],
-	"language": "Java",
+	"round": 0, //ignore this, only used for backing up when tablet crashes,
 	"drivetrain": {
 		"drivetrainShifts": true, //does their drivetrain shift?
 		"drivetrainType": "mecanum", //can be ["4wheel", "8wheel", "6wheel", "swerve","mecanum_drive", "hdrive_slidedrive", "other (fill in)"]
@@ -131,13 +131,11 @@ pit-scouting 1540.json <-- self explanatory I hope
 	},
 
 	"gears": {
-		"canDeposit": true,
 		"humanLoading": false,
 		"floorLoading": true
 		"active": false //do they have active or passive gearing?
 	},
-
-	"canClimb": true,
-	"weight": 100 //lbs
+	"auto": [],
+	"climbTime": 4,
 	"notes": "blah blah blah"
 }
