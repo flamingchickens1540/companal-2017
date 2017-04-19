@@ -142,8 +142,10 @@
                 //March 31st 2017
                 //If they get a gear in auto, they absolutely must have crossed the line to do it
                 //some of the scouts don't mark this, so do it for them!
-                if (data.auto.depositedGear)
+                if (data.auto.depositedGear !== "false") {
                     data.auto.crossedLine = true
+                    data.teleop.gearsDeposited++
+                }
             }
             catch (err) {
                 console.log(`Could not process stand-scouting/${filename}`)

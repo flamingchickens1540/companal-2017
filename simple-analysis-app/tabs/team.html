@@ -38,7 +38,6 @@
 				<th>Auto</th>
 				<th>Gears</th>
 				<th>Climb?</th>
-				<th>Cycles</th>
 				<th>Shooter</th>
 				<th>Grades (O, S, G, C, D)</th>
 			</tr>
@@ -167,7 +166,14 @@
 			}
 			text += ` mechanism, and they load from ${gearZoneText[gearZoneKey]}` 
 			text += ` They ${can(pit.canClimb)} climb. Weight: ${pit.weight} (should be lbs). They prefer the roles of ${pit.roles}. The scout said this about them: ${pit.notes} END PIT SCOUT DATA.`
-			$("#pitModalP").html(text)
+			if (typeof(pitHtmls) !== 'undefined' && pitHtmls.hasOwnProperty(teamNumber)) {
+				$("#pitModalP").html(pitHtmls[teamNumber])
+				//$("#pitModalP").append('<br><br>')
+				//$("#pitModalP").append(text)
+			} else {
+				//$("#pitModalP").html(text)
+			}
+			
 		}
 		if (!standRecords.hasOwnProperty(teamNumber)) {
 			//alert("No stand records for that team!")
@@ -198,13 +204,16 @@
 			$('#teamTbody').html('')
 			$("#chartWrapper").html('')
 			var matches = standRecords[teamNumber]
+			matches.sort(function(a,b) {
+				return parseInt(a.matchNumber) - parseInt(b.matchNumber)
+			})
 			for (var i in matches) {
 				var match = matches[i]
 
 				averages.gears += match.teleop.gearsDeposited
 				if (match.teleop.climbed)
 					averages.climbs ++
-				averages.cycleCount += match.teleop.balls.cycles.length
+				averages.cycleCount += 0
 				var gradeCategories = ["overall", "shooting", "gearing", "defense", "climbing"]
 				for (var i = 0; i < gradeCategories.length; i++) {
 					if (match.strategy.grades[gradeCategories[i]] !== 0)
@@ -221,30 +230,23 @@
 				html += `<td>${match.matchNumber}</td>`
 				html += `<td>${scouts[match.scoutId]}</td>`
 
-				var autoKey = String(match.auto.crossedLine)+String(match.auto.depositedGear)+String(match.auto.shotCycle)
-				var autoText = {
-					'falsefalsefalse': '<p style="color: red;">None</p>',
-					'truefalsefalse': '<p style="color: #f0ad4e;">Crossed Line</p>',
-					'falsetruefalse': '<p style="color: #5cb85c;">Deposited Gear</p>',
-					'falsefalsetrue': '<p style="color: #5cb85c;">Shot Cycle</p>',
-					'truetruefalse': '<p style="color: #5cb85c;">Cross Line + Gear</p>',
-					'falsetruetrue': '<p style="color: #5cb85c;">Gear + Shot</p>',
-					'truefalsetrue': '<p style="color: #5cb85c;">Cross Line + Shot</p>',
-					'truetruetrue': '<p style="color: #5cb85c;">Line, Gear, Shoot</p>'
-				}
-				html += `<td>${autoText[autoKey]}</td>`
+				var autoText = ``
+				if (match.auto.crossedLine)
+					autoText += `<p style="color: #5cb85c;">Line, </p>`
+				else
+					autoText += `<p style="color: #f0ad4e;">No Line, </p>`
+				autoText += `<p>${match.auto.depositedGear}, ${match.auto.shotCycle}</p>`
+				html += `<td>${autoText}</td>`
 
 				html += `<td>${match.teleop.gearsDeposited}</td>`
 
-				if (match.teleop.climbed)
-					html += `<td><p style="color: #5cb85c;">Yes</p>`
+				if (match.teleop.climbed !== "0")
+					html += `<td><p style="color: #5cb85c;">${match.teleop.climbed}sec</p>`
 				else
 					html += `<td><p style="color: red">No</p>`
 
-				html += `<td>[${String(match.teleop.balls.cycles)}]</td>`
-
-				if (match.auto.shotCycle || match.teleop.balls.cycles.length > 0) {
-					html += `<td>${match.teleop.balls.accuracy}% accuracy, ${match.teleop.balls.shotRate}bps, loads [${String(match.teleop.balls.loadingZones)}]`
+				if ((match.auto.shotCycle !== "0" || match.teleop.balls.shotTime !== "0") && typeof(match.teleop.balls.shotTime) !== "undefined") {
+					html += `<td>${match.teleop.balls.accuracy}%acc, ${match.teleop.balls.shotTime} time spent`
 				} else {
 					html += `<td>N/A</td>`
 				}
@@ -264,7 +266,7 @@
 			averageCount *= 1.0
 			averages.gears /= averageCount
 			averages.climbs /= averageCount
-			averages.cycleCount /= averageCount
+			//averages.cycleCount /= averageCount
 			averages.strategy.shooting /= averageCount
 			averages.strategy.gearing /= averageCount
 			averages.strategy.climbing /= averageCount
@@ -354,7 +356,22 @@
         <h4 class="modal-title" id="myModalLabel">Pit Data for <span id="pitModalTeamNumber" style="font-family: robotoBlack"></span></h4>
       </div>
       <div class="modal-body">
-        <p id="pitModalP"></p>
+      	<table class="table" align="center" style="width: 95%;zoom:75%;">
+			<thead>
+				<tr>
+					<th>Team</th>
+					<th>Scouts</th>
+					<th>Drivetrain</th>
+					<th>Shooter</th>
+					<th>Gearer</th>
+					<th>Climb</th>
+					<th>Auto</th>
+					<th>Role</th>
+					<th>Notes</th>
+				</tr>
+			</thead>
+			<tbody id="pitModalP"></tbody>
+		</table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

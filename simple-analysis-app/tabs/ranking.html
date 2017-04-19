@@ -44,12 +44,14 @@
 			var match = standRecords[teamNumber][i]
 			if (match.auto.crossedLine)
 				auto.crossedLine++
-			if (match.auto.depositedGear)
+			if (match.auto.depositedGear !== "false")
 				auto.gear++
-			if (match.auto.shotCycle)
+			if (match.auto.shotCycle !== "0") {
 				auto.shot++
-			if (typeof(match.teleop.balls.cycles !== 'undefined') && match.teleop.balls.cycles.length > 0)
+			}
+			if ((match.auto.shotCycle !== "0" || match.teleop.balls.shotTime !== "0") && typeof(match.teleop.balls.shotTime) !== "undefined") {
 				shootCounter++
+			}
 		}
 		var team = {pts: 0, autoPts: 0}
 		var myAuto = []

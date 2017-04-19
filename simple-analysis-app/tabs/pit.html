@@ -10,7 +10,7 @@
 				<th>Shooter</th>
 				<th>Gearer</th>
 				<th>Climb</th>
-				<th>Weight/Language</th>
+				<th>Auto</th>
 				<th>Role</th>
 				<th>Notes</th>
 			</tr>
@@ -20,6 +20,16 @@
 </div>
 
 <script type="text/javascript">
+
+	function removeDuplicates(l) {
+		var things = []
+		for (var index in l) {
+			if (things.indexOf(l[index]) < 0) {
+				things.push(l[index])
+			}
+		}
+		return things
+	}
 	
 	var pitTeams = []
 	for (var teamNumber in pitRecords) {
@@ -34,6 +44,8 @@
 			return false
 		
 	}
+
+	var pitHtmls = {}
 
 	function drawPitTable(sortBy) {
 		$("#pitTbody").html('')
@@ -91,11 +103,12 @@
 			} else {
 				html += `<td>None</td>`
 			}
-			html += `<td>${team.canClimb}</td>`
-			html += `<td>${team.weight}lbs, ${team.language}</td>`
+			html += `<td>${team.climbTime}sec</td>`
+			html += `<td>${removeDuplicates(team.auto)}</td>`
 			html += `<td>[${team.roles}]</td>`
 			html += `<td>${team.notes}</td>`
 			html += `</tr>`
+			pitHtmls[team.teamNumber] = html
 			$("#pitTbody").append(html)
 		}
 	}
