@@ -46,6 +46,7 @@
 	}
 
 	var pitHtmls = {}
+	var autoTexts = {}
 
 	function drawPitTable(sortBy) {
 		$("#pitTbody").html('')
@@ -94,8 +95,8 @@
 				"falsetrue": "the human.",
 				"truetrue": "the floor or human."
 			}
-			if (parseBool(team.gears.canDeposit)) {
-				if (team.gears.active) {
+			if (true) {
+				if (parseBool(team.gears.active)) {
 					html += `<td>Active loading from ${gearZoneText[gearZoneKey]}</td>`
 				} else {
 					html += `<td>Passive loading from ${gearZoneText[gearZoneKey]}</td>`
@@ -109,6 +110,7 @@
 			html += `<td>${team.notes}</td>`
 			html += `</tr>`
 			pitHtmls[team.teamNumber] = html
+			autoTexts[team.teamNumber] = removeDuplicates(team.auto)
 			$("#pitTbody").append(html)
 		}
 	}

@@ -7,6 +7,7 @@
 	    		<button class="btn btn-success" id="matchLookupButton">Lookup</button>
 	    	</span>
 	    </div>
+	    <p>Red: 1 Feeder, 3 Boiler<br>Blue: 1 Boiler, 3 Feeder</p>
 	</center>
 	<br>
 	<div class="container">
@@ -19,7 +20,7 @@
 							<th><h4 align="center">Gears</h4></th>
 							<th><h4 align="center">Pit Gear</h4></th>
 							<th><h4 align="center">Climb</h4></th>
-							<th><h4 align="center">Grade</h4></th>
+							<th><h4 align="center">Autos</h4></th>
 						</tr>
 						<tr>
 							<td><p style="font-size: 1em;" align="center">A-NZ, 4-NZ, A-T</p></td>
@@ -39,7 +40,7 @@
 							<th><h4 align="center">Gears</h4></th>
 							<th><h4 align="center">Pit Gear</h4></th>
 							<th><h4 align="center">Climb</h4></th>
-							<th><h4 align="center">Grade</h4></th>
+							<th><h4 align="center">Autos</h4></th>
 						</tr>
 						<tr>
 							<td><p style="font-size: 1em;" align="center">A-NZ, 4-NZ, A-T</p></td>
@@ -144,6 +145,16 @@
 			for (var position = 1; position <= 3; position++) {
 				var teamNumber = schedule[matchNumber][(role)*3+position-1]
 				var avgs = averagesForMatch[teamNumber]
+				if (typeof(avgs) === 'undefined') {
+					avgs = {
+						"gearsNZ": 0,
+						"climb4": 0,
+						"gradeOverall": 0,
+						"climbTotal": 0,
+						"gearsTotal": 0,
+						"gears4NZ": 0
+					}
+				}
 				var html = `<tr>`
 				html += `<td><p style="font-size: 1.5em;" align="center">${avgs.gearsNZ.toFixed(1)}, ${avgs.gears4NZ.toFixed(1)}, ${avgs.gearsTotal.toFixed(1)}</p></td>`
 
@@ -160,17 +171,17 @@
 						loads.push("floor")
 					if (String(pitRecords[teamNumber].gears.humanLoading) === "true")
 						loads.push("human")
-					if (String(pitRecords[teamNumber].gears.canDeposit) === "true") {
-						html += `<td><p style="font-size: 1.25em;" align="center"><span style="color: green;">Yes</span><br>[${loads}]</p></td>`
+					if (String(pitRecords[teamNumber].gears.active) === "true") {
+						html += `<td><p style="font-size: 1.25em;" align="center"><span style="color: green;">Active</span><br>[${loads}]</p></td>`
 					} else {
-						html += `<td><p style="font-size: 1.25em;" align="center"><span style="color: red;">No</span><br>[${loads}]</p></td>`
+						html += `<td><p style="font-size: 1.25em;" align="center"><span style="color: #EFAF5F;">Passive</span><br>[${loads}]</p></td>`
 					}
 				} else {
 					html += `<td>N/A</td>`
 				}
 
 				html += `<td><p style="font-size: 1.5em;" align="center">${avgs.climb4.toFixed(0)}%, ${avgs.climbTotal.toFixed(0)}%</p></td>`
-				html += `<td><h1 align="center"><span class="label label-default mylabel gradehide" id="gradeOverall" style="background-color: #551A8B;">${avgs.gradeOverall.toFixed(1)}</span></h1></td>`
+				html += `<td>${String(autoTexts[teamNumber]).replace('-gear', '').replace('-gear', '').replace('-gear', '')}</td>`
 
 				html += `</tr>`
 

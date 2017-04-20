@@ -2,3 +2,5 @@ node_modules/
 npm-debug.log
 
 new-analysis-app/
+
+.DS_Store
