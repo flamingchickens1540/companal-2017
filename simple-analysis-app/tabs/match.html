@@ -96,12 +96,12 @@
 				averagesForMatch[teamNumber].gears4NZ.push(match.teleop.gearsDeposited)
 			}
 			if (myMatchNumbers.indexOf(match.matchNumber) < 4) {
-				if (match.teleop.climbed)
+				if (parseInt(match.teleop.climbed) > 0)
 					averagesForMatch[teamNumber].climb4.push(1)
 				else
 					averagesForMatch[teamNumber].climb4.push(0)
 			}
-			if (match.teleop.climbed)
+			if (parseInt(match.teleop.climbed) > 0)
 				averagesForMatch[teamNumber].climbTotal.push(1)
 			else
 				averagesForMatch[teamNumber].climbTotal.push(0)
@@ -119,8 +119,18 @@
 		averagesForMatch[teamNumber].gradeOverall = averagesForMatch[teamNumber].gradeOverall.reduce(function(a,b) {return a+b}) / total
 		var n = averagesForMatch[teamNumber].gearsNZ.length
 		averagesForMatch[teamNumber].gearsNZ = averagesForMatch[teamNumber].gearsNZ.reduce(function(a,b) {return a+b}) / n
-
 	}
+	var climbTotals = {}
+	for (var teamNumber in averagesForMatch) {
+		if (!(climbTotals.hasOwnProperty(String(averagesForMatch[teamNumber].climbTotal)))) {
+			climbTotals[String(averagesForMatch[teamNumber].climbTotal)] = 0
+		}
+		climbTotals[String(averagesForMatch[teamNumber].climbTotal)]++
+		if (String(averagesForMatch[teamNumber].climbTotal) === "0") {
+			console.log(`${teamNumber} cannot climb?`)
+		}
+	}
+	console.log(climbTotals)
 
 	$("#matchLookupButton").click(function() {
 		$("#rTbody").html('')

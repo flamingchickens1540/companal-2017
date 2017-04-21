@@ -38,7 +38,10 @@
 
 	for (var teamNumber in standRecords) {
 		for (var index in standRecords[teamNumber]) {
-			scoutTotals[standRecords[teamNumber][index].scoutId].stands++
+			if (typeof(scoutTotals[standRecords[teamNumber][index].scoutId]) !== "undefined")
+				scoutTotals[standRecords[teamNumber][index].scoutId].stands++
+			else
+				console.log(standRecords[teamNumber][index])
 		}
 	}
 

@@ -132,60 +132,8 @@
         }
     }
 
-    var standFiles = fs.readdirSync(`${dataDir}/stand-scouting/`)
-    for (var index in standFiles) {
-        var filename = standFiles[index]
-        if (filename.split('.')[1] === 'json' && filename.count('-') === 2) { //check that the file is m12-r1-1234.json
-            try {
-                var data = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8'))
-
-                //March 31st 2017
-                //If they get a gear in auto, they absolutely must have crossed the line to do it
-                //some of the scouts don't mark this, so do it for them!
-                if (data.auto.depositedGear !== "false") {
-                    data.auto.crossedLine = true
-                    data.teleop.gearsDeposited++
-                }
-            }
-            catch (err) {
-                console.log(`Could not process stand-scouting/${filename}`)
-                continue
-            }
-
-            if (!(standRecords.hasOwnProperty(data.teamNumber)))
-                standRecords[data.teamNumber] = []
-
-            standRecords[data.teamNumber].push(data)
-        }
-    }
-
-    var schedule = JSON.parse(fs.readFileSync(`${dataDir}/matchSchedule.json`, 'utf8'))
-
-    var allTeamNumbers = []
-    for (var teamNumber in pitRecords) {
-        if (allTeamNumbers.indexOf(String(teamNumber)) === -1)
-            allTeamNumbers.push(String(teamNumber))
-    }
-    for (var teamNumber in standRecords) {
-        if (allTeamNumbers.indexOf(String(teamNumber)) === -1)
-            allTeamNumbers.push(String(teamNumber))
-    }
-    for (var matchNumber in schedule) {
-        for (var i = 0; i < 6; i++) {
-            if (allTeamNumbers.indexOf(String(schedule[matchNumber][i])) === -1)
-                allTeamNumbers.push(String(schedule[matchNumber][i]))
-        }
-    }
-
-    var scoutMatches = {}
-    for (var teamNumber in standRecords) {
-        for (var index in standRecords[teamNumber]) {
-            if (!scoutMatches.hasOwnProperty(standRecords[teamNumber][index].scoutId))
-                scoutMatches[standRecords[teamNumber][index].scoutId] = 0
-            scoutMatches[standRecords[teamNumber][index].scoutId]++
-        }
-    }
     var scouts = {
+        "1": "Who knows???",
         "98": "Adolfo",
         "50": "Noor", 
         "60": "Nicholas", 
@@ -223,6 +171,65 @@
         "33": "Culla", 
         "55": "Dylan", 
         "48": "Natalie"
+    }
+
+    var standFiles = fs.readdirSync(`${dataDir}/stand-scouting/`)
+    var allStandRecords = []
+    for (var index in standFiles) {
+        var filename = standFiles[index]
+        if (filename.split('.')[1] === 'json' && filename.count('-') === 2) { //check that the file is m12-r1-1234.json
+            try {
+                var data = JSON.parse(fs.readFileSync(`${dataDir}/stand-scouting/${filename}`, 'utf8'))
+                allStandRecords.push(data)
+                //March 31st 2017
+                //If they get a gear in auto, they absolutely must have crossed the line to do it
+                //some of the scouts don't mark this, so do it for them!
+                if (data.auto.depositedGear !== "false") {
+                    data.auto.crossedLine = true
+                    data.teleop.gearsDeposited++
+                }
+                if (data.teleop.climbed === "0") {
+                    console.log(`${data.matchNumber} - ${scouts[data.scoutId]}: ${data.notes}`)
+                }
+            }
+            catch (err) {
+                console.log(`Could not process stand-scouting/${filename}`)
+                continue
+            }
+
+            if (!(standRecords.hasOwnProperty(data.teamNumber)))
+                standRecords[data.teamNumber] = []
+
+            standRecords[data.teamNumber].push(data)
+        }
+    }
+    fs.writeFileSync('allStandRecords.json', JSON.stringify(allStandRecords))
+
+    var schedule = JSON.parse(fs.readFileSync(`${dataDir}/matchSchedule.json`, 'utf8'))
+
+    var allTeamNumbers = []
+    for (var teamNumber in pitRecords) {
+        if (allTeamNumbers.indexOf(String(teamNumber)) === -1)
+            allTeamNumbers.push(String(teamNumber))
+    }
+    for (var teamNumber in standRecords) {
+        if (allTeamNumbers.indexOf(String(teamNumber)) === -1)
+            allTeamNumbers.push(String(teamNumber))
+    }
+    for (var matchNumber in schedule) {
+        for (var i = 0; i < 6; i++) {
+            if (allTeamNumbers.indexOf(String(schedule[matchNumber][i])) === -1)
+                allTeamNumbers.push(String(schedule[matchNumber][i]))
+        }
+    }
+
+    var scoutMatches = {}
+    for (var teamNumber in standRecords) {
+        for (var index in standRecords[teamNumber]) {
+            if (!scoutMatches.hasOwnProperty(standRecords[teamNumber][index].scoutId))
+                scoutMatches[standRecords[teamNumber][index].scoutId] = 0
+            scoutMatches[standRecords[teamNumber][index].scoutId]++
+        }
     }
     for (var scoutId in scouts) {
         if (!scoutMatches.hasOwnProperty(scoutId))
