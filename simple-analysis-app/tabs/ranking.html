@@ -40,6 +40,7 @@
 			shot: 0
 		}
 		var shootCounter = 0
+		var matchCounter = 0
 		for (var i in standRecords[teamNumber]) {
 			var match = standRecords[teamNumber][i]
 			if (match.auto.crossedLine)
@@ -52,31 +53,41 @@
 			if ((match.auto.shotCycle !== "0" || match.teleop.balls.shotTime !== "0") && typeof(match.teleop.balls.shotTime) !== "undefined") {
 				shootCounter++
 			}
+			matchCounter++
 		}
 		var team = {pts: 0, autoPts: 0}
 		var myAuto = []
+		
 		if (auto.crossedLine >= 2 || auto.gear >= 2) {
-			team.pts += 5
-			team.autoPts += 5
+			//team.pts += 5
+			//team.autoPts += 5
 			myAuto.push("line")
 		}
+		team.pts += (auto.crossedLine/matchCounter) * 5
+		team.autoPts += (auto.crossedLine/matchCounter) * 5
+		
 		if (auto.gear >= 2) {
-			team.autoPts += 20
-			team.pts += 20
+			//team.autoPts += 20
+			//team.pts += 20
 			myAuto.push("gear")
 		}
+		team.pts += (auto.gear/matchCounter) * 20
+		team.autoPts += (auto.gear/matchCounter) * 20
+		
 		if (auto.shot >= 2 && auto.gear < 2) {
 			team.pts += 5
 			team.autoPts += 5
 		}
+		
 		if (auto.shot >= 2) {
 			myAuto.push("shot")
 		}
+		
 		team.auto = myAuto
 		team.gear = avgs.gears4NZ
-		team.climb = avgs.climb4
+		team.climb = avgs.climbTotal
 		team.pts += 15*(avgs.gears4NZ)
-		team.pts += (avgs.climb4/100.0)*50
+		team.pts += (avgs.climbTotal/100.0)*50
 		if (shootCounter >= 2) {
 			team.isShooter = true
 		} else {
@@ -113,8 +124,8 @@
 				html += `<td onclick="switchToTeam('${team.teamNumber}')">${team.teamNumber}</td>`
 			html += `<td>[${team.auto}]</td>`
 			html += `<td>${team.gear}</td>`
-			html += `<td>${team.climb}%</td>`
-			html += `<td>${team.pts}</td>`
+			html += `<td>${team.climb.toFixed(0)}%</td>`
+			html += `<td>${team.pts.toFixed(0)}</td>`
 			html += `</tr>`
 			$("#rankingTbody").append(html)
 		}
