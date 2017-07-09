@@ -27,6 +27,15 @@ function tabSwitch(className) {
   className = className.substring(5);
   show('.' + className);
   $('.popover').remove();
+  $('.tab-login').addClass('disabled');
+};
+function click(inputName, jsonName) {
+  if ($(inputName).is(':checked')) {
+    console.log(inputName);
+    console.log($(inputName + ':checked').val());
+    eval('json.' + jsonName + ' = ' + $(inputName + ':checked').val());
+    console.log(json);
+  }
 };
 function login() {
   for (i in scouts) {
@@ -44,8 +53,6 @@ function login() {
       show('.alert-login');
     }
   };
-  $('.tab').removeClass('disabled');
-  $('.tab-login').addClass('disabled');
 };
 // Other
 $('.body-div-all').addClass('container hide body-div b-d-1 center');
@@ -56,6 +63,9 @@ var matchNum = fs.readFileSync('matchNum.txt', 'utf-8');
 var divId = $('.b-d-1');
 var divIdArr = [];
 var nextId;
+var spanInput;
+var spanJson;
+var json = {};
 // Customization
 for (i = 0; i < divId.length; i++) {
   divIdArr.push($(divId[i]).attr('id'));
@@ -88,13 +98,7 @@ $('.required').each(function () {
 });
 $('.multiple-choice').each(function () {
   if ($(this).attr('data-choice-3') == undefined) {
-    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" value="true" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-danger  ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" value="false" autocomplete="off">' + $(this).attr('data-choice-2') + '</span></div>');
-    $('.' + $(this).attr('id')).click(function () {
-      console.log($(this).attr('data-class'));
-      console.log($('.' + $(this).attr('data-class')).is(':checked'));
-      console.log($(this).is(':checked'));
-      eval('json.' + $(this).attr('data-json') + ' = ' + $('.' + $(this).attr('data-class') + ':checked').val());
-    });
+    $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success" data-class="' + $(this).attr('id') + '" data-json="' + $(this).attr('data-json') + '"><input type="radio" value="true" autocomplete="off" name="' + $(this).attr('id') + '">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-danger" data-class="' + $(this).attr('id') + '" data-json="' + $(this).attr('data-json') + '"><input type="radio" value="false" autocomplete="off" name="' + $(this).attr('id') + '">' + $(this).attr('data-choice-2') + '</span></div>');
   } else if ($(this).attr('data-choice-4') == undefined) {
     $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-success ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-warning ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-2') + '</span><span class="btn btn-danger ' + $(this).attr('id') + '" data-class="' + $(this).attr('id') + '"><input type="radio" autocomplete="off">' + $(this).attr('data-choice-3') + '</span></div>');
     $('.' + $(this).attr('id')).click(function () {
@@ -121,17 +125,28 @@ $('.checkbox').each(function () {
     $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><div class="btn-group" data-toggle="buttons"><span class="btn btn-info ' + $(this).attr('id') + '"><input type="checkbox" autocomplete="off">' + $(this).attr('data-choice-1') + '</span><span class="btn btn-info"><input type="checkbox" autocomplete="off">' + $(this).attr('data-choice-2') + '</span><span class="btn btn-info"><input type="checkbox" autocomplete="off">' + $(this).attr('data-choice-3') + '</span><span class="btn btn-info"><input type="checkbox" autocomplete="off">' + $(this).attr('data-choice-4') + '</span></div>');
   }
 });
+$('span.btn').change(function () {
+  spanInput = 'input[name=' + $(this).attr('data-class') + ']';
+  spanJson = $(this).attr('data-json');
+  click(spanInput, spanJson);
+});
 $('.increment-counter').each(function () {
-  $(this).replaceWith('<h3 style="text-align: center;">' + $(this).attr('data-title') + '</h3><input class="increment-input no-border center  ' + $(this).attr('id') + '" value="0" readonly="readonly" style="font-size: 24pt; font-weight: bold;"><br><button type="button" class="btn btn-danger inc-decrease" style="width: 25%; margin-right: 1%;">-1</button><button type="button" class="btn btn-success inc-increase" style="width: 25%; margin-left: 1%;">+1</button>');
+  $(this).replaceWith('<h3 style="text-align: center;">' + $(this).attr('data-title') + '</h3><input class="increment-input no-border center  ' + $(this).attr('id') + '" value="0" readonly="readonly" style="font-size: 24pt; font-weight: bold;"><br><button type="button" class="btn btn-danger inc-decrease" data-decrease="' + $(this).attr('id') + '" style="width: 25%; margin-right: 1%;">-1</button><button type="button" class="btn btn-success inc-increase" data-increase="' + $(this).attr('id') + '" style="width: 25%; margin-left: 1%;">+1</button>');
 });
 $('.inc-increase').click(function () {
-  $('.increment-input').val(parseInt($('.increment-input').val()) + 1);
+  $('.' + $(this).attr('data-increase')).val(parseInt($('.' + $(this).attr('data-increase')).val()) + 1);
+  spanInput = 'input[name=' + $(this).attr('data-increase') + ']';
+  spanJson = $(this).attr('data-json');
+  click(spanInput, spanJson);
 });
 $('.inc-decrease').click(function () {
-  $('.increment-input').val(parseInt($('.increment-input').val()) - 1);
+  $('.' + $(this).attr('data-decrease')).val(parseInt($('.' + $(this).attr('data-decrease')).val()) - 1);
   if ($('.increment-input').val() < 0) {
-    $('.increment-input').val(0);
+    $('.' + $(this).attr('data-decrease')).val(0);
   }
+  spanInput = 'input[name=' + $(this).attr('data-decrease') + ']';
+  spanJson = $(this).attr('data-json');
+  click(spanInput, spanJson);
 });
 $('.short-answer').each(function () {
   $(this).replaceWith('<h3 class="center">' + $(this).attr('data-title') + '</h3><br><textarea class="form-control  ' + $(this).attr('id') + '" placeholder="' + $(this).attr('data-placeholder') + '"></textarea>')
@@ -252,10 +267,12 @@ $('.btn-login').click(function () {
   login();
 });
 $('.btn-continue').click(function () {
-  json.scoutId = $('.login-top-id').text();
+  json.scoutId = parseInt($('.login-top-id').text());
   tabSwitch('.tab-' + divIdArr[1].toLowerCase());
   $('[data-toggle=popover]').click();
+  $('.tab').removeClass('disabled');
   $('.tab-login').addClass('disabled');
+  $('.info-bar-match-number').attr('readonly', 'readonly');
 });
 // Forgot ID
 for (i in scouts) {
@@ -267,6 +284,19 @@ $('.btn-forgot-id').click(function () {
 });
 // Info Bar
 $('.info-bar-match-number').val(parseInt(matchNum));
+$('.info-bar-match-number').click(function () {
+  $('.info-bar-match-number').keypress(function () {
+    if (event.which = 13) {
+      event.preventDefault();
+      fs.writeFileSync('matchNum.txt', $('.info-bar-match-number').val());
+      $('.info-bar-match-number').val(parseInt(matchNum));
+    }
+  });
+});
 // JSON
-var json = {};
-jsonStringify(json, 'data/m' + '1' + '-r' + '1' + '-' + '0001');
+$('.btn-save').click(function () {
+  jsonStringify(json, 'data/m' + $('.info-bar-match-number').val() + '-' + 'r1' + '-' + '0001.json');
+  fs.writeFileSync('matchNum.txt', parseInt(matchNum) + 1);
+	const {ipcRenderer} = require('electron');
+	ipcRenderer.send('quit');
+});

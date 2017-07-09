@@ -2,13 +2,21 @@ span.btn.active{
 	background: #a200ed !important;
 	border: 1px solid #a200ed !important;
 }
+.btn-save{
+	text-align: center;
+	height: 500px;
+	width: 500px;
+	line-height: 500px;
+	font-size: 69pt;
+	border-radius: 50%;
+}
 .center{
   text-align: center;
   display: block;
   margin: auto;
 }
 .info-bar-match-number{
-  background: transparent;
+  background: white !important;
   font-size: 24pt;
   text-align: center;
   border: none;
